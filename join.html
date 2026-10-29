@@ -1,0 +1,740 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>PLG Acachet Join Us</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Join Us sub-page of About Us for PLG Acachet, built on the approved homepage and About Us design language.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: About Us system — dark continuous canvas, 72px gutter, orange only on CTAs, eyebrows, active states
+   and the single merged line. Story told as three lanes that converge into one as you scroll. */
+:root{
+  color-scheme:dark;
+  --bg:#010202; --bg-2:#0d0d0e;
+  --accent:#ff7433; --accent-hover:#ff8a52;
+  --ink:#000d1d; --c5:#ececec; --body:#e2e2e2; --muted:#8a8d88; --soft:#bdbdbd;
+  --line:rgba(255,255,255,.12); --line-2:rgba(255,255,255,.24);
+  --paper:#fff; --paper-ink:#222; --paper-muted:#6a6d68;
+  --gutter:72px;
+  --ease-out:cubic-bezier(.22,1,.36,1); --ease-io:cubic-bezier(.65,0,.35,1);
+  --h1:56px; --h-xl:96px; --label:24px;
+  --font:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--body);font-family:var(--font);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+body.menu-open{overflow:hidden}
+.wrap{padding-left:max(var(--gutter),env(safe-area-inset-left,0px));padding-right:max(var(--gutter),env(safe-area-inset-right,0px))}
+
+/* ---------- Type ---------- */
+.eyebrow{font-weight:500;font-size:var(--label);line-height:1.25;color:var(--accent)}
+.h1{font-weight:700;font-size:var(--h1);line-height:1.15;letter-spacing:2px;text-wrap:balance}
+.grad{background:linear-gradient(114.8deg,#fff .2%,#aeaeae 68%);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ---------- Button ---------- */
+.btn{position:relative;display:inline-flex;align-items:center;gap:12px;height:52px;padding:12px 24px;border-radius:96px;background:var(--accent);overflow:hidden;isolation:isolate;align-self:flex-start;transition:background-color .6s var(--ease-out),box-shadow .6s var(--ease-out),transform .6s var(--ease-out)}
+.btn__label{position:relative;display:inline-block;height:20px;overflow:hidden;font-weight:600;font-size:18px;line-height:20px;text-transform:uppercase;color:var(--c5);white-space:nowrap}
+.btn__roll{display:block;transition:transform .7s var(--ease-out)}
+.btn__roll::after{content:attr(data-text);position:absolute;left:0;top:100%}
+.btn:hover .btn__roll,.btn:focus-visible .btn__roll{transform:translateY(-100%)}
+.arr{display:inline-block;flex:none;width:11px;height:11px}
+.arr,.btn__arrow::after{background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 11'%3E%3Cpath d='M1.10813 10.8948L0.00017786 9.78689L8.23881 1.53405H1.87518L1.88938 -4.48227e-05H10.8809V9.00564H9.33256L9.34677 2.642L1.10813 10.8948Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 11'%3E%3Cpath d='M1.10813 10.8948L0.00017786 9.78689L8.23881 1.53405H1.87518L1.88938 -4.48227e-05H10.8809V9.00564H9.33256L9.34677 2.642L1.10813 10.8948Z'/%3E%3C/svg%3E") center/contain no-repeat}
+.btn__arrow{position:relative;color:var(--ink);width:20px;height:24px;display:inline-flex;align-items:center;justify-content:center;overflow:hidden}
+.btn__arrow .arr{transition:transform .7s var(--ease-out)}
+.btn__arrow::after{content:"";position:absolute;left:50%;top:50%;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;transform:translate(-20px,20px);transition:transform .7s var(--ease-out)}
+.btn:hover .btn__arrow .arr,.btn:focus-visible .btn__arrow .arr{transform:translate(20px,-20px)}
+.btn:hover .btn__arrow::after,.btn:focus-visible .btn__arrow::after{transform:none;transition-delay:.06s}
+.btn:hover{background-color:var(--accent-hover);box-shadow:0 14px 34px -14px rgba(255,116,51,.65);transform:translateY(-2px)}
+.btn:active{transform:scale(.98);transition-duration:.15s}
+
+/* ---------- Logo ---------- */
+.logo{display:flex;align-items:center;gap:8px;height:44px}
+.logo__mark{position:relative;width:42px;height:40px;overflow:hidden;flex:none}
+.logo__mark img{position:absolute;height:135.14%;width:153.85%;left:-26.15%;top:0;max-width:none}
+.logo__word{font-weight:700;font-size:16px;line-height:20px;color:#fff;white-space:nowrap;transition:color .3s}
+
+/* ---------- Nav (glass, slim) ---------- */
+.nav{position:fixed;top:calc(44px + env(safe-area-inset-top,0px));left:max(137px,env(safe-area-inset-left,0px));right:max(138px,env(safe-area-inset-right,0px));z-index:50;display:flex;align-items:center;justify-content:space-between;transition:opacity .45s var(--ease-out),translate .5s var(--ease-out),top .4s var(--ease-out);animation:navIn 1s .3s var(--ease-out) backwards}
+.nav.is-hidden{opacity:0;translate:0 -12px;pointer-events:none}
+.nav.is-scrolled{top:calc(16px + env(safe-area-inset-top,0px))}
+@keyframes navIn{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:none}}
+.menu{display:flex;gap:4px;align-items:center;padding:5px;border-radius:100px;background:rgba(0,0,0,.7);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:background .4s}
+.nav.is-scrolled .menu{background:rgba(10,10,10,.85);box-shadow:0 10px 30px -12px rgba(0,0,0,.6)}
+.menu a{display:block;padding:12px 18px;font-size:16px;line-height:1;color:#aaa;border-radius:100px;transition:color .25s,background .3s var(--ease-out)}
+.menu a:hover,.menu a.is-active{color:#fff;background:rgba(255,255,255,.12)}
+.nav.on-light .logo__word{color:var(--ink)}
+.nav.on-light .burger{background:rgba(255,255,255,.7)}
+.nav.on-light .burger span{background:var(--ink)}
+.menu-open .nav.on-light .logo__word{color:#fff}
+.menu-open .nav.on-light .burger{background:transparent}
+.menu-open .nav.on-light .burger span{background:#fff}
+.burger{display:none;width:48px;height:48px;border-radius:100px;background:rgba(0,0,0,.7);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);position:relative;transition:background .3s}
+.menu-open .nav{z-index:65;translate:none}
+.menu-open .burger{background:transparent;backdrop-filter:none}
+.burger span{position:absolute;left:14px;width:20px;height:1.6px;background:#fff;border-radius:2px;transition:transform .45s var(--ease-out),opacity .3s,top .45s var(--ease-out)}
+.burger span:nth-child(1){top:17px}.burger span:nth-child(2){top:23.2px}.burger span:nth-child(3){top:29.4px}
+.menu-open .burger span:nth-child(1){top:23.2px;transform:rotate(45deg)}
+.menu-open .burger span:nth-child(2){opacity:0;transform:scaleX(0)}
+.menu-open .burger span:nth-child(3){top:23.2px;transform:rotate(-45deg)}
+.mnav{position:fixed;inset:0;z-index:60;background:#000;padding:calc(84px + env(safe-area-inset-top,0px)) max(24px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(24px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;clip-path:circle(0 at calc(100% - 48px) 44px);transition:clip-path .7s var(--ease-io);visibility:hidden}
+.menu-open .mnav{clip-path:circle(150% at calc(100% - 48px) 44px);visibility:visible}
+.mnav__links{margin-top:28px;display:flex;flex-direction:column;gap:30px}
+.mnav__links>a{font-size:24px;line-height:34px;color:#fff;width:max-content}
+.mnav__links a{opacity:0;transform:translateY(24px);transition:opacity .5s,transform .6s var(--ease-out),color .2s}
+.mnav__links a:hover,.mnav__links a.is-active{color:var(--accent)}
+.menu-open .mnav__links a{opacity:1;transform:none;transition-delay:.3s}
+.mnav__sub{display:flex;flex-direction:column;gap:14px;padding-left:18px;margin-top:-14px;border-left:1px solid #333}
+.mnav__sub a{font-size:17px;line-height:24px;color:#999}
+.mnav__foot{margin-top:auto;font-size:14px;color:#777}
+
+/* ================= HERO ================= */
+.hero{position:relative;overflow:hidden;background:#000;min-height:720px;display:flex;align-items:flex-end}
+.hero__media{position:absolute;inset:0;will-change:transform}
+.hero__media img{width:100%;height:100%;object-fit:cover;object-position:50% 40%;animation:heroZoom 2.6s var(--ease-out) both;filter:saturate(.85)}
+@keyframes heroZoom{from{transform:scale(1.14);opacity:0}to{transform:scale(1);opacity:.42}}
+.hero__fade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.6) 0%,rgba(0,0,0,0) 32%,rgba(0,0,0,.55) 66%,var(--bg) 100%),linear-gradient(90deg,rgba(0,0,0,.7) 0%,rgba(0,0,0,0) 70%)}
+.hero__inner{position:relative;width:100%;padding-block:220px 76px;display:flex;flex-direction:column;gap:28px}
+.crumb{display:flex;gap:10px;align-items:center;font-size:14px;color:#9a9a9a;letter-spacing:.5px}
+.crumb a:hover{color:#fff}
+.crumb span[aria-current]{color:var(--accent)}
+.hero__title{font-weight:700;font-size:var(--h-xl);line-height:1.2;letter-spacing:-1.5px;color:#eaeaea}
+.hero__title .ln{display:block;overflow:hidden;padding:.04em 0 .14em}
+.hero__title{white-space:nowrap}
+.hero__title .ln>span{display:inline-block;animation:rise 1.2s var(--ease-out) both}
+.hero__title .ln:nth-child(2)>span{animation-delay:.12s}
+.hero__title em{font-style:normal;color:var(--accent);-webkit-text-fill-color:var(--accent)}
+@keyframes rise{from{transform:translateY(105%)}to{transform:none}}
+.hero__sub{font-size:22px;line-height:1.4;color:#d6d6d6;animation:fadeUp 1.1s .5s var(--ease-out) both}
+.hero__sub b{font-weight:500;color:#fff}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+/* About sub-navigation */
+.subnav{position:relative;z-index:2;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg)}
+.subnav__inner{display:flex;gap:40px;overflow-x:auto;scrollbar-width:none}
+.subnav__inner::-webkit-scrollbar{display:none}
+.subnav a{position:relative;padding:22px 0;font-size:15px;color:#9a9a9a;white-space:nowrap;transition:color .25s}
+.subnav a::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease-out)}
+.subnav a:hover{color:#fff}
+.subnav a.is-active{color:#fff}.subnav a.is-active::after{transform:scaleX(1)}
+.subnav__back{margin-left:auto;display:inline-flex;align-items:center;gap:8px}
+.subnav__back .arr{transform:rotate(-90deg);width:9px;height:9px}
+
+
+/* ================= MORE ABOUT US ================= */
+.more{padding-block:110px 100px;background:var(--bg-2);display:flex;flex-direction:column;gap:48px}
+.more .h1{color:#d0d0d0}
+.pan{display:flex;gap:16px;height:440px}
+/* flex-grow is listed alongside the reveal properties so [data-reveal] can't wipe it out */
+.pn,.pn[data-reveal]{position:relative;flex:1 1 0;min-width:0;border-radius:20px;overflow:hidden;display:block;transition:flex-grow .9s var(--ease-io),opacity .9s var(--ease-out),transform 1.1s var(--ease-out),box-shadow .6s var(--ease-out);transition-delay:0s,var(--d,0s),var(--d,0s),0s}
+.pn:hover,.pn:focus-visible{flex-grow:2.2;box-shadow:0 24px 50px -24px rgba(255,116,51,.35)}
+.pn img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease-out),filter .8s var(--ease-out);filter:saturate(.85) brightness(.9)}
+.pn:hover img,.pn:focus-visible img{transform:scale(1.06);filter:none}
+.pn__ov{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;gap:12px;padding:32px;background:linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.9) 100%)}
+.pn__t{display:flex;justify-content:space-between;align-items:center;gap:12px;font-weight:600;font-size:32px;color:#fff}
+.pn__t span{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:var(--ink);transition:transform .5s var(--ease-out)}
+.pn__t .arr{width:13px;height:13px}
+.pn:hover .pn__t span,.pn:focus-visible .pn__t span{transform:rotate(45deg)}
+.pn__d{font-size:16px;line-height:1.45;color:#d0d0d0;max-width:40ch;transition:transform .7s var(--ease-out),color .5s}
+.pn:hover .pn__d,.pn:focus-visible .pn__d{transform:translateY(-4px);color:#fff}
+
+/* ================= CTA BAND ================= */
+.cta{position:relative;overflow:hidden;background:var(--paper);color:#000}
+.cta__bg{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:right center}
+.cta__grad{position:absolute;inset:0;background:linear-gradient(90deg,#fff 30%,rgba(255,255,255,.75) 50%,rgba(255,255,255,0) 72%)}
+.cta__inner{position:relative;padding-block:96px;max-width:calc(760px + var(--gutter));display:flex;flex-direction:column;gap:20px}
+.cta .h1{color:#000}
+.cta p.lede{font-size:20px;line-height:1.5;max-width:40ch;color:var(--paper-ink)}
+
+/* ================= FOOTER ================= */
+.footer{background:var(--paper);color:#000;padding-block:14px 13px;border-top:1px solid #eee}
+.footer__row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 24px}
+.footer .logo__word{color:var(--ink)}
+.footer__nav{display:flex;gap:40px;font-size:16px;line-height:30px}
+.footer a{position:relative}
+.footer__nav a::after,.footer__legal a::after{content:"";position:absolute;left:0;bottom:2px;height:1px;width:100%;background:var(--accent);transform:scaleX(0);transform-origin:right;transition:transform .4s var(--ease-out)}
+.footer__nav a:hover::after,.footer__legal a:hover::after{transform:scaleX(1);transform-origin:left}
+.footer__social{display:flex;gap:16px}
+.footer__social a{width:30px;height:30px;transition:transform .3s var(--ease-out)}
+.footer__social a:hover{transform:translateY(-3px)}
+.footer__social img{width:30px;height:30px}
+.footer__copy,.footer__legal a{font-size:16px;line-height:30px;color:var(--paper-muted)}
+.footer__legal{display:flex;gap:24px}
+
+/* ================= REVEAL (visible at rest; only below-fold items animate) ================= */
+[data-reveal]{transition:opacity .9s var(--ease-out),transform 1.1s var(--ease-out);transition-delay:var(--d,0s)}
+.js [data-reveal].pre{opacity:0;transform:translateY(32px)}
+
+/* ================= JOIN US ================= */
+/* Layout: About system — dark continuous canvas. One orange line crosses four "lanes" (the people who refuse to stay
+   in one); roles list stays dark; the profile form is the white breather band, like the homepage contact. */
+.btn--ghost{background:transparent;box-shadow:inset 0 0 0 1px rgba(255,255,255,.75)}
+.btn--ghost .btn__arrow{color:#fff}
+.btn.btn--ghost:hover{background-color:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1px #fff,0 14px 34px -16px rgba(255,255,255,.35)}
+.btn--dark{background:var(--ink)}
+.btn--dark .btn__arrow{color:var(--accent)}
+.btn.btn--dark:hover{background-color:#0b1a2c;box-shadow:0 14px 34px -14px rgba(0,13,29,.55)}
+.hero__ctas{display:flex;flex-wrap:wrap;gap:14px 18px;animation:fadeUp 1.1s .7s var(--ease-out) both}
+.hero__sub{max-width:44ch}
+/* why join */
+.why{padding-block:130px 120px}
+.why__grid{display:grid;grid-template-columns:220px minmax(0,1fr);gap:20px 64px}
+.why__lead{font-weight:500;font-size:36px;line-height:1.36;letter-spacing:.1px;color:#eaeaea;max-width:30em}
+.why__lead .w{opacity:.28;transition:opacity .35s,color .35s}
+.why__lead .w.on{opacity:1}
+.why__lead .w.hl.on{color:var(--accent)}
+
+/* four lanes, one line crossing all of them */
+.cross{position:relative;margin-top:100px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line)}
+.lane2{position:relative;display:flex;flex-direction:column;gap:12px;min-width:0;padding:28px 28px 190px;border-left:1px dashed var(--line-2)}
+.lane2:last-child{border-right:1px dashed var(--line-2)}
+.lane2__k{font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted)}
+.lane2__t{font-weight:600;font-size:28px;line-height:1.15;color:#fff;text-wrap:balance}
+.lane2__d{font-size:16px;line-height:1.5;color:var(--soft);max-width:26ch}
+.cross__svg{position:absolute;left:0;right:0;bottom:24px;width:100%;height:140px;overflow:visible;pointer-events:none}
+.cross__svg path{fill:none;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.cross__svg .base{stroke:rgba(255,255,255,.08);stroke-width:1.2}
+.cross__svg .hot{stroke:var(--accent);stroke-width:2.4;opacity:0}
+.cross__svg .hot.ready{opacity:1}
+.cross__dot{position:absolute;bottom:0;width:12px;height:12px;margin-left:-6px;border-radius:50%;border:1px solid var(--line-2);background:var(--bg);transition:background .4s,border-color .4s,box-shadow .4s;pointer-events:none}
+.cross__dot.on{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 6px rgba(255,116,51,.14)}
+
+.why__more{margin-top:96px;display:grid;grid-template-columns:220px minmax(0,1fr) minmax(0,1fr);gap:40px 64px;align-items:start}
+.why__more p.body{font-size:20px;line-height:1.5;color:#d6d6d6;max-width:36ch}
+.mkts{list-style:none;border-top:1px solid var(--line)}
+.mkts li{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 0;border-bottom:1px solid var(--line);font-size:20px;color:#fff}
+.mkts li span{font-size:12px;letter-spacing:1.4px;text-transform:uppercase;padding:6px 11px;border-radius:100px;border:1px solid var(--line-2);color:var(--muted);white-space:nowrap}
+.mkts li.home span{border-color:rgba(255,116,51,.5);color:var(--accent)}
+
+/* statement */
+.state{padding-block:110px;background:var(--bg-2);border-block:1px solid var(--line)}
+.state p{font-weight:600;font-size:52px;line-height:1.15;letter-spacing:-.5px;color:#eaeaea;max-width:20em;text-wrap:balance}
+.state em{font-style:normal;color:var(--accent)}
+
+/* open roles */
+.roles{padding-block:120px 120px}
+.roles__head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px 40px;padding-bottom:28px;border-bottom:1px solid var(--line)}
+.roles__head .count{margin-top:12px;font-size:15px;color:var(--muted);font-variant-numeric:tabular-nums}
+.roles__head .count b{font-weight:500;color:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{height:40px;padding:0 18px;border-radius:100px;border:1px solid var(--line-2);font-size:15px;color:#bdbdbd;transition:background .3s,color .3s,border-color .3s}
+.chip:hover{border-color:#fff;color:#fff}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--ink);font-weight:500}
+
+.rlist{list-style:none}
+.role{border-bottom:1px solid var(--line);transition:opacity .4s var(--ease-out)}
+.role.out{opacity:0}
+.role__btn{width:100%;display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,.8fr) minmax(0,1fr) minmax(0,.7fr) 44px;align-items:center;gap:16px 24px;padding:28px 0;text-align:left;transition:padding .5s var(--ease-out)}
+.role__t{font-weight:600;font-size:24px;line-height:1.2;color:#fff;transition:color .3s}
+.role__c{font-size:15px;color:var(--soft)}
+.role__c.dept{color:var(--accent)}
+.role__ic{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;border:1px solid var(--line-2);color:#fff;transition:background .35s,border-color .35s,color .35s,transform .5s var(--ease-out)}
+.role__ic svg{width:12px;height:12px}
+.role__btn:hover .role__t{color:var(--accent)}
+.role__btn:hover .role__ic{border-color:#fff}
+.role.open .role__ic{background:var(--accent);border-color:var(--accent);color:var(--ink);transform:rotate(45deg)}
+.role__panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .6s var(--ease-out)}
+.role.open .role__panel{grid-template-rows:1fr}
+.role__inner{overflow:hidden;min-height:0}
+.role__body{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:24px 64px;padding:0 0 36px}
+.role__body p{font-size:17px;line-height:1.6;color:var(--soft);max-width:60ch}
+.role__body ul{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.role__body li{position:relative;padding-left:20px;font-size:16px;line-height:1.5;color:#d0d0d0}
+.role__body li::before{content:"";position:absolute;left:0;top:.75em;width:8px;height:1px;background:var(--accent)}
+.role__side{display:flex;flex-direction:column;align-items:flex-start;gap:16px}
+.role__side small{font-size:14px;color:var(--muted)}
+.roles__foot{margin-top:40px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 32px}
+.roles__foot p{font-size:18px;color:var(--soft)}
+.roles__empty{padding:48px 0;font-size:18px;color:var(--soft)}
+
+/* send your profile (white band) */
+.apply{background:var(--paper);color:var(--paper-ink)}
+.apply__inner{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:48px 96px;padding-block:120px}
+.apply__copy{display:flex;flex-direction:column;gap:20px}
+.apply .eyebrow{color:var(--paper-ink)}
+.apply .h1{color:#000}
+.apply__copy p.lede{font-size:20px;line-height:1.5;color:#3a3d3b;max-width:36ch}
+.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 24px}
+.field{display:flex;flex-direction:column;gap:8px;min-width:0}
+.field--full{grid-column:1/-1}
+.field label{font-size:13px;letter-spacing:1.2px;text-transform:uppercase;color:#6a6d68}
+.field input,.field select,.field textarea{width:100%;font:inherit;font-size:18px;color:#000;background:transparent;border:0;border-bottom:1px solid #cfcfcf;border-radius:0;padding:10px 0 12px;transition:border-color .3s;color-scheme:light}
+.field textarea{resize:vertical;min-height:96px}
+.field select{appearance:none;-webkit-appearance:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath fill='none' stroke='%23222' stroke-width='1.4' d='M1 3.2l4 4 4-4'/%3E%3C/svg%3E") right 4px center/10px no-repeat;padding-right:24px}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--accent)}
+.field.bad input,.field.bad select{border-color:#c4321a}
+.field .err{font-size:13px;color:#c4321a;min-height:0}
+.file{position:relative;display:flex;align-items:center;gap:16px;padding:16px 18px;border:1px dashed #c8c8c8;border-radius:12px;cursor:pointer;transition:border-color .3s,background .3s}
+.file:hover,.file.drag{border-color:var(--accent);background:#fff7f2}
+.file input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.file__ic{display:grid;place-items:center;width:40px;height:40px;flex:none;border-radius:50%;background:#f1f1f1;color:#222}
+.file__t{font-size:16px;color:#222}
+.file__t small{display:block;font-size:13px;color:#6a6d68;margin-top:2px}
+.form__foot{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 24px;margin-top:8px}
+.form__foot p{font-size:14px;color:#6a6d68;max-width:40ch}
+.done{grid-column:1/-1;display:flex;flex-direction:column;gap:12px;padding:32px;border-radius:16px;background:#f6f6f4;border:1px solid #ececec}
+.done h3{font-size:28px;color:#000}
+.done p{font-size:17px;line-height:1.5;color:#3a3d3b;max-width:48ch}
+.done button{align-self:flex-start;margin-top:8px;font-size:15px;color:#000;border-bottom:1px solid var(--accent);padding-bottom:3px}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width:1280px){
+  :root{--gutter:48px;--h-xl:80px}
+  .nav{left:max(48px,env(safe-area-inset-left,0px));right:max(48px,env(safe-area-inset-right,0px));top:calc(32px + env(safe-area-inset-top,0px))}
+  .lane__name,.weave__name{font-size:34px}
+}
+@media (max-width:1100px){
+  .combo__grid{grid-template-columns:1fr}
+  .combo__lead{font-size:30px}
+  .weave{grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr) auto}
+  .weave__note{display:none}
+}
+@media (max-width:900px){
+  :root{--gutter:24px;--h1:34px;--h-xl:54px;--label:16px}
+  .nav{left:max(24px,env(safe-area-inset-left,0px));right:max(24px,env(safe-area-inset-right,0px));top:calc(20px + env(safe-area-inset-top,0px))}
+  .nav.is-scrolled{top:calc(12px + env(safe-area-inset-top,0px))}
+  .menu{display:none}
+  .burger{display:block}
+  .h1{letter-spacing:0}
+  .grad{background:none;color:#eaeaea}
+  .hero{min-height:0}
+  .hero__inner{padding-block:160px 48px;gap:20px}
+  .hero__title{letter-spacing:-.5px;font-size:min(var(--h-xl),10.5vw)}
+  .hero__sub{font-size:17px}
+  .subnav__inner{gap:28px}
+  .subnav__back{display:none}
+  .combo{padding-block:64px}
+  .combo__grid{gap:16px}
+  .combo__lead{font-size:22px;line-height:1.45}
+  /* lanes stack; one vertical rail joins them into the result */
+  .weave{margin-top:56px;display:flex;flex-direction:column;position:relative;padding-left:28px}
+  .weave::before{content:"";position:absolute;left:5.5px;top:var(--rt,44px);height:var(--rh,0px);width:1px;background:var(--line-2)}
+  .weave::after{content:"";position:absolute;left:5.5px;top:var(--rt,44px);height:var(--rh,0px);width:2px;margin-left:-.5px;background:var(--accent);transform:scaleY(var(--p,0));transform-origin:top}
+  .weave__k{display:block;padding-bottom:12px}
+  .weave__k span:last-child{display:none}
+  .weave__svg{display:none}
+  .lane{grid-template-columns:52px minmax(0,1fr);gap:0 16px;min-height:0;padding-block:22px}
+  .lane::after{left:-28px;right:auto;top:50%;z-index:1}
+  .lane__img{width:52px;height:52px}
+  .lane__name{font-size:28px}
+  .lane__txt{font-size:15px}
+  .weave__end{flex-direction:row;align-items:center;padding:24px 0 0;gap:14px;transform:none}
+  .weave__end .logo__mark{width:42px;height:40px}
+  .weave__name{font-size:26px}
+  .combo__cta{margin-top:48px}
+  .combo__cta p{font-size:16px}
+  .more{padding-block:64px;gap:32px}
+  .pan{flex-direction:column;height:auto}
+  .pn{flex:none!important;height:240px}
+  .pn__ov{padding:22px}
+  .pn__t{font-size:26px}
+  .cta__bg{opacity:.35}
+  .cta__grad{background:linear-gradient(180deg,rgba(255,255,255,.6),#fff 70%)}
+  .cta__inner{padding-block:64px}
+  .cta p.lede{font-size:17px}
+  .footer{padding-block:24px 28px}
+  .footer__row{display:grid;grid-template-columns:1fr auto;gap:24px}
+  .footer__nav{grid-column:1/-1;justify-content:space-between;gap:0}
+  .footer__social{grid-row:1;grid-column:2}
+  .footer__copy{grid-column:1/-1;font-size:14px;margin-bottom:-16px}
+  .footer__legal{grid-column:1/-1}
+  .btn__label{font-size:16px}
+}
+@media (max-width:1100px){
+  .why__grid{grid-template-columns:1fr;gap:16px}
+  .why__lead{font-size:30px}
+  .lane2{padding:24px 20px 170px}
+  .lane2__t{font-size:24px}
+  .why__more{grid-template-columns:1fr 1fr}
+  .why__more>.eyebrow{grid-column:1/-1}
+  .state p{font-size:42px}
+  .role__btn{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) 44px}
+  .role__c.loc,.role__c.type{display:none}
+  .apply__inner{grid-template-columns:1fr;gap:48px}
+}
+@media (max-width:900px){
+  .hero__ctas{gap:12px}
+  .why{padding-block:64px}
+  .why__lead{font-size:22px;line-height:1.45}
+  /* lanes become a 2 x 2 board; the crossing line becomes a lit marker per lane */
+  .cross{margin-top:48px;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .lane2{padding:22px 16px 26px;border-left:0;border-bottom:1px dashed var(--line-2)}
+  .lane2:nth-child(odd){border-right:1px dashed var(--line-2)}
+  .lane2:last-child{border-right:0}
+  .lane2::before{content:"";position:absolute;left:16px;top:-1px;width:28px;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .7s var(--ease-out)}
+  .lane2.lit::before{transform:none}
+  .lane2__t{font-size:20px}
+  .lane2__d{font-size:14px}
+  .cross__svg,.cross__dot{display:none}
+  .why__more{margin-top:48px;grid-template-columns:1fr;gap:28px}
+  .why__more p.body{font-size:17px}
+  .mkts li{font-size:17px;padding:14px 0}
+  .state{padding-block:64px}
+  .state p{font-size:28px}
+  .roles{padding-block:64px 72px}
+  .roles__head{flex-direction:column;align-items:flex-start}
+  .chips{flex-wrap:nowrap;overflow-x:auto;max-width:100%;scrollbar-width:none;padding-bottom:2px}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:none;height:38px;padding:0 16px;font-size:14px}
+  .role__btn{grid-template-columns:minmax(0,1fr) 40px;gap:8px 16px;padding:22px 0}
+  .role__t{font-size:19px;grid-column:1}
+  .role__c.dept{grid-column:1;grid-row:2;font-size:14px}
+  .role__ic{grid-column:2;grid-row:1/3;width:40px;height:40px}
+  .role__body{grid-template-columns:1fr;gap:20px;padding-bottom:28px}
+  .role__body p{font-size:16px}
+  .roles__foot p{font-size:16px}
+  .apply__inner{padding-block:64px}
+  .apply__copy p.lede{font-size:17px}
+  .form{grid-template-columns:1fr;gap:22px}
+  .field input,.field select,.field textarea{font-size:16px}
+}
+
+/* ================= SHARED ABOUT BANNER (About, Our Story, The Team, Join Us) =================
+   Same arrangement on every About-section page: breadcrumb + heading on the left;
+   supporting line + primary and ghost CTA on the right, bottom-aligned. */
+.hero{min-height:720px;display:flex;align-items:flex-end}
+.hero__inner{position:relative;width:100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px 56px;align-items:end;padding:220px max(var(--gutter),env(safe-area-inset-right,0px)) 76px max(var(--gutter),env(safe-area-inset-left,0px))}
+.hero__l,.hero__r{display:flex;flex-direction:column;align-items:flex-start;gap:28px;min-width:0}
+.crumb{margin:0}
+.crumb span[aria-current]{color:var(--accent)}
+.hero__title{font-size:86px;line-height:1.1;letter-spacing:-1.5px;white-space:normal}
+.hero__title .ln{padding:.04em 0 .1em}
+.hero__sub{max-width:40ch;font-size:20px;line-height:1.5;color:#d6d6d6}
+.hero__sub b{font-weight:500;color:#fff}
+.hero__ctas{display:flex;flex-wrap:wrap;gap:14px 16px;animation:fadeUp 1.1s .7s var(--ease-out) both}
+.hero__ctas .btn{align-self:auto;height:46px;padding:10px 20px;gap:10px}
+.hero__ctas .btn__label{font-size:16px}
+.btn--ghost{background:transparent;box-shadow:inset 0 0 0 1px rgba(255,255,255,.75)}
+.btn--ghost .btn__arrow{color:#fff}
+.btn.btn--ghost:hover{background-color:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1px #fff,0 14px 34px -16px rgba(255,255,255,.35)}
+@media (max-width:1280px){.hero__title{font-size:76px}}
+@media (max-width:1240px){.hero__inner{grid-template-columns:1fr;gap:28px}}
+@media (max-width:900px){
+  .hero{min-height:0}
+  .hero__inner{padding-top:160px;padding-bottom:48px;gap:20px}
+  .hero__l,.hero__r{gap:20px}
+  .hero__title{font-size:min(54px,11vw);letter-spacing:-.5px}
+  .hero__sub{font-size:17px}
+  .hero__ctas{gap:12px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .hero__media img{opacity:.42}
+}
+</style>
+
+<!-- ================= NAV ================= -->
+<header class="nav" id="nav">
+  <a href="index.html" class="logo" aria-label="PLG Acachet home">
+    <span class="logo__mark"><img src="assets/plg-mark.webp" alt=""></span>
+    <span class="logo__word">PLG ACACHET</span>
+  </a>
+  <nav class="menu" aria-label="Primary">
+    <a href="about.html" class="is-active" aria-current="page">About us</a>
+    <a href="index.html#services">Service</a>
+    <a href="index.html#work">Our Work</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</header>
+
+<div class="mnav" id="mnav" aria-hidden="true">
+  <nav class="mnav__links" aria-label="Mobile">
+    <a href="about.html" class="is-active">About us</a>
+    <div class="mnav__sub"><a href="about.html#overview">Overview</a><a href="our-story.html">Our Story</a><a href="team.html">The Team</a><a href="#top" class="is-active" aria-current="page">Join Us</a></div>
+    <a href="index.html#services">Service</a>
+    <a href="index.html#work">Our Work</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+  <p class="mnav__foot">© 2026 PLG Acachet</p>
+</div>
+
+<main id="top">
+<!-- ================= HERO ================= -->
+<section class="hero" aria-label="Join Us">
+  <div class="hero__media" id="heroMedia"><img src="assets/service-card.webp" alt=""></div>
+  <div class="hero__fade"></div>
+  <div class="hero__inner wrap">
+    <div class="hero__l">
+      <nav aria-label="Breadcrumb"><p class="crumb"><a href="index.html">Home</a><span>/</span><a href="about.html">About Us</a><span>/</span><span aria-current="page">Join Us</span></p></nav>
+      <h1 class="hero__title"><span class="ln"><span class="grad">Join <em>us.</em></span></span></h1>
+    </div>
+    <div class="hero__r">
+      <p class="hero__sub">Work across markets, disciplines and formats — <b>from strategy to live delivery, and from the physical arena to the digital world.</b></p>
+      <div class="hero__ctas">
+        <a href="#roles" class="btn"><span class="btn__label">Explore Opportunities</span><span class="btn__arrow"><i class="arr"></i></span></a>
+        <a href="#apply" class="btn btn--ghost"><span class="btn__label">Send Us Your Profile</span><span class="btn__arrow"><i class="arr"></i></span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<nav class="subnav" aria-label="About sections">
+  <div class="subnav__inner wrap">
+    <a href="about.html#overview">Overview</a>
+    <a href="our-story.html">Our Story</a>
+    <a href="team.html">The Team</a>
+    <a href="#top" class="is-active" aria-current="page">Join Us</a>
+    <a href="about.html" class="subnav__back"><i class="arr" aria-hidden="true"></i>Back to About Us</a>
+  </div>
+</nav>
+
+<!-- ================= WHY JOIN ================= -->
+<section class="why wrap" id="why">
+  <div class="why__grid">
+    <p class="eyebrow" data-reveal>Why Join</p>
+    <p class="why__lead" id="lead">We are building an agency for people who refuse to stay in a lane: commercial thinking, cultural instinct, production discipline and a habit of measuring what actually happened.</p>
+  </div>
+
+  <div class="cross" id="cross">
+    <div class="lane2"><span class="lane2__k">The deal</span><h3 class="lane2__t">Commercial thinking</h3><p class="lane2__d">Sponsorship sales, partnerships and strategy.</p></div>
+    <div class="lane2"><span class="lane2__k">The audience</span><h3 class="lane2__t">Cultural instinct</h3><p class="lane2__d">Sport, esports and the fans around them.</p></div>
+    <div class="lane2"><span class="lane2__k">The event</span><h3 class="lane2__t">Production discipline</h3><p class="lane2__d">Live production, broadcast and media.</p></div>
+    <div class="lane2"><span class="lane2__k">The report</span><h3 class="lane2__t">Measuring what happened</h3><p class="lane2__d">Evidence for the client, not assertion.</p></div>
+    <svg class="cross__svg" id="crossSvg" viewBox="0 0 1000 140" aria-hidden="true">
+      <path class="base" id="crossBase" d="M0 110 C 60 110, 70 30, 125 30 S 300 110, 375 110 S 560 30, 625 30 S 800 110, 875 110 S 960 30, 1000 30"/>
+      <path class="hot" id="crossLine" d="M0 110 C 60 110, 70 30, 125 30 S 300 110, 375 110 S 560 30, 625 30 S 800 110, 875 110 S 960 30, 1000 30"/>
+    </svg>
+    <span class="cross__dot" style="left:12.5%;bottom:134px;transform:translateY(50%)"></span>
+    <span class="cross__dot" style="left:37.5%;bottom:54px;transform:translateY(50%)"></span>
+    <span class="cross__dot" style="left:62.5%;bottom:134px;transform:translateY(50%)"></span>
+    <span class="cross__dot" style="left:87.5%;bottom:54px;transform:translateY(50%)"></span>
+  </div>
+
+  <div class="why__more">
+    <p class="eyebrow" data-reveal>Where the work goes</p>
+    <div data-reveal style="--d:.08s">
+      <p class="body">The work is ambitious, international and visible — in the UAE and in the markets we are opening across Asia, Europe and North America.</p>
+    </div>
+    <ul class="mkts" aria-label="Markets" data-reveal style="--d:.16s">
+      <li class="home">United Arab Emirates<span>Home base</span></li>
+      <li>Asia<span>Opening</span></li>
+      <li>Europe<span>Opening</span></li>
+      <li>North America<span>Opening</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= STATEMENT ================= -->
+<section class="state" aria-label="Who we look for">
+  <div class="wrap">
+    <p data-reveal>We look for commercial judgement and delivery discipline — people who prefer <em>evidence to assertion.</em></p>
+  </div>
+</section>
+
+<!-- ================= OPEN ROLES =================
+     Listings are sample data in this prototype. On the live site this list is fed by the careers CMS / ATS. -->
+<section class="roles wrap" id="roles">
+  <div class="roles__head">
+    <div>
+      <p class="eyebrow" data-reveal>Open Roles</p>
+      <h2 class="h1 grad" data-reveal style="--d:.08s">Current openings.</h2>
+      <p class="count" id="rCount" aria-live="polite"></p>
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="Filter roles by team"></div>
+  </div>
+  <ul class="rlist" id="rlist"></ul>
+  <p class="roles__empty" id="rEmpty" hidden>No open roles in this team right now. Send us your profile and we’ll keep it on file.</p>
+  <div class="roles__foot">
+    <p>Don’t see your role? We still want to hear from you.</p>
+    <a href="#apply" class="btn btn--ghost"><span class="btn__label">Send Us Your Profile</span><span class="btn__arrow"><i class="arr"></i></span></a>
+  </div>
+</section>
+
+<!-- ================= SEND YOUR PROFILE ================= -->
+<section class="apply" id="apply">
+  <div class="apply__inner wrap">
+    <div class="apply__copy">
+      <p class="eyebrow" data-reveal>Send Us Your Profile</p>
+      <h2 class="h1" data-reveal style="--d:.08s">Tell us where you fit.</h2>
+      <p class="lede" data-reveal style="--d:.16s">PLG Acachet works across sponsorship sales, strategy, live production and media. The people who do best here are comfortable moving between a commercial negotiation, a live event and a client report.</p>
+    </div>
+    <form class="form" id="form" novalidate>
+      <div class="field"><label for="f-name">Full name</label><input id="f-name" name="name" autocomplete="name" required><span class="err" id="e-name"></span></div>
+      <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required><span class="err" id="e-email"></span></div>
+      <div class="field"><label for="f-role">Applying for</label><select id="f-role" name="role"></select></div>
+      <div class="field"><label for="f-team">Your discipline</label>
+        <select id="f-team" name="team" required><option value="">Choose one</option><option>Commercial</option><option>Delivery</option><option>Creative</option><option>Analytics</option><option>Something else</option></select><span class="err" id="e-team"></span></div>
+      <div class="field field--full"><label for="f-link">LinkedIn or portfolio link</label><input id="f-link" name="link" type="url" placeholder="https://"></div>
+      <div class="field field--full"><label for="f-cv">CV</label>
+        <div class="file" id="fileBox"><input id="f-cv" name="cv" type="file" accept=".pdf,.doc,.docx"><span class="file__ic" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16"><path fill="none" stroke="currentColor" stroke-width="1.4" d="M8 11V2M4.5 5.5L8 2l3.5 3.5M2 10v4h12v-4"/></svg></span><span class="file__t" id="fileT">Upload your CV<small>PDF or Word, up to 10 MB</small></span></div></div>
+      <div class="field field--full"><label for="f-msg">What should we know?</label><textarea id="f-msg" name="msg" rows="3"></textarea></div>
+      <div class="form__foot"><p>We keep profiles on file and get in touch when a role fits.</p><button type="submit" class="btn btn--dark"><span class="btn__label">Send Profile</span><span class="btn__arrow"><i class="arr"></i></span></button></div>
+    </form>
+  </div>
+</section>
+
+<!-- ================= MORE ABOUT US ================= -->
+<section class="more wrap" id="more">
+  <div>
+    <p class="eyebrow" data-reveal>More about us</p>
+    <h2 class="h1" data-reveal style="--d:.08s">The story, the people.</h2>
+  </div>
+  <div class="pan">
+    <a href="our-story.html" class="pn" data-reveal><img src="assets/mujtamae.webp" alt=""><span class="pn__ov"><span class="pn__t">Our Story<span aria-hidden="true"><i class="arr"></i></span></span><span class="pn__d">Three businesses. One commercial focus.</span></span></a>
+    <a href="team.html" class="pn" data-reveal style="--d:.08s"><img src="assets/stat-1.webp" alt=""><span class="pn__ov"><span class="pn__t">The Team<span aria-hidden="true"><i class="arr"></i></span></span><span class="pn__d">The people behind PLG Acachet’s commercial, delivery and analytics work — based in the UAE, working internationally.</span></span></a>
+  </div>
+</section>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="footer__row wrap">
+    <a href="index.html" class="logo"><span class="logo__mark"><img src="assets/plg-mark.webp" alt=""></span><span class="logo__word">PLG ACACHET</span></a>
+    <nav class="footer__nav" aria-label="Footer"><a href="about.html">About</a><a href="index.html#services">Service</a><a href="index.html#work">Our work</a><a href="index.html#contact">Contact</a></nav>
+    <div class="footer__social"><a href="#" aria-label="Instagram"><img src="assets/icon-instagram.svg" alt=""></a><a href="#" aria-label="LinkedIn"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a></div>
+    <p class="footer__copy">© 2026 PLG Acachet. All rights reserved.</p>
+    <div class="footer__legal"><a href="#">Privacy Policy</a><a href="#">Terms and Conditions</a></div>
+  </div>
+</footer>
+
+<script>
+document.documentElement.classList.add('js');
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const mobile=()=>matchMedia('(max-width:900px)').matches;
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const nav=document.getElementById('nav');
+
+/* button label roll */
+document.querySelectorAll('.btn__label').forEach(l=>{const t=l.textContent.trim();l.textContent='';const r=document.createElement('span');r.className='btn__roll';r.dataset.text=t;r.textContent=t;l.appendChild(r)});
+
+/* mobile menu */
+const burger=document.getElementById('burger'),mnav=document.getElementById('mnav');
+function setMenu(open){document.body.classList.toggle('menu-open',open);burger.setAttribute('aria-expanded',open);burger.setAttribute('aria-label',open?'Close menu':'Open menu');mnav.setAttribute('aria-hidden',!open)}
+burger.addEventListener('click',()=>setMenu(!document.body.classList.contains('menu-open')));
+mnav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+addEventListener('keydown',e=>{if(e.key==='Escape')setMenu(false)});
+
+/* ================= OPEN ROLES (sample data — live site reads from the careers CMS / ATS) ================= */
+const lorem='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula, donec lobortis risus a elit etiam tempor ut ullamcorper ligula.';
+const bul=['Lorem ipsum dolor sit amet, consectetur adipiscing elit','Sed do eiusmod tempor incididunt ut labore et dolore magna','Ut enim ad minim veniam, quis nostrud exercitation ullamco','Duis aute irure dolor in reprehenderit in voluptate velit'];
+const roles=[
+  {t:'Partnerships Manager',d:'Commercial',l:'Dubai, UAE',y:'Full-time'},
+  {t:'Senior Producer, Live Events',d:'Delivery',l:'Dubai, UAE',y:'Full-time'},
+  {t:'Tournament Operations Lead',d:'Delivery',l:'Dubai, UAE',y:'Full-time'},
+  {t:'Motion Designer',d:'Creative',l:'Dubai, UAE',y:'Full-time'},
+  {t:'Data Analyst, Mujtamae',d:'Analytics',l:'Dubai, UAE',y:'Full-time'},
+  {t:'Business Development Manager, Europe',d:'Commercial',l:'London, UK',y:'Full-time'}
+];
+roles.forEach((r,i)=>r.id='r'+(i+1));
+const teams=['All','Commercial','Delivery','Creative','Analytics'];
+const rlist=document.getElementById('rlist'),chips=document.getElementById('chips'),rCount=document.getElementById('rCount'),rEmpty=document.getElementById('rEmpty');
+const plus='<svg viewBox="0 0 12 12" aria-hidden="true"><path stroke="currentColor" stroke-width="1.5" d="M6 0v12M0 6h12"/></svg>';
+rlist.innerHTML=roles.map(r=>`
+  <li class="role" data-team="${r.d}" data-reveal>
+    <button type="button" class="role__btn" aria-expanded="false" aria-controls="${r.id}-p">
+      <span class="role__t">${r.t}</span><span class="role__c dept">${r.d}</span><span class="role__c loc">${r.l}</span><span class="role__c type">${r.y}</span><span class="role__ic">${plus}</span>
+    </button>
+    <div class="role__panel" id="${r.id}-p"><div class="role__inner"><div class="role__body">
+      <div><p>${lorem}</p><ul>${bul.map(b=>`<li>${b}</li>`).join('')}</ul></div>
+      <div class="role__side"><small>${r.l} · ${r.y}</small><a href="#apply" class="btn btn--sm" data-apply="${r.id}"><span class="btn__label">Apply for this role</span><span class="btn__arrow"><i class="arr"></i></span></a></div>
+    </div></div></div>
+  </li>`).join('');
+rlist.querySelectorAll('.btn__label').forEach(l=>{const t=l.textContent.trim();l.textContent='';const s=document.createElement('span');s.className='btn__roll';s.dataset.text=t;s.textContent=t;l.appendChild(s)});
+const rows=[...rlist.children];
+rows.forEach(li=>{const b=li.querySelector('.role__btn'),pn=li.querySelector('.role__panel');pn.inert=true;b.addEventListener('click',()=>{const o=!li.classList.contains('open');li.classList.toggle('open',o);b.setAttribute('aria-expanded',o);pn.inert=!o})});
+
+const cnt=t=>t==='All'?roles.length:roles.filter(r=>r.d===t).length;
+chips.innerHTML=teams.map((t,i)=>`<button type="button" class="chip" data-t="${t}" aria-pressed="${i===0}">${t} <span aria-hidden="true">${cnt(t)}</span></button>`).join('');
+let hideT;
+function filterRoles(t,init){
+  chips.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.t===t));
+  const n=cnt(t);
+  rCount.innerHTML=`<b>${n}</b> ${n===1?'role':'roles'} open${t==='All'?'':' in '+t}`;
+  rEmpty.hidden=n>0;
+  if(init)return;
+  clearTimeout(hideT);
+  rows.forEach(li=>{if(!(t==='All'||li.dataset.team===t))li.classList.add('out')});
+  hideT=setTimeout(()=>rows.forEach(li=>{const m=t==='All'||li.dataset.team===t;li.hidden=!m;li.classList.remove('pre');if(m){li.classList.add('out');void li.offsetWidth;li.classList.remove('out')}}),reduce?0:250);
+}
+chips.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>filterRoles(c.dataset.t)));
+filterRoles('All',true);
+
+/* ================= PROFILE FORM ================= */
+const form=document.getElementById('form');
+const fRole=document.getElementById('f-role'),fTeam=document.getElementById('f-team');
+fRole.innerHTML='<option value="">General application</option>'+roles.map(r=>`<option value="${r.id}">${r.t}</option>`).join('');
+document.addEventListener('click',e=>{const a=e.target.closest('[data-apply]');if(!a)return;const r=roles.find(x=>x.id===a.dataset.apply);fRole.value=r.id;fTeam.value=r.d;fTeam.closest('.field').classList.remove('bad');document.getElementById('e-team').textContent=''});
+const fileIn=document.getElementById('f-cv'),fileT=document.getElementById('fileT'),fileBox=document.getElementById('fileBox');
+fileIn.addEventListener('change',()=>{const f=fileIn.files[0];fileT.innerHTML=f?`${f.name}<small>${(f.size/1048576).toFixed(1)} MB · choose again to replace</small>`:'Upload your CV<small>PDF or Word, up to 10 MB</small>'});
+['dragenter','dragover'].forEach(ev=>fileBox.addEventListener(ev,()=>fileBox.classList.add('drag')));
+['dragleave','drop'].forEach(ev=>fileBox.addEventListener(ev,()=>fileBox.classList.remove('drag')));
+function check(id,ok,msg){const el=document.getElementById('f-'+id),f=el.closest('.field');f.classList.toggle('bad',!ok);document.getElementById('e-'+id).textContent=ok?'':msg;return ok}
+form.addEventListener('submit',e=>{
+  e.preventDefault();
+  const name=document.getElementById('f-name').value.trim(),email=document.getElementById('f-email').value.trim();
+  const ok=[check('name',name.length>1,'Add your name.'),check('email',/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),'Add an email we can reply to, like name@company.com.'),check('team',!!fTeam.value,'Choose the discipline closest to yours.')].every(Boolean);
+  if(!ok){form.querySelector('.bad input,.bad select').focus();return}
+  const role=roles.find(r=>r.id===fRole.value);
+  form.innerHTML=`<div class="done" role="status"><h3>Thanks, ${name.split(' ')[0].replace(/[<>&"]/g,'')}.</h3><p>Your profile for ${role?role.t:'a general application'} is ready. This prototype doesn’t send anything yet; on the live site it goes straight to the careers system.</p><button type="button" id="again">Start a new profile</button></div>`;
+  document.getElementById('again').addEventListener('click',()=>location.reload());
+});
+
+/* reveal: only items below the first screen start hidden */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.remove('pre');io.unobserve(e.target)}}),{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('[data-reveal]').forEach(el=>{if(!reduce&&el.getBoundingClientRect().top>innerHeight)el.classList.add('pre');io.observe(el)});
+
+/* why-join paragraph: words light up with scroll; "refuse to stay in a lane" turns orange */
+const lead=document.getElementById('lead');
+const ws=lead.textContent.trim().split(/\s+/);
+const hs=ws.indexOf('refuse'),he=ws.indexOf('lane:');
+lead.innerHTML=ws.map((w,i)=>`<span class="w${i>=hs&&i<=he?' hl':''}">${w}</span>`).join(' ');
+const words=[...lead.querySelectorAll('.w')];
+
+/* one line crosses all four lanes as you scroll */
+const cross=document.getElementById('cross'),line=document.getElementById('crossLine');
+const dots=[...cross.querySelectorAll('.cross__dot')],lanes=[...cross.querySelectorAll('.lane2')];
+/* the path is redrawn in real pixels so the stroke never stretches and the dash draws as one clean line */
+const crossSvg=document.getElementById('crossSvg'),crossBase=document.getElementById('crossBase');
+const crossPts=[[0,110],[60,110],[70,30],[125,30],[300,110],[375,110],[560,30],[625,30],[800,110],[875,110],[960,30],[1000,30]];
+let crossW=0,crossL=0;
+function layoutCross(){
+  const w=crossSvg.clientWidth; if(!w||w===crossW)return; crossW=w;
+  const k=w/1000,P=crossPts.map(([x,y])=>`${(x*k).toFixed(1)} ${y}`);
+  const d=`M${P[0]} C ${P[1]}, ${P[2]}, ${P[3]} S ${P[4]}, ${P[5]} S ${P[6]}, ${P[7]} S ${P[8]}, ${P[9]} S ${P[10]}, ${P[11]}`;
+  crossSvg.setAttribute('viewBox',`0 0 ${w} 140`);
+  crossBase.setAttribute('d',d); line.setAttribute('d',d);
+  crossL=line.getTotalLength();
+  line.style.strokeDasharray=`${crossL} ${crossL}`;
+  line.classList.add('ready');
+}
+
+const lightSecs=[...document.querySelectorAll('.apply,.footer')];
+const navLogo=nav.querySelector('.logo');
+const heroMedia=document.getElementById('heroMedia');
+let lastY=scrollY;
+function onScroll(){
+  const y=scrollY,vh=innerHeight;
+  nav.classList.toggle('is-scrolled',y>40);
+  if(!document.body.classList.contains('menu-open')){
+    if(y<=120||y<lastY-2)nav.classList.remove('is-hidden');
+    else if(y>lastY+2)nav.classList.add('is-hidden');
+  }
+  lastY=y;
+  const r=navLogo.getBoundingClientRect(),cy=r.top+r.height/2;
+  nav.classList.toggle('on-light',lightSecs.some(s=>{const b=s.getBoundingClientRect();return b.top<=cy&&b.bottom>=cy}));
+  if(!reduce&&y<vh*1.2)heroMedia.style.transform=`translate3d(0,${y*.35}px,0)`;
+
+  const lr=lead.getBoundingClientRect();
+  const n=reduce?words.length:Math.round(clamp((vh*.82-lr.top)/(lr.height+vh*.25))*words.length);
+  words.forEach((w,i)=>w.classList.toggle('on',i<n));
+
+  const cr=cross.getBoundingClientRect();
+  if(mobile()){lanes.forEach(l=>{const b=l.getBoundingClientRect();l.classList.toggle('lit',reduce||b.top<vh*.8)})}
+  else{
+    layoutCross();
+    const p=reduce?1:clamp((vh*.85-cr.top)/(vh*.65));
+    line.style.strokeDashoffset=crossL*(1-p);
+    const headX=p>0?line.getPointAtLength(crossL*p).x:-1;
+    dots.forEach((d,i)=>d.classList.toggle('on',headX>=crossW*(.125+i*.25)-1));
+  }
+}
+addEventListener('scroll',()=>requestAnimationFrame(onScroll),{passive:true});
+addEventListener('resize',onScroll);
+onScroll();
+</script>
+
+</body></html>

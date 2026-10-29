@@ -1,0 +1,792 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>PLG Acachet About Us</title>
+<meta name="description" content="About Us page design for PLG Acachet, built on the approved homepage design language.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: same system as the approved homepage — dark continuous canvas, white "breather" bands,
+   72px gutter, orange accent used only on CTAs, eyebrows and active states. */
+:root{
+  color-scheme:dark;
+  --bg:#010202; --bg-2:#0d0d0e; --bg-3:#0c0d0e;
+  --accent:#ff7433; --accent-hover:#ff8a52;
+  --ink:#000d1d; --c5:#ececec; --body:#e2e2e2; --muted:#70746e; --dim:#8a8d88;
+  --line:rgba(255,255,255,.12); --paper:#fff; --paper-ink:#222; --paper-body:#3a3d3b; --paper-line:#e4e4e4;
+  --gutter:72px;
+  --ease-out:cubic-bezier(.22,1,.36,1); --ease-io:cubic-bezier(.65,0,.35,1);
+  --h1:56px; --h-xl:84px; --label:24px;
+  --font:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--body);font-family:var(--font);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+body.menu-open{overflow:hidden}
+
+/* ---------- Type (homepage) ---------- */
+.eyebrow{font-weight:500;font-size:var(--label);line-height:1.25;color:var(--accent)}
+.h1{font-weight:700;font-size:var(--h1);line-height:1.15;letter-spacing:2px;text-wrap:balance}
+.grad{background:linear-gradient(114.8deg,#fff .2%,#aeaeae 68%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.body{font-size:18px;line-height:1.3;color:var(--body);max-width:62ch}
+
+/* ---------- Button (PLG / Button) ---------- */
+.btn{position:relative;display:inline-flex;align-items:center;gap:12px;height:52px;padding:12px 24px;border-radius:96px;background:var(--accent);overflow:hidden;isolation:isolate}
+.btn,.btn[data-reveal].in{transition:opacity .9s var(--ease-out),transform .6s var(--ease-out),background-color .6s var(--ease-out),box-shadow .6s var(--ease-out);transition-delay:var(--d,0s),0s,0s,0s}
+.btn__label{position:relative;display:inline-block;height:20px;overflow:hidden;font-weight:600;font-size:18px;line-height:20px;text-transform:uppercase;color:var(--c5);white-space:nowrap}
+/* label roll: the text slides up and an identical copy follows from below */
+.btn__roll{display:block;transition:transform .7s var(--ease-out)}
+.btn__roll::after{content:attr(data-text);position:absolute;left:0;top:100%}
+.btn:hover .btn__roll,.btn:focus-visible .btn__roll{transform:translateY(-100%)}
+/* Arrow icon (Arrow.svg) — masked so it takes the surrounding text colour */
+.arr{display:inline-block;flex:none;width:11px;height:11px}
+.arr,.btn__arrow::after{background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 11'%3E%3Cpath d='M1.10813 10.8948L0.00017786 9.78689L8.23881 1.53405H1.87518L1.88938 -4.48227e-05H10.8809V9.00564H9.33256L9.34677 2.642L1.10813 10.8948Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 11'%3E%3Cpath d='M1.10813 10.8948L0.00017786 9.78689L8.23881 1.53405H1.87518L1.88938 -4.48227e-05H10.8809V9.00564H9.33256L9.34677 2.642L1.10813 10.8948Z'/%3E%3C/svg%3E") center/contain no-repeat}
+/* arrow: flies out to the top-right while a second one glides in from the bottom-left */
+.btn__arrow{position:relative;color:var(--ink);width:20px;height:24px;display:inline-flex;align-items:center;justify-content:center;overflow:hidden}
+.btn__arrow .arr{transition:transform .7s var(--ease-out)}
+.btn__arrow::after{content:"";position:absolute;left:50%;top:50%;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;transform:translate(-20px,20px);transition:transform .7s var(--ease-out)}
+.btn:hover .btn__arrow .arr,.btn:focus-visible .btn__arrow .arr{transform:translate(20px,-20px)}
+.btn:hover .btn__arrow::after,.btn:focus-visible .btn__arrow::after{transform:none;transition-delay:.06s}
+.btn:hover{background-color:var(--accent-hover);box-shadow:0 14px 34px -14px rgba(255,116,51,.65);transform:translateY(-2px)}
+.btn:active{transform:translateY(0) scale(.98);transition-duration:.15s}
+
+/* ---------- Logo ---------- */
+.logo{display:flex;align-items:center;gap:8px;height:44px}
+.logo__mark{position:relative;width:42px;height:40px;overflow:hidden;flex:none}
+.logo__mark img{position:absolute;height:135.14%;width:153.85%;left:-26.15%;top:0;max-width:none}
+.logo__word{font-weight:700;font-size:16px;line-height:20px;color:#fff;white-space:nowrap}
+.nav .logo__word{transition:color .3s}
+.nav.on-light .logo__word{color:var(--ink)}
+.menu-open .nav.on-light .logo__word{color:#fff}
+.nav.on-light .burger span{background:var(--ink)}
+.nav.on-light .burger{background:rgba(255,255,255,.7)}
+.menu-open .nav.on-light .burger span{background:#fff}
+.menu-open .nav.on-light .burger{background:transparent}
+
+/* =========================================================
+   NAV
+   ========================================================= */
+.nav{position:fixed;inset:44px 138px auto 137px;z-index:50;display:flex;align-items:center;justify-content:space-between;transition:opacity .45s var(--ease-out),translate .5s var(--ease-out),top .4s var(--ease-out);animation:navIn 1s .3s var(--ease-out) backwards}
+.nav.is-hidden{opacity:0;translate:0 -12px;pointer-events:none}
+.nav.is-scrolled{top:16px}
+@keyframes navIn{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:none}}
+.menu{display:flex;gap:4px;align-items:center;padding:5px;border-radius:100px;background:rgba(0,0,0,.7);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:background .4s}
+.nav.is-scrolled .menu{background:rgba(10,10,10,.85);box-shadow:0 10px 30px -12px rgba(0,0,0,.6)}
+.menu a{display:block;padding:12px 18px;font-size:16px;line-height:1;color:#aaa;border-radius:100px;transition:color .25s,background .3s var(--ease-out)}
+.menu a:hover{color:#fff;background:rgba(255,255,255,.12)}
+.menu a:active{background:rgba(255,255,255,.18)}
+.burger{display:none;width:48px;height:48px;border-radius:100px;background:rgba(0,0,0,.7);backdrop-filter:blur(14px);position:relative;transition:background .3s}
+.menu-open .nav{z-index:65;translate:none}
+.menu-open .burger{background:transparent;backdrop-filter:none}
+.burger span{position:absolute;left:14px;width:20px;height:1.6px;background:#fff;border-radius:2px;transition:transform .45s var(--ease-out),opacity .3s,top .45s var(--ease-out)}
+.burger span:nth-child(1){top:17px}.burger span:nth-child(2){top:23.2px}.burger span:nth-child(3){top:29.4px}
+.menu-open .burger span:nth-child(1){top:23.2px;transform:rotate(45deg)}
+.menu-open .burger span:nth-child(2){opacity:0;transform:scaleX(0)}
+.menu-open .burger span:nth-child(3){top:23.2px;transform:rotate(-45deg)}
+
+/* Mobile overlay (Figma 520:507) */
+.mnav{position:fixed;inset:0;z-index:60;background:#000;padding:84px 24px 20px;display:flex;flex-direction:column;clip-path:circle(0 at calc(100% - 48px) 44px);transition:clip-path .7s var(--ease-io);visibility:hidden}
+.menu-open .mnav{clip-path:circle(150% at calc(100% - 48px) 44px);visibility:visible}
+.mnav__links{margin-top:28px;display:flex;flex-direction:column;gap:30px}
+.mnav__links a{font-size:24px;line-height:34px;color:#fff;opacity:0;transform:translateY(24px);transition:opacity .5s,transform .6s var(--ease-out),color .2s;width:max-content}
+.mnav__links a:hover{color:var(--accent)}
+.menu-open .mnav__links a{opacity:1;transform:none}
+.menu-open .mnav__links a:nth-child(1){transition-delay:.25s}
+.menu-open .mnav__links a:nth-child(2){transition-delay:.32s}
+.menu-open .mnav__links a:nth-child(3){transition-delay:.39s}
+.menu-open .mnav__links a:nth-child(4){transition-delay:.46s}
+.mnav__foot{margin-top:auto;font-size:14px;color:#777;opacity:0;transition:opacity .5s .5s}
+.menu-open .mnav__foot{opacity:1}
+
+/* About-page additions to the homepage nav/buttons */
+.btn{align-self:flex-start}
+.menu a.is-active{color:#fff;background:rgba(255,255,255,.12)}
+.nav.on-light .menu{background:rgba(0,0,0,.78)}
+.mnav__links a.is-active{color:var(--accent)}
+.mnav__sub{display:flex;flex-direction:column;gap:14px;padding-left:18px;margin-top:-14px;border-left:1px solid #333}
+.mnav__sub a{font-size:17px!important;line-height:24px!important;color:#999!important}
+.menu-open .mnav__links>a:nth-child(3){transition-delay:.39s}
+.menu-open .mnav__links>a:nth-child(4){transition-delay:.46s}
+.menu-open .mnav__links>a:nth-child(5){transition-delay:.53s}
+.menu-open .mnav__sub a{transition-delay:.32s}
+.pcard__arrow,.card__arrow{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px}
+.row__a .arr,.pn__t span .arr{width:13px;height:13px}
+
+/* ================= HERO ================= */
+.hero{position:relative;min-height:760px;overflow:hidden;background:#000;display:flex;align-items:flex-end}
+.hero__media{position:absolute;inset:0;will-change:transform}
+.hero__media img{width:100%;height:100%;object-fit:cover;object-position:60% 50%;animation:heroZoom 2.6s var(--ease-out) both;filter:saturate(.9)}
+@keyframes heroZoom{from{transform:scale(1.14);opacity:0}to{transform:scale(1);opacity:.55}}
+.hero__fade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,0) 30%,rgba(0,0,0,.6) 62%,var(--bg) 100%),linear-gradient(90deg,rgba(0,0,0,.65) 0%,rgba(0,0,0,0) 65%)}
+.hero__mark{position:absolute;right:-60px;top:120px;height:520px;width:auto;opacity:.9;pointer-events:none}
+.hero__inner{position:relative;width:100%;padding:220px var(--gutter) 72px;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:40px 80px;align-items:end}
+.crumb{display:flex;gap:10px;align-items:center;font-size:14px;color:#9a9a9a;margin-bottom:24px;letter-spacing:.5px}
+.crumb span:last-child{color:var(--accent)}.crumb a{transition:color .25s}.crumb a:hover{color:#fff}
+.hero__title{color:#eaeaea;font-weight:700;font-size:var(--h-xl);line-height:1.02;letter-spacing:-1px}
+.hero__title .ln{display:block;overflow:hidden;padding-bottom:.06em}
+.hero__title .ln>span{display:inline-block;animation:rise 1.2s var(--ease-out) both}
+.hero__title .ln:nth-child(2)>span{animation-delay:.12s}
+.hero__title em{font-style:normal;color:var(--accent);-webkit-text-fill-color:var(--accent)}
+@keyframes rise{from{transform:translateY(105%)}to{transform:none}}
+.hero__sub{font-size:20px;line-height:1.5;color:#d6d6d6;animation:fadeUp 1.1s .5s var(--ease-out) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+/* About sub-navigation */
+.subnav{position:relative;z-index:2;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg)}
+.subnav__inner{display:flex;gap:40px;padding:0 var(--gutter);overflow-x:auto;scrollbar-width:none}
+.subnav__inner::-webkit-scrollbar{display:none}
+.subnav a{position:relative;padding:22px 0;font-size:15px;color:#9a9a9a;white-space:nowrap;transition:color .25s}
+.subnav a::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease-out)}
+.subnav a:hover{color:#fff}
+.subnav a.is-active{color:#fff}.subnav a.is-active::after{transform:scaleX(1)}
+.subnav__tag{margin-left:auto;align-self:center;font-size:13px;color:var(--muted);white-space:nowrap}
+
+/* ================= OVERVIEW ================= */
+.overview{padding:120px var(--gutter) 110px;position:relative}
+.overview__grid{display:grid;grid-template-columns:220px minmax(0,1fr);gap:40px 64px}
+.overview__lead{font-weight:500;font-size:38px;line-height:1.32;letter-spacing:.2px;color:#eaeaea;max-width:none}
+.overview__lead .w{opacity:.3;transition:opacity .35s}
+.overview__lead .w.on{opacity:1}
+.overview__lead .hl{color:var(--accent)}
+
+/* Merger composition */
+.merge{margin-top:96px;position:relative}
+.merge__row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.src{position:relative;padding:28px 28px 32px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:14px}
+.src__k{font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+.src__name{font-weight:600;font-size:28px;color:#fff}
+.src__txt{font-size:16px;line-height:1.45;color:#bdbdbd;max-width:34ch}
+.src::before{content:"";position:absolute;left:0;top:-1px;height:1px;width:0;background:var(--accent);transition:width 1.2s var(--ease-out)}
+.merge.in .src::before{width:100%}
+.merge.in .src:nth-child(2)::before{transition-delay:.15s}
+.merge.in .src:nth-child(3)::before{transition-delay:.3s}
+.merge__lines{display:block;width:100%;height:110px}
+.merge__lines path{fill:none;stroke:rgba(255,255,255,.22);stroke-width:1;stroke-dasharray:400;stroke-dashoffset:400;transition:stroke-dashoffset 1.6s .4s var(--ease-out)}
+.merge.in .merge__lines path{stroke-dashoffset:0}
+.merge__lines path.hot{stroke:var(--accent)}
+.result{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:28px;padding:32px 36px;border-radius:20px;background:linear-gradient(120deg,#16110e 0%,#0d0d0e 55%);border:1px solid rgba(255,116,51,.28)}
+.result__name{display:flex;align-items:center;gap:14px;font-weight:700;font-size:26px;color:#fff}
+.result__name .logo__mark{width:34px;height:32px}
+.steps{display:flex;flex-wrap:wrap;gap:10px;list-style:none;counter-reset:s}
+.steps li{counter-increment:s;display:flex;align-items:center;gap:10px;padding:10px 18px 10px 12px;border-radius:100px;border:1px solid var(--line);font-size:16px;color:#eaeaea}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:rgba(255,116,51,.15);color:var(--accent);font-size:12px;font-weight:600}
+.steps li+li{position:relative}
+
+/* ================= PILLARS (white band, homepage services style) ================= */
+.pillars{background:var(--paper);color:var(--paper-ink);padding:96px var(--gutter) 100px;display:flex;flex-direction:column;gap:56px}
+.pillars__head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px 64px}
+.pillars__head .eyebrow{color:var(--paper-ink)}
+.pillars__head .h1{color:var(--paper-ink)}
+.pillars__note{font-size:18px;line-height:1.45;color:var(--paper-body);max-width:40ch}
+.pcards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.pcard{background:#fff;border-radius:12px;padding:15px;display:flex;flex-direction:column;gap:20px;filter:drop-shadow(0 4px 15px rgba(0,0,0,.08));transition:transform .5s var(--ease-out),filter .5s}
+.pcard:hover{transform:translateY(-8px);filter:drop-shadow(0 18px 30px rgba(0,0,0,.16))}
+.pcard__img{position:relative;aspect-ratio:4/3.4;border-radius:8px;overflow:hidden;max-width:100%}
+.pcard__img img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease-out)}
+.pcard:hover .pcard__img img{transform:scale(1.07)}
+.pcard__word{position:absolute;left:18px;bottom:14px;font-weight:700;font-size:44px;letter-spacing:1px;color:#fff;text-shadow:0 4px 30px rgba(0,0,0,.4)}
+.pcard__body{display:flex;flex-direction:column;gap:10px;padding:0 6px 8px}
+.pcard__meta{display:flex;align-items:center;justify-content:space-between;font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--muted)}
+.pcard__meta b{color:#252b27;font-weight:600}
+.pcard__arrow{font-size:19px;color:#252b27;transition:transform .45s var(--ease-out),color .3s}
+.pcard:hover .pcard__arrow{transform:rotate(45deg);color:var(--accent)}
+.pcard p{font-size:17px;line-height:1.45;color:var(--paper-body)}
+
+/* ================= MUJTAMAE ================= */
+.mujt{background:var(--bg-2);padding:120px var(--gutter)}
+.mujt__grid{display:grid;grid-template-columns:minmax(0,567fr) minmax(0,574fr);gap:56px 101px;align-items:center}
+.mujt__img{position:relative;height:640px;border-radius:16px;overflow:hidden}
+.mujt__img>img{width:100%;height:100%;object-fit:cover;transform:scale(1.12);transition:transform 1.4s var(--ease-out)}
+.mujt__img.in>img{transform:scale(1)}
+.report{position:absolute;left:24px;right:24px;bottom:24px;padding:20px 22px;border-radius:14px;background:rgba(10,10,10,.6);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.12)}
+.report__top{display:flex;justify-content:space-between;align-items:center;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#aaa;margin-bottom:16px}
+.report__top b{color:#fff;font-weight:600}
+.report__live{display:flex;align-items:center;gap:6px;color:var(--accent)}
+.report__live i{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.25}}
+.bars{display:grid;gap:12px}
+.bar{display:grid;grid-template-columns:150px 1fr;align-items:center;gap:12px;font-size:13px;color:#cfcfcf}
+.bar__t{height:6px;border-radius:6px;background:rgba(255,255,255,.1);overflow:hidden}
+.bar__t i{display:block;height:100%;width:0;border-radius:6px;background:linear-gradient(90deg,#ff7433,#ffb38f);transition:width 1.6s var(--ease-out)}
+.mujt__img.in .bar:nth-child(1) i{width:78%}
+.mujt__img.in .bar:nth-child(2) i{width:64%;transition-delay:.15s}
+.mujt__img.in .bar:nth-child(3) i{width:86%;transition-delay:.3s}
+.report__cap{margin-top:14px;font-size:11px;color:#8a8a8a}
+.mujt__copy{display:flex;flex-direction:column;gap:28px;min-width:0}
+.fits{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.fits__k{font-size:14px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:18px 0 4px}
+.fit{display:grid;grid-template-columns:minmax(0,190px) minmax(0,1fr);gap:8px 24px;padding:18px 0;border-bottom:1px solid var(--line)}
+.fit b{font-weight:600;font-size:17px;color:#fff}
+.fit span{font-size:16px;line-height:1.45;color:#bdbdbd}
+
+/* ================= VISION & MISSION ================= */
+.vm{position:relative;padding:130px var(--gutter);overflow:hidden}
+.vm__mark{position:absolute;left:-7%;top:-60px;height:508px;width:auto;pointer-events:none}
+.vm__grid{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0}
+.vm__item{padding:8px 56px 8px 0;display:flex;flex-direction:column;gap:22px}
+.vm__item+.vm__item{padding:8px 0 8px 56px;border-left:1px solid var(--line)}
+.vm__k{display:flex;align-items:center;gap:14px;font-size:15px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);font-weight:500}
+.vm__k::before{content:"";width:28px;height:1px;background:var(--accent)}
+.vm__txt{font-weight:600;font-size:38px;line-height:1.25;letter-spacing:.5px;text-wrap:balance}
+.vm__head{margin-bottom:72px}
+
+/* ================= WHY THE UAE ================= */
+.uae{position:relative;min-height:760px;overflow:hidden;display:flex;align-items:center;background:#000}
+.uae__bg{position:absolute;inset:-8% 0;will-change:transform}
+.uae__bg img{width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.uae__shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.92) 0%,rgba(0,0,0,.7) 38%,rgba(0,0,0,.05) 75%),linear-gradient(180deg,var(--bg) 0%,rgba(0,0,0,0) 18%,rgba(0,0,0,0) 80%,var(--bg) 100%)}
+.uae__inner{position:relative;padding:120px var(--gutter);max-width:720px;display:flex;flex-direction:column;gap:24px}
+.ticker{position:absolute;left:0;right:0;bottom:0;border-top:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.45);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);overflow:hidden}
+.ticker__track{display:flex;width:max-content;animation:marquee 30s linear infinite}
+.ticker__set{display:flex;align-items:center;gap:56px;padding:22px 28px;font-size:18px;color:#dcdcdc;white-space:nowrap}
+.ticker__set i{width:8px;height:8px;background:var(--accent);transform:rotate(45deg);flex:none}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* ================= OWNERSHIP (white band) ================= */
+.own{background:var(--paper);color:var(--paper-ink);padding:110px var(--gutter)}
+.own__grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:56px 88px;align-items:center}
+.own__copy{display:flex;flex-direction:column;gap:24px;min-width:0}
+.own__copy .eyebrow{color:var(--paper-ink)}
+.own__copy .h1{color:var(--paper-ink)}
+.own__copy .body{color:var(--paper-body)}
+.own__close{font-weight:600;font-size:20px;line-height:1.4;color:var(--paper-ink);padding-left:20px;border-left:2px solid var(--accent)}
+/* group structure as nested frames: each company sits inside its parent, PLG Acachet at the core */
+.ledger{position:relative}
+.box{position:relative;border-radius:22px;padding:26px 26px 26px;display:flex;flex-direction:column;gap:22px}
+.box--0{background:#f2f2ef;border:1px solid #e3e3de}
+.box--1{background:#fff;border:1px solid #e0e0db;box-shadow:0 22px 44px -32px rgba(0,0,0,.35)}
+.box--2{background:var(--ink);border:1px solid var(--ink);color:#fff;box-shadow:0 30px 60px -30px rgba(0,13,29,.6);overflow:hidden}
+.box--2::before{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(255,116,51,.38),rgba(255,116,51,0) 70%);pointer-events:none}
+.box__head{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 24px;align-items:start}
+.box__meta{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;font-size:11.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted)}
+.box__meta b{font-weight:600;color:var(--paper-ink)}
+.box__meta i{width:7px;height:7px;border-radius:50%;background:#c9c9c4}
+.box__name{grid-column:1;font-weight:600;font-size:28px;line-height:1.15;letter-spacing:-.4px;color:var(--paper-ink)}
+.box__txt{grid-column:1;font-size:15px;line-height:1.5;color:var(--paper-body);max-width:44ch}
+.box__fig{grid-column:2;grid-row:2/4;align-self:center;text-align:right;font-weight:300;font-size:40px;line-height:1;letter-spacing:-1px;color:var(--paper-ink)}
+.box__fig small{display:block;margin-top:8px;font-size:11.5px;font-weight:400;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted)}
+.box--2 .box__meta b{color:var(--accent)}
+.box--2 .box__meta i{background:var(--accent);box-shadow:0 0 0 4px rgba(255,116,51,.2)}
+.box--2 .box__meta{color:#9aa3ad}
+.box--2 .box__name{color:#fff;font-size:34px}
+.box--2 .box__txt{color:#c9ced4}
+.box--2 .box__fig{color:var(--accent)}
+.box--2 .box__fig small{color:#9aa3ad}
+/* reveal: frames open from the outside in */
+.js .box{opacity:0;transform:translateY(22px) scale(.985);transition:opacity .9s var(--ease-out),transform 1.1s var(--ease-out);transition-delay:calc(var(--i)*.18s)}
+.js .ledger.in .box{opacity:1;transform:none}
+.facts{display:flex;gap:28px;flex-wrap:wrap}
+.fact b{display:block;font-weight:300;font-size:40px;line-height:1;letter-spacing:-.5px;color:var(--paper-ink);font-variant-numeric:tabular-nums}
+.fact span{font-size:13px;color:var(--muted)}
+
+/* ================= MORE ABOUT US ================= */
+.more{padding:110px var(--gutter) 100px;background:var(--bg)}
+.more .h1{color:#d0d0d0}
+/* MORE: expanding panels */
+.pan{display:flex;gap:16px;height:520px;margin-top:48px}
+/* flex-grow is listed alongside the reveal properties so [data-reveal] can't wipe it out */
+.pn,.pn[data-reveal]{position:relative;flex:1 1 0;min-width:0;border-radius:20px;overflow:hidden;display:block;transition:flex-grow .9s var(--ease-io),opacity .9s var(--ease-out),transform 1.1s var(--ease-out),box-shadow .6s var(--ease-out);transition-delay:0s,var(--d,0s),var(--d,0s),0s}
+.pn:hover,.pn:focus-visible{flex-grow:2.2;box-shadow:0 24px 50px -24px rgba(255,116,51,.35)}
+.pn img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease-out),filter .8s var(--ease-out);filter:saturate(.85) brightness(.9)}
+.pn:hover img,.pn:focus-visible img{transform:scale(1.06);filter:none}
+.pn__ov{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;gap:12px;padding:32px;background:linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.9) 100%)}
+.pn:hover .pn__d,.pn:focus-visible .pn__d{transform:translateY(-4px);color:#fff}
+.pn__t{display:flex;justify-content:space-between;align-items:center;gap:12px;font-weight:600;font-size:32px;color:#fff}
+.pn__t span{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--accent);font-size:18px;transition:transform .5s var(--ease-out)}
+.pn:hover .pn__t span,.pn:focus-visible .pn__t span{transform:rotate(45deg)}
+.pn__d{font-size:16px;line-height:1.45;color:#d0d0d0;max-width:40ch;transition:transform .7s var(--ease-out),color .5s}
+
+/* ================= CTA BAND ================= */
+.cta{position:relative;overflow:hidden;background:#fff;color:#000}
+.cta__bg{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:right center}
+.cta__grad{position:absolute;inset:0;background:linear-gradient(90deg,#fff 30%,rgba(255,255,255,.75) 50%,rgba(255,255,255,0) 72%)}
+.cta__inner{position:relative;padding:96px var(--gutter);max-width:760px;display:flex;flex-direction:column;gap:20px}
+.cta .eyebrow{color:var(--accent)}
+.cta .h1{color:#000}
+.cta p.lede{font-size:20px;line-height:1.5;max-width:40ch;color:#222}
+
+/* ================= FOOTER (homepage) ================= */
+.footer{background:#fff;color:#000;padding:14px 84px 13px 85px;border-top:1px solid #eee}
+.footer__row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 24px}
+.footer .logo__word{color:var(--ink)}
+.footer__nav{display:flex;gap:40px;font-size:16px;line-height:30px}
+.footer a{position:relative;transition:color .25s}
+.footer__nav a::after,.footer__legal a::after{content:"";position:absolute;left:0;bottom:2px;height:1px;width:100%;background:var(--accent);transform:scaleX(0);transform-origin:right;transition:transform .4s var(--ease-out)}
+.footer__nav a:hover::after,.footer__legal a:hover::after{transform:scaleX(1);transform-origin:left}
+.footer__social{display:flex;gap:16px}
+.footer__social a{width:30px;height:30px;transition:transform .3s var(--ease-out)}
+.footer__social a:hover{transform:translateY(-3px)}
+.footer__social img{width:30px;height:30px}
+.footer__copy,.footer__legal a{font-size:16px;line-height:30px;color:#888}
+.footer__legal{display:flex;gap:24px}
+
+/* ================= REVEAL (visible at rest; only below-fold items animate) ================= */
+.js [data-reveal].pre{opacity:0;transform:translateY(32px)}
+[data-reveal]{transition:opacity .9s var(--ease-out),transform 1.1s var(--ease-out);transition-delay:var(--d,0s)}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width:1280px){
+  :root{--gutter:48px;--h-xl:72px}
+  .nav{inset:32px 48px auto 48px}
+  .mujt__grid{gap:48px 56px}
+}
+@media (max-width:1100px){
+  .hero__inner{grid-template-columns:1fr;padding-top:200px}
+  .overview__grid{grid-template-columns:1fr}
+  .overview__lead{font-size:32px}
+  .mujt__grid,.own__grid{grid-template-columns:1fr}
+  .mujt__img{height:520px}
+  .vm__txt{font-size:32px}
+}
+@media (max-width:900px){
+  :root{--gutter:24px;--h1:34px;--h-xl:46px;--label:16px}
+  .nav{inset:20px 24px auto 24px}
+  .nav.is-scrolled{top:12px}
+  .menu{display:none}
+  .burger{display:block}
+  .h1{letter-spacing:0}
+  .grad{background:none;color:#eaeaea}
+  .hero{min-height:0}
+  .hero__inner{padding:150px 24px 48px;gap:24px}
+  .hero__title{letter-spacing:-.5px}
+  .hero__sub{font-size:17px}
+  .hero__mark{height:240px;right:-40px;top:90px}
+  .subnav__inner{gap:28px}
+  .subnav__tag{display:none}
+  .overview{padding:64px 24px}
+  .overview__grid{gap:20px}
+  .overview__lead{font-size:24px;line-height:1.4}
+  .merge{margin-top:56px}
+  .merge__row{grid-template-columns:1fr;gap:0}
+  .src{padding:22px 0}
+  .merge__lines{display:none}
+  .result{margin-top:24px;padding:24px 20px}
+  .steps li{font-size:14px}
+  .pillars{padding:56px 0 64px;gap:28px}
+  .pillars__head{padding:0 24px}
+  .pcards{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding:12px 20px 24px;gap:16px;scrollbar-width:none}
+  .pcards::-webkit-scrollbar{display:none}
+  .pcard{flex:none;width:300px;max-width:calc(100vw - 56px);scroll-snap-align:center;filter:drop-shadow(0 4px 15px rgba(0,0,0,.18))}
+  .pcard:hover{transform:none}
+  .pcard__word{font-size:34px}
+  .mujt{padding:64px 24px}
+  .mujt__img{height:420px}
+  .bar{grid-template-columns:120px 1fr;font-size:12px}
+  .fit{grid-template-columns:1fr}
+  .vm{padding:72px 24px}
+  .vm__head{margin-bottom:40px}
+  .vm__grid{grid-template-columns:1fr;gap:40px}
+  .vm__item,.vm__item+.vm__item{padding:0}
+  .vm__item+.vm__item{border-left:0;border-top:1px solid var(--line);padding-top:40px}
+  .vm__txt{font-size:24px}
+  .vm__mark{height:220px;left:-40px;top:20px}
+  .uae{min-height:0;align-items:flex-end}
+  .uae__shade{background:linear-gradient(180deg,var(--bg) 0%,rgba(0,0,0,.2) 25%,rgba(0,0,0,.85) 58%,#000 100%)}
+  .uae__inner{padding:280px 24px 110px}
+  .ticker__set{font-size:15px;gap:36px;padding:16px 18px}
+  .own{padding:64px 24px}
+  .box{padding:18px 16px;border-radius:18px;gap:18px}
+  .box__head{grid-template-columns:1fr}
+  .box__name{font-size:22px}.box--2 .box__name{font-size:26px}
+  .box__fig{grid-column:1;grid-row:auto;text-align:left;font-size:28px;margin-top:6px}
+  .box__fig small{display:inline;margin-left:8px}
+  .fact b{font-size:32px}
+  .more{padding:64px 24px}
+  .pan{flex-direction:column;height:auto;margin-top:32px}
+  .pn{flex:none!important;height:260px}
+  .pn__ov{padding:22px}
+  .pn__t{font-size:26px}
+  .cta__bg{opacity:.35}
+  .cta__grad{background:linear-gradient(180deg,rgba(255,255,255,.6),#fff 70%)}
+  .cta__inner{padding:64px 24px}
+  .cta p.lede{font-size:17px}
+  .footer{padding:24px 24px 28px}
+  .footer__row{display:grid;grid-template-columns:1fr auto;gap:24px}
+  .footer__nav{grid-column:1/-1;justify-content:space-between;gap:0}
+  .footer__social{grid-row:1;grid-column:2}
+  .footer__copy{grid-column:1/-1;font-size:14px;margin-bottom:-16px}
+  .footer__legal{grid-column:1/-1}
+  .btn__label{font-size:16px}
+}
+/* ================= SHARED ABOUT BANNER (About, Our Story, The Team, Join Us) =================
+   Same arrangement on every About-section page: breadcrumb + heading on the left;
+   supporting line + primary and ghost CTA on the right, bottom-aligned. */
+.hero{min-height:720px;display:flex;align-items:flex-end}
+.hero__inner{position:relative;width:100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px 56px;align-items:end;padding:220px max(var(--gutter),env(safe-area-inset-right,0px)) 76px max(var(--gutter),env(safe-area-inset-left,0px))}
+.hero__l,.hero__r{display:flex;flex-direction:column;align-items:flex-start;gap:28px;min-width:0}
+.crumb{margin:0}
+.crumb span[aria-current]{color:var(--accent)}
+.hero__title{font-size:86px;line-height:1.1;letter-spacing:-1.5px;white-space:normal}
+.hero__title .ln{padding:.04em 0 .1em}
+.hero__sub{max-width:40ch;font-size:20px;line-height:1.5;color:#d6d6d6}
+.hero__sub b{font-weight:500;color:#fff}
+.hero__ctas{display:flex;flex-wrap:wrap;gap:14px 16px;animation:fadeUp 1.1s .7s var(--ease-out) both}
+.hero__ctas .btn{align-self:auto;height:46px;padding:10px 20px;gap:10px}
+.hero__ctas .btn__label{font-size:16px}
+.btn--ghost{background:transparent;box-shadow:inset 0 0 0 1px rgba(255,255,255,.75)}
+.btn--ghost .btn__arrow{color:#fff}
+.btn.btn--ghost:hover{background-color:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1px #fff,0 14px 34px -16px rgba(255,255,255,.35)}
+@media (max-width:1280px){.hero__title{font-size:76px}}
+@media (max-width:1240px){.hero__inner{grid-template-columns:1fr;gap:28px}}
+/* About: "Built to / commercialise sport." stays on exactly two lines */
+.hero__title{white-space:nowrap}
+.hero__title .ln{padding:.04em 0 .16em}
+@media (min-width:1241px){.hero__inner{grid-template-columns:max-content minmax(0,1fr)}.hero__title{font-size:min(86px,5.4vw)}}
+@media (max-width:900px){
+  .hero{min-height:0}
+  .hero__inner{padding-top:160px;padding-bottom:48px;gap:20px}
+  .hero__l,.hero__r{gap:20px}
+  .hero__title{font-size:min(54px,8.6vw);letter-spacing:-.5px}
+  .hero__sub{font-size:17px}
+  .hero__ctas{gap:12px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .ticker__track{animation:none}
+  .hero__media img{opacity:.55}
+}
+</style>
+
+<!-- ================= NAV ================= -->
+<header class="nav" id="nav">
+  <a href="index.html" class="logo" aria-label="PLG Acachet home">
+    <span class="logo__mark"><img src="assets/plg-mark.webp" alt=""></span>
+    <span class="logo__word">PLG ACACHET</span>
+  </a>
+  <nav class="menu" aria-label="Primary">
+    <a href="#top" class="is-active" aria-current="page">About us</a>
+    <a href="index.html#services">Service</a>
+    <a href="index.html#work">Our Work</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</header>
+
+<div class="mnav" id="mnav" aria-hidden="true">
+  <nav class="mnav__links" aria-label="Mobile">
+    <a href="#top" class="is-active">About us</a>
+    <div class="mnav__sub"><a href="#overview">Overview</a><a href="our-story.html">Our Story</a><a href="team.html">The Team</a><a href="join.html">Join Us</a></div>
+    <a href="index.html#services">Service</a>
+    <a href="index.html#work">Our Work</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <p class="mnav__foot">© 2026 PLG Acachet</p>
+</div>
+
+<main id="top">
+<!-- ================= HERO ================= -->
+<section class="hero" aria-label="About PLG Acachet">
+  <div class="hero__media" id="heroMedia"><img src="assets/mujtamae.webp" alt=""></div>
+  <div class="hero__fade"></div>
+  <img class="hero__mark" src="assets/brand-mark.svg" alt="">
+  <div class="hero__inner wrap">
+    <div class="hero__l">
+      <nav aria-label="Breadcrumb"><p class="crumb"><a href="index.html">Home</a><span>/</span><span aria-current="page">About Us</span></p></nav>
+      <h1 class="hero__title"><span class="ln"><span class="grad">Built to</span></span><span class="ln"><span class="grad">commercialise <em>sport.</em></span></span></h1>
+    </div>
+    <div class="hero__r">
+      <p class="hero__sub">PLG Acachet combines a UAE relationship network, brand activation and media production capability, and sports analytics — <b>organised around one objective: commercial return.</b></p>
+      <div class="hero__ctas">
+        <a href="index.html#work" class="btn"><span class="btn__label">See Our Work</span><span class="btn__arrow"><i class="arr"></i></span></a>
+        <a href="#contact" class="btn btn--ghost"><span class="btn__label">Talk to Us</span><span class="btn__arrow"><i class="arr"></i></span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<nav class="subnav" aria-label="About sections">
+  <div class="subnav__inner" id="subnav">
+    <a href="#overview">Overview</a>
+    <a href="#pillars">Three Pillars</a>
+    <a href="#mujtamae">Mujtamae</a>
+    <a href="#vision">Vision &amp; Mission</a>
+    <a href="#uae">Why the UAE</a>
+    <a href="#ownership">Our Ownership</a>
+    <span class="subnav__tag">Also in About: Our Story · The Team · Join Us</span>
+  </div>
+</nav>
+
+<!-- ================= OVERVIEW ================= -->
+<section class="overview" id="overview">
+  <div class="overview__grid">
+    <p class="eyebrow" data-reveal>Overview</p>
+    <p class="overview__lead" id="lead">PLG Acachet brings together Acachet’s relationships across UAE government and corporate bodies, PLG’s decade in top tier esports, sports and phygital event and media production, and Mujtamae’s sports analytics platform. The result is a consultancy that can structure a partnership, sell it, deliver it and measure it.</p>
+  </div>
+
+  <div class="merge" id="merge">
+    <div class="merge__row">
+      <div class="src"><span class="src__k">Relationships</span><span class="src__name">Acachet</span><p class="src__txt">Relationships across UAE government and corporate bodies.</p></div>
+      <div class="src"><span class="src__k">Production</span><span class="src__name">PLG</span><p class="src__txt">A decade in top tier esports, sports and phygital event and media production.</p></div>
+      <div class="src"><span class="src__k">Analytics</span><span class="src__name">Mujtamae</span><p class="src__txt">The sports analytics platform that measures the return.</p></div>
+    </div>
+    <svg class="merge__lines" viewBox="0 0 1200 110" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M200 0 C200 70, 600 40, 600 110"/>
+      <path class="hot" d="M600 0 L600 110"/>
+      <path d="M1000 0 C1000 70, 600 40, 600 110"/>
+    </svg>
+    <div class="result">
+      <div class="result__name"><span class="logo__mark"><img src="assets/plg-mark.webp" alt=""></span>PLG Acachet</div>
+      <ol class="steps" aria-label="What the consultancy does">
+        <li>Structure</li><li>Sell</li><li>Deliver</li><li>Measure</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ================= THREE PILLARS ================= -->
+<section class="pillars" id="pillars">
+  <div class="pillars__head">
+    <div>
+      <p class="eyebrow" data-reveal>Three Pillars</p>
+      <h2 class="h1" data-reveal style="--d:.08s">Relationships. Delivery. Proof.</h2>
+    </div>
+    <p class="pillars__note" data-reveal style="--d:.16s">What each programme stands on, from the first introduction to the final report.</p>
+  </div>
+  <div class="pcards">
+    <article class="pcard" data-reveal>
+      <div class="pcard__img"><img src="assets/bridge.webp" alt="UAE programme at Burj Khalifa"><span class="pcard__word">Relationships</span></div>
+      <div class="pcard__body">
+        <div class="pcard__meta"><b>Network</b><span class="pcard__arrow"><i class="arr"></i></span></div>
+        <p>An established network across UAE government, sovereign-adjacent institutions and major corporates, built over more than a decade.</p>
+      </div>
+    </article>
+    <article class="pcard" data-reveal style="--d:.08s">
+      <div class="pcard__img"><img src="assets/work-uci.webp" alt="Live event crowd"><span class="pcard__word">Delivery</span></div>
+      <div class="pcard__body">
+        <div class="pcard__meta"><b>Production</b><span class="pcard__arrow"><i class="arr"></i></span></div>
+        <p>Production, tournament operations and broadcast, delivered to an international standard.</p>
+      </div>
+    </article>
+    <article class="pcard" data-reveal style="--d:.16s">
+      <div class="pcard__img"><img src="assets/stat-4.webp" alt="Analytics on a device"><span class="pcard__word">Proof</span></div>
+      <div class="pcard__body">
+        <div class="pcard__meta"><b>Analytics</b><span class="pcard__arrow"><i class="arr"></i></span></div>
+        <p>An analytics platform that measures the return on every activation we run.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ================= MUJTAMAE ================= -->
+<section class="mujt" id="mujtamae">
+  <div class="mujt__grid">
+    <div class="mujt__img" id="mujtImg">
+      <img src="assets/stat-2.webp" alt="Athlete in helmet, Mujtamae analytics">
+      <div class="report" aria-hidden="true">
+        <div class="report__top"><b>Mujtamae · Programme view</b><span class="report__live"><i></i>Live</span></div>
+        <div class="bars">
+          <div class="bar"><span>Audience</span><span class="bar__t"><i></i></span></div>
+          <div class="bar"><span>Engagement</span><span class="bar__t"><i></i></span></div>
+          <div class="bar"><span>Commercial return</span><span class="bar__t"><i></i></span></div>
+        </div>
+        <p class="report__cap">Illustrative UI — sport · esports · phygital</p>
+      </div>
+    </div>
+    <div class="mujt__copy">
+      <div>
+        <p class="eyebrow" data-reveal>Mujtamae</p>
+        <h2 class="h1 grad" data-reveal style="--d:.08s">The analytics behind the programme.</h2>
+      </div>
+      <p class="body" data-reveal style="--d:.16s">Mujtamae is PLG Acachet’s sports analytics platform. It brings together sports communities and full-spectrum sports analytics, giving rights holders, brands and partners a measured view of audience, engagement and commercial return across sport, esports and phygital.</p>
+      <div class="fits" data-reveal style="--d:.2s">
+        <p class="fits__k">Where it fits</p>
+        <div class="fit"><b>Strategy &amp; Consulting</b><span>Models audience, engagement and commercial return before a partnership is structured and taken to market.</span></div>
+        <div class="fit"><b>Events &amp; Activations</b><span>Measures every activation live and after the event, against the objectives agreed in the deal.</span></div>
+      </div>
+      <a href="#contact" class="btn" data-reveal style="--d:.24s"><span class="btn__label">Request a Sample Report</span><span class="btn__arrow"><i class="arr"></i></span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= VISION & MISSION ================= -->
+<section class="vm" id="vision">
+  <img class="vm__mark" src="assets/brand-mark.svg" alt="">
+  <div class="vm__head">
+    <p class="eyebrow" data-reveal>Vision &amp; Mission</p>
+    <h2 class="h1 grad" data-reveal style="--d:.08s">Why we exist.</h2>
+  </div>
+  <div class="vm__grid">
+    <div class="vm__item" data-reveal>
+      <p class="vm__k">Vision</p>
+      <p class="vm__txt grad">To be the commercial partner that rights holders and brands trust to move between the UAE and the world.</p>
+    </div>
+    <div class="vm__item" data-reveal style="--d:.12s">
+      <p class="vm__k">Mission</p>
+      <p class="vm__txt grad">To commercialise third-party IP through sponsorship sales, partnerships and media — and to show the return.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHY THE UAE ================= -->
+<section class="uae" id="uae">
+  <div class="uae__bg" id="uaeBg"><img src="assets/bridge.webp" alt=""></div>
+  <div class="uae__shade"></div>
+  <div class="uae__inner">
+    <div>
+      <p class="eyebrow" data-reveal>Why The UAE?</p>
+      <h2 class="h1 grad" data-reveal style="--d:.08s">A market in its own right. A base for every region.</h2>
+    </div>
+    <p class="body" data-reveal style="--d:.16s">The UAE is one of the world’s fastest-growing sports markets, with major international properties, a young and digitally engaged population, and sustained national investment in technology. It is a significant market in its own right, and a strong base from which to work across regions.</p>
+  </div>
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker__track">
+      <div class="ticker__set"><span>One of the fastest-growing sports markets</span><i></i><span>Major international properties</span><i></i><span>Young, digitally engaged population</span><i></i><span>Sustained investment in technology</span><i></i></div>
+      <div class="ticker__set"><span>One of the fastest-growing sports markets</span><i></i><span>Major international properties</span><i></i><span>Young, digitally engaged population</span><i></i><span>Sustained investment in technology</span><i></i></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= OUR OWNERSHIP ================= -->
+<section class="own" id="ownership">
+  <div class="own__grid">
+    <div class="own__copy">
+      <div>
+        <p class="eyebrow" data-reveal>Our Ownership</p>
+        <h2 class="h1" data-reveal style="--d:.08s">Part of an established group.</h2>
+      </div>
+      <p class="body" data-reveal style="--d:.16s">PLG Acachet is part of Muller &amp; Phipps Middle East Group Holdings (M&amp;P Group ME), a technology distribution group with sales, marketing and distribution operations across the UAE and wider MEA region. M&amp;P Group ME is part of The Getz Group, an international marketing, distribution and sourcing group founded in 1852 and operating in more than 50 countries.</p>
+      <div class="facts" data-reveal style="--d:.2s">
+        <div class="fact"><b data-count="1852" data-plain>1852</b><span>Getz Group founded</span></div>
+        <div class="fact"><b data-count="50" data-suffix="+">50+</b><span>Countries</span></div>
+        <div class="fact"><b>UAE · MEA</b><span>Regional presence</span></div>
+      </div>
+      <p class="own__close" data-reveal style="--d:.24s">For rights holders and brands, this means regional scale and the backing of an established international group.</p>
+    </div>
+
+    <div class="ledger" id="nest" role="figure" aria-label="Group structure: The Getz Group, which includes M&amp;P Group ME, which includes PLG Acachet">
+      <div class="box box--0" style="--i:0">
+        <div class="box__head">
+          <p class="box__meta"><i></i><b>Parent group</b><span>Est. 1852</span></p>
+          <h3 class="box__name">The Getz Group</h3>
+          <p class="box__txt">International marketing, sales, distribution, sourcing, manufacturing and licensing, across more than 50 countries.</p>
+          <p class="box__fig">50+<small>Countries</small></p>
+        </div>
+        <div class="box box--1" style="--i:1">
+          <div class="box__head">
+            <p class="box__meta"><i></i><b>Regional holding</b><span>Technology distribution</span></p>
+            <h3 class="box__name">M&amp;P Group ME</h3>
+            <p class="box__txt">Technology distribution across the UAE and MEA. Provides regional scale and presence.</p>
+            <p class="box__fig">MEA<small>Region</small></p>
+          </div>
+          <div class="box box--2" style="--i:2">
+            <div class="box__head">
+              <p class="box__meta"><i></i><b>Our company</b><span>Sports, phygital &amp; media</span></p>
+              <h3 class="box__name">PLG Acachet</h3>
+              <p class="box__txt">Sports, phygital and media consultancy, based in the UAE.</p>
+              <p class="box__fig">UAE<small>Home base</small></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MORE ABOUT US ================= -->
+<section class="more" id="more">
+  <p class="eyebrow" data-reveal>More about us</p>
+  <h2 class="h1" data-reveal style="--d:.08s">The story, the people, the roles.</h2>
+  <div class="pan">
+    <a href="our-story.html" class="pn" data-reveal><img src="assets/mujtamae.webp" alt=""><span class="pn__ov"><span class="pn__t">Our Story<span aria-hidden="true"><i class="arr"></i></span></span><span class="pn__d">How we got here. Three businesses. One commercial focus.</span></span></a>
+    <a href="team.html" class="pn" data-reveal style="--d:.08s"><img src="assets/stat-1.webp" alt=""><span class="pn__ov"><span class="pn__t">The Team<span aria-hidden="true"><i class="arr"></i></span></span><span class="pn__d">The people behind PLG Acachet’s commercial, delivery and analytics work — based in the UAE, working internationally.</span></span></a>
+    <a href="join.html" class="pn" data-reveal style="--d:.16s"><img src="assets/service-card.webp" alt=""><span class="pn__ov"><span class="pn__t">Join Us<span aria-hidden="true"><i class="arr"></i></span></span><span class="pn__d">We look for commercial judgement and delivery discipline — people who prefer evidence to assertion.</span></span></a>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="cta" id="contact">
+  <img class="cta__bg" src="assets/contact-bg.webp" alt="">
+  <div class="cta__grad"></div>
+  <div class="cta__inner">
+    <p class="eyebrow" data-reveal>Start a Conversation</p>
+    <h2 class="h1" data-reveal style="--d:.08s">Your next move starts here.</h2>
+    <p class="lede" data-reveal style="--d:.16s">A rights holder with IP to commercialise. A brand looking for the right property. Tell us what you’re working on.</p>
+    <a href="index.html#contact" class="btn" data-reveal style="--d:.24s"><span class="btn__label">Talk to Us</span><span class="btn__arrow"><i class="arr"></i></span></a>
+  </div>
+</section>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="footer__row">
+    <a href="index.html" class="logo"><span class="logo__mark"><img src="assets/plg-mark.webp" alt=""></span><span class="logo__word">PLG ACACHET</span></a>
+    <nav class="footer__nav" aria-label="Footer"><a href="#top">About</a><a href="index.html#services">Service</a><a href="index.html#work">Our work</a><a href="#contact">Contact</a></nav>
+    <div class="footer__social"><a href="#" aria-label="Instagram"><img src="assets/icon-instagram.svg" alt=""></a><a href="#" aria-label="LinkedIn"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a></div>
+    <p class="footer__copy">© 2026 PLG Acachet. All rights reserved.</p>
+    <div class="footer__legal"><a href="#">Privacy</a><a href="#">Terms &amp; Conditions</a></div>
+  </div>
+</footer>
+
+<script>
+document.documentElement.classList.add('js');
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isMobile=()=>matchMedia('(max-width:900px)').matches;
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const nav=document.getElementById('nav');
+function setBtnText(label,t){label.innerHTML='';const r=document.createElement('span');r.className='btn__roll';r.dataset.text=t;r.textContent=t;label.appendChild(r)}
+document.querySelectorAll('.btn__label').forEach(l=>setBtnText(l,l.textContent.trim()));
+
+/* mobile menu */
+const burger=document.getElementById('burger'),mnav=document.getElementById('mnav');
+function setMenu(open){document.body.classList.toggle('menu-open',open);burger.setAttribute('aria-expanded',open);burger.setAttribute('aria-label',open?'Close menu':'Open menu');mnav.setAttribute('aria-hidden',!open)}
+burger.addEventListener('click',()=>setMenu(!document.body.classList.contains('menu-open')));
+mnav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+addEventListener('keydown',e=>{if(e.key==='Escape')setMenu(false)});
+
+/* reveal: only items below the first screen start hidden */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.remove('pre');e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('[data-reveal]').forEach(el=>{
+  if(!reduce && el.getBoundingClientRect().top>innerHeight) el.classList.add('pre');
+  io.observe(el);
+});
+document.querySelectorAll('#merge,#mujtImg,#nest,#nest .nest').forEach(el=>io.observe(el));
+
+/* count-up for ownership facts */
+const factIO=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;factIO.unobserve(e.target);
+  e.target.querySelectorAll('[data-count]').forEach(el=>{const end=+el.dataset.count,suf=el.dataset.suffix||'',start=el.dataset.plain!==undefined?end-60:0,dur=reduce?0:1400,t0=performance.now();
+    (function tick(t){const p=dur?clamp((t-t0)/dur):1,k=1-Math.pow(1-p,3);el.textContent=Math.round(start+(end-start)*k)+suf;if(p<1)requestAnimationFrame(tick)})(t0)})}),{threshold:.5});
+document.querySelectorAll('.facts').forEach(f=>factIO.observe(f));
+
+/* overview lead: words light up with scroll; key phrase in accent */
+const lead=document.getElementById('lead');
+const toks=lead.textContent.trim().split(/\s+/);
+const tailStart=toks.lastIndexOf('structure');
+lead.innerHTML=toks.map((w,i)=>`<span class="w${i>=tailStart?' hl':''}">${w}</span>`).join(' ');
+const words=[...lead.querySelectorAll('.w')];
+
+/* sub-nav active state */
+const subLinks=[...document.querySelectorAll('#subnav a')];
+const secIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)subLinks.forEach(l=>l.classList.toggle('is-active',l.getAttribute('href')==='#'+e.target.id))}),{rootMargin:'-45% 0px -50% 0px'});
+['overview','pillars','mujtamae','vision','uae','ownership'].forEach(id=>secIO.observe(document.getElementById(id)));
+
+/* logo turns dark over white bands */
+const lightSecs=[...document.querySelectorAll('.pillars,.own,.cta,.footer')];
+const navLogo=nav.querySelector('.logo');
+function updateNavTone(){const r=navLogo.getBoundingClientRect(),cy=r.top+r.height/2;nav.classList.toggle('on-light',lightSecs.some(s=>{const b=s.getBoundingClientRect();return b.top<=cy&&b.bottom>=cy}))}
+
+const heroMedia=document.getElementById('heroMedia'),uae=document.getElementById('uae'),uaeBg=document.getElementById('uaeBg');
+let lastY=scrollY;
+function onScroll(){
+  const y=scrollY,vh=innerHeight;
+  nav.classList.toggle('is-scrolled',y>40);
+  if(!document.body.classList.contains('menu-open')){
+    if(y<=120||y<lastY-2)nav.classList.remove('is-hidden');
+    else if(y>lastY+2)nav.classList.add('is-hidden');
+  }
+  lastY=y;
+  updateNavTone();
+  if(!reduce&&y<vh*1.2)heroMedia.style.transform=`translate3d(0,${y*.35}px,0)`;
+  if(!reduce){const r=uae.getBoundingClientRect();if(r.bottom>0&&r.top<vh){const p=(vh-r.top)/(vh+r.height);uaeBg.style.transform=`translate3d(0,${(p-.5)*-80}px,0)`}}
+  const lr=lead.getBoundingClientRect();
+  const sp=clamp((vh*.8-lr.top)/(lr.height+vh*.3));
+  const n=reduce?words.length:Math.round(sp*words.length);
+  words.forEach((w,i)=>w.classList.toggle('on',i<n));
+}
+addEventListener('scroll',()=>requestAnimationFrame(onScroll),{passive:true});
+addEventListener('resize',onScroll);onScroll();
+</script>
+
+</body></html>
