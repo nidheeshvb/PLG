@@ -463,6 +463,28 @@ body.drawer-open{overflow:hidden}
   *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
   .hero__media img{opacity:.42}
 }
+
+/* ================= BUTTON HOVER (all pages) =================
+   Simple colour change on hover; the label stays put and only the arrow moves. */
+.btn__roll{transform:none!important;transition:none!important}
+.btn__roll::after{display:none}
+.btn,.btn[data-reveal].in{transition:opacity .9s var(--ease-out),transform .6s var(--ease-out),background-color .35s ease,color .35s ease,box-shadow .35s ease;transition-delay:var(--d,0s),0s,0s,0s,0s}
+.btn:hover,.btn:focus-visible{transform:none;box-shadow:none;background-color:#e55a1c}
+.btn.btn--ghost:hover,.btn.btn--ghost:focus-visible{background-color:#fff;box-shadow:inset 0 0 0 1px #fff}
+.btn.btn--ghost:hover .btn__label,.btn.btn--ghost:focus-visible .btn__label{color:var(--ink)}
+.btn.btn--ghost:hover .btn__arrow,.btn.btn--ghost:focus-visible .btn__arrow{color:var(--ink)}
+.btn.btn--dark:hover,.btn.btn--dark:focus-visible{background-color:#1a2b40;box-shadow:none}
+.btn__label{transition:color .35s ease}
+.btn__arrow{transition:color .35s ease}
+/* arrow: the current one flies out to the top-right while a fresh one slides in from the bottom-left */
+.btn__arrow .arr{transition:transform .45s var(--ease-out)}
+.btn__arrow::after{transition:transform .45s var(--ease-out)}
+.btn:hover .btn__arrow::after,.btn:focus-visible .btn__arrow::after{transition-delay:.08s}
+
+/* button arrow: turns to point straight ahead on hover, the same move as the card arrows */
+.btn__arrow::after{display:none}
+.btn__arrow .arr,.btn:hover .btn__arrow .arr,.btn:focus-visible .btn__arrow .arr{transition:transform .45s var(--ease-out)}
+.btn:hover .btn__arrow .arr,.btn:focus-visible .btn__arrow .arr{transform:rotate(45deg)}
 </style>
 
 <!-- ================= NAV ================= -->
