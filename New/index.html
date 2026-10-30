@@ -1,0 +1,948 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Sports, phygital and media consultancy | PLG Acachet</title>
+<meta name="description" content="PLG Acachet is a sports, phygital and media consultancy, commercialising sports IP for rights holders and brokering the right deal for brands, in the UAE and globally.">
+<meta name="theme-color" content="#010202">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PLG Acachet">
+<meta property="og:title" content="Sports, phygital and media consultancy | PLG Acachet">
+<meta property="og:description" content="PLG Acachet is a sports, phygital and media consultancy, commercialising sports IP for rights holders and brokering the right deal for brands, in the UAE and globally.">
+<meta property="og:image" content="assets/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" as="image" href="assets/hero-poster.webp" fetchpriority="high">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* base reset */
+:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}
+/* =========================================================
+   TOKENS (from Figma variables)
+   ========================================================= */
+:root{
+  color-scheme:dark;
+  --bg:#010202;
+  --bg-2:#0d0d0e;
+  --bg-3:#0c0d0e;
+  --accent:#ff7433;
+  --accent-hover:#ff8a52;
+  --ink:#000d1d;
+  --c5:#ececec;
+  --body:#e2e2e2;
+  --muted:#70746e;
+  --card-ink:#252b27;
+  --gutter:72px;
+  --ease-out:cubic-bezier(.22,1,.36,1);
+  --ease-io:cubic-bezier(.65,0,.35,1);
+  --h1:56px; --label:24px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--body);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+body.menu-open{overflow:hidden}
+
+/* ---------- Type ---------- */
+.eyebrow{font-weight:500;font-size:var(--label);line-height:1.25;color:var(--accent)}
+.h1{font-weight:700;font-size:var(--h1);line-height:1.15;letter-spacing:2px}
+.grad{background:linear-gradient(114.8deg,#fff .2%,#aeaeae 68%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.body{font-size:18px;line-height:1.3;color:var(--body)}
+.body p+p{margin-top:0}
+
+/* ---------- Button (PLG / Button) ---------- */
+.btn{position:relative;display:inline-flex;align-items:center;gap:12px;height:52px;padding:12px 24px;border-radius:96px;background:var(--accent);overflow:hidden;isolation:isolate}
+.btn,.btn[data-reveal].in{transition:opacity .9s var(--ease-out),transform .6s var(--ease-out),background-color .6s var(--ease-out),box-shadow .6s var(--ease-out);transition-delay:var(--d,0s),0s,0s,0s}
+.btn__label{position:relative;display:inline-block;height:20px;overflow:hidden;font-weight:600;font-size:18px;line-height:20px;text-transform:uppercase;color:var(--c5);white-space:nowrap}
+/* label roll: the text slides up and an identical copy follows from below */
+.btn__roll{display:block;transition:transform .7s var(--ease-out)}
+.btn__roll::after{content:attr(data-text);position:absolute;left:0;top:100%}
+.btn:hover .btn__roll,.btn:focus-visible .btn__roll{transform:translateY(-100%)}
+/* Arrow icon (Arrow.svg) — masked so it takes the surrounding text colour */
+.arr{display:inline-block;flex:none;width:11px;height:11px}
+.arr,.btn__arrow::after{background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 11'%3E%3Cpath d='M1.10813 10.8948L0.00017786 9.78689L8.23881 1.53405H1.87518L1.88938 -4.48227e-05H10.8809V9.00564H9.33256L9.34677 2.642L1.10813 10.8948Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 11'%3E%3Cpath d='M1.10813 10.8948L0.00017786 9.78689L8.23881 1.53405H1.87518L1.88938 -4.48227e-05H10.8809V9.00564H9.33256L9.34677 2.642L1.10813 10.8948Z'/%3E%3C/svg%3E") center/contain no-repeat}
+/* arrow: flies out to the top-right while a second one glides in from the bottom-left */
+.btn__arrow{position:relative;color:var(--ink);width:20px;height:24px;display:inline-flex;align-items:center;justify-content:center;overflow:hidden}
+.btn__arrow .arr{transition:transform .7s var(--ease-out)}
+.btn__arrow::after{content:"";position:absolute;left:50%;top:50%;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;transform:translate(-20px,20px);transition:transform .7s var(--ease-out)}
+.btn:hover .btn__arrow .arr,.btn:focus-visible .btn__arrow .arr{transform:translate(20px,-20px)}
+.btn:hover .btn__arrow::after,.btn:focus-visible .btn__arrow::after{transform:none;transition-delay:.06s}
+.btn:hover{background-color:var(--accent-hover);box-shadow:0 14px 34px -14px rgba(255,116,51,.65);transform:translateY(-2px)}
+.btn:active{transform:translateY(0) scale(.98);transition-duration:.15s}
+
+/* ---------- Logo ---------- */
+.logo{display:flex;align-items:center;gap:8px;height:44px}
+.logo__mark{position:relative;width:42px;height:40px;overflow:hidden;flex:none}
+.logo__mark img{position:absolute;height:135.14%;width:153.85%;left:-26.15%;top:0;max-width:none}
+.logo__word{font-weight:700;font-size:16px;line-height:20px;color:#fff;white-space:nowrap}
+.nav .logo__word{transition:color .3s}
+.nav.on-light .logo__word{color:var(--ink)}
+.menu-open .nav.on-light .logo__word{color:#fff}
+.nav.on-light .burger span{background:var(--ink)}
+.nav.on-light .burger{background:rgba(255,255,255,.7)}
+.menu-open .nav.on-light .burger span{background:#fff}
+.menu-open .nav.on-light .burger{background:transparent}
+
+/* =========================================================
+   NAV
+   ========================================================= */
+.nav{position:fixed;inset:44px 138px auto 137px;z-index:50;display:flex;align-items:center;justify-content:space-between;transition:opacity .45s var(--ease-out),translate .5s var(--ease-out),top .4s var(--ease-out);animation:navIn 1s .3s var(--ease-out) backwards}
+.nav.is-hidden{opacity:0;translate:0 -12px;pointer-events:none}
+.nav.is-scrolled{top:16px}
+@keyframes navIn{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:none}}
+.menu{display:flex;gap:4px;align-items:center;padding:5px;border-radius:100px;background:rgba(0,0,0,.7);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:background .4s}
+.nav.is-scrolled .menu{background:rgba(10,10,10,.85);box-shadow:0 10px 30px -12px rgba(0,0,0,.6)}
+.menu a{display:block;padding:12px 18px;font-size:16px;line-height:1;color:#aaa;border-radius:100px;transition:color .25s,background .3s var(--ease-out)}
+.menu a:hover{color:#fff;background:rgba(255,255,255,.12)}
+.menu a:active{background:rgba(255,255,255,.18)}
+.burger{display:none;width:48px;height:48px;border-radius:100px;background:rgba(0,0,0,.7);backdrop-filter:blur(14px);position:relative;transition:background .3s}
+.menu-open .nav{z-index:65;translate:none}
+.menu-open .burger{background:transparent;backdrop-filter:none}
+.burger span{position:absolute;left:14px;width:20px;height:1.6px;background:#fff;border-radius:2px;transition:transform .45s var(--ease-out),opacity .3s,top .45s var(--ease-out)}
+.burger span:nth-child(1){top:17px}.burger span:nth-child(2){top:23.2px}.burger span:nth-child(3){top:29.4px}
+.menu-open .burger span:nth-child(1){top:23.2px;transform:rotate(45deg)}
+.menu-open .burger span:nth-child(2){opacity:0;transform:scaleX(0)}
+.menu-open .burger span:nth-child(3){top:23.2px;transform:rotate(-45deg)}
+
+/* Mobile overlay (Figma 520:507) */
+.mnav{position:fixed;inset:0;z-index:60;background:#000;padding:84px 24px 20px;display:flex;flex-direction:column;clip-path:circle(0 at calc(100% - 48px) 44px);transition:clip-path .7s var(--ease-io);visibility:hidden}
+.menu-open .mnav{clip-path:circle(150% at calc(100% - 48px) 44px);visibility:visible}
+.mnav__links{margin-top:28px;display:flex;flex-direction:column;gap:30px}
+.mnav__links a{font-size:24px;line-height:34px;color:#fff;opacity:0;transform:translateY(24px);transition:opacity .5s,transform .6s var(--ease-out),color .2s;width:max-content}
+.mnav__links a:hover{color:var(--accent)}
+.menu-open .mnav__links a{opacity:1;transform:none}
+.menu-open .mnav__links a:nth-child(1){transition-delay:.25s}
+.menu-open .mnav__links a:nth-child(2){transition-delay:.32s}
+.menu-open .mnav__links a:nth-child(3){transition-delay:.39s}
+.menu-open .mnav__links a:nth-child(4){transition-delay:.46s}
+.mnav__foot{margin-top:auto;font-size:14px;color:#777;opacity:0;transition:opacity .5s .5s}
+.menu-open .mnav__foot{opacity:1}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+.hero{position:relative;height:859px;overflow:hidden;background:#000}
+.hero__media{position:absolute;inset:0;will-change:transform}
+.hero__media img{width:100%;height:100%;object-fit:cover;animation:heroZoom 2.6s var(--ease-out) both}
+@keyframes heroZoom{from{transform:scale(1.14);opacity:0;filter:blur(6px)}to{transform:scale(1);opacity:1;filter:none}}
+.hero__fade{position:absolute;inset:0;background:linear-gradient(180deg,transparent 17.52%,#000 100%)}
+.hero__img-m{display:none}
+.hero__video{display:block;width:100%;height:100%;object-fit:cover;animation:heroZoom 2.6s var(--ease-out) both}
+/* the reel is bright and carries its own captions: deepen the wash so the headline stays readable */
+.hero__media::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.38)}
+.vctl{position:absolute;right:max(var(--gutter),env(safe-area-inset-right,0px));bottom:36px;z-index:3;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.45);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.35);color:#fff;opacity:0;animation:fadeIn 1s 1.6s forwards;transition:background .3s,box-shadow .3s}
+.vctl:hover{background:var(--accent);box-shadow:none;color:var(--ink)}
+.vctl svg{width:12px;height:12px}
+.vctl .i-play,.vctl.paused .i-pause{display:none}
+.vctl.paused .i-play{display:block}
+
+/* hero text block — appears ~1.8s after load (JS adds .ready) */
+.hero__shade{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 48%,rgba(0,0,0,.55),rgba(0,0,0,.25) 70%,transparent);opacity:0;transition:opacity 1.6s var(--ease-out)}
+.hero__content{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px var(--gutter) 40px;will-change:opacity,transform}
+.hero__title{max-width:960px;font-weight:700;font-size:clamp(38px,5.2vw,72px);line-height:1.1;letter-spacing:1px;color:#eaeaea}
+.hero__title .hw{display:inline-block;opacity:0;filter:blur(12px);transform:translateY(45%);transition:opacity 1s var(--ease-out),transform 1.2s var(--ease-out),filter 1s var(--ease-out);transition-delay:calc(var(--i) * 75ms)}
+.hero__lede{margin-top:20px;max-width:900px;font-size:20px;line-height:1.4;letter-spacing:1.5px;color:#e2e2e2;opacity:0;transform:translateY(18px);transition:opacity 1s var(--ease-out) .65s,transform 1.2s var(--ease-out) .65s}
+.hero__ctas{margin-top:36px;display:flex;flex-wrap:wrap;justify-content:center;gap:16px 30px;opacity:0;transform:translateY(18px);transition:opacity 1s var(--ease-out) .9s,transform 1.2s var(--ease-out) .9s}
+.hero.ready .hero__shade{opacity:1}
+.hero.ready .hw{opacity:1;filter:none;transform:none}
+.hero.ready .hero__lede,.hero.ready .hero__ctas{opacity:1;transform:none}
+/* small + ghost button variants */
+.btn--sm{height:44px;padding:10px 20px;gap:10px}
+.btn--sm .btn__label{font-size:16px}
+.btn--ghost{background:transparent;box-shadow:inset 0 0 0 1px rgba(255,255,255,.75)}
+.btn--ghost .btn__arrow{color:#fff}
+.btn.btn--ghost:hover{background-color:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1px #fff,0 14px 34px -16px rgba(255,255,255,.35)}
+.scroll-cue{position:absolute;left:50%;bottom:36px;transform:translateX(-50%);width:26px;height:42px;border:1.5px solid rgba(255,255,255,.5);border-radius:20px;opacity:0;animation:fadeIn 1s 1.6s forwards}
+.scroll-cue::after{content:"";position:absolute;left:50%;top:8px;width:3px;height:8px;margin-left:-1.5px;border-radius:2px;background:var(--accent);animation:cue 1.8s infinite var(--ease-io)}
+@keyframes cue{0%{transform:translateY(0);opacity:1}70%{transform:translateY(14px);opacity:0}100%{opacity:0}}
+@keyframes fadeIn{to{opacity:1}}
+
+/* =========================================================
+   INTRO — Who we are
+   ========================================================= */
+.intro{display:flex;flex-wrap:wrap;align-items:center;gap:40px 8px;padding:24.5px 0 59px var(--gutter)}
+.intro__copy{flex:1 0 0;min-width:500px;max-width:720px;display:flex;flex-direction:column;gap:24px}
+.intro__copy .body{max-width:none;margin-top:20px}
+.intro__copy .btn{align-self:flex-start}
+.intro__media{flex:1 0 0;min-width:500px;max-width:693px;margin-left:auto;position:relative;aspect-ratio:693/531.5}
+.intro__media img{position:absolute;inset:0;width:100%;height:100%}
+.intro__media .img{object-fit:cover}
+
+/* =========================================================
+   SERVICES
+   ========================================================= */
+.services{background:#fff;padding:59px var(--gutter) 70px;display:flex;flex-direction:column;align-items:center;gap:50px}
+.services__head{width:576px;max-width:100%;color:#222}
+.services__head .h1{white-space:nowrap}
+.services__head .eyebrow{color:#222}
+.cards{width:100%;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px 12px}
+.card{width:auto;min-width:0;background:#fff;border-radius:12px;padding:15px;display:flex;flex-direction:column;gap:16px;filter:drop-shadow(0 4px 15px rgba(0,0,0,.08));transition:transform .5s var(--ease-out),filter .5s;cursor:pointer}
+.card:hover{transform:translateY(-8px);filter:drop-shadow(0 18px 30px rgba(0,0,0,.16))}
+.card__img{position:relative;height:400px;border-radius:8px;overflow:hidden}
+.card__img img{position:absolute;left:0;top:-1.93%;width:100%;height:103.86%;object-fit:cover;max-width:none;transition:transform .9s var(--ease-out)}
+.card:hover .card__img img{transform:scale(1.07)}
+.card__desc{position:absolute;inset:0;display:flex;align-items:flex-end;padding:20px 15px;background:linear-gradient(183.45deg,rgba(0,0,0,0) 2.26%,#000 102.91%);color:#e3e1e1;font-size:16px;line-height:1.3;opacity:0;transition:opacity .5s}
+.card__desc span{transform:translateY(16px);transition:transform .6s var(--ease-out)}
+.card:hover .card__desc{opacity:1}
+.card:hover .card__desc span{transform:none}
+.card__meta{display:flex;align-items:center;justify-content:space-between}
+.card__meta-l{display:flex;gap:24px;align-items:center;font-size:11.66px}
+.card__num{font-weight:500;color:var(--muted)}
+.card__name{color:var(--card-ink);text-transform:uppercase;transition:font-weight .2s}
+.card:hover .card__name{font-weight:600}
+.card__arrow{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;color:var(--card-ink);transition:transform .45s var(--ease-out),color .3s}
+.card:hover .card__arrow{transform:rotate(45deg);color:var(--accent)}
+.services__note{max-width:828px;text-align:center;font-size:18px;line-height:1.3;color:#000}
+
+/* =========================================================
+   STACKED PANELS — Global Bridge / Mujtamae
+   ========================================================= */
+.stack{position:relative;background:var(--bg-2)}
+.panel{position:sticky;top:0;min-height:100vh;display:flex;align-items:center;background:var(--bg-2)}
+.panel__inner{width:100%;display:flex;flex-wrap:wrap;align-items:center;gap:48px 80px;padding:56px 73px;transform-origin:50% 0;will-change:transform}
+.panel__img{flex:1 0 0;min-width:400px;max-width:567px;height:560px;border-radius:16px;overflow:hidden}
+.panel__img img{width:100%;height:100%;object-fit:cover;transform:scale(1.12);transition:transform 1.4s var(--ease-out)}
+.panel.in .panel__img img{transform:scale(1)}
+.panel__copy{flex:1 0 0;min-width:400px;max-width:760px;display:flex;flex-direction:column;gap:24px}
+.panel__copy .body{margin-top:-4px}
+.panel__shade{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none}
+
+/* =========================================================
+   STATS — pinned horizontal scroll
+   ========================================================= */
+.stats{position:relative;height:400vh;background:#000}
+.stats__sticky{position:sticky;top:0;height:100vh;overflow:hidden}
+.stats__track{display:flex;gap:0;height:100%;will-change:transform}
+.stat{position:relative;flex:none;width:100vw;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stat__bg{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;transform:scale(1.08);will-change:transform}
+.stat__txt{will-change:transform,opacity}
+.stat__bg--crop{object-fit:cover;object-position:50% 52%}
+.stat__txt{position:relative;text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center}
+.stat__num{font-weight:300;font-size:110px;line-height:94px;letter-spacing:-1.056px;color:var(--c5);font-variant-numeric:tabular-nums}
+.stat__lbl{font-size:26px;line-height:1.25;color:#e3e3e3;opacity:0;transform:translateY(14px);transition:opacity .6s .2s,transform .8s .2s var(--ease-out)}
+.stat.is-active .stat__lbl{opacity:1;transform:none}
+.stats__progress{position:absolute;left:50%;bottom:40px;transform:translateX(-50%);display:flex;gap:10px;z-index:2}
+.stats__progress button{width:28px;height:3px;border-radius:2px;background:rgba(255,255,255,.3);transition:background .3s,width .4s var(--ease-out)}
+.stats__progress button.on{background:var(--accent);width:48px}
+
+/* =========================================================
+   LOGO MARQUEE (Figma motion: 12s linear infinite)
+   ========================================================= */
+.logos{position:relative;height:226px;background:var(--bg-3);overflow:hidden;display:flex;align-items:center}
+.marquee{display:flex;width:max-content;animation:marquee 24s linear infinite}
+.logos:hover .marquee{animation-play-state:paused}
+@keyframes marquee{to{transform:translateX(-50%)}}
+.marquee__set{flex:none;display:flex;align-items:center;gap:120px;padding:0 60px}
+.marquee__set img{flex:none}
+.marquee__set img{width:auto;opacity:.75;transition:opacity .3s,transform .3s}
+.marquee__set img:hover{opacity:1;transform:scale(1.06)}
+.l-intel{height:38px}.l-sony{height:32px}.l-dell{height:50px}.l-ea{height:50px}.l-logi{height:46px}.l-kfc{height:39px}
+.logos::before,.logos::after{content:"";position:absolute;top:0;bottom:0;width:100px;z-index:2;pointer-events:none}
+.logos::before{left:0;background:linear-gradient(90deg,var(--bg-3) 26%,rgba(12,13,14,0) 92%)}
+.logos::after{right:0;background:linear-gradient(270deg,var(--bg-3) 26%,rgba(12,13,14,0) 92%)}
+
+/* =========================================================
+   CASE STUDIES
+   ========================================================= */
+.work{padding:66px var(--gutter) 36px;display:flex;flex-direction:column;align-items:center;gap:33px}
+.work__head{align-self:flex-start;width:727px;color:#d0d0d0}
+.work__head .eyebrow{color:#d0d0d0}
+.gallery{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:43.5px 64px;padding-top:18px}
+.proj{position:relative;height:min(860px,60vw);border-radius:16px;overflow:hidden;cursor:none;display:block}
+.proj--full{grid-column:1/-1}
+.proj img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease-out)}
+.proj:hover img{transform:scale(1.05)}
+.proj__overlay{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;gap:16px;padding:60px 40px;background:linear-gradient(180deg,rgba(0,0,0,0) 0%,#000 100%);transition:background .6s}
+.proj:hover .proj__overlay{background:linear-gradient(180deg,rgba(0,0,0,0) 25%,rgba(0,0,0,.95) 100%)}
+.proj__title{font-weight:500;font-size:32px;line-height:1.1;color:#989898;transition:color .4s,transform .6s var(--ease-out)}
+.proj:hover .proj__title{color:#fff}
+.proj__more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .6s var(--ease-out)}
+.proj__more>div{overflow:hidden}
+.proj:hover .proj__more{grid-template-rows:1fr}
+.proj__desc{font-weight:300;font-size:16px;line-height:1.3;color:#c1c1c1;max-width:520px;opacity:0;transition:opacity .5s .1s}
+.proj__cta{margin-top:16px;font-weight:300;font-size:20px;line-height:24px;letter-spacing:1px;color:#fff;opacity:0;transition:opacity .5s .2s}
+.proj__cta span{color:var(--accent);margin-left:6px;display:inline-flex;vertical-align:middle}
+.proj__cta .arr{width:12px;height:12px}
+.cursor .arr{width:10px;height:10px;margin-left:6px}
+.proj:hover .proj__desc,.proj:hover .proj__cta{opacity:1}
+
+/* custom cursor for case studies */
+.cursor{position:fixed;left:0;top:0;z-index:70;width:96px;height:96px;margin:-48px 0 0 -48px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;letter-spacing:1px;text-transform:uppercase;pointer-events:none;transform:scale(0);transition:transform .35s var(--ease-out)}
+.cursor.on{transform:scale(1)}
+
+/* =========================================================
+   BRAND STATEMENT
+   ========================================================= */
+.statement{position:relative;height:487px;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:0 245px 0 192px}
+.statement__mark{position:absolute;height:508px;width:auto;opacity:.9;pointer-events:none}
+.statement__mark--l{left:-7.27%;top:-21.97%}
+.statement__mark--r{right:-18.78%;top:-21.97%}
+.statement p{position:relative;font-weight:600;font-size:46px;line-height:1.3;letter-spacing:2px;text-align:center;color:#eaeaea}
+.statement .w{opacity:.16;transition:opacity .35s}
+.statement .w.on{opacity:1}
+
+/* =========================================================
+   CONTACT
+   ========================================================= */
+.contact{position:relative;height:702px;margin-top:-1px;overflow:hidden;background:#fff;color:#000}
+.contact__bg{position:absolute;left:0;top:-2px;width:100%;height:calc(100% + 2px);max-width:none;object-fit:cover;object-position:right center}
+.contact__blur{position:absolute;left:94px;top:161px;width:553px;height:502px;background:#fff;filter:blur(92px);opacity:.8}
+.contact__grad{position:absolute;left:-3px;top:0;width:640px;height:702px;background:linear-gradient(90deg,#fff -3%,rgba(255,255,255,0) 100%)}
+.contact__inner{position:relative;padding:67px 0 0 var(--gutter);max-width:741px}
+.contact__inner .h1{color:#000}
+.contact__lede{margin-top:8px;font-size:20px;line-height:30px;max-width:600px}
+.form{margin-top:40px;display:grid;grid-template-columns:281px 281px;gap:28px 35px;padding-left:4px}
+.field{display:flex;flex-direction:column;gap:6px;position:relative}
+.field label{font-weight:600;font-size:14px;line-height:1.2}
+.field input,.field textarea{font:inherit;font-size:12px;line-height:1.2;color:#000;background:transparent;border:0;border-bottom:.5px solid #7b7b7b;padding:10px 0;outline:none;resize:none;border-radius:0}
+.field input::placeholder,.field textarea::placeholder{color:#575757}
+.field::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1.5px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease-out)}
+.field:focus-within::after{transform:scaleX(1)}
+.field.err::after{transform:scaleX(1);background:#d93025}
+.field .msg{position:absolute;top:100%;left:0;margin-top:4px;font-size:11px;color:#d93025;opacity:0;transform:translateY(-4px);transition:.3s}
+.field.err .msg{opacity:1;transform:none}
+.form__actions{grid-column:1/-1;margin-top:8px;display:flex;align-items:center;gap:20px}
+.form__ok{font-size:14px;color:#1d7d3a;opacity:0;transform:translateX(-8px);transition:.4s var(--ease-out)}
+.form.sent .form__ok{opacity:1;transform:none}
+.contact__photo-m{display:none}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+.footer{background:#fff;color:#000;padding:14px 84px 13px 85px}
+.footer__row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 24px}
+.footer .logo__word{color:var(--ink)}
+.footer__nav{display:flex;gap:40px;font-size:16px;line-height:30px}
+.footer a{position:relative;transition:color .25s}
+.footer__nav a::after,.footer__legal a::after{content:"";position:absolute;left:0;bottom:2px;height:1px;width:100%;background:var(--accent);transform:scaleX(0);transform-origin:right;transition:transform .4s var(--ease-out)}
+.footer__nav a:hover::after,.footer__legal a:hover::after{transform:scaleX(1);transform-origin:left}
+.footer__social{display:flex;gap:16px}
+.footer__social a{width:30px;height:30px;transition:transform .3s var(--ease-out)}
+.footer__social a:hover{transform:translateY(-3px)}
+.footer__social img{width:30px;height:30px}
+.footer__copy,.footer__legal a{font-size:16px;line-height:30px;color:#888}
+.footer__legal{display:flex;gap:24px}
+.footer__legal a:hover{color:#000}
+
+/* =========================================================
+   REVEAL
+   ========================================================= */
+[data-reveal]{opacity:0;transform:translateY(32px);transition:opacity .9s var(--ease-out),transform 1.1s var(--ease-out);transition-delay:var(--d,0s)}
+[data-reveal].in{opacity:1;transform:none}
+[data-reveal="fade"]{transform:none}
+[data-reveal="scale"]{transform:scale(.94)}
+[data-reveal="scale"].in{transform:none}
+
+/* =========================================================
+   RESPONSIVE — tablet
+   ========================================================= */
+@media (max-width:1280px){
+  :root{--gutter:48px}
+  .nav{inset:32px 48px auto 48px}
+  .cards{justify-content:center}
+  .statement{padding:0 120px}
+  .contact__inner{max-width:680px}
+}
+@media (max-width:1100px){
+  .intro{padding-right:var(--gutter)}
+  .intro__copy,.intro__media{min-width:100%;max-width:none}
+  .panel__img,.panel__copy{min-width:100%;max-width:none}
+  .panel__img{height:440px}
+  .gallery{gap:32px}
+  .statement p{font-size:36px}
+}
+
+/* =========================================================
+   RESPONSIVE — mobile (Figma 516:5191, 390 wide)
+   ========================================================= */
+@media (max-width:900px){
+  :root{--gutter:24px;--h1:34px;--label:16px}
+  .nav{inset:20px 24px auto 24px}
+  .nav.is-scrolled{top:12px}
+  .menu{display:none}
+  .burger{display:block}
+  .h1{letter-spacing:0}
+  .intro .h1,.panel .h1{color:#eaeaea}
+  .grad{background:none;color:#eaeaea}
+
+  .hero{height:640px}
+  .hero__lede{font-size:16px;letter-spacing:.3px}
+  .hero__ctas{flex-direction:column;align-items:center}
+  .hero__img-d{display:none}
+  .hero__img-m{display:block}
+  .hero__media img{object-position:50% 50%}
+  .scroll-cue{display:none}
+
+  .intro{flex-direction:column;align-items:stretch;gap:32px;padding:40px 24px 48px}
+  .intro__copy .body{margin-top:24px}
+  .intro__copy{gap:24px}
+  .intro__copy .btn{align-self:flex-start}
+  .intro__media{width:100%;margin:0}
+
+  .services{padding:52px 0 40px;gap:24px;align-items:stretch}
+  .services__head{width:auto;padding:0 24px}
+  .services__head .h1{white-space:normal}
+  .cards{display:flex;flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 24px;padding:20px 24px 30px;gap:14px;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;touch-action:pan-x pan-y}
+  .cards::after{content:"";flex:0 0 10px}
+  .cards::-webkit-scrollbar{display:none}
+  .card{width:calc(100vw - 96px);max-width:340px;flex:none;scroll-snap-align:start;filter:drop-shadow(0 4px 15px rgba(0,0,0,.28));gap:20px}
+  .card:hover{transform:none}
+  .card__desc{opacity:1}
+  .card__desc span{transform:none}
+  .card__name{font-weight:600}
+  .services__note{padding:0 24px;color:#222}
+  .swipe-dots{display:flex}
+
+  .stack{background:var(--bg)}
+  .panel{position:relative;min-height:0;background:var(--bg)}
+  .panel__inner{flex-direction:column;align-items:stretch;gap:32px;padding:56px 24px;transform:none!important}
+  .panel__img{height:338px;min-width:0}
+  .panel__copy{min-width:0;gap:24px}
+  .panel__copy .btn{align-self:flex-start}
+  .panel__shade{display:none}
+
+  /* stats: same pinned horizontal scroll as desktop */
+  .stats{height:350vh}
+  .stats__sticky{height:100vh;height:100svh}
+  .stat__num{font-size:84px;line-height:80px}
+  .stat__lbl{font-size:22px}
+  .stats__progress{bottom:28px}
+
+  .logos{height:70px;padding:5px 24px}
+  .marquee{animation-duration:16s}
+  .marquee__set{gap:36px;padding:0 18px}
+  .l-intel{height:15.4px}.l-sony{height:9.24px}.l-dell{height:28px}.l-ea{height:28px}.l-logi{height:20.24px}.l-kfc{height:13.86px}
+  .logos::before,.logos::after{width:40px}
+
+  .work{padding:56px 0 32px;gap:21px}
+  .work__head{width:auto;padding:0 24px}
+  .gallery{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:19px;padding:0 24px 0 20px;scrollbar-width:none}
+  .gallery::-webkit-scrollbar{display:none}
+  .proj{flex:none;width:325px;max-width:calc(100vw - 60px);height:470px;scroll-snap-align:center;cursor:pointer}
+  .proj__overlay{padding:40px 20px}
+  .proj__title{color:#c1c1c1;font-size:32px;line-height:1.25}
+  .proj__more{grid-template-rows:1fr}
+  .proj__desc,.proj__cta{opacity:1}
+  .cursor{display:none}
+
+  .statement{height:auto;padding:40px 32px}
+  .statement__mark--l{height:210px;left:-30px;top:20px}
+  .statement__mark--r{display:none}
+  .statement p{font-size:26px;letter-spacing:0}
+
+  .contact{height:auto}
+  .contact__bg,.contact__blur,.contact__grad{display:none}
+  .contact__inner{padding:56px 24px 40px;max-width:none}
+  .contact__inner .h1{color:#222}
+  .contact__lede{margin-top:16px;font-size:18px;line-height:1.5}
+  .form{grid-template-columns:1fr;gap:24px;padding:0;margin-top:32px}
+  .field{gap:8px}
+  .field input,.field textarea{font-size:16px;padding:12px 0;min-height:48px}
+  .form__actions{flex-direction:column;align-items:flex-start}
+  .contact__photo-m{display:block;width:100%;height:154px;object-fit:cover}
+
+  .footer{padding:24px 24px 28px}
+  .footer__row{display:grid;grid-template-columns:1fr auto;gap:24px}
+  .footer__nav{grid-column:1/-1;justify-content:space-between;gap:0}
+  .footer__social{grid-row:1;grid-column:2}
+  .footer__copy{grid-column:1/-1;font-size:14px;margin-bottom:-16px}
+  .footer__legal{grid-column:1/-1}
+}
+.swipe-dots{display:none;justify-content:center;gap:8px;margin-top:-8px}
+.swipe-dots i{width:6px;height:6px;border-radius:6px;background:#d0d0d0;transition:width .35s var(--ease-out),background .3s}
+.swipe-dots i.on{width:20px;background:var(--accent)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  [data-reveal]{opacity:1;transform:none}
+  .hero .hw,.hero__lede,.hero__ctas{transition-delay:0s!important}
+  .marquee{animation:none}
+}
+
+/* ================= BUTTON HOVER (all pages) =================
+   Simple colour change on hover; the label stays put and only the arrow moves. */
+.btn__roll{transform:none!important;transition:none!important}
+.btn__roll::after{display:none}
+.btn,.btn[data-reveal].in{transition:opacity .9s var(--ease-out),transform .6s var(--ease-out),background-color .35s ease,color .35s ease,box-shadow .35s ease;transition-delay:var(--d,0s),0s,0s,0s,0s}
+.btn:hover,.btn:focus-visible{transform:none;box-shadow:none;background-color:#e55a1c}
+.btn.btn--ghost:hover,.btn.btn--ghost:focus-visible{background-color:#fff;box-shadow:inset 0 0 0 1px #fff}
+.btn.btn--ghost:hover .btn__label,.btn.btn--ghost:focus-visible .btn__label{color:var(--ink)}
+.btn.btn--ghost:hover .btn__arrow,.btn.btn--ghost:focus-visible .btn__arrow{color:var(--ink)}
+.btn.btn--dark:hover,.btn.btn--dark:focus-visible{background-color:#1a2b40;box-shadow:none}
+.btn__label{transition:color .35s ease}
+.btn__arrow{transition:color .35s ease}
+/* arrow: the current one flies out to the top-right while a fresh one slides in from the bottom-left */
+.btn__arrow .arr{transition:transform .45s var(--ease-out)}
+.btn__arrow::after{transition:transform .45s var(--ease-out)}
+.btn:hover .btn__arrow::after,.btn:focus-visible .btn__arrow::after{transition-delay:.08s}
+
+/* button arrow: turns to point straight ahead on hover, the same move as the card arrows */
+.btn__arrow::after{display:none}
+.btn__arrow .arr,.btn:hover .btn__arrow .arr,.btn:focus-visible .btn__arrow .arr{transition:transform .45s var(--ease-out)}
+.btn:hover .btn__arrow .arr,.btn:focus-visible .btn__arrow .arr{transform:rotate(45deg)}
+/* ================= SKIP LINK (all pages) ================= */
+.skip{position:fixed;left:16px;top:-80px;z-index:200;padding:12px 18px;border-radius:10px;background:#ff7433;color:#000d1d;font:600 15px/1 Inter,system-ui,sans-serif;transition:top .25s}
+.skip:focus{top:calc(16px + env(safe-area-inset-top,0px))}
+</style>
+</head>
+<body>
+<a class="skip" href="#top" onclick="var m=document.getElementById('top');if(m){m.setAttribute('tabindex','-1');m.focus();m.scrollIntoView();}return false">Skip to content</a>
+<!-- ================= NAV ================= -->
+<header class="nav" id="nav">
+  <a href="#top" class="logo" aria-label="PLG Acachet home">
+    <span class="logo__mark"><img src="assets/plg-mark.webp" alt="" decoding="async"></span>
+    <span class="logo__word">PLG ACACHET</span>
+  </a>
+  <nav class="menu" aria-label="Primary">
+    <a href="about.html">About us</a>
+    <a href="services.html">Service</a>
+    <a href="our-work.html">Our Work</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+</header>
+
+<div class="mnav" id="mnav" aria-hidden="true">
+  <nav class="mnav__links" aria-label="Mobile">
+    <a href="about.html">About us</a>
+    <a href="services.html">Service</a>
+    <a href="our-work.html">Our Work</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+  <p class="mnav__foot">© 2026 PLG Acachet</p>
+</div>
+
+<main id="top">
+<!-- ================= HERO ================= -->
+<section class="hero" aria-label="Hero">
+  <div class="hero__media" id="heroMedia">
+    <video class="hero__video" id="heroVideo" autoplay muted loop playsinline preload="auto" poster="assets/hero-poster.webp" aria-hidden="true">
+      <source src="assets/hero-reel.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero__fade"></div>
+  <div class="hero__shade"></div>
+  <div class="hero__content" id="heroContent">
+    <h1 class="hero__title" id="heroTitle">Turning sports IP into commercial value.</h1>
+    <p class="hero__lede">PLG Acachet is a sports, phygital and media consultancy. For rights holders, we commercialise IP through sponsorship sales. For brands, we broker the right deal and activate around it — in the UAE and across global markets.</p>
+    <div class="hero__ctas">
+      <a href="#contact" class="btn btn--sm"><span class="btn__label">Start a conversation</span><span class="btn__arrow"><i class="arr"></i></span></a>
+      <a href="our-work.html" class="btn btn--sm btn--ghost"><span class="btn__label">See our work</span><span class="btn__arrow"><i class="arr"></i></span></a>
+    </div>
+  </div>
+  <a href="#about" class="scroll-cue" aria-label="Scroll to content"></a>
+  <button type="button" class="vctl" id="vctl" aria-label="Pause background video"><svg class="i-pause" viewBox="0 0 12 12" aria-hidden="true"><path fill="currentColor" d="M2 1h3v10H2zM7 1h3v10H7z"/></svg><svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path fill="currentColor" d="M3 1l8 5-8 5z"/></svg></button>
+</section>
+
+<!-- ================= WHO WE ARE ================= -->
+<section class="intro" id="about">
+  <div class="intro__copy">
+    <div>
+      <p class="eyebrow" data-reveal>Who we are</p>
+      <h2 class="h1 grad" data-reveal style="--d:.08s">Maximizing Brand<br>Sponsorship Value</h2>
+      <div class="body" data-reveal style="--d:.16s">
+        <p>We advise rights holders and brands on how sport, phygital and media properties create value. Then we take that strategy to market: selling sponsorship, activating the brand around the deal and measuring the result.</p>
+        <p>Our work is built on relationships in the UAE and extends to markets worldwide.</p>
+      </div>
+    </div>
+    <a href="about.html" class="btn" data-reveal style="--d:.24s"><span class="btn__label">Learn more</span><span class="btn__arrow"><i class="arr"></i></span></a>
+  </div>
+  <div class="intro__media" data-reveal="scale">
+    <img class="img" src="assets/intro-media.webp" alt="PLG programme photograph" loading="lazy" decoding="async">
+    <img src="assets/intro-fade.svg" alt="" loading="lazy" decoding="async">
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="services" id="services">
+  <div class="services__head">
+    <p class="eyebrow" data-reveal>What we do</p>
+    <h2 class="h1" data-reveal style="--d:.08s">Ideas with purpose.</h2>
+  </div>
+  <div class="cards" id="cards">
+    <a href="services.html#strategy" class="card" data-reveal style="--d:0s">
+      <div class="card__img"><img src="assets/service-card.webp" alt="" loading="lazy" decoding="async"><p class="card__desc"><span>Sponsorship sales, partnerships, media rights and IP commercialisation for rights holders.</span></p></div>
+      <div class="card__meta"><div class="card__meta-l"><span class="card__num">01</span><span class="card__name">Strategy &amp; Consulting</span></div><span class="card__arrow"><i class="arr"></i></span></div>
+    </a>
+    <a href="services.html#events" class="card" data-reveal style="--d:.08s">
+      <div class="card__img"><img src="assets/service-card.webp" alt="" loading="lazy" decoding="async"><p class="card__desc"><span>Partnerships, brand activations and events that deliver visible value to partners.</span></p></div>
+      <div class="card__meta"><div class="card__meta-l"><span class="card__num">02</span><span class="card__name">Events &amp; Activations</span></div><span class="card__arrow"><i class="arr"></i></span></div>
+    </a>
+    <a href="services.html#media" class="card" data-reveal style="--d:.16s">
+      <div class="card__img"><img src="assets/service-card.webp" alt="" loading="lazy" decoding="async"><p class="card__desc"><span>Creative influencer programmes, delivered through our proprietary FUZE platform and built to deliver tangible results.</span></p></div>
+      <div class="card__meta"><div class="card__meta-l"><span class="card__num">03</span><span class="card__name">Media</span></div><span class="card__arrow"><i class="arr"></i></span></div>
+    </a>
+    <a href="services.html#creative" class="card" data-reveal style="--d:.24s">
+      <div class="card__img"><img src="assets/service-card.webp" alt="" loading="lazy" decoding="async"><p class="card__desc"><span>Design and creative direction for properties and their partners.</span></p></div>
+      <div class="card__meta"><div class="card__meta-l"><span class="card__num">04</span><span class="card__name">Creative</span></div><span class="card__arrow"><i class="arr"></i></span></div>
+    </a>
+  </div>
+  <div class="swipe-dots" id="cardDots"><i class="on"></i><i></i><i></i><i></i></div>
+  <p class="services__note" data-reveal>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam luctus mauris id ante gravida, eget fringilla mi mollis. Donec feugiat, lorem ut porttitor ultrices,</p>
+</section>
+
+<!-- ================= GLOBAL BRIDGE / MUJTAMAE (stacked) ================= -->
+<section class="stack" id="stack">
+  <div class="panel" data-panel>
+    <div class="panel__inner">
+      <div class="panel__img"><img src="assets/bridge.webp" alt="UAE skyline programme" loading="lazy" decoding="async"></div>
+      <div class="panel__copy">
+        <div>
+          <p class="eyebrow" data-reveal>The Global Bridge</p>
+          <h2 class="h1 grad" data-reveal style="--d:.08s">UAE to the world. World to the UAE.</h2>
+        </div>
+        <p class="body" data-reveal style="--d:.16s">For rights holders, we take sponsorship to brands in the UAE and in international markets. For international brands, we provide a route into the UAE through established relationships. One consultancy, working in both directions.</p>
+        <a href="about.html#uae" class="btn" data-reveal style="--d:.24s;align-self:flex-start"><span class="btn__label">Learn more</span><span class="btn__arrow"><i class="arr"></i></span></a>
+      </div>
+    </div>
+    <div class="panel__shade"></div>
+  </div>
+  <div class="panel" data-panel>
+    <div class="panel__inner">
+      <div class="panel__img"><img src="assets/mujtamae.webp" alt="Mujtamae analytics" loading="lazy" decoding="async"></div>
+      <div class="panel__copy">
+        <div>
+          <p class="eyebrow" data-reveal>Mujtamae</p>
+          <h2 class="h1 grad" data-reveal style="--d:.08s">Every programme, measured.</h2>
+        </div>
+        <p class="body" data-reveal style="--d:.16s">Mujtamae is our sports analytics platform, bringing together sports communities and full-spectrum sports analytics. It informs how we price and structure a partnership, and measures the return once it runs.</p>
+        <a href="about.html#mujtamae" class="btn" data-reveal style="--d:.24s;align-self:flex-start"><span class="btn__label">How Mujtamae Fits</span><span class="btn__arrow"><i class="arr"></i></span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STATS (pinned horizontal) ================= -->
+<section class="stats" id="stats" aria-label="Key numbers">
+  <div class="stats__sticky">
+    <div class="stats__track" id="statsTrack">
+      <div class="stat"><img class="stat__bg" src="assets/stat-1.webp" alt="" decoding="async"><div class="stat__txt"><p class="stat__num" data-count="13">13</p><p class="stat__lbl">years in market</p></div></div>
+      <div class="stat"><img class="stat__bg" src="assets/stat-2.webp" alt="" decoding="async"><div class="stat__txt"><p class="stat__num" data-count="100" data-suffix="+">100+</p><p class="stat__lbl">Programmes delivered</p></div></div>
+      <div class="stat"><img class="stat__bg" src="assets/stat-3.webp" alt="" decoding="async"><div class="stat__txt"><p class="stat__num" data-count="50" data-suffix="+">50+</p><p class="stat__lbl">Partners</p></div></div>
+      <div class="stat"><img class="stat__bg stat__bg--crop" src="assets/stat-4.webp" alt="" decoding="async"><div class="stat__txt"><p class="stat__num" data-count="20">20</p><p class="stat__lbl">Markets reach</p></div></div>
+    </div>
+    <div class="stats__progress" id="statsDots" role="tablist" aria-label="Stats">
+      <button class="on" aria-label="Stat 1"></button><button aria-label="Stat 2"></button><button aria-label="Stat 3"></button><button aria-label="Stat 4"></button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PARTNER LOGOS ================= -->
+<section class="logos" aria-label="Partners">
+  <div class="marquee" id="marquee">
+    <div class="marquee__set">
+      <img class="l-intel" src="assets/logo-intel.svg" alt="Intel" loading="lazy" decoding="async">
+      <img class="l-sony" src="assets/logo-sony.svg" alt="Sony" loading="lazy" decoding="async">
+      <img class="l-dell" src="assets/logo-dell.svg" alt="Dell" loading="lazy" decoding="async">
+      <img class="l-ea" src="assets/logo-ea.svg" alt="EA Sports" loading="lazy" decoding="async">
+      <img class="l-logi" src="assets/logo-logitech.svg" alt="Logitech" loading="lazy" decoding="async">
+      <img class="l-kfc" src="assets/logo-kfc.svg" alt="KFC" loading="lazy" decoding="async">
+    </div>
+  </div>
+</section>
+
+<!-- ================= CASE STUDIES ================= -->
+<section class="work" id="work">
+  <div class="work__head">
+    <p class="eyebrow" data-reveal>Case Studies</p>
+    <h2 class="h1" data-reveal style="--d:.08s">Creative work. Meaningful results.</h2>
+  </div>
+  <div class="gallery" id="gallery">
+    <a href="our-work.html#case-uci-championship" class="proj" data-cursor data-reveal="scale"><img src="assets/work-uci.webp" alt="" loading="lazy" decoding="async"><div class="proj__overlay"><h3 class="proj__title">UCI Championship</h3><div class="proj__more"><div><p class="proj__desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis turpis et dolor consectetur porta et sit amet arcu.</p><p class="proj__cta">Explore Project <span><i class="arr"></i></span></p></div></div></div></a>
+    <a href="our-work.html#case-game-of-the-future" class="proj" data-cursor data-reveal="scale" style="--d:.1s"><img src="assets/mujtamae.webp" alt="" loading="lazy" decoding="async"><div class="proj__overlay"><h3 class="proj__title">Game of the future</h3><div class="proj__more"><div><p class="proj__desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis turpis et dolor consectetur porta et sit amet arcu.</p><p class="proj__cta">Explore Project <span><i class="arr"></i></span></p></div></div></div></a>
+    <a href="our-work.html#case-call-of-duty" class="proj proj--full" data-cursor data-reveal="scale"><img src="assets/work-cod.webp" alt="" loading="lazy" decoding="async"><div class="proj__overlay"><h3 class="proj__title">Call of Duty: Modern Warfare 4</h3><div class="proj__more"><div><p class="proj__desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis turpis et dolor consectetur porta et sit amet arcu.</p><p class="proj__cta">Explore Project <span><i class="arr"></i></span></p></div></div></div></a>
+    <a href="our-work.html#case-ea-ballers" class="proj" data-cursor data-reveal="scale"><img src="assets/work-ea.webp" alt="" loading="lazy" decoding="async"><div class="proj__overlay"><h3 class="proj__title">EA Ballers</h3><div class="proj__more"><div><p class="proj__desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis turpis et dolor consectetur porta et sit amet arcu.</p><p class="proj__cta">Explore Project <span><i class="arr"></i></span></p></div></div></div></a>
+    <a href="our-work.html#case-kfc" class="proj" data-cursor data-reveal="scale" style="--d:.1s"><img src="assets/work-kfc.webp" alt="" loading="lazy" decoding="async"><div class="proj__overlay"><h3 class="proj__title">KFC</h3><div class="proj__more"><div><p class="proj__desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis turpis et dolor consectetur porta et sit amet arcu.</p><p class="proj__cta">Explore Project <span><i class="arr"></i></span></p></div></div></div></a>
+  </div>
+  <div class="swipe-dots" id="workDots"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+  <a href="our-work.html" class="btn" data-reveal><span class="btn__label">See our work</span><span class="btn__arrow"><i class="arr"></i></span></a>
+</section>
+
+<!-- ================= BRAND STATEMENT ================= -->
+<section class="statement" id="statement">
+  <img class="statement__mark statement__mark--l" src="assets/brand-mark.svg" alt="" loading="lazy" decoding="async">
+  <img class="statement__mark statement__mark--r" src="assets/brand-mark.svg" alt="" loading="lazy" decoding="async">
+  <p id="statementText">Programmes delivered for rights holders and brands, each measured against commercial objectives.</p>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="contact" id="contact">
+  <img class="contact__bg" src="assets/contact-bg.webp" alt="" loading="lazy" decoding="async">
+  <div class="contact__blur"></div>
+  <div class="contact__grad"></div>
+  <div class="contact__inner">
+    <p class="eyebrow" data-reveal>Let’s Work Together</p>
+    <h2 class="h1" data-reveal style="--d:.08s">Your Next move<br>Start here</h2>
+    <p class="contact__lede" data-reveal style="--d:.16s">A rights holder with IP to commercialise. A brand looking for the right property. Tell us what you’re working on.</p>
+    <form class="form" id="form" novalidate data-reveal style="--d:.24s">
+      <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" placeholder="Your name" autocomplete="name" required><span class="msg">Please enter your name</span></div>
+      <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" placeholder="you@emailid.com" autocomplete="email" required><span class="msg">Enter a valid email</span></div>
+      <div class="field"><label for="f-phone">Phone</label><input id="f-phone" name="phone" type="tel" placeholder="Phone Number" autocomplete="tel"><span class="msg"></span></div>
+      <div class="field"><label for="f-msg">Tell us about your project</label><textarea id="f-msg" name="msg" rows="1" placeholder="Share few details"></textarea><span class="msg"></span></div>
+      <div class="form__actions">
+        <button type="submit" class="btn"><span class="btn__label" id="sendLabel">Talk to Us</span><span class="btn__arrow"><i class="arr"></i></span></button>
+        <p class="form__ok" role="status">Thanks — we’ll be in touch shortly.</p>
+      </div>
+    </form>
+  </div>
+  <img class="contact__photo-m" src="assets/contact-bg.webp" alt="" loading="lazy" decoding="async">
+</section>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="footer__row">
+    <a href="#top" class="logo"><span class="logo__mark"><img src="assets/plg-mark.webp" alt="" loading="lazy" decoding="async"></span><span class="logo__word">PLG ACACHET</span></a>
+    <nav class="footer__nav" aria-label="Footer"><a href="about.html">About</a><a href="services.html">Service</a><a href="our-work.html">Our work</a><a href="contact.html">Contact</a></nav>
+    <div class="footer__social"><a href="#" aria-label="Instagram"><img src="assets/icon-instagram.svg" alt="" loading="lazy" decoding="async"></a><a href="#" aria-label="LinkedIn"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a></div>
+    <p class="footer__copy">© 2026 PLG Acachet. All rights reserved.</p>
+    <div class="footer__legal"><a href="legal.html#privacy-policy">Privacy</a><a href="legal.html#terms">Terms &amp; Conditions</a><a href="legal.html#cookies">Cookies</a></div>
+  </div>
+</footer>
+
+<div class="cursor" id="cursor" aria-hidden="true">View <i class="arr"></i></div>
+
+<script>
+// button label roll: wrap each label so it can slide, with a copy riding underneath
+function setBtnText(label,t){label.innerHTML='';const r=document.createElement('span');r.className='btn__roll';r.dataset.text=t;r.textContent=t;label.appendChild(r)}
+document.querySelectorAll('.btn__label').forEach(l=>setBtnText(l,l.textContent.trim()));
+// hero text: split heading into words, then reveal the block after the hero image settles
+const heroTitle=document.getElementById('heroTitle');
+heroTitle.innerHTML=heroTitle.textContent.trim().split(/\s+/).map((w,i)=>`<span class="hw" style="--i:${i}">${w}</span>`).join(' ');
+const heroEl=document.querySelector('.hero');
+setTimeout(()=>heroEl.classList.add('ready'),matchMedia('(prefers-reduced-motion: reduce)').matches?0:1800);
+const mq=document.getElementById('marquee');
+const clone=mq.firstElementChild.cloneNode(true); clone.setAttribute('aria-hidden','true'); mq.appendChild(clone);
+
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isMobile = () => matchMedia('(max-width:900px)').matches;
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+
+const nav=document.getElementById('nav');
+/* ---------- Mobile menu ---------- */
+const burger=document.getElementById('burger'), mnav=document.getElementById('mnav');
+function setMenu(open){
+  document.body.classList.toggle('menu-open',open);
+  burger.setAttribute('aria-expanded',open); burger.setAttribute('aria-label',open?'Close menu':'Open menu');
+  mnav.setAttribute('aria-hidden',!open);
+}
+burger.addEventListener('click',()=>setMenu(!document.body.classList.contains('menu-open')));
+mnav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+addEventListener('keydown',e=>{if(e.key==='Escape')setMenu(false)});
+
+/* ---------- Reveal on scroll ---------- */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('[data-reveal],[data-panel]').forEach(el=>io.observe(el));
+
+/* ---------- Nav ---------- */
+// logo wordmark turns dark over the white sections
+// checked on every scroll frame against the logo's actual position
+const lightSecs=[...document.querySelectorAll('.services,.contact,.footer')];
+const navLogo=nav.querySelector('.logo');
+function updateNavTone(){
+  const r=navLogo.getBoundingClientRect(), cy=r.top+r.height/2;
+  nav.classList.toggle('on-light',lightSecs.some(s=>{const b=s.getBoundingClientRect();return b.top<=cy&&b.bottom>=cy}));
+}
+
+/* ---------- Brand statement: split words ---------- */
+const st=document.getElementById('statementText');
+st.innerHTML=st.textContent.trim().split(/\s+/).map(w=>`<span class="w">${w}</span>`).join(' ');
+const words=[...st.querySelectorAll('.w')];
+
+/* ---------- Count-up ---------- */
+function countUp(el){
+  if(el.dataset.done) return; el.dataset.done=1;
+  const end=+el.dataset.count, suf=el.dataset.suffix||'', dur=reduce?0:1400, t0=performance.now();
+  (function tick(t){const p=dur?clamp((t-t0)/dur):1;const e=1-Math.pow(1-p,3);el.textContent=Math.round(end*e)+suf;if(p<1)requestAnimationFrame(tick)})(t0);
+}
+
+/* ---------- Scroll-driven effects ---------- */
+const heroMedia=document.getElementById('heroMedia');
+/* background reel: pause control, and no autoplay when the viewer asks for reduced motion */
+const heroVideo=document.getElementById('heroVideo'),vctl=document.getElementById('vctl');
+function setVideo(play){
+  const p=play?heroVideo.play():(heroVideo.pause(),null);
+  if(p&&p.catch)p.catch(()=>setVideo(false));
+  vctl.classList.toggle('paused',!play);
+  vctl.setAttribute('aria-label',play?'Pause background video':'Play background video');
+}
+vctl.addEventListener('click',()=>setVideo(heroVideo.paused));
+if(matchMedia('(prefers-reduced-motion: reduce)').matches)setVideo(false);
+const stats=document.getElementById('stats'), track=document.getElementById('statsTrack');
+const statEls=[...track.children], sDots=[...document.querySelectorAll('#statsDots button')];
+const panels=[...document.querySelectorAll('[data-panel]')];
+let lastY=scrollY, activeStat=-1;
+
+/* stats: inertial horizontal glide with layered parallax (image drifts slower than the frame, numbers lead slightly) */
+let statsTarget=0,statsCur=0,statsFrom=0,statsT0=0,statsRaf=0,statsIdx=0,statsLock=false;
+const STATS_DUR=1100;
+const statBgs=statEls.map(s=>s.querySelector('.stat__bg')),statTxts=statEls.map(s=>s.querySelector('.stat__txt'));
+function renderStats(){
+  const w=innerWidth,max=track.scrollWidth-w,p=statsCur*3;
+  track.style.transform=`translate3d(${(-statsCur*max).toFixed(2)}px,0,0)`;
+  statEls.forEach((el,k)=>{
+    const d=Math.max(-1,Math.min(1,p-k)),a=Math.abs(d);
+    statBgs[k].style.transform=`translate3d(${(d*w*.32).toFixed(2)}px,0,0) scale(${(1.08+a*.06).toFixed(4)})`;
+    statTxts[k].style.transform=`translate3d(${(-d*w*.12).toFixed(2)}px,0,0)`;
+    statTxts[k].style.opacity=(1-Math.min(1,a*1.6)).toFixed(3);
+  });
+}
+const easeIO=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+function stepStats(now){
+  const t=reduce?1:Math.min(1,(now-statsT0)/STATS_DUR);
+  statsCur=statsFrom+(statsTarget-statsFrom)*easeIO(t);
+  renderStats();
+  statsRaf=t<1?requestAnimationFrame(stepStats):0;
+}
+function goStat(idx){
+  const target=idx/3;
+  if(target===statsTarget&&(statsRaf||statsCur===target))return;
+  statsFrom=statsCur;statsTarget=target;statsT0=performance.now();
+  if(!statsRaf)statsRaf=requestAnimationFrame(stepStats);
+}
+/* each wheel / swipe / key press inside the pinned section moves exactly one slide */
+const statTop=i=>stats.offsetTop+(stats.offsetHeight-stats.firstElementChild.offsetHeight)*(i/3);
+function statsPinned(){const r=stats.getBoundingClientRect();return r.top<=2&&r.bottom>=innerHeight-2}
+function stepSlide(dir){
+  const next=statsIdx+dir;
+  if(next<0||next>3)return false;            // first/last slide: let the page carry on scrolling
+  if(!statsLock){
+    statsLock=true;statsIdx=next;
+    scrollTo({top:statTop(next),behavior:'instant'});
+    setTimeout(()=>statsLock=false,STATS_DUR*.9);
+  }
+  return true;
+}
+// trackpads keep firing momentum events after a flick: only a fresh gesture (after a short pause) advances again
+let lastWheel=0;
+addEventListener('wheel',e=>{
+  if(!statsPinned())return;
+  const now=performance.now(),fresh=now-lastWheel>180;lastWheel=now;
+  const dir=e.deltaY>0?1:-1,next=statsIdx+dir;
+  if(Math.abs(e.deltaY)<2||next<0||next>3)return;
+  e.preventDefault();
+  if(fresh)stepSlide(dir);
+},{passive:false});
+let tY=null;
+addEventListener('touchstart',e=>{tY=e.touches[0].clientY},{passive:true});
+addEventListener('touchmove',e=>{
+  if(tY===null||!statsPinned())return;
+  const dy=tY-e.touches[0].clientY,next=statsIdx+(dy>0?1:-1);
+  if(next<0||next>3)return;
+  e.preventDefault();
+  if(Math.abs(dy)>40){stepSlide(dy>0?1:-1);tY=null}
+},{passive:false});
+addEventListener('touchend',()=>{tY=null},{passive:true});
+addEventListener('keydown',e=>{
+  if(!statsPinned())return;
+  const d={ArrowDown:1,PageDown:1,' ':1,ArrowUp:-1,PageUp:-1}[e.key];
+  if(d&&stepSlide(d))e.preventDefault();
+});
+addEventListener('resize',()=>renderStats());
+
+function setStat(i){
+  if(i===activeStat) return; activeStat=i;
+  statEls.forEach((s,k)=>s.classList.toggle('is-active',k===i));
+  sDots.forEach((d,k)=>d.classList.toggle('on',k===i));
+  countUp(statEls[i].querySelector('.stat__num'));
+}
+
+function onScroll(){
+  const y=scrollY, vh=innerHeight;
+  // nav: fade out on scroll down, fade back in on scroll up
+  nav.classList.toggle('is-scrolled',y>40);
+  if(!document.body.classList.contains('menu-open')){
+    if(y<=120 || y<lastY-2) nav.classList.remove('is-hidden');
+    else if(y>lastY+2) nav.classList.add('is-hidden');
+  }
+  lastY=y;
+  updateNavTone();
+  // hero parallax
+  if(!reduce && y<vh*1.2){
+    heroMedia.style.transform=`translate3d(0,${y*.35}px,0)`;
+    // text block drifts up and fades as the hero scrolls away
+    const hc=document.getElementById('heroContent');
+    hc.style.opacity=clamp(1-y/(vh*.55));
+    hc.style.transform=`translate3d(0,${-y*.15}px,0)`;
+  }
+
+  if(!isMobile()){
+    // stacked panels: first panel recedes as the second slides over
+    const p2=panels[1].getBoundingClientRect();
+    const k=clamp(1-p2.top/vh);
+    const inner=panels[0].querySelector('.panel__inner');
+    if(!reduce) inner.style.transform=`scale(${1-k*.08})`;
+    panels[0].querySelector('.panel__shade').style.opacity=k*.6;
+  }
+  {
+    // pinned horizontal stats (desktop and mobile)
+    const r=stats.getBoundingClientRect(), sh=stats.firstElementChild.offsetHeight;
+    const prog=clamp(-r.top/(r.height-sh));
+    // dwell on each stat, then glide to the next
+    // one full-width slide at a time: the scroll position picks the slide, the move between slides is a timed glide
+    const idx=Math.round(prog*3);
+    statsIdx=idx;
+    goStat(idx);
+    if(r.top<vh*.5 && r.bottom>vh*.5) setStat(idx);
+  }
+  // statement word reveal
+  const sr=st.getBoundingClientRect();
+  const sp=clamp((vh*.85-sr.top)/(sr.height+vh*.35));
+  const n=Math.round(sp*words.length);
+  words.forEach((w,i)=>w.classList.toggle('on',reduce||i<n));
+}
+addEventListener('scroll',()=>requestAnimationFrame(onScroll),{passive:true});
+addEventListener('resize',onScroll); onScroll();
+
+// stat dots: click to jump
+sDots.forEach((d,i)=>d.addEventListener('click',()=>{
+  scrollTo({top:statTop(i),behavior:'instant'});
+}));
+
+// mobile carousels: dots
+function dots(scroller,dotWrap){
+  const ds=[...dotWrap.children];
+  scroller.addEventListener('scroll',()=>{
+    const kids=[...scroller.children]; const c=scroller.scrollLeft+scroller.clientWidth/2;
+    let best=0,bd=1e9; kids.forEach((k,i)=>{const d=Math.abs(k.offsetLeft+k.offsetWidth/2-c);if(d<bd){bd=d;best=i}});
+    ds.forEach((d,i)=>d.classList.toggle('on',i===best));
+  },{passive:true});
+}
+dots(document.getElementById('cards'),document.getElementById('cardDots'));
+dots(document.getElementById('gallery'),document.getElementById('workDots'));
+
+/* ---------- Custom cursor on case studies ---------- */
+const cur=document.getElementById('cursor'); let mx=0,my=0,cx=0,cy=0;
+addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+(function loop(){cx+=(mx-cx)*.18;cy+=(my-cy)*.18;cur.style.left=cx+'px';cur.style.top=cy+'px';requestAnimationFrame(loop)})();
+document.querySelectorAll('[data-cursor]').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cur.classList.add('on'));
+  el.addEventListener('mouseleave',()=>cur.classList.remove('on'));
+});
+
+/* ---------- Contact form ---------- */
+const form=document.getElementById('form');
+form.addEventListener('submit',e=>{
+  e.preventDefault(); let ok=true;
+  const name=form.elements.name, email=form.elements.email;
+  [[name,name.value.trim().length>1],[email,/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)]].forEach(([el,valid])=>{
+    el.parentElement.classList.toggle('err',!valid); if(!valid) ok=false;
+  });
+  if(!ok){form.querySelector('.err input').focus();return;}
+  const sendLabel=document.getElementById('sendLabel');
+  setBtnText(sendLabel,'Sending…');
+  setTimeout(()=>{setBtnText(sendLabel,'Sent');form.classList.add('sent');form.reset()},900);
+});
+form.querySelectorAll('input').forEach(i=>i.addEventListener('input',()=>i.parentElement.classList.remove('err')));
+</script>
+
+</body></html>
+</body>
+</html>

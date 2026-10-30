@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>PLG Acachet Pages</title>
+<meta name="description" content="Index of every page template in the PLG Acachet site prototype, with links to each page and its sections.">
+<meta name="theme-color" content="#010202">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#010202;--bg-2:#0d0d0e;--bg-3:#141516;
+  --accent:#ff7433;--ink:#000d1d;
+  --text:#eaeaea;--soft:#b9bcb8;--muted:#70746e;
+  --line:rgba(255,255,255,.1);--line-2:rgba(255,255,255,.18);
+  --gutter:72px;--ease:cubic-bezier(.22,1,.36,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+.wrap{padding-inline:max(var(--gutter),env(safe-area-inset-left,0px))}
+
+/* top bar */
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:36px}
+.logo{display:flex;align-items:center;gap:8px}
+.logo__mark{position:relative;width:42px;height:40px;overflow:hidden;flex:none}
+.logo__mark img{position:absolute;height:135.14%;width:153.85%;left:-26.15%;top:0;max-width:none}
+.logo__word{font-weight:700;font-size:16px;letter-spacing:.2px;color:#fff;white-space:nowrap}
+.bar__tag{font-size:13px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted)}
+
+/* header */
+.head{padding-top:96px;padding-bottom:56px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px 48px;align-items:end;border-bottom:1px solid var(--line)}
+.eyebrow{font-weight:500;font-size:20px;color:var(--accent)}
+.h1{margin-top:10px;font-weight:700;font-size:clamp(40px,6vw,80px);line-height:1.05;letter-spacing:-1.5px;background:linear-gradient(114.8deg,#fff .2%,#aeaeae 68%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{margin-top:18px;max-width:52ch;font-size:18px;line-height:1.5;color:var(--soft)}
+.facts{list-style:none;display:flex;flex-wrap:wrap;gap:8px 10px;margin-top:22px}
+.facts li{display:flex;gap:8px;align-items:baseline;padding:8px 14px;border-radius:100px;box-shadow:inset 0 0 0 1px var(--line-2);font-size:13px;color:var(--soft)}
+.facts b{font-weight:500;font-size:11px;letter-spacing:1.3px;text-transform:uppercase;color:var(--muted)}
+.count{text-align:right}
+.count b{display:block;font-weight:300;font-size:72px;line-height:1;letter-spacing:-2px;color:#fff;font-variant-numeric:tabular-nums}
+.count span{font-size:13px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted)}
+
+/* groups */
+.group{padding-top:56px}
+.group__k{display:flex;align-items:center;gap:12px;font-size:13px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
+.group__k::after{content:"";flex:1;height:1px;background:var(--line)}
+.group__k b{color:#fff;font-weight:600}
+
+/* page card */
+.list{display:flex;flex-direction:column;gap:16px}
+.page{position:relative;display:grid;grid-template-columns:300px minmax(0,1fr) auto;gap:32px;align-items:center;padding:16px 28px 16px 16px;border-radius:20px;background:var(--bg-2);border:1px solid var(--line);transition:border-color .4s,background .4s,transform .5s var(--ease)}
+.page:hover{border-color:var(--line-2);background:var(--bg-3)}
+.page--child{margin-left:48px}
+.page--child::before{content:"";position:absolute;left:-30px;top:-17px;width:22px;height:calc(50% + 17px);border-left:1px solid var(--line-2);border-bottom:1px solid var(--line-2);border-bottom-left-radius:10px}
+.thumb{position:relative;aspect-ratio:16/10;border-radius:12px;overflow:hidden;background:#000}
+.thumb img{width:100%;height:100%;object-fit:cover;opacity:.75;transition:transform 1s var(--ease),opacity .5s}
+.page:hover .thumb img{transform:scale(1.06);opacity:.95}
+.thumb::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.75))}
+.thumb__t{position:absolute;left:14px;right:14px;bottom:12px;z-index:1;font-weight:700;font-size:20px;line-height:1.1;letter-spacing:-.3px;color:#fff}
+.thumb__t em{font-style:normal;color:var(--accent)}
+.thumb__n{position:absolute;left:12px;top:12px;z-index:1;font-size:11px;letter-spacing:1.4px;color:#fff;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:5px 9px;border-radius:100px}
+
+.info{min-width:0;display:flex;flex-direction:column;gap:10px}
+.info__top{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px}
+.info__name{font-weight:600;font-size:28px;letter-spacing:-.4px;color:#fff}
+.info__name a::after{content:"";position:absolute;inset:0;border-radius:20px}
+.info__file{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:var(--muted)}
+.info__d{font-size:16px;line-height:1.5;color:var(--soft);max-width:60ch}
+.chips{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.chips a{font-size:13px;line-height:1;padding:8px 12px;border-radius:100px;color:#cfd1ce;box-shadow:inset 0 0 0 1px var(--line-2);transition:background .3s,color .3s,box-shadow .3s}
+.chips a:hover{background:var(--accent);color:var(--ink);box-shadow:none}
+
+.go{display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:var(--accent);color:var(--ink);transition:transform .5s var(--ease)}
+.page:hover .go{transform:rotate(45deg)}
+.arr{display:block;width:13px;height:13px;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 11'%3E%3Cpath d='M1.10813 10.8948L0.00017786 9.78689L8.23881 1.53405H1.87518L1.88938 -4.48227e-05H10.8809V9.00564H9.33256L9.34677 2.642L1.10813 10.8948Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 11'%3E%3Cpath d='M1.10813 10.8948L0.00017786 9.78689L8.23881 1.53405H1.87518L1.88938 -4.48227e-05H10.8809V9.00564H9.33256L9.34677 2.642L1.10813 10.8948Z'/%3E%3C/svg%3E") center/contain no-repeat}
+
+.foot{margin-top:80px;padding-block:28px 40px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:14px;color:var(--muted)}
+.foot a:hover{color:#fff}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .8s var(--ease),transform 1s var(--ease);transition-delay:var(--d,0s)}
+.rv.in{opacity:1;transform:none}
+
+@media (max-width:1100px){
+  :root{--gutter:40px}
+  .page{grid-template-columns:220px minmax(0,1fr) auto;gap:24px}
+}
+@media (max-width:760px){
+  :root{--gutter:20px}
+  .bar{padding-top:24px}
+  .bar__tag{display:none}
+  .head{padding-top:56px;padding-bottom:36px;grid-template-columns:1fr}
+  .count{text-align:left;display:flex;align-items:baseline;gap:10px}
+  .count b{font-size:44px;display:inline}
+  .lede{font-size:16px}
+  .group{padding-top:40px}
+  .page{grid-template-columns:1fr;gap:16px;padding:12px 12px 20px}
+  .page--child{margin-left:16px}
+  .page--child::before{left:-12px;width:8px}
+  .info{padding-inline:6px}
+  .info__name{font-size:24px}
+  .go{position:absolute;right:22px;top:22px;width:44px;height:44px;z-index:1}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition-duration:.01ms!important}
+  .rv{opacity:1;transform:none}
+}
+.skip{position:fixed;left:16px;top:-80px;z-index:200;padding:12px 18px;border-radius:10px;background:#ff7433;color:#000d1d;font:600 15px/1 Inter,system-ui,sans-serif;transition:top .25s}
+.skip:focus{top:16px}
+@media (max-width:760px){.facts li{font-size:12px}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main" onclick="var m=document.getElementById('main');m.setAttribute('tabindex','-1');m.focus();return false">Skip to content</a>
+<header class="bar wrap">
+  <a href="index.html" class="logo" aria-label="PLG Acachet home"><span class="logo__mark"><img src="assets/plg-mark.webp" alt="" decoding="async"></span><span class="logo__word">PLG ACACHET</span></a>
+  <span class="bar__tag">Site prototype · Page index</span>
+</header>
+
+<main class="wrap" id="main">
+  <section class="head">
+    <div>
+      <p class="eyebrow rv">Template listing</p>
+      <h1 class="h1 rv" style="--d:.06s">All pages.</h1>
+      <p class="lede rv" style="--d:.12s">Every page template in the prototype, grouped by section. Open a page, or jump straight to one of its sections.</p>
+      <ul class="facts rv" style="--d:.16s"><li><b>Updated</b>30 Oct 2026</li><li><b>Design</b>Dark canvas, Inter, orange accent</li><li><b>Shared</b>Island nav, banner, contact band, footer, legal links</li></ul>
+    </div>
+    <p class="count rv" style="--d:.18s"><b id="count">5</b><span>Pages</span></p>
+  </section>
+
+  <section class="group" aria-labelledby="g1">
+    <p class="group__k" id="g1"><b>Home</b> Landing</p>
+    <div class="list">
+      <article class="page rv">
+        <div class="thumb"><img decoding="async" src="assets/hero-poster.webp" alt=""><span class="thumb__n">01</span><span class="thumb__t">Turning sports IP into <em>value.</em></span></div>
+        <div class="info">
+          <div class="info__top"><h2 class="info__name"><a href="index.html">Home</a></h2><span class="info__file">index.html</span></div>
+          <p class="info__d">Showreel hero, who we are, the four service cards (each opens its section on Services), the Global Bridge and Mujtamae panels, key numbers, partner logos, case studies (each opens on Our Work) and the contact form.</p>
+          <nav class="chips" aria-label="Home sections">
+            <a href="index.html#about">Who we are</a><a href="index.html#services">Services</a><a href="index.html#stack">Global Bridge</a><a href="index.html#stats">Numbers</a><a href="index.html#work">Case studies</a><a href="index.html#contact">Contact</a>
+          </nav>
+        </div>
+        <span class="go" aria-hidden="true"><i class="arr"></i></span>
+      </article>
+    </div>
+  </section>
+
+  <section class="group" aria-labelledby="g2">
+    <p class="group__k" id="g2"><b>About us</b> Section pages</p>
+    <div class="list">
+      <article class="page rv">
+        <div class="thumb"><img loading="lazy" decoding="async" src="assets/mujtamae.webp" alt=""><span class="thumb__n">02</span><span class="thumb__t">Built to commercialise <em>sport.</em></span></div>
+        <div class="info">
+          <div class="info__top"><h2 class="info__name"><a href="about.html">About Us</a></h2><span class="info__file">about.html</span></div>
+          <p class="info__d">The section overview: three pillars, Mujtamae, our proprietary analytics platform, vision and mission, why the UAE, and the group ownership structure.</p>
+          <nav class="chips" aria-label="About sections">
+            <a href="about.html#overview">Overview</a><a href="about.html#pillars">Three Pillars</a><a href="about.html#mujtamae">Mujtamae</a><a href="about.html#vision">Vision &amp; Mission</a><a href="about.html#uae">Why the UAE</a><a href="about.html#ownership">Ownership</a>
+          </nav>
+        </div>
+        <span class="go" aria-hidden="true"><i class="arr"></i></span>
+      </article>
+
+      <article class="page page--child rv">
+        <div class="thumb"><img loading="lazy" decoding="async" src="assets/intro-media.webp" alt=""><span class="thumb__n">03</span><span class="thumb__t">How we got <em>here.</em></span></div>
+        <div class="info">
+          <div class="info__top"><h2 class="info__name"><a href="our-story.html">Our Story</a></h2><span class="info__file">our-story.html</span></div>
+          <p class="info__d">Three businesses, one commercial focus: how Acachet, PLG and Mujtamae came together.</p>
+          <nav class="chips" aria-label="Our Story sections">
+            <a href="our-story.html#combination">The combination</a><a href="our-story.html#more">More about us</a><a href="our-story.html#contact">Contact</a>
+          </nav>
+        </div>
+        <span class="go" aria-hidden="true"><i class="arr"></i></span>
+      </article>
+
+      <article class="page page--child rv">
+        <div class="thumb"><img loading="lazy" decoding="async" src="assets/stat-1.webp" alt=""><span class="thumb__n">04</span><span class="thumb__t">The <em>Team.</em></span></div>
+        <div class="info">
+          <div class="info__top"><h2 class="info__name"><a href="team.html">The Team</a></h2><span class="info__file">team.html</span></div>
+          <p class="info__d">Leadership intro, a grid or org-chart view of the team filtered by Management or Creative, a profile drawer for each person, and group scale.</p>
+          <nav class="chips" aria-label="Team sections">
+            <a href="team.html#people">Leadership</a><a href="team.html#group">Group scale</a><a href="team.html#more">More about us</a><a href="team.html#contact">Contact</a>
+          </nav>
+        </div>
+        <span class="go" aria-hidden="true"><i class="arr"></i></span>
+      </article>
+
+      <article class="page page--child rv">
+        <div class="thumb"><img loading="lazy" decoding="async" src="assets/service-card.webp" alt=""><span class="thumb__n">05</span><span class="thumb__t">Join <em>us.</em></span></div>
+        <div class="info">
+          <div class="info__top"><h2 class="info__name"><a href="join.html">Join Us</a></h2><span class="info__file">join.html</span></div>
+          <p class="info__d">Careers: why join, where the work goes, current openings filtered by team, and a profile form with CV upload.</p>
+          <nav class="chips" aria-label="Join Us sections">
+            <a href="join.html#why">Why join</a><a href="join.html#roles">Current openings</a><a href="join.html#apply">Apply</a>
+          </nav>
+        </div>
+        <span class="go" aria-hidden="true"><i class="arr"></i></span>
+      </article>
+    </div>
+  </section>
+
+  <section class="group" aria-labelledby="g3">
+    <p class="group__k" id="g3"><b>Services</b> Main section</p>
+    <div class="list">
+      <article class="page rv">
+        <div class="thumb"><img loading="lazy" decoding="async" src="assets/services-hero.webp" alt=""><span class="thumb__n">06</span><span class="thumb__t">Four services. One commercial <em>focus.</em></span></div>
+        <div class="info">
+          <div class="info__top"><h2 class="info__name"><a href="services.html">Services</a></h2><span class="info__file">services.html</span></div>
+          <p class="info__d">Four services and how they fit together: the four categories, commercial strategy in both directions, then a chapter each for Strategy &amp; Consulting, Events &amp; Activations, Media (with FUZE) and Creative, with a sticky service bar.</p>
+          <nav class="chips" aria-label="Services sections">
+            <a href="services.html#categories">Four categories</a><a href="services.html#approach">Our approach</a><a href="services.html#strategy">Strategy &amp; Consulting</a><a href="services.html#events">Events &amp; Activations</a><a href="services.html#media">Media</a><a href="services.html#creative">Creative</a>
+          </nav>
+        </div>
+        <span class="go" aria-hidden="true"><i class="arr"></i></span>
+      </article>
+    </div>
+  </section>
+
+  <section class="group" aria-labelledby="g4">
+    <p class="group__k" id="g4"><b>Our Work</b> Main section</p>
+    <div class="list">
+      <article class="page rv">
+        <div class="thumb"><img loading="lazy" decoding="async" src="assets/work-uci.webp" alt=""><span class="thumb__n">07</span><span class="thumb__t">Selected <em>work.</em></span></div>
+        <div class="info">
+          <div class="info__top"><h2 class="info__name"><a href="our-work.html">Our Work</a></h2><span class="info__file">our-work.html</span></div>
+          <p class="info__d">Selected work over the showreel: filter by service, then open any case study: outcome-led one-liner, The Ambition, The Move and The Impact, with the meta title and description preview.</p>
+          <nav class="chips" aria-label="Our Work sections">
+            <a href="our-work.html#cases">Case studies</a><a href="our-work.html#case-uci-championship">Case study view</a><a href="our-work.html#contact">Contact</a>
+          </nav>
+        </div>
+        <span class="go" aria-hidden="true"><i class="arr"></i></span>
+      </article>
+    </div>
+  </section>
+
+  <section class="group" aria-labelledby="g5">
+    <p class="group__k" id="g5"><b>Contact</b> Main section</p>
+    <div class="list">
+      <article class="page rv">
+        <div class="thumb"><img loading="lazy" decoding="async" src="assets/contact-bg.webp" alt="" style="object-position:70% 50%"><span class="thumb__n">08</span><span class="thumb__t">What should sport do <em>next?</em></span></div>
+        <div class="info">
+          <div class="info__top"><h2 class="info__name"><a href="contact.html">Contact</a></h2><span class="info__file">contact.html</span></div>
+          <p class="info__d">The enquiry form (name, company, work email, phone, what you want to unlock, the ambition, consent) with its success message, and the UAE office details.</p>
+          <nav class="chips" aria-label="Contact sections">
+            <a href="contact.html#enquiry">Enquiry form</a><a href="contact.html#offices">Offices</a>
+          </nav>
+        </div>
+        <span class="go" aria-hidden="true"><i class="arr"></i></span>
+      </article>
+    </div>
+  </section>
+
+  <section class="group" aria-labelledby="g6">
+    <p class="group__k" id="g6"><b>Legal</b> One template, three documents</p>
+    <div class="list">
+      <article class="page rv">
+        <div class="thumb"><img loading="lazy" decoding="async" src="assets/stat-2.webp" alt=""><span class="thumb__n">09</span><span class="thumb__t">Terms, Privacy, <em>Cookies.</em></span></div>
+        <div class="info">
+          <div class="info__top"><h2 class="info__name"><a href="legal.html#terms">Legal</a></h2><span class="info__file">legal.html</span></div>
+          <p class="info__d">The legal template: document facts, a switcher between the three documents, numbered contents and a counsel notice. Wording to be drafted and approved by qualified counsel.</p>
+          <nav class="chips" aria-label="Legal documents">
+            <a href="legal.html#terms">Terms &amp; Conditions</a><a href="legal.html#privacy-policy">Privacy Policy</a><a href="legal.html#cookies">Cookies</a>
+          </nav>
+        </div>
+        <span class="go" aria-hidden="true"><i class="arr"></i></span>
+      </article>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span>© 2026 PLG Acachet · Site prototype</span>
+    <a href="index.html">Go to the homepage →</a>
+  </footer>
+</main>
+
+<script>
+document.getElementById('count').textContent=document.querySelectorAll('.page').length;
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
