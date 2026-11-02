@@ -525,8 +525,10 @@ body.menu-open{overflow:hidden}
 }
 @media (max-width:900px){
   .slider{scroll-padding-inline:24px}
-  #pcards.slider{margin-inline:0;padding:12px 24px 24px;gap:16px}
-  #pcards.slider .pcard{width:300px;max-width:calc(100vw - 72px)}
+  #pcards.slider{margin-inline:0;padding:12px 24px 24px;gap:14px}
+  /* narrower than the screen so a clear slice of the next card peeks in */
+  #pcards.slider .pcard{width:calc(100vw - 110px);max-width:300px}
+  #pcards.slider .pcard__word{left:14px;font-size:30px}
   .slider__bar{display:none}
 }
 

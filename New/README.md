@@ -1,6 +1,6 @@
 # PLG Acachet: site prototype
 
-Static HTML prototype. Updated 2 November 2026. Includes all edits made to the live prototype up to this date.
+Static HTML prototype. Updated 3 November 2026. Includes all edits made to the live prototype up to this date.
 
 ## Open it
 Double-click `pages.html` for the index of every page, or `index.html` for the homepage.

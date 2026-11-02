@@ -411,12 +411,11 @@ body.menu-open{overflow:hidden}
   .swipe-dots{display:flex}
 
   .stack{background:var(--bg)}
-  .panel{position:relative;min-height:0;background:var(--bg)}
-  .panel__inner{flex-direction:column;align-items:stretch;gap:32px;padding:56px 24px;transform:none!important}
-  .panel__img{height:338px;min-width:0}
-  .panel__copy{min-width:0;gap:24px}
+  .panel{min-height:100svh;background:var(--bg)}
+  .panel__inner{flex-direction:column;align-items:stretch;gap:32px;padding:56px 24px}
+  .panel__img{flex:none;height:338px;min-width:0}
+  .panel__copy{flex:none;min-width:0;gap:24px}
   .panel__copy .btn{align-self:flex-start}
-  .panel__shade{display:none}
 
   .stats{height:min(100svh,680px);min-height:480px}
   .stats__nav{display:none}
@@ -534,8 +533,9 @@ body.menu-open{overflow:hidden}
   #gallery.slider .proj{scroll-snap-align:start}
   #cards.slider{padding:20px 24px 30px;gap:14px}
   #cards.slider .card{width:calc(100vw - 96px);max-width:340px}
-  #gallery.slider{gap:19px}
-  #gallery.slider .proj,#gallery.slider .proj--full{width:325px;max-width:calc(100vw - 60px);height:470px}
+  #gallery.slider{gap:14px}
+  /* same width as the 'What we do' cards so a slice of the next case study peeks in */
+  #gallery.slider .proj,#gallery.slider .proj--full{width:calc(100vw - 96px);max-width:340px;height:470px}
   .slider__nav{display:none}
   .slider__bar{display:none}
 }
@@ -548,6 +548,13 @@ body.menu-open{overflow:hidden}
 .footer__social{gap:12px}
 .footer__social a,.footer__social img,.footer__social svg{width:24px;height:24px}
 @media (max-width:900px){.footer__nav{font-size:14px}.footer__copy{font-size:12px}.footer__legal a{font-size:12px}}
+
+/* hero: after the full reveal has been read (~6.5s), the headline and intro dissolve and the CTAs glide to the centre */
+.hero.calm .hero__title .hw{opacity:0;filter:blur(10px);transform:translateY(-28%);transition-duration:.9s,1s,.9s;transition-delay:calc(var(--i) * 45ms)}
+.hero.calm .hero__lede{opacity:0;transform:translateY(-14px);transition:opacity .9s var(--ease-out) .25s,transform 1s var(--ease-out) .25s}
+.hero.calm .hero__title,.hero.calm .hero__lede{pointer-events:none}
+.hero.calm .hero__ctas{transform:translateY(var(--lift,0px));transition:opacity 1s var(--ease-out),transform 1.3s var(--ease-io) .55s}
+.hero.calm .hero__shade{opacity:.35}
 </style>
 </head>
 <body>
@@ -779,6 +786,13 @@ const heroTitle=document.getElementById('heroTitle');
 heroTitle.innerHTML=heroTitle.textContent.trim().split(/\s+/).map((w,i)=>`<span class="hw" style="--i:${i}">${w}</span>`).join(' ');
 const heroEl=document.querySelector('.hero');
 setTimeout(()=>heroEl.classList.add('ready'),matchMedia('(prefers-reduced-motion: reduce)').matches?0:1800);
+/* ~6.5s after everything has revealed, hide the headline + intro and centre the CTAs */
+setTimeout(()=>{
+  const t=document.getElementById('heroTitle'),l=heroEl.querySelector('.hero__lede'),c=heroEl.querySelector('.hero__ctas');
+  const above=c.getBoundingClientRect().top-t.getBoundingClientRect().top;      // distance from headline top to CTA top
+  heroEl.style.setProperty('--lift',(-above/2).toFixed(1)+'px');
+  heroEl.classList.add('calm');
+},(matchMedia('(prefers-reduced-motion: reduce)').matches?0:1800)+900+6500);
 const mq=document.getElementById('marquee');
 const clone=mq.firstElementChild.cloneNode(true); clone.setAttribute('aria-hidden','true'); mq.appendChild(clone);
 
@@ -905,6 +919,9 @@ function setStat(i){
 /* scroll effects: at most one update per frame; every position is read first, then styles are written,
    so the browser never has to recalculate layout mid-update */
 const heroContent=document.getElementById('heroContent');
+// a panel taller than the screen pins only once its bottom edge is in view, so nothing is hidden under the next one
+function pinPanels(){panels.forEach(p=>{p.style.top=Math.min(0,innerHeight-p.offsetHeight)+'px'})}
+pinPanels();addEventListener('resize',pinPanels);addEventListener('load',pinPanels);
 const panel0Inner=panels[0].querySelector('.panel__inner'),panel0Shade=panels[0].querySelector('.panel__shade');
 let navTone=null,wordsOn=-1,scrollQueued=false,panelK=-1;
 function onScroll(){
@@ -913,7 +930,7 @@ function onScroll(){
   // --- reads ---
   const lr=navLogo.getBoundingClientRect(), cy=lr.top+lr.height/2;
   const light=lightSecs.some(s=>{const r=s.getBoundingClientRect();return r.top<=cy&&r.bottom>=cy});
-  const p2top=!isMobile()?panels[1].getBoundingClientRect().top:null;
+  const p2top=panels[1].getBoundingClientRect().top;
   const sr=st.getBoundingClientRect();
   // --- writes ---
   nav.classList.toggle('is-scrolled',y>40);
@@ -931,7 +948,7 @@ function onScroll(){
   }
   // stacked panels: first panel recedes as the second slides over
   if(p2top!==null){
-    const k=+clamp(1-p2top/vh).toFixed(3);
+    const k=+clamp(1-(p2top-Math.max(0,panels[0].getBoundingClientRect().bottom-vh))/vh).toFixed(3);
     if(k!==panelK){panelK=k;
     if(!reduce) panel0Inner.style.transform=`scale(${(1-k*.08).toFixed(4)})`;
     panel0Shade.style.opacity=(k*.6).toFixed(3);}
@@ -1027,6 +1044,5 @@ form.addEventListener('submit',e=>{
 });
 form.querySelectorAll('input').forEach(i=>i.addEventListener('input',()=>i.parentElement.classList.remove('err')));
 </script>
-
 </body>
 </html>
