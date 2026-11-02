@@ -348,6 +348,16 @@ body.menu-open{overflow:hidden}
 /* ================= SKIP LINK (all pages) ================= */
 .skip{position:fixed;left:16px;top:-80px;z-index:200;padding:12px 18px;border-radius:10px;background:#ff7433;color:#000d1d;font:600 15px/1 Inter,system-ui,sans-serif;transition:top .25s}
 .skip:focus{top:calc(16px + env(safe-area-inset-top,0px))}
+
+/* sub-nav: swipe / drag sideways on smaller screens, with edge fades showing there is more */
+@media (max-width:900px){
+  .subnav__inner{-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;touch-action:pan-x pan-y;cursor:grab;scroll-snap-type:x proximity;scroll-padding-inline:24px;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl,0px),#000 calc(100% - var(--fr,0px)),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl,0px),#000 calc(100% - var(--fr,0px)),transparent 100%)}
+  .subnav__inner::after{content:"";flex:0 0 1px}
+  .subnav a{scroll-snap-align:start;-webkit-user-drag:none}
+  .subnav__inner.is-dragging{cursor:grabbing;scroll-snap-type:none}
+  .subnav__inner.is-dragging a{pointer-events:none}
+}
 </style>
 </head>
 <body>
@@ -592,6 +602,21 @@ addEventListener('resize',relayout);
 document.fonts&&document.fonts.ready.then(relayout);
 addEventListener('load',relayout);
 relayout();
+
+/* sub-nav: mouse drag, edge fades, and open with this page's tab in view */
+(()=>{
+  const sn=document.querySelector('.subnav__inner');if(!sn)return;
+  const fades=()=>{const max=sn.scrollWidth-sn.clientWidth;sn.style.setProperty('--fl',sn.scrollLeft>4?'36px':'0px');sn.style.setProperty('--fr',sn.scrollLeft<max-4?'36px':'0px')};
+  sn.addEventListener('scroll',fades,{passive:true});addEventListener('resize',fades);
+  const a=sn.querySelector('a.is-active');if(a&&sn.scrollWidth>sn.clientWidth)sn.scrollLeft=Math.max(0,a.offsetLeft-sn.clientWidth/2+a.offsetWidth/2);
+  fades();
+  let down=false,moved=false,x0=0,s0=0;
+  sn.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||sn.scrollWidth<=sn.clientWidth)return;down=true;moved=false;x0=e.clientX;s0=sn.scrollLeft});
+  addEventListener('pointermove',e=>{if(!down)return;const dx=e.clientX-x0;if(!moved&&Math.abs(dx)>5){moved=true;sn.classList.add('is-dragging')}if(moved)sn.scrollLeft=s0-dx});
+  addEventListener('pointerup',()=>{if(!down)return;down=false;sn.classList.remove('is-dragging')});
+  sn.addEventListener('click',e=>{if(moved){e.preventDefault();e.stopPropagation();moved=false}},true);
+  sn.addEventListener('dragstart',e=>e.preventDefault());
+})();
 </script>
 </body>
 </html>

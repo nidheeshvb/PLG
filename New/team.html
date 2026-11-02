@@ -305,13 +305,14 @@ body.menu-open{overflow:hidden}
 /* profile drawer */
 .drawer{position:fixed;inset:0;z-index:80}
 .drawer__scrim{position:absolute;inset:0;background:rgba(0,0,0,.62);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);opacity:0;transition:opacity .45s var(--ease-out)}
-.drawer__panel{position:absolute;top:0;right:0;bottom:0;width:min(480px,100%);overflow-y:auto;overscroll-behavior:contain;background:var(--bg-2);border-left:1px solid var(--line);padding:calc(20px + env(safe-area-inset-top,0px)) max(28px,env(safe-area-inset-right,0px)) calc(40px + env(safe-area-inset-bottom,0px)) 28px;display:flex;flex-direction:column;gap:28px;transform:translateX(100%);transition:transform .6s var(--ease-io)}
+.drawer__panel{position:absolute;top:0;right:0;bottom:0;width:min(520px,100%);overflow-y:auto;overscroll-behavior:contain;background:var(--bg-2);border-left:1px solid var(--line);padding:calc(20px + env(safe-area-inset-top,0px)) max(28px,env(safe-area-inset-right,0px)) calc(40px + env(safe-area-inset-bottom,0px)) 28px;display:flex;flex-direction:column;gap:28px;transform:translateX(100%);transition:transform .6s var(--ease-io)}
 .drawer.open .drawer__scrim{opacity:1}
 .drawer.open .drawer__panel{transform:none}
 .drawer__x{align-self:flex-end;flex:none;display:grid;place-items:center;width:44px;height:44px;min-height:44px;aspect-ratio:1;padding:0;border-radius:50%;border:1px solid var(--line-2);color:#fff;transition:background .3s,border-color .3s,transform .4s var(--ease-out)}
 .drawer__x:focus-visible{border-radius:50%}
 .drawer__x:hover{background:var(--accent);border-color:var(--accent);color:var(--ink);transform:rotate(90deg)}
-.drawer__img{aspect-ratio:4/5;max-width:100%;border-radius:14px;border:1px solid var(--line)}
+.drawer__img{flex:none;width:100%;aspect-ratio:4/5;border-radius:14px;border:1px solid var(--line)}
+.drawer__img img{object-position:50% 25%}
 .drawer__img img{filter:none}
 .drawer__body{display:flex;flex-direction:column;gap:8px}
 .drawer__name{font-weight:700;font-size:36px;line-height:1.1;letter-spacing:-.3px;color:#fff;text-wrap:balance}
@@ -504,6 +505,16 @@ body.drawer-open{overflow:hidden}
 /* ================= SKIP LINK (all pages) ================= */
 .skip{position:fixed;left:16px;top:-80px;z-index:200;padding:12px 18px;border-radius:10px;background:#ff7433;color:#000d1d;font:600 15px/1 Inter,system-ui,sans-serif;transition:top .25s}
 .skip:focus{top:calc(16px + env(safe-area-inset-top,0px))}
+
+/* sub-nav: swipe / drag sideways on smaller screens, with edge fades showing there is more */
+@media (max-width:900px){
+  .subnav__inner{-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;touch-action:pan-x pan-y;cursor:grab;scroll-snap-type:x proximity;scroll-padding-inline:24px;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl,0px),#000 calc(100% - var(--fr,0px)),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl,0px),#000 calc(100% - var(--fr,0px)),transparent 100%)}
+  .subnav__inner::after{content:"";flex:0 0 1px}
+  .subnav a{scroll-snap-align:start;-webkit-user-drag:none}
+  .subnav__inner.is-dragging{cursor:grabbing;scroll-snap-type:none}
+  .subnav__inner.is-dragging a{pointer-events:none}
+}
 </style>
 </head>
 <body>
@@ -853,6 +864,21 @@ addEventListener('scroll',()=>requestAnimationFrame(onScroll),{passive:true});
 addEventListener('resize',()=>{placeThumb();onScroll()});
 document.fonts&&document.fonts.ready.then(placeThumb);
 applyFilter('all',true);placeThumb();onScroll();
+
+/* sub-nav: mouse drag, edge fades, and open with this page's tab in view */
+(()=>{
+  const sn=document.querySelector('.subnav__inner');if(!sn)return;
+  const fades=()=>{const max=sn.scrollWidth-sn.clientWidth;sn.style.setProperty('--fl',sn.scrollLeft>4?'36px':'0px');sn.style.setProperty('--fr',sn.scrollLeft<max-4?'36px':'0px')};
+  sn.addEventListener('scroll',fades,{passive:true});addEventListener('resize',fades);
+  const a=sn.querySelector('a.is-active');if(a&&sn.scrollWidth>sn.clientWidth)sn.scrollLeft=Math.max(0,a.offsetLeft-sn.clientWidth/2+a.offsetWidth/2);
+  fades();
+  let down=false,moved=false,x0=0,s0=0;
+  sn.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||sn.scrollWidth<=sn.clientWidth)return;down=true;moved=false;x0=e.clientX;s0=sn.scrollLeft});
+  addEventListener('pointermove',e=>{if(!down)return;const dx=e.clientX-x0;if(!moved&&Math.abs(dx)>5){moved=true;sn.classList.add('is-dragging')}if(moved)sn.scrollLeft=s0-dx});
+  addEventListener('pointerup',()=>{if(!down)return;down=false;sn.classList.remove('is-dragging')});
+  sn.addEventListener('click',e=>{if(moved){e.preventDefault();e.stopPropagation();moved=false}},true);
+  sn.addEventListener('dragstart',e=>e.preventDefault());
+})();
 </script>
 </body>
 </html>

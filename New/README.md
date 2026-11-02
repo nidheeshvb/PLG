@@ -1,6 +1,6 @@
 # PLG Acachet: site prototype
 
-Static HTML prototype. Updated 30 October 2026.
+Static HTML prototype. Updated 2 November 2026. Includes all edits made to the live prototype up to this date.
 
 ## Open it
 Double-click `pages.html` for the index of every page, or `index.html` for the homepage.
@@ -32,6 +32,13 @@ Fonts load from Google Fonts (Inter).
 - Homepage images load directly (the old script-based image loader is removed).
 - Logo resized to its display size (8 KB → 3 KB).
 - "Skip to content" link on every page for keyboard users.
+
+## Homepage scroll performance (2 Nov 2026)
+- Scroll effects run at most once per frame, reading positions before writing styles (no forced layout).
+- The numbers carousel timer and the custom "View" cursor only run while needed (they no longer loop for the whole visit).
+- The showreel pauses once scrolled past and resumes when you return; it is re-encoded lighter (960px, 24 fps, 4.7 MB instead of 8.2 MB).
+- The contact section's white glow is drawn as a gradient instead of a heavy blur filter.
+- The numbers slides are only promoted to GPU layers while they move.
 - All internal links checked: every page and section link resolves.
 
 ## Before launch

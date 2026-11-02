@@ -217,20 +217,30 @@ body.menu-open{overflow:hidden}
 /* =========================================================
    STATS — pinned horizontal scroll
    ========================================================= */
-.stats{position:relative;height:400vh;background:#000}
-.stats__sticky{position:sticky;top:0;height:100vh;overflow:hidden}
-.stats__track{display:flex;gap:0;height:100%;will-change:transform}
-.stat{position:relative;flex:none;width:100vw;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.stat__bg{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;transform:scale(1.08);will-change:transform}
-.stat__txt{will-change:transform,opacity}
+/* key numbers: a looping, auto-advancing full-width carousel */
+.stats{position:relative;height:min(100vh,880px);min-height:560px;background:#000}
+.stats__sticky{position:relative;height:100%;overflow:hidden;touch-action:pan-y}
+.stats__track{position:relative;height:100%}
+.stat{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stats.is-moving .stat,.stats.is-moving .stat__bg,.stats.is-moving .stat__txt{will-change:transform}
+.stat__bg{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;transform:scale(1.08)}
 .stat__bg--crop{object-fit:cover;object-position:50% 52%}
 .stat__txt{position:relative;text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center}
 .stat__num{font-weight:300;font-size:110px;line-height:94px;letter-spacing:-1.056px;color:var(--c5);font-variant-numeric:tabular-nums}
 .stat__lbl{font-size:26px;line-height:1.25;color:#e3e3e3;opacity:0;transform:translateY(14px);transition:opacity .6s .2s,transform .8s .2s var(--ease-out)}
 .stat.is-active .stat__lbl{opacity:1;transform:none}
 .stats__progress{position:absolute;left:50%;bottom:40px;transform:translateX(-50%);display:flex;gap:10px;z-index:2}
-.stats__progress button{width:28px;height:3px;border-radius:2px;background:rgba(255,255,255,.3);transition:background .3s,width .4s var(--ease-out)}
-.stats__progress button.on{background:var(--accent);width:48px}
+.stats__progress button{position:relative;width:28px;height:3px;padding:8px 0;box-sizing:content-box;background:none;transition:width .5s var(--ease-out)}
+.stats__progress button::before,.stats__progress button i{content:"";position:absolute;left:0;top:8px;height:3px;border-radius:2px}
+.stats__progress button::before{right:0;background:rgba(255,255,255,.3)}
+.stats__progress button i{width:0;background:var(--accent)}
+.stats__progress button.on{width:56px}
+.stats__nav{position:absolute;right:max(var(--gutter),env(safe-area-inset-right,0px));bottom:28px;z-index:2;display:flex;gap:10px}
+.stats__nav button{display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:rgba(0,0,0,.35);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.35);color:#fff;transition:background .3s,box-shadow .3s,color .3s}
+.stats__nav button:hover{background:var(--accent);box-shadow:none;color:var(--ink)}
+.stats__nav .arr{width:11px;height:11px}
+.stats__nav button:first-child .arr{transform:rotate(-135deg)}
+.stats__nav button:last-child .arr{transform:rotate(45deg)}
 
 /* =========================================================
    LOGO MARQUEE (Figma motion: 12s linear infinite)
@@ -274,7 +284,7 @@ body.menu-open{overflow:hidden}
 .proj:hover .proj__desc,.proj:hover .proj__cta{opacity:1}
 
 /* custom cursor for case studies */
-.cursor{position:fixed;left:0;top:0;z-index:70;width:96px;height:96px;margin:-48px 0 0 -48px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;letter-spacing:1px;text-transform:uppercase;pointer-events:none;transform:scale(0);transition:transform .35s var(--ease-out)}
+.cursor{position:fixed;left:0;top:0;translate:0 0;will-change:translate,transform;z-index:70;width:96px;height:96px;margin:-48px 0 0 -48px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;letter-spacing:1px;text-transform:uppercase;pointer-events:none;transform:scale(0);transition:transform .35s var(--ease-out)}
 .cursor.on{transform:scale(1)}
 
 /* =========================================================
@@ -293,7 +303,7 @@ body.menu-open{overflow:hidden}
    ========================================================= */
 .contact{position:relative;height:702px;margin-top:-1px;overflow:hidden;background:#fff;color:#000}
 .contact__bg{position:absolute;left:0;top:-2px;width:100%;height:calc(100% + 2px);max-width:none;object-fit:cover;object-position:right center}
-.contact__blur{position:absolute;left:94px;top:161px;width:553px;height:502px;background:#fff;filter:blur(92px);opacity:.8}
+.contact__blur{position:absolute;left:2px;top:69px;width:737px;height:686px;background:radial-gradient(closest-side,rgba(255,255,255,.8) 0%,rgba(255,255,255,.8) 55%,rgba(255,255,255,.45) 75%,rgba(255,255,255,0) 100%);pointer-events:none}
 .contact__grad{position:absolute;left:-3px;top:0;width:640px;height:702px;background:linear-gradient(90deg,#fff -3%,rgba(255,255,255,0) 100%)}
 .contact__inner{position:relative;padding:67px 0 0 var(--gutter);max-width:741px}
 .contact__inner .h1{color:#000}
@@ -408,9 +418,8 @@ body.menu-open{overflow:hidden}
   .panel__copy .btn{align-self:flex-start}
   .panel__shade{display:none}
 
-  /* stats: same pinned horizontal scroll as desktop */
-  .stats{height:350vh}
-  .stats__sticky{height:100vh;height:100svh}
+  .stats{height:min(100svh,680px);min-height:480px}
+  .stats__nav{display:none}
   .stat__num{font-size:84px;line-height:80px}
   .stat__lbl{font-size:22px}
   .stats__progress{bottom:28px}
@@ -490,6 +499,55 @@ body.menu-open{overflow:hidden}
 /* ================= SKIP LINK (all pages) ================= */
 .skip{position:fixed;left:16px;top:-80px;z-index:200;padding:12px 18px;border-radius:10px;background:#ff7433;color:#000d1d;font:600 15px/1 Inter,system-ui,sans-serif;transition:top .25s}
 .skip:focus{top:calc(16px + env(safe-area-inset-top,0px))}
+
+/* ================= DRAGGABLE CARD SLIDERS (services cards + case studies) =================
+   Tablet and mobile only (≤1100px): both blocks become horizontal sliders: drag with the mouse, swipe on touch, trackpad-scroll sideways.
+   They bleed to the screen edges and snap card-by-card. */
+.slider__bar{display:none}
+@media (max-width:1100px){
+  .slider{display:flex!important;flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-padding-inline:var(--gutter);scrollbar-width:none;-webkit-overflow-scrolling:touch;cursor:grab;user-select:none;-webkit-user-select:none}
+  .slider::-webkit-scrollbar{display:none}
+  .slider.is-dragging{cursor:grabbing;scroll-snap-type:none;scroll-behavior:auto}
+  .slider.is-dragging *{pointer-events:none}
+  .slider img{-webkit-user-drag:none;user-select:none}
+  .slider::after{content:"";flex:0 0 calc(var(--gutter) - 12px)}
+  #cards.slider{width:auto;align-self:stretch;margin-inline:calc(-1*var(--gutter));padding:24px var(--gutter) 36px;gap:16px;justify-content:flex-start}
+  #cards.slider .card{flex:none;width:clamp(280px,27vw,380px);scroll-snap-align:start}
+  #gallery.slider{width:auto;align-self:stretch;margin-inline:calc(-1*var(--gutter));padding:18px var(--gutter) 8px;gap:32px}
+  #gallery.slider .proj{flex:none;width:clamp(300px,40vw,600px);height:min(720px,48vw);scroll-snap-align:start}
+  #gallery.slider .proj--full{width:clamp(300px,62vw,920px)}
+  .slider__bar{display:flex;align-items:center;justify-content:flex-end;gap:20px;width:100%}
+  .slider__nav{display:flex;gap:10px}
+  .slider__nav button{display:grid;place-items:center;width:48px;height:48px;border-radius:50%;box-shadow:inset 0 0 0 1px var(--sl-line,rgba(255,255,255,.3));color:var(--sl-ink,#fff);transition:background .3s,box-shadow .3s,color .3s,opacity .3s}
+  .slider__nav button:hover{background:var(--accent);box-shadow:none;color:var(--ink)}
+  .slider__nav button:disabled{opacity:.3;pointer-events:none}
+  .slider__nav .arr{width:11px;height:11px}
+  .slider__nav button:first-child .arr{transform:rotate(-135deg)}
+  .slider__nav button:last-child .arr{transform:rotate(45deg)}
+  .services .slider__nav{--sl-line:rgba(0,0,0,.2);--sl-ink:#222}
+}
+@media (max-width:900px){
+  /* on mobile the sections have no side padding, so the slider sits flush and pads itself to the 24px page margin */
+  .slider{scroll-padding-inline:24px}
+  #cards.slider,#gallery.slider{margin-inline:0}
+  #gallery.slider{padding:0 24px}
+  #gallery.slider .proj{scroll-snap-align:start}
+  #cards.slider{padding:20px 24px 30px;gap:14px}
+  #cards.slider .card{width:calc(100vw - 96px);max-width:340px}
+  #gallery.slider{gap:19px}
+  #gallery.slider .proj,#gallery.slider .proj--full{width:325px;max-width:calc(100vw - 60px);height:470px}
+  .slider__nav{display:none}
+  .slider__bar{display:none}
+}
+
+/* footer: smaller type so logo, links, social, copyright and legal links sit on one row */
+.footer__row{gap:12px 20px}
+.footer__nav{gap:28px;font-size:14px;line-height:24px}
+.footer__copy,.footer__legal a{font-size:13px;line-height:24px}
+.footer__legal{gap:18px}
+.footer__social{gap:12px}
+.footer__social a,.footer__social img,.footer__social svg{width:24px;height:24px}
+@media (max-width:900px){.footer__nav{font-size:14px}.footer__copy{font-size:12px}.footer__legal a{font-size:12px}}
 </style>
 </head>
 <body>
@@ -524,7 +582,7 @@ body.menu-open{overflow:hidden}
 <section class="hero" aria-label="Hero">
   <div class="hero__media" id="heroMedia">
     <video class="hero__video" id="heroVideo" autoplay muted loop playsinline preload="auto" poster="assets/hero-poster.webp" aria-hidden="true">
-      <source src="assets/hero-reel.mp4" type="video/mp4">
+      <source src="assets/hero-reel-960.mp4" type="video/mp4">
     </video>
   </div>
   <div class="hero__fade"></div>
@@ -566,7 +624,7 @@ body.menu-open{overflow:hidden}
     <p class="eyebrow" data-reveal>What we do</p>
     <h2 class="h1" data-reveal style="--d:.08s">Ideas with purpose.</h2>
   </div>
-  <div class="cards" id="cards">
+  <div class="cards slider" id="cards">
     <a href="services.html#strategy" class="card" data-reveal style="--d:0s">
       <div class="card__img"><img src="assets/service-card.webp" alt="" loading="lazy" decoding="async"><p class="card__desc"><span>Sponsorship sales, partnerships, media rights and IP commercialisation for rights holders.</span></p></div>
       <div class="card__meta"><div class="card__meta-l"><span class="card__num">01</span><span class="card__name">Strategy &amp; Consulting</span></div><span class="card__arrow"><i class="arr"></i></span></div>
@@ -584,6 +642,7 @@ body.menu-open{overflow:hidden}
       <div class="card__meta"><div class="card__meta-l"><span class="card__num">04</span><span class="card__name">Creative</span></div><span class="card__arrow"><i class="arr"></i></span></div>
     </a>
   </div>
+  <div class="slider__bar" data-for="cards"><div class="slider__nav"><button type="button" data-dir="-1" aria-label="Previous"><i class="arr"></i></button><button type="button" data-dir="1" aria-label="Next"><i class="arr"></i></button></div></div>
   <div class="swipe-dots" id="cardDots"><i class="on"></i><i></i><i></i><i></i></div>
   <p class="services__note" data-reveal>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam luctus mauris id ante gravida, eget fringilla mi mollis. Donec feugiat, lorem ut porttitor ultrices,</p>
 </section>
@@ -629,8 +688,9 @@ body.menu-open{overflow:hidden}
       <div class="stat"><img class="stat__bg stat__bg--crop" src="assets/stat-4.webp" alt="" decoding="async"><div class="stat__txt"><p class="stat__num" data-count="20">20</p><p class="stat__lbl">Markets reach</p></div></div>
     </div>
     <div class="stats__progress" id="statsDots" role="tablist" aria-label="Stats">
-      <button class="on" aria-label="Stat 1"></button><button aria-label="Stat 2"></button><button aria-label="Stat 3"></button><button aria-label="Stat 4"></button>
+      <button class="on" aria-label="Stat 1"><i></i></button><button aria-label="Stat 2"><i></i></button><button aria-label="Stat 3"><i></i></button><button aria-label="Stat 4"><i></i></button>
     </div>
+    <div class="stats__nav"><button type="button" id="statsPrev" aria-label="Previous stat"><i class="arr"></i></button><button type="button" id="statsNext" aria-label="Next stat"><i class="arr"></i></button></div>
   </div>
 </section>
 
@@ -654,13 +714,14 @@ body.menu-open{overflow:hidden}
     <p class="eyebrow" data-reveal>Case Studies</p>
     <h2 class="h1" data-reveal style="--d:.08s">Creative work. Meaningful results.</h2>
   </div>
-  <div class="gallery" id="gallery">
+  <div class="gallery slider" id="gallery">
     <a href="our-work.html#case-uci-championship" class="proj" data-cursor data-reveal="scale"><img src="assets/work-uci.webp" alt="" loading="lazy" decoding="async"><div class="proj__overlay"><h3 class="proj__title">UCI Championship</h3><div class="proj__more"><div><p class="proj__desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis turpis et dolor consectetur porta et sit amet arcu.</p><p class="proj__cta">Explore Project <span><i class="arr"></i></span></p></div></div></div></a>
     <a href="our-work.html#case-game-of-the-future" class="proj" data-cursor data-reveal="scale" style="--d:.1s"><img src="assets/mujtamae.webp" alt="" loading="lazy" decoding="async"><div class="proj__overlay"><h3 class="proj__title">Game of the future</h3><div class="proj__more"><div><p class="proj__desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis turpis et dolor consectetur porta et sit amet arcu.</p><p class="proj__cta">Explore Project <span><i class="arr"></i></span></p></div></div></div></a>
     <a href="our-work.html#case-call-of-duty" class="proj proj--full" data-cursor data-reveal="scale"><img src="assets/work-cod.webp" alt="" loading="lazy" decoding="async"><div class="proj__overlay"><h3 class="proj__title">Call of Duty: Modern Warfare 4</h3><div class="proj__more"><div><p class="proj__desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis turpis et dolor consectetur porta et sit amet arcu.</p><p class="proj__cta">Explore Project <span><i class="arr"></i></span></p></div></div></div></a>
     <a href="our-work.html#case-ea-ballers" class="proj" data-cursor data-reveal="scale"><img src="assets/work-ea.webp" alt="" loading="lazy" decoding="async"><div class="proj__overlay"><h3 class="proj__title">EA Ballers</h3><div class="proj__more"><div><p class="proj__desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis turpis et dolor consectetur porta et sit amet arcu.</p><p class="proj__cta">Explore Project <span><i class="arr"></i></span></p></div></div></div></a>
     <a href="our-work.html#case-kfc" class="proj" data-cursor data-reveal="scale" style="--d:.1s"><img src="assets/work-kfc.webp" alt="" loading="lazy" decoding="async"><div class="proj__overlay"><h3 class="proj__title">KFC</h3><div class="proj__more"><div><p class="proj__desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis turpis et dolor consectetur porta et sit amet arcu.</p><p class="proj__cta">Explore Project <span><i class="arr"></i></span></p></div></div></div></a>
   </div>
+  <div class="slider__bar" data-for="gallery"><div class="slider__nav"><button type="button" data-dir="-1" aria-label="Previous"><i class="arr"></i></button><button type="button" data-dir="1" aria-label="Next"><i class="arr"></i></button></div></div>
   <div class="swipe-dots" id="workDots"><i class="on"></i><i></i><i></i><i></i><i></i></div>
   <a href="our-work.html" class="btn" data-reveal><span class="btn__label">See our work</span><span class="btn__arrow"><i class="arr"></i></span></a>
 </section>
@@ -780,72 +841,59 @@ const statEls=[...track.children], sDots=[...document.querySelectorAll('#statsDo
 const panels=[...document.querySelectorAll('[data-panel]')];
 let lastY=scrollY, activeStat=-1;
 
-/* stats: inertial horizontal glide with layered parallax (image drifts slower than the frame, numbers lead slightly) */
-let statsTarget=0,statsCur=0,statsFrom=0,statsT0=0,statsRaf=0,statsIdx=0,statsLock=false;
-const STATS_DUR=1100;
+/* stats: looping carousel. pos is a continuous slide index; every slide is placed at its wrapped distance from pos,
+   so the last slide glides straight into the first with no jump. Image drifts slower than the frame, the number leads. */
+const N=statEls.length,STATS_DUR=1200,STATS_HOLD=4500;
+let statsPos=0,statsFrom=0,statsTo=0,statsT0=0,statsRaf=0;
 const statBgs=statEls.map(s=>s.querySelector('.stat__bg')),statTxts=statEls.map(s=>s.querySelector('.stat__txt'));
+const wrap=d=>((d%N)+N+N/2)%N-N/2;
 function renderStats(){
-  const w=innerWidth,max=track.scrollWidth-w,p=statsCur*3;
-  track.style.transform=`translate3d(${(-statsCur*max).toFixed(2)}px,0,0)`;
+  const w=stats.clientWidth;
   statEls.forEach((el,k)=>{
-    const d=Math.max(-1,Math.min(1,p-k)),a=Math.abs(d);
-    statBgs[k].style.transform=`translate3d(${(d*w*.32).toFixed(2)}px,0,0) scale(${(1.08+a*.06).toFixed(4)})`;
-    statTxts[k].style.transform=`translate3d(${(-d*w*.12).toFixed(2)}px,0,0)`;
-    statTxts[k].style.opacity=(1-Math.min(1,a*1.6)).toFixed(3);
+    const d=wrap(k-statsPos),c=Math.max(-1,Math.min(1,d)),a=Math.abs(c);
+    el.style.transform=`translate3d(${(d*w).toFixed(2)}px,0,0)`;
+    el.style.visibility=Math.abs(d)<1.001?'visible':'hidden';
+    statBgs[k].style.transform=`translate3d(${(-c*w*.35).toFixed(2)}px,0,0) scale(${(1.06+a*.08).toFixed(4)})`;
+    statTxts[k].style.transform=`translate3d(${(c*w*.18).toFixed(2)}px,0,0)`;
+    statTxts[k].style.opacity=(1-Math.min(1,a*1.7)).toFixed(3);
   });
 }
 const easeIO=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
 function stepStats(now){
   const t=reduce?1:Math.min(1,(now-statsT0)/STATS_DUR);
-  statsCur=statsFrom+(statsTarget-statsFrom)*easeIO(t);
+  statsPos=statsFrom+(statsTo-statsFrom)*easeIO(t);
   renderStats();
   statsRaf=t<1?requestAnimationFrame(stepStats):0;
+  stats.classList.toggle('is-moving',t<1);
 }
-function goStat(idx){
-  const target=idx/3;
-  if(target===statsTarget&&(statsRaf||statsCur===target))return;
-  statsFrom=statsCur;statsTarget=target;statsT0=performance.now();
+function goStat(dir){                       // dir: +1 next, -1 previous (always the short way round)
+  statsFrom=statsPos;statsTo=Math.round(statsTo)+dir;statsT0=performance.now();
   if(!statsRaf)statsRaf=requestAnimationFrame(stepStats);
+  setStat(((statsTo%N)+N)%N);
+  held=0;
 }
-/* each wheel / swipe / key press inside the pinned section moves exactly one slide */
-const statTop=i=>stats.offsetTop+(stats.offsetHeight-stats.firstElementChild.offsetHeight)*(i/3);
-function statsPinned(){const r=stats.getBoundingClientRect();return r.top<=2&&r.bottom>=innerHeight-2}
-function stepSlide(dir){
-  const next=statsIdx+dir;
-  if(next<0||next>3)return false;            // first/last slide: let the page carry on scrolling
-  if(!statsLock){
-    statsLock=true;statsIdx=next;
-    scrollTo({top:statTop(next),behavior:'instant'});
-    setTimeout(()=>statsLock=false,STATS_DUR*.9);
-  }
-  return true;
+function goTo(i){const cur=((Math.round(statsTo)%N)+N)%N;let d=i-cur;if(d>N/2)d-=N;if(d<-N/2)d+=N;if(d){statsFrom=statsPos;statsTo=Math.round(statsTo)+d;statsT0=performance.now();if(!statsRaf)statsRaf=requestAnimationFrame(stepStats);setStat(i);held=0}}
+/* autoplay with a filling progress bar; pauses while dragging, when off screen or the tab is hidden */
+let held=0,lastT=performance.now(),paused=false,inView=false;
+new IntersectionObserver(es=>{inView=es[0].isIntersecting;if(inView){setStat(((Math.round(statsTo)%N)+N)%N);if(!tickRaf){lastT=performance.now();tickRaf=requestAnimationFrame(tick)}}},{threshold:.35}).observe(stats);
+let tickRaf=0;
+function tick(now){
+  const dt=Math.min(now-lastT,100);lastT=now;
+  if(!reduce&&!paused&&!document.hidden&&!statsRaf){held+=dt;if(held>=STATS_HOLD)goStat(1)}
+  const on=sDots.find(d=>d.classList.contains('on'));
+  sDots.forEach(d=>{const i=d.firstElementChild;if(d!==on&&i.style.width!=='0px')i.style.width='0px'});
+  if(on)on.firstElementChild.style.width=(reduce?100:Math.min(100,held/STATS_HOLD*100)).toFixed(1)+'%';
+  tickRaf=inView?requestAnimationFrame(tick):0;
 }
-// trackpads keep firing momentum events after a flick: only a fresh gesture (after a short pause) advances again
-let lastWheel=0;
-addEventListener('wheel',e=>{
-  if(!statsPinned())return;
-  const now=performance.now(),fresh=now-lastWheel>180;lastWheel=now;
-  const dir=e.deltaY>0?1:-1,next=statsIdx+dir;
-  if(Math.abs(e.deltaY)<2||next<0||next>3)return;
-  e.preventDefault();
-  if(fresh)stepSlide(dir);
-},{passive:false});
-let tY=null;
-addEventListener('touchstart',e=>{tY=e.touches[0].clientY},{passive:true});
-addEventListener('touchmove',e=>{
-  if(tY===null||!statsPinned())return;
-  const dy=tY-e.touches[0].clientY,next=statsIdx+(dy>0?1:-1);
-  if(next<0||next>3)return;
-  e.preventDefault();
-  if(Math.abs(dy)>40){stepSlide(dy>0?1:-1);tY=null}
-},{passive:false});
-addEventListener('touchend',()=>{tY=null},{passive:true});
-addEventListener('keydown',e=>{
-  if(!statsPinned())return;
-  const d={ArrowDown:1,PageDown:1,' ':1,ArrowUp:-1,PageUp:-1}[e.key];
-  if(d&&stepSlide(d))e.preventDefault();
-});
+document.getElementById('statsPrev').addEventListener('click',()=>goStat(-1));
+document.getElementById('statsNext').addEventListener('click',()=>goStat(1));
+/* swipe / drag */
+let sx=null;
+stats.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'){sx=e.clientX;paused=true}});
+stats.addEventListener('pointerup',e=>{if(sx!==null){const dx=e.clientX-sx;if(Math.abs(dx)>40)goStat(dx<0?1:-1);sx=null;paused=false}});
+stats.addEventListener('pointercancel',()=>{sx=null;paused=false});
 addEventListener('resize',()=>renderStats());
+renderStats();
 
 function setStat(i){
   if(i===activeStat) return; activeStat=i;
@@ -854,57 +902,55 @@ function setStat(i){
   countUp(statEls[i].querySelector('.stat__num'));
 }
 
+/* scroll effects: at most one update per frame; every position is read first, then styles are written,
+   so the browser never has to recalculate layout mid-update */
+const heroContent=document.getElementById('heroContent');
+const panel0Inner=panels[0].querySelector('.panel__inner'),panel0Shade=panels[0].querySelector('.panel__shade');
+let navTone=null,wordsOn=-1,scrollQueued=false,panelK=-1;
 function onScroll(){
+  scrollQueued=false;
   const y=scrollY, vh=innerHeight;
-  // nav: fade out on scroll down, fade back in on scroll up
+  // --- reads ---
+  const lr=navLogo.getBoundingClientRect(), cy=lr.top+lr.height/2;
+  const light=lightSecs.some(s=>{const r=s.getBoundingClientRect();return r.top<=cy&&r.bottom>=cy});
+  const p2top=!isMobile()?panels[1].getBoundingClientRect().top:null;
+  const sr=st.getBoundingClientRect();
+  // --- writes ---
   nav.classList.toggle('is-scrolled',y>40);
   if(!document.body.classList.contains('menu-open')){
     if(y<=120 || y<lastY-2) nav.classList.remove('is-hidden');
     else if(y>lastY+2) nav.classList.add('is-hidden');
   }
   lastY=y;
-  updateNavTone();
-  // hero parallax
+  if(light!==navTone){navTone=light;nav.classList.toggle('on-light',light)}
+  // hero parallax: text drifts up and fades as the hero scrolls away
   if(!reduce && y<vh*1.2){
-    heroMedia.style.transform=`translate3d(0,${y*.35}px,0)`;
-    // text block drifts up and fades as the hero scrolls away
-    const hc=document.getElementById('heroContent');
-    hc.style.opacity=clamp(1-y/(vh*.55));
-    hc.style.transform=`translate3d(0,${-y*.15}px,0)`;
+    heroMedia.style.transform=`translate3d(0,${(y*.35).toFixed(1)}px,0)`;
+    heroContent.style.opacity=clamp(1-y/(vh*.55)).toFixed(3);
+    heroContent.style.transform=`translate3d(0,${(-y*.15).toFixed(1)}px,0)`;
   }
-
-  if(!isMobile()){
-    // stacked panels: first panel recedes as the second slides over
-    const p2=panels[1].getBoundingClientRect();
-    const k=clamp(1-p2.top/vh);
-    const inner=panels[0].querySelector('.panel__inner');
-    if(!reduce) inner.style.transform=`scale(${1-k*.08})`;
-    panels[0].querySelector('.panel__shade').style.opacity=k*.6;
+  // stacked panels: first panel recedes as the second slides over
+  if(p2top!==null){
+    const k=+clamp(1-p2top/vh).toFixed(3);
+    if(k!==panelK){panelK=k;
+    if(!reduce) panel0Inner.style.transform=`scale(${(1-k*.08).toFixed(4)})`;
+    panel0Shade.style.opacity=(k*.6).toFixed(3);}
   }
-  {
-    // pinned horizontal stats (desktop and mobile)
-    const r=stats.getBoundingClientRect(), sh=stats.firstElementChild.offsetHeight;
-    const prog=clamp(-r.top/(r.height-sh));
-    // dwell on each stat, then glide to the next
-    // one full-width slide at a time: the scroll position picks the slide, the move between slides is a timed glide
-    const idx=Math.round(prog*3);
-    statsIdx=idx;
-    goStat(idx);
-    if(r.top<vh*.5 && r.bottom>vh*.5) setStat(idx);
-  }
-  // statement word reveal
-  const sr=st.getBoundingClientRect();
+  // statement word reveal: only touch the words when the count changes
   const sp=clamp((vh*.85-sr.top)/(sr.height+vh*.35));
-  const n=Math.round(sp*words.length);
-  words.forEach((w,i)=>w.classList.toggle('on',reduce||i<n));
+  const n=reduce?words.length:Math.round(sp*words.length);
+  if(n!==wordsOn){wordsOn=n;words.forEach((w,i)=>w.classList.toggle('on',i<n))}
+  // showreel only decodes while the hero is on screen (a viewer's pause is kept)
+  const heroOn=y<vh*.95;
+  if(!heroOn&&!heroVideo.paused){heroVideo.pause();heroVideo.dataset.auto='1'}
+  else if(heroOn&&heroVideo.paused&&heroVideo.dataset.auto==='1'){heroVideo.dataset.auto='';heroVideo.play().catch(()=>{})}
 }
-addEventListener('scroll',()=>requestAnimationFrame(onScroll),{passive:true});
-addEventListener('resize',onScroll); onScroll();
+function queueScroll(){if(!scrollQueued){scrollQueued=true;requestAnimationFrame(onScroll)}}
+addEventListener('scroll',queueScroll,{passive:true});
+addEventListener('resize',queueScroll); onScroll();
 
 // stat dots: click to jump
-sDots.forEach((d,i)=>d.addEventListener('click',()=>{
-  scrollTo({top:statTop(i),behavior:'instant'});
-}));
+sDots.forEach((d,i)=>d.addEventListener('click',()=>goTo(i)));
 
 // mobile carousels: dots
 function dots(scroller,dotWrap){
@@ -918,12 +964,51 @@ function dots(scroller,dotWrap){
 dots(document.getElementById('cards'),document.getElementById('cardDots'));
 dots(document.getElementById('gallery'),document.getElementById('workDots'));
 
+/* ---------- Drag / swipe sliders: mouse drag with momentum, snap to the nearest card, arrows step one card ---------- */
+document.querySelectorAll('.slider').forEach(sl=>{
+  let down=false,moved=false,x0=0,s0=0,vx=0,lx=0,lt=0,raf=0;
+  const snap=()=>{sl.classList.remove('is-dragging')};
+  sl.addEventListener('pointerdown',e=>{
+    if(e.pointerType!=='mouse'||e.button!==0||sl.scrollWidth<=sl.clientWidth)return;
+    cancelAnimationFrame(raf);down=true;moved=false;x0=lx=e.clientX;s0=sl.scrollLeft;vx=0;lt=performance.now();
+  });
+  addEventListener('pointermove',e=>{
+    if(!down)return;const dx=e.clientX-x0;
+    if(!moved&&Math.abs(dx)>6){moved=true;sl.classList.add('is-dragging');cur&&cur.classList.remove('on')}
+    if(!moved)return;
+    const now=performance.now();vx=(e.clientX-lx)/Math.max(1,now-lt);lx=e.clientX;lt=now;
+    sl.scrollLeft=s0-dx;
+  });
+  addEventListener('pointerup',()=>{
+    if(!down)return;down=false;if(!moved)return;
+    // a short glide after release, then hand back to scroll-snap so the nearest card settles into place
+    let v=-vx*16;const glide=()=>{v*=.92;sl.scrollLeft+=v;if(Math.abs(v)>.5&&!reduce)raf=requestAnimationFrame(glide);else snap()};glide();
+  });
+  sl.addEventListener('click',e=>{if(moved){e.preventDefault();e.stopPropagation();moved=false}},true);
+  sl.addEventListener('dragstart',e=>e.preventDefault());
+  /* always open on the first card, lined up with the page container */
+  const home=()=>{if(!sl.matches('.is-dragging'))sl.scrollLeft=0};home();addEventListener('load',home);setTimeout(home,1200);
+  /* arrows + edge states */
+  const bar=document.querySelector(`.slider__bar[data-for="${sl.id}"]`);if(!bar)return;
+  const [prev,next]=bar.querySelectorAll('button');
+  const step=dir=>{const kids=[...sl.children];const pad=parseFloat(getComputedStyle(sl).scrollPaddingLeft)||0;const x=sl.scrollLeft+pad;
+    let t=dir>0?kids.find(k=>k.offsetLeft>x+4):[...kids].reverse().find(k=>k.offsetLeft<x-4);
+    sl.scrollTo({left:t?t.offsetLeft-pad:(dir>0?sl.scrollWidth:0),behavior:reduce?'auto':'smooth'})};
+  prev.addEventListener('click',()=>step(-1));next.addEventListener('click',()=>step(1));
+  const edges=()=>{prev.disabled=sl.scrollLeft<4;next.disabled=sl.scrollLeft>sl.scrollWidth-sl.clientWidth-4};
+  sl.addEventListener('scroll',edges,{passive:true});addEventListener('resize',edges);edges();
+});
+
 /* ---------- Custom cursor on case studies ---------- */
 const cur=document.getElementById('cursor'); let mx=0,my=0,cx=0,cy=0;
-addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
-(function loop(){cx+=(mx-cx)*.18;cy+=(my-cy)*.18;cur.style.left=cx+'px';cur.style.top=cy+'px';requestAnimationFrame(loop)})();
+addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY},{passive:true});
+let curRaf=0;
+function loop(){cx+=(mx-cx)*.18;cy+=(my-cy)*.18;cur.style.translate=`${cx.toFixed(1)}px ${cy.toFixed(1)}px`;
+  curRaf=(cur.classList.contains('on')||Math.abs(mx-cx)+Math.abs(my-cy)>.5)?requestAnimationFrame(loop):0}
+const wake=()=>{if(!curRaf)curRaf=requestAnimationFrame(loop)};
+addEventListener('mousemove',wake,{passive:true});
 document.querySelectorAll('[data-cursor]').forEach(el=>{
-  el.addEventListener('mouseenter',()=>cur.classList.add('on'));
+  el.addEventListener('mouseenter',()=>{cur.classList.add('on');wake()});
   el.addEventListener('mouseleave',()=>cur.classList.remove('on'));
 });
 
@@ -943,6 +1028,5 @@ form.addEventListener('submit',e=>{
 form.querySelectorAll('input').forEach(i=>i.addEventListener('input',()=>i.parentElement.classList.remove('err')));
 </script>
 
-</body></html>
 </body>
 </html>

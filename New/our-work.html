@@ -642,6 +642,16 @@ body.cs-open{overflow:hidden}
 /* ================= SKIP LINK (all pages) ================= */
 .skip{position:fixed;left:16px;top:-80px;z-index:200;padding:12px 18px;border-radius:10px;background:#ff7433;color:#000d1d;font:600 15px/1 Inter,system-ui,sans-serif;transition:top .25s}
 .skip:focus{top:calc(16px + env(safe-area-inset-top,0px))}
+
+/* filter bar: swipe / drag sideways on mobile, with edge fades where more filters are hidden */
+@media (max-width:900px){
+  #filters{-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;touch-action:pan-x pan-y;cursor:grab;scroll-snap-type:x proximity;scroll-padding-inline:24px;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl,0px),#000 calc(100% - var(--fr,0px)),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl,0px),#000 calc(100% - var(--fr,0px)),transparent 100%)}
+  #filters::after{content:"";flex:0 0 1px}
+  #filters button{scroll-snap-align:start}
+  #filters.is-dragging{cursor:grabbing;scroll-snap-type:none}
+  #filters.is-dragging button{pointer-events:none}
+}
 </style>
 </head>
 <body>
@@ -676,7 +686,7 @@ body.cs-open{overflow:hidden}
 <!-- ================= HERO (showreel) ================= -->
 <section class="hero" aria-label="Our Work">
   <div class="hero__media" id="heroMedia">
-    <video id="heroVideo" autoplay muted loop playsinline preload="auto" poster="assets/hero-poster.webp" aria-hidden="true"><source src="assets/hero-reel.mp4" type="video/mp4"></video>
+    <video id="heroVideo" autoplay muted loop playsinline preload="auto" poster="assets/hero-poster.webp" aria-hidden="true"><source src="assets/hero-reel-960.mp4" type="video/mp4"></video>
   </div>
   <div class="hero__fade"></div>
   <div class="hero__inner wrap">
@@ -935,7 +945,7 @@ function fill(c){
   $('csMuj').hidden=!c.muj;
   /* image + video pair: a still from the programme library, then the case film (falls back to the showreel) */
   const pool=['services-hero.webp','stat-1.webp','stat-3.webp','bridge.webp','work-kfc.webp','work-ea.webp','work-cod.webp','stat-4.webp'].filter(f=>f!==c.img&&!shots.includes(f));
-  const still=pool[cases.indexOf(c)%pool.length], film=c.video||'hero-reel.mp4';
+  const still=pool[cases.indexOf(c)%pool.length], film=c.video||'hero-reel-960.mp4';
   $('csMedia').innerHTML=`<figure class="m-img"><img src="assets/${still}" alt="" loading="lazy"><figcaption>On the ground</figcaption></figure>`+
     `<figure class="m-vid"><video controls muted loop playsinline preload="metadata" poster="assets/${c.img}"><source src="assets/${film}" type="video/mp4"></video><figcaption>Programme film</figcaption></figure>`;
   /* meta title and description patterns from the framework */
@@ -1004,6 +1014,20 @@ addEventListener('scroll',()=>requestAnimationFrame(onScroll),{passive:true});
 addEventListener('resize',onScroll);
 onScroll();
 route();
+
+/* filter bar: mouse drag, edge fades, and keep the chosen filter in view */
+(()=>{
+  const sn=document.getElementById('filters');if(!sn)return;
+  const fades=()=>{const max=sn.scrollWidth-sn.clientWidth;sn.style.setProperty('--fl',sn.scrollLeft>4?'36px':'0px');sn.style.setProperty('--fr',sn.scrollLeft<max-4?'36px':'0px')};
+  sn.addEventListener('scroll',fades,{passive:true});addEventListener('resize',fades);fades();
+  let down=false,moved=false,x0=0,s0=0;
+  sn.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||sn.scrollWidth<=sn.clientWidth)return;down=true;moved=false;x0=e.clientX;s0=sn.scrollLeft});
+  addEventListener('pointermove',e=>{if(!down)return;const dx=e.clientX-x0;if(!moved&&Math.abs(dx)>5){moved=true;sn.classList.add('is-dragging')}if(moved)sn.scrollLeft=s0-dx});
+  addEventListener('pointerup',()=>{if(!down)return;down=false;sn.classList.remove('is-dragging')});
+  sn.addEventListener('click',e=>{if(moved){e.preventDefault();e.stopPropagation();moved=false;return}
+    const b=e.target.closest('button');if(b&&sn.scrollWidth>sn.clientWidth)sn.scrollTo({left:Math.max(0,b.offsetLeft-sn.clientWidth/2+b.offsetWidth/2),behavior:reduce?'auto':'smooth'})},true);
+  sn.addEventListener('dragstart',e=>e.preventDefault());
+})();
 </script>
 </body>
 </html>
