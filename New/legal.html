@@ -258,6 +258,11 @@ body.nav-on .ltabs.is-stuck{transform:translateY(-100%);opacity:0;pointer-events
 .ask h3{font-weight:600;font-size:24px;color:#fff}
 .ask p{margin-top:6px;font-size:15px;line-height:1.5;color:#bdbdbd}
 .ask p span{color:#fff}
+.ask p a{color:#fff;border-bottom:1px solid var(--accent)}
+.addr{margin-top:20px;display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:12px 40px;padding:20px 24px;border-radius:14px;background:#f6f6f4;border:1px solid #e4e4e1;font-style:normal;font-size:15px;line-height:1.6;color:#3a3d3b}
+.addr b{font-weight:600;color:#000}
+.addr a{color:#000;border-bottom:1px solid var(--accent)}
+@media (max-width:900px){.addr{grid-template-columns:1fr;gap:8px}}
 .rel{margin-top:40px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 .rel a{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 24px;border-radius:16px;border:1px solid #e4e4e1;transition:border-color .3s,background .3s}
 .rel a:hover{border-color:#000;background:#fafaf8}
@@ -611,6 +616,7 @@ const DOCS={
 };
 const ORDER=['terms','privacy-policy','cookies'];
 const slug=s=>s.toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const ADDR=`<address class="addr"><b>PLG Acachet</b><span>Unit B33, Production City<br>Dubai, UAE</span><span><a href="mailto:info@powerleaguegaming.com">info@powerleaguegaming.com</a><br><a href="tel:+971487648133">+971 4 876 48133</a></span></address>`;
 const CATS='<ul><li><b>Strictly necessary:</b> [what they do; always on]</li><li><b>Analytics:</b> [what they measure; consent-based]</li><li><b>Functional:</b> [what they remember; consent-based]</li><li><b>Marketing:</b> [what they do; consent-based]</li></ul>';
 const TABLE=`<div class="tbl"><table><thead><tr><th scope="col">Cookie</th><th scope="col">Provider</th><th scope="col">Purpose</th><th scope="col">Category</th><th scope="col">Duration</th></tr></thead><tbody>
   <tr><td>[cookie_name]</td><td>[Provider]</td><td>[Purpose]</td><td><span class="cat cat--nec">Strictly necessary</span></td><td>[Session]</td></tr>
@@ -640,9 +646,10 @@ function render(key){
       ${s.cats?CATS:''}
       ${s.table?TABLE:''}
       ${s.links?`<p>${key==='terms'?'How we handle personal data is set out in our <a href="#privacy-policy">Privacy Policy</a>, and our use of cookies in <a href="#cookies">Cookies</a>.':'Details of the cookies this website uses are set out in <a href="#cookies">Cookies</a>.'}</p>`:''}
+      ${/^contact/i.test(s.t)?ADDR:''}
       ${s.prefs?`<div class="prefs"><button type="button" class="btn btn--dark" id="prefsBtn"><span class="btn__label">Manage Cookie Preferences</span><span class="btn__arrow"><i class="arr"></i></span></button><p>Opens the consent platform’s preferences panel.</p></div><p class="pnote" id="prefsNote" hidden>Prototype: this button will open the preferences panel of the consent platform chosen for launch.</p>`:''}
     </section>`).join('')}
-    <div class="ask"><div><h3>Questions about this ${key==='terms'?'document':'policy'}?</h3><p>Write to <span>[legal or data protection email]</span>, or use the contact form.</p></div><a href="contact.html" class="btn"><span class="btn__label">Contact Us</span><span class="btn__arrow"><i class="arr"></i></span></a></div>
+    <div class="ask"><div><h3>Questions about this ${key==='terms'?'document':'policy'}?</h3><p>Write to <a href="mailto:info@powerleaguegaming.com">info@powerleaguegaming.com</a>, call <a href="tel:+971487648133">+971 4 876 48133</a>, or use the contact form.</p></div><a href="contact.html" class="btn"><span class="btn__label">Contact Us</span><span class="btn__arrow"><i class="arr"></i></span></a></div>
     <div class="rel">${others.map(k=>`<a href="#${k}"><span><small>${DOCS[k].path}</small><b>${DOCS[k].name}</b></span><i aria-hidden="true"><span class="arr"></span></i></a>`).join('')}</div>
   </div>`;
   $('art').querySelectorAll('.sec a[href^="#"]').forEach(a=>a.style.cssText='color:#000;border-bottom:1px solid var(--accent)');

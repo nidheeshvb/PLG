@@ -652,6 +652,25 @@ body.cs-open{overflow:hidden}
   #filters.is-dragging{cursor:grabbing;scroll-snap-type:none}
   #filters.is-dragging button{pointer-events:none}
 }
+
+/* case study content from the Project Book: headline figures (2–4) then any other results */
+.res[data-n="2"]{grid-template-columns:repeat(2,minmax(0,1fr))}
+.res[data-n="4"]{grid-template-columns:repeat(2,minmax(0,1fr))}
+.res[data-n="4"] div:nth-child(3){border-left:0;padding-left:0}
+.res[data-n="4"] div:nth-child(n+3){border-top:1px solid var(--line)}
+.res b{font-size:clamp(44px,4.6vw,64px);white-space:nowrap}
+.res span mark,.cs__body mark,.cs__meta mark{background:none;color:var(--accent)}
+.cs__body #csAmb,.cs__body #csMove{display:flex;flex-direction:column;gap:16px}
+#csAmb{display:flex;flex-direction:column;gap:16px}
+.pts{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:4px}
+.pts li{position:relative;padding-left:22px;font-size:17px;line-height:1.5;color:var(--soft)}
+.pts li::before{content:"";position:absolute;left:0;top:.62em;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.case__tbc{display:inline-block;margin-left:10px;padding:3px 8px;border-radius:100px;border:1px solid rgba(255,116,51,.5);font-size:10px;letter-spacing:1.2px;color:#fff;vertical-align:1px}
+@media (max-width:900px){
+  .res[data-n="4"]{grid-template-columns:1fr}
+  .res[data-n="4"] div:nth-child(n+3){border-top:1px solid var(--line)}
+  .res b{font-size:48px}
+}
 </style>
 </head>
 <body>
@@ -714,8 +733,8 @@ body.cs-open{overflow:hidden}
 </nav>
 
 <!-- ================= CASE STUDIES =================
-     Names and images for 01–05 come from the homepage; 06–08 are open slots for PLG's next case studies.
-     Each case opens a full case study: The Brief, The Approach, The Results. -->
+     Eight case studies from the PLG Acachet Project Book (Case Studies tab). Each opens a full case study:
+     The Brief, The Approach, The Impact. G42, Pizza Hut and Red Bull use library images until key visuals arrive. -->
 <section class="cases wrap" id="cases" aria-label="Case studies">
   <div class="cgrid" id="cgrid"></div>
   <p class="cases__empty" id="empty" hidden>No case studies under this service yet.</p>
@@ -750,8 +769,7 @@ body.cs-open{overflow:hidden}
 </main>
 
 <!-- ================= CASE STUDY (full-screen) =================
-     Follows the PLG case study copy framework: open with the change created, not the work completed.
-     Hero (name + outcome-led one-liner) > impact at a glance > The Ambition > The Move > The Impact > CTA. -->
+     Hero (name + one-liner) > client, services, market, year > The Brief > The Approach > gallery > The Impact > media > next / CTA. -->
 <div class="cs" id="cs" role="dialog" aria-modal="true" aria-labelledby="csTitle" hidden>
   <div class="cs__bar wrap">
     <p class="cs__crumb">Our Work / <b id="csCrumb"></b></p>
@@ -766,20 +784,20 @@ body.cs-open{overflow:hidden}
   </div>
   <div class="wrap">
     <dl class="cs__meta" id="csMeta"></dl>
-    <p class="cs__intro" id="csIntro"></p>
-    <section class="cs__block"><div class="cs__k"><span>01</span><h3>The Ambition</h3><small>What the client needed to change, unlock or grow · 40–60 words</small></div><div class="cs__body" id="csAmb"></div></section>
-    <section class="cs__block"><div class="cs__k"><span>02</span><h3>The Move</h3><small>The strategic idea, then the operating model at work · 60–90 words</small></div>
+    <p class="cs__intro" id="csIntro" hidden></p>
+    <section class="cs__block"><div class="cs__k"><span>01</span><h3>The Brief</h3></div><div class="cs__body" id="csAmb"></div></section>
+    <section class="cs__block"><div class="cs__k"><span>02</span><h3>The Approach</h3></div>
       <div class="cs__body">
-        <p class="cs__idea" id="csIdea"></p>
+        <p class="cs__idea" id="csIdea" hidden></p>
         <div id="csMove"></div>
         <div class="discs"><span class="discs__k">Disciplines</span><div class="tags" id="csDiscs"></div></div>
       </div>
     </section>
     <div class="cs__visual" id="csVisual"></div>
-    <section class="cs__block"><div class="cs__k"><span>03</span><h3>The Impact</h3><small>Three verified outcomes, commercial value first</small></div>
+    <section class="cs__block"><div class="cs__k"><span>03</span><h3>The Impact</h3></div>
       <div class="cs__body">
-        <div id="csImpact"></div>
         <div class="res" id="csRes"></div>
+        <div id="csImpact"></div>
         <a class="muj" id="csMuj" href="about.html#mujtamae"><span class="muj__dot" aria-hidden="true"></span>Measured through Mujtamae<i class="arr" aria-hidden="true"></i></a>
       </div>
     </section>
@@ -828,25 +846,65 @@ vctl.addEventListener('click',()=>setVideo(heroVideo.paused));
 if(reduce)setVideo(false);
 
 /* ================= CASE STUDIES =================
-   Prototype content. Names/images 01–05 match the homepage; services tags, client, year, market and all copy
-   are placeholders until PLG supplies each case study (The Brief, The Approach, The Results, meta description). */
+   Content from the PLG Acachet Project Book, "Case Studies" tab (6 Nov 2026), lightly proofread.
+   Each case: title, one-liner, The Brief, The Approach, Impact (headline figures + other results) and its meta description.
+   Text in [square brackets] is still to be confirmed by PLG and shows highlighted in the case study. */
 const SV={strategy:'Strategy & Consulting',events:'Events & Activations',media:'Media',creative:'Creative'};
-const L1='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula, donec lobortis risus a elit.';
-const L2='Etiam tempor ut ullamcorper ligula. Curabitur pretium tincidunt lacus, nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.';
 const cases=[
-  {id:'uci-championship',t:'UCI Championship',img:'work-uci.webp',video:'work-uci-clip.mp4',sv:['events','media'],client:'UCI',full:true,kind:'live experience',muj:true},
-  {id:'game-of-the-future',t:'Game of the Future',img:'mujtamae.webp',sv:['strategy','events'],kind:'phygital format',muj:true},
-  {id:'call-of-duty',t:'Call of Duty: Modern Warfare 4',img:'work-cod.webp',sv:['media','creative'],kind:'campaign'},
-  {id:'ea-ballers',t:'EA Ballers',img:'work-ea.webp',sv:['events','media'],client:'EA Sports',full:true,pos:'50% 30%',kind:'partnership',muj:true},
-  {id:'kfc',t:'KFC',img:'work-kfc.webp',sv:['media','creative'],client:'KFC',pos:'50% 25%',kind:'partnership'},
-  {id:'case-study-06',t:'Case study 06',img:'stat-4.webp',sv:['strategy'],slot:true},
-  {id:'case-study-07',t:'Case study 07',img:'bridge.webp',sv:['strategy','events'],slot:true,pos:'50% 35%'},
-  {id:'case-study-08',t:'Case study 08',img:'stat-2.webp',sv:['creative'],slot:true}
+  {id:'uci-cycling-esports-world-championships',t:'UCI Cycling Esports World Championships 2024 & 2025',short:'UCI Cycling Esports World Championships',img:'work-uci.webp',video:'work-uci-clip.mp4',sv:['events','media'],client:'MyWhoosh',market:'Abu Dhabi, UAE',year:'2024 & 2025',full:true,
+   line:'Two editions of cycling’s official virtual world championships, delivered end to end in Abu Dhabi for MyWhoosh.',
+   brief:['MyWhoosh needed one partner to take the World Championships from plan to live broadcast. That meant event strategy, athlete and team logistics, stage design and build, and a broadcast feed distributed worldwide.'],
+   approach:['We designed and ran a turnkey delivery model for both the 2024 and 2025 editions. Forty of the world’s best male and female virtual cyclists raced live on stage in Abu Dhabi, with the 2025 final at Space42 Arena. Our broadcast team took every race to audiences around the world in English and Arabic.'],
+   stats:[['2','Editions delivered: rebooked two years running, 2024 and 2025'],['40','Elite riders from 12 countries, racing live on stage'],['1,000','Spectators in the venue']],
+   points:['Broadcast live worldwide in English and Arabic','[Add: total viewers / reach / impressions]'],
+   meta:'PLG Acachet delivered the UCI Cycling Esports World Championships in Abu Dhabi for MyWhoosh in 2024 and 2025: 40 elite riders, 12 nations, live global broadcast.'},
+  {id:'call-of-duty',t:'Call of Duty',img:'work-cod.webp',sv:['events','media','creative'],client:'Activision',market:'Middle East',year:'Multi-year partnership',
+   line:'A long-standing partnership with Activision, launching multiple Call of Duty titles in the region.',
+   brief:['From events to launch trailer concepts and everything in between, each brief challenged us to build a launch plan that maximised the hype around that year’s new Call of Duty title.'],
+   approach:['We conceptualised and executed many different ideas: live-action local launch trailers, events, broadcasts, influencer challenges and a rooftop showdown. Our approach was always to stay true to the theme of the year, the story and the modes available at launch, promoting the game to lapsed and new players alike.'],
+   stats:[['4','Events delivered'],['3','Live-action launch trailers'],['34','Influencers activated'],['1st','And only local launch trailer featured on the global Call of Duty social pages']],
+   meta:'PLG Acachet delivered multiple projects for Call of Duty, including events, live-action trailers and livestream broadcasts: 2 titles, 4 events, 3 trailers.'},
+  {id:'ea-sports-fifa-world-cup',t:'EA Sports',img:'work-ea.webp',sv:['events','media'],client:'EA Sports',market:'Dubai, UAE',year:'2022',pos:'50% 30%',
+   line:'Delivering the EA Sports FIFA World Cup 2022 in-game DLC launch event.',
+   brief:['EA Sports partnered with us to deliver a launch event, coinciding with the 2022 FIFA World Cup in Qatar, to promote the new FIFA World Cup Qatar game mode in FIFA 23. Our scope covered event delivery, influencer management, show management, security, talent management, and content capture and distribution.'],
+   approach:['We designed, planned and delivered an end-to-end solution to bring the brief to life, partnering with Ballers, a local sports venue in the heart of Downtown Dubai with the Burj Khalifa as a backdrop. Hosted by Kris Fade and featuring EA Sports’ key local partners such as PlayStation and 5Pillars, it became one of EA Sports’ most successful events in the region.'],
+   stats:[['4,000','Attendees'],['4','Influencers'],['4','Ex-pro footballers']],
+   meta:'PLG Acachet delivered one of EA Sports’ most successful events in the region, launching the 2022 FIFA World Cup Qatar game mode in FIFA 23.'},
+  {id:'games-of-the-future-2025',t:'Games of the Future 2025',img:'mujtamae.webp',sv:['strategy','events','media'],client:'Phygital International, ASPIRE & Ethara',market:'Abu Dhabi, UAE',year:'2025',full:true,
+   line:'Delivering the world’s largest phygital sports event in Abu Dhabi.',
+   brief:['Phygital International, ASPIRE and Ethara brought us in to deliver the Games of the Future Abu Dhabi 2025. Our scope covered event delivery, sponsorship advisory and brokerage, the broadcast solution, and global media strategy and distribution.'],
+   approach:['We shaped the programme of phygital disciplines, where athletes play each sport digitally and then physically. We also built the live broadcast operation and distributed content to audiences worldwide. Over six days, ADNEC Centre Abu Dhabi became a purpose-built arena for the first Games of the Future held in the Middle East.'],
+   stats:[['15,000','Attendees across six days'],['300','Professional teams'],['9.1B','Impressions across 27 broadcast markets']],
+   meta:'How PLG Acachet delivered the Games of the Future Abu Dhabi 2025: six days of phygital sport at ADNEC, 15,000 attendees, 300 teams and a global broadcast.'},
+  {id:'g42-phygital-sports-programme',t:'G42 Phygital Sports Programme',img:'bridge.webp',pos:'50% 35%',tbc:true,sv:['strategy','events'],client:'G42, with Modon Holdings',market:'Abu Dhabi, UAE',year:'[To confirm]',
+   line:'A corporate phygital sports programme for 500 G42 employees at 321 Sports, Abu Dhabi.',
+   brief:['G42 wanted a large-scale sports programme for its workforce. Working with Modon Holdings through a joint venture, we designed and delivered it, from strategy through to event day.'],
+   approach:['We built the full participant journey, starting with a registration platform where employees chose their sports and entered teams. At 321 Sports on Hudayriyat Island, they competed across seven disciplines combining physical and digital play: football, cricket, badminton, padel, HIIT, virtual cycling and sim racing.'],
+   stats:[['500','Employees competing'],['7','Phygital sports'],['1','Day of competition at 321 Sports']],
+   meta:'How PLG Acachet and Modon Holdings delivered G42’s phygital sports programme: 500 employees, 7 sports, 1 day of competition at 321 Sports, Hudayriyat Island, Abu Dhabi.'},
+  {id:'kfc',t:'KFC',img:'work-kfc.webp',sv:['strategy','media'],client:'KFC',market:'Saudi Arabia',year:'[2023–2026]',pos:'50% 25%',
+   line:'We built KFC’s gaming platform in Saudi Arabia and brokered its three-year strategic partnership with the Saudi Esports Federation and Esports World Cup.',
+   brief:['KFC asked us to build a sponsorship programme that would put the brand at the centre of Saudi Arabia’s Gen Z gaming audience.'],
+   approach:['We developed Play KFC, KFC’s gaming platform in the Kingdom, and brokered a three-way partnership with the Saudi Esports Federation (SEF) and the Esports World Cup (EWC). The deal made KFC a Strategic Partner across SEF’s youth development programmes and the EWC’s esports and music properties, reaching male and female Saudi gamers alike.','At the heart of the platform is The Original Gamechangers, our programme for Saudi women gamers. It gives female players a dedicated league, a route to register and compete, and a clear pathway from discovery to professional esports.'],
+   stats:[['5,000+','Saudi gamers discovered and given a pathway into competitive esports'],['3','Year strategic partnership [2023–2026]'],['1','Exclusive QSR category partner across SEF and EWC properties']],
+   meta:'How PLG Acachet built Play KFC and The Original Gamechangers, brokering KFC’s exclusive partnership with the Saudi Esports Federation and Esports World Cup.'},
+  {id:'pizza-hut',t:'Pizza Hut',img:'stat-2.webp',tbc:true,sv:['strategy','media','creative'],client:'Pizza Hut',market:'Middle East',year:'[To confirm]',
+   line:'We built Pizza Hut’s gaming ecosystem across the Middle East, unlocking a new audience for the brand.',
+   brief:['Audience insight showed that Pizza Hut was struggling to reach Gen Z and Gen Alpha through its regular marketing channels, leaving the brand with low equity among younger audiences.'],
+   approach:['We proposed a gaming-focused marketing strategy targeting Gen Z and Gen Alpha, secured a three-year partnership, and created and launched the Pizza Hut gaming ecosystem.','The Pizza Hut Gaming initiative brought an almost immediate lift in brand awareness, equity and conversion with the target audience, taking aided brand awareness above McDonald’s in the Middle East. With value at the core, the ecosystem delivered a 441% ROI and a ROAS of $14.5.'],
+   stats:[['441%','ROI'],['$14.5','ROAS'],['$1.7','CPM'],['200K','Followers across dedicated social channels']],
+   meta:'PLG Acachet built the Pizza Hut Gaming ecosystem across social, digital and influencer marketing, delivering a 441% ROI through gaming initiatives designed for Gen Z and Gen Alpha.'},
+  {id:'red-bull',t:'Red Bull',img:'stat-3.webp',tbc:true,sv:['events'],client:'Red Bull',market:'Dubai, UAE',year:'[To confirm]',
+   line:'A three-day workshop and retreat for Red Bull’s top 100 global e-athletes.',
+   brief:['Red Bull tasked us with planning and executing a three-day workshop for its top global esports and gaming talent, balancing work and play in equal measure and delivering a truly local experience with a global feel, in true Dubai fashion.'],
+   approach:['We planned the three-day itinerary and managed everything: travel and logistics, venue selection, entertainment curation, workshop and talent management, and every technical element.','Leading Red Bull athletes including Max Verstappen, Seth Quintero and Luke Czepiela joined to talk with the e-athletes, share insights and play a few games. Beyond the workshops, the athletes enjoyed uniquely local experiences: a desert safari, dune bashing in racing buggies, dinner in the desert and a yacht party to close.'],
+   stats:[['100','Red Bull athletes'],['8','Workshops'],['4','Local experiences'],['1','Max Verstappen']],
+   meta:'PLG Acachet planned and delivered a three-day workshop for 100 global Red Bull athletes, with entertainment, workshops and sessions from Max Verstappen, Seth Quintero and Red Bull staff.'}
 ];
-cases.forEach((c,i)=>{c.n=String(i+1).padStart(2,'0');c.client=c.client||'Client name';c.kind=c.kind||'programme';
-  /* outcome-led one-liner (framework hero line), shown on the tile and at the top of the case study */
-  c.line=c.slot?'Open slot for the next case study: name, key visual and outcome-led one-liner to come from PLG.':`A ${c.kind} built to [specific client or audience outcome].`;
-  c.d=c.line;});
+/* earlier addresses still open the right case study */
+const ALIAS={'uci-championship':'uci-cycling-esports-world-championships','game-of-the-future':'games-of-the-future-2025','ea-ballers':'ea-sports-fifa-world-cup'};
+const mk=s=>esc(s).replace(/\[([^\]]+)\]/g,'<mark>[$1]</mark>');
+cases.forEach((c,i)=>{c.n=String(i+1).padStart(2,'0');c.d=c.line;c.short=c.short||c.t;});
 
 const grid=document.getElementById('cgrid');
 grid.innerHTML=cases.map((c,i)=>`
@@ -855,12 +913,12 @@ grid.innerHTML=cases.map((c,i)=>`
     <span class="case__ov">
       <span class="case__top"><span class="case__n">${c.n}</span><span class="tags">${c.sv.map(s=>`<span class="tag">${SV[s]}</span>`).join('')}</span></span>
       <span class="case__bot">
-        <span class="case__client">${esc(c.client)}</span>
+        <span class="case__client">${esc(c.client)}${c.tbc?'<span class="case__tbc">Key visual to come</span>':''}</span>
         <span class="case__t">${esc(c.t)}</span>
         <span class="case__more"><span><span class="case__d">${esc(c.d)}</span><span class="case__cta">Explore Project <i aria-hidden="true"><span class="arr"></span></i></span></span></span>
       </span>
     </span>
-    ${c.slot?'<span class="case__ph">Placeholder slot</span>':''}
+    
   </button>`).join('');
 const tiles=[...grid.children];
 
@@ -913,46 +971,44 @@ if(fine){
 const cs=document.getElementById('cs');
 const $=id=>document.getElementById(id);
 let openId=null,lastFocus=null,closeT;
-const AMB='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in mauris eu nibh euismod gravida, duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit etiam tempor ut ullamcorper ligula, curabitur pretium tincidunt lacus nulla gravida orci a odio nullam varius turpis.';
-const MOVE='Etiam tempor ut ullamcorper ligula. Curabitur pretium tincidunt lacus, nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula, donec lobortis risus a elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam quis nostrud.';
 const ORIGINAL_TITLE=document.title,metaDesc=document.querySelector('meta[name="description"]'),ORIGINAL_DESC=metaDesc?metaDesc.content:'';
 const caps=c=>{const n=c.sv.map(s=>SV[s]);return n.length>1?n.slice(0,-1).join(', ')+' and '+n.slice(-1):n[0]};
 function fill(c){
   const nxt=cases[(cases.indexOf(c)+1)%cases.length];
-  $('csCrumb').textContent=c.t;
+  $('csCrumb').textContent=c.short;
   $('csTitle').textContent=c.t;
-  $('csLine').innerHTML=esc(c.line).replace(/\[([^\]]+)\]/g,'<mark>[$1]</mark>');
+  $('csLine').innerHTML=mk(c.line);
   $('csTags').innerHTML=c.sv.map(s=>`<span class="tag">${SV[s]}</span>`).join('');
   const hero=$('csHero');
   hero.querySelectorAll('img,video').forEach(e=>e.remove());
   hero.insertAdjacentHTML('afterbegin',c.video&&!reduce
     ?`<video autoplay muted loop playsinline poster="assets/${c.img}" aria-hidden="true"><source src="assets/${c.video}" type="video/mp4"></video>`
     :`<img src="assets/${c.img}" alt=""${c.pos?` style="object-position:${c.pos}"`:''} loading="lazy" decoding="async">`);
-  $('csMeta').innerHTML=[['Client',c.client],['Services',c.sv.map(s=>SV[s]).join(', ')],['Market','To confirm'],['Year','To confirm']].map(([k,v])=>`<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('');
-  /* opening line: the change created, not the work completed */
-  $('csIntro').innerHTML=`<span class="cs__ph">Placeholder copy</span><br>[Open with the change created: the commercial and audience impact in one or two sentences, with the delivery as proof.]`;
-  $('csAmb').innerHTML=`<p>${AMB}</p>`;
-  $('csIdea').innerHTML=`<span>The strategic idea</span>[One line stating the idea behind the programme.]`;
-  $('csMove').innerHTML=`<p>${MOVE}</p>`;
-  $('csDiscs').innerHTML=[...c.sv.map(s=>SV[s]),...(c.muj?['Mujtamae analytics']:[])].map(s=>`<span class="tag">${s}</span>`).join('');
+  $('csMeta').innerHTML=[['Client',c.client],['Services',c.sv.map(s=>SV[s]).join(', ')],['Market',c.market],['Year',c.year]].map(([k,v])=>`<div><dt>${k}</dt><dd>${mk(v)}</dd></div>`).join('');
+  const paras=a=>a.map(p=>`<p>${mk(p)}</p>`).join('');
+  $('csAmb').innerHTML=paras(c.brief);
+  $('csMove').innerHTML=paras(c.approach);
+  $('csDiscs').innerHTML=c.sv.map(s=>SV[s]).map(s=>`<span class="tag">${s}</span>`).join('');
   const others=cases.filter(x=>x!==c);
   /* gallery: the case key visual opens, four more shots from the library fill the grid (none repeat the media still below) */
-  const lib=['work-uci.webp','mujtamae.webp','work-cod.webp','work-ea.webp','work-kfc.webp','bridge.webp','stat-1.webp','stat-2.webp','stat-3.webp','stat-4.webp','services-hero.webp'].filter(f=>f!==c.img);
+  /* gallery stills: the case's own key visual plus neutral library shots (never another client's key visual) */
+  const lib=['services-hero.webp','stat-1.webp','stat-4.webp','intro-media.webp','hero-poster.webp','contact-bg.webp'];
   const k=cases.indexOf(c),shots=[0,1,2,3].map(j=>lib[(k*4+j)%lib.length]);
   $('csVisual').innerHTML=[`<figure><img src="assets/${c.img}" alt=""${c.pos?` style="object-position:${c.pos}"`:''} loading="lazy" decoding="async"></figure>`,...shots.map(f=>`<figure><img src="assets/${f}" alt="" loading="lazy"></figure>`)].join('');
-  $('csImpact').innerHTML=`<p>${L1}</p>`+(c.muj?'<p><b>Measured through Mujtamae.</b> Audience, engagement and commercial return were tracked on our analytics platform from launch to final report.</p>':'');
-  $('csRes').innerHTML=[['00%','Commercial value against the target'],['0.0M','Audience growth over the programme'],['00K','Participation: players, fans or attendees']].map(([b,s])=>`<div><b>${b}</b><span>${s}</span><em>Verified outcome</em></div>`).join('');
-  $('csMuj').hidden=!c.muj;
+  $('csRes').dataset.n=c.stats.length;
+  $('csRes').innerHTML=c.stats.map(([b,t])=>`<div><b>${esc(b)}</b><span>${mk(t)}</span></div>`).join('');
+  $('csImpact').innerHTML=c.points?`<ul class="pts">${c.points.map(p=>`<li>${mk(p)}</li>`).join('')}</ul>`:'';
+  $('csMuj').hidden=true;
   /* image + video pair: a still from the programme library, then the case film (falls back to the showreel) */
-  const pool=['services-hero.webp','stat-1.webp','stat-3.webp','bridge.webp','work-kfc.webp','work-ea.webp','work-cod.webp','stat-4.webp'].filter(f=>f!==c.img&&!shots.includes(f));
-  const still=pool[cases.indexOf(c)%pool.length], film=c.video||'hero-reel-960.mp4';
+  const pool=lib.filter(f=>!shots.includes(f));
+  const still=pool[0], film=c.video||'hero-reel-960.mp4';
   $('csMedia').innerHTML=`<figure class="m-img"><img src="assets/${still}" alt="" loading="lazy"><figcaption>On the ground</figcaption></figure>`+
     `<figure class="m-vid"><video controls muted loop playsinline preload="metadata" poster="assets/${c.img}"><source src="assets/${film}" type="video/mp4"></video><figcaption>Programme film</figcaption></figure>`;
   /* meta title and description patterns from the framework */
-  const mt=`${c.t} Case Study | PLG Acachet`;
-  const md=`How PLG Acachet helped ${c.client} [outcome] through ${caps(c)}.`;
+  const mt=`${c.short} Case Study | PLG Acachet`;
+  const md=c.meta;
   document.title=mt; if(metaDesc)metaDesc.content=md;
-  $('csNextT').textContent=nxt.t;
+  $('csNextT').textContent=nxt.short;
   $('csNext').onclick=()=>{location.hash='case-'+nxt.id};
 }
 function openCase(id){
@@ -975,7 +1031,7 @@ function closeCase(){
   if(!reduce&&!vctl.classList.contains('paused'))heroVideo.play().catch(()=>{});
   const t=$('tile-'+id);(lastFocus&&document.contains(lastFocus)?lastFocus:t)?.focus({preventScroll:true});
 }
-function route(){const h=location.hash.slice(1);if(h.startsWith('case-'))openCase(h.slice(5));else closeCase()}
+function route(){const h=location.hash.slice(1);if(h.startsWith('case-')){const id=h.slice(5);openCase(ALIAS[id]||id)}else closeCase()}
 tiles.forEach(t=>t.addEventListener('click',()=>{location.hash='case-'+t.dataset.id}));
 $('csClose').addEventListener('click',()=>{history.replaceState(null,'',location.pathname+location.search+'#cases');closeCase()});
 addEventListener('hashchange',route);
