@@ -1,11 +1,27 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>PLG Acachet Our Story</title>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Our Story | PLG Acachet</title>
+<meta name="description" content="How three businesses became one: PLG Acachet’s single commercial focus across sport, esports and phygital.">
+<meta name="theme-color" content="#010202">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PLG Acachet">
+<meta property="og:title" content="Our Story | PLG Acachet">
+<meta property="og:description" content="How three businesses became one: PLG Acachet’s single commercial focus across sport, esports and phygital.">
+<meta property="og:image" content="assets/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" as="image" href="assets/intro-media.webp" fetchpriority="high">
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Our Story sub-page of About Us for PLG Acachet, built on the approved homepage and About Us design language.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
+/* base reset */
+:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}
 /* Layout: About Us system — dark continuous canvas, 72px gutter, orange only on CTAs, eyebrows, active states
    and the single merged line. Story told as three lanes that converge into one as you scroll. */
 :root{
@@ -329,19 +345,34 @@ body.menu-open{overflow:hidden}
 .btn__arrow::after{display:none}
 .btn__arrow .arr,.btn:hover .btn__arrow .arr,.btn:focus-visible .btn__arrow .arr{transition:transform .45s var(--ease-out)}
 .btn:hover .btn__arrow .arr,.btn:focus-visible .btn__arrow .arr{transform:rotate(45deg)}
-</style>
+/* ================= SKIP LINK (all pages) ================= */
+.skip{position:fixed;left:16px;top:-80px;z-index:200;padding:12px 18px;border-radius:10px;background:#ff7433;color:#000d1d;font:600 15px/1 Inter,system-ui,sans-serif;transition:top .25s}
+.skip:focus{top:calc(16px + env(safe-area-inset-top,0px))}
 
+/* sub-nav: swipe / drag sideways on smaller screens, with edge fades showing there is more */
+@media (max-width:900px){
+  .subnav__inner{-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;touch-action:pan-x pan-y;cursor:grab;scroll-snap-type:x proximity;scroll-padding-inline:24px;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl,0px),#000 calc(100% - var(--fr,0px)),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl,0px),#000 calc(100% - var(--fr,0px)),transparent 100%)}
+  .subnav__inner::after{content:"";flex:0 0 1px}
+  .subnav a{scroll-snap-align:start;-webkit-user-drag:none}
+  .subnav__inner.is-dragging{cursor:grabbing;scroll-snap-type:none}
+  .subnav__inner.is-dragging a{pointer-events:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#top" onclick="var m=document.getElementById('top');if(m){m.setAttribute('tabindex','-1');m.focus();m.scrollIntoView();}return false">Skip to content</a>
 <!-- ================= NAV ================= -->
 <header class="nav" id="nav">
   <a href="index.html" class="logo" aria-label="PLG Acachet home">
-    <span class="logo__mark"><img src="assets/plg-mark.webp" alt=""></span>
+    <span class="logo__mark"><img src="assets/plg-mark.webp" alt="" decoding="async"></span>
     <span class="logo__word">PLG ACACHET</span>
   </a>
   <nav class="menu" aria-label="Primary">
     <a href="about.html" class="is-active" aria-current="page">About us</a>
-    <a href="index.html#services">Service</a>
-    <a href="index.html#work">Our Work</a>
-    <a href="#contact">Contact</a>
+    <a href="services.html">Service</a>
+    <a href="our-work.html">Our Work</a>
+    <a href="contact.html">Contact</a>
   </nav>
   <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
 </header>
@@ -350,9 +381,9 @@ body.menu-open{overflow:hidden}
   <nav class="mnav__links" aria-label="Mobile">
     <a href="about.html" class="is-active">About us</a>
     <div class="mnav__sub"><a href="about.html#overview">Overview</a><a href="#top" class="is-active" aria-current="page">Our Story</a><a href="team.html">The Team</a><a href="join.html">Join Us</a></div>
-    <a href="index.html#services">Service</a>
-    <a href="index.html#work">Our Work</a>
-    <a href="#contact">Contact</a>
+    <a href="services.html">Service</a>
+    <a href="our-work.html">Our Work</a>
+    <a href="contact.html">Contact</a>
   </nav>
   <p class="mnav__foot">© 2026 PLG Acachet</p>
 </div>
@@ -360,7 +391,7 @@ body.menu-open{overflow:hidden}
 <main id="top">
 <!-- ================= HERO ================= -->
 <section class="hero" aria-label="Our Story">
-  <div class="hero__media" id="heroMedia"><img src="assets/intro-media.webp" alt=""></div>
+  <div class="hero__media" id="heroMedia"><img src="assets/intro-media.webp" alt="" fetchpriority="high" decoding="async"></div>
   <div class="hero__fade"></div>
   <div class="hero__inner wrap">
     <div class="hero__l">
@@ -370,7 +401,7 @@ body.menu-open{overflow:hidden}
     <div class="hero__r">
       <p class="hero__sub"><b>Three businesses.</b> One commercial focus.</p>
       <div class="hero__ctas">
-        <a href="index.html#work" class="btn"><span class="btn__label">See Our Work</span><span class="btn__arrow"><i class="arr"></i></span></a>
+        <a href="our-work.html" class="btn"><span class="btn__label">See Our Work</span><span class="btn__arrow"><i class="arr"></i></span></a>
         <a href="team.html" class="btn btn--ghost"><span class="btn__label">Meet the Team</span><span class="btn__arrow"><i class="arr"></i></span></a>
       </div>
     </div>
@@ -400,21 +431,21 @@ body.menu-open{overflow:hidden}
     <p class="weave__k" aria-hidden="true"><span>Previously separate</span><span></span><span>Now one business</span></p>
     <div class="lanes" role="list">
       <div class="lane" role="listitem">
-        <div class="lane__img"><img src="assets/bridge.webp" alt=""></div>
+        <div class="lane__img"><img src="assets/bridge.webp" alt="" loading="lazy" decoding="async"></div>
         <div class="lane__body">
           <div class="lane__top"><h2 class="lane__name">Acachet</h2><span class="lane__k">Relationships · 10+ years</span></div>
           <p class="lane__txt">UAE government and corporate bodies. City-scale and corporate sport programming.</p>
         </div>
       </div>
       <div class="lane" role="listitem">
-        <div class="lane__img"><img src="assets/work-uci.webp" alt=""></div>
+        <div class="lane__img"><img src="assets/work-uci.webp" alt="" loading="lazy" decoding="async"></div>
         <div class="lane__body">
           <div class="lane__top"><h2 class="lane__name">PLG</h2><span class="lane__k">Delivery · A decade</span></div>
           <p class="lane__txt">Esports and phygital. Tournaments, broadcast and community programming.</p>
         </div>
       </div>
       <div class="lane" role="listitem">
-        <div class="lane__img"><img src="assets/stat-4.webp" alt=""></div>
+        <div class="lane__img"><img src="assets/stat-4.webp" alt="" loading="lazy" decoding="async"></div>
         <div class="lane__body">
           <div class="lane__top"><h2 class="lane__name">Mujtamae</h2><span class="lane__k">Measurement · Platform</span></div>
           <p class="lane__txt">Measures return on sport, esports and phygital activation.</p>
@@ -427,7 +458,7 @@ body.menu-open{overflow:hidden}
       <circle r="5"/>
     </svg>
     <div class="weave__end">
-      <span class="logo__mark"><img src="assets/plg-mark.webp" alt=""></span>
+      <span class="logo__mark"><img src="assets/plg-mark.webp" alt="" loading="lazy" decoding="async"></span>
       <p class="weave__name">PLG Acachet</p>
       <p class="weave__note">One commercial focus.</p>
     </div>
@@ -435,7 +466,7 @@ body.menu-open{overflow:hidden}
 
   <div class="combo__cta" data-reveal>
     <p>The combined business in practice, across sport, esports and phygital programmes.</p>
-    <a href="index.html#work" class="btn"><span class="btn__label">See our work</span><span class="btn__arrow"><i class="arr"></i></span></a>
+    <a href="our-work.html" class="btn"><span class="btn__label">See our work</span><span class="btn__arrow"><i class="arr"></i></span></a>
   </div>
 </section>
 
@@ -446,20 +477,20 @@ body.menu-open{overflow:hidden}
     <h2 class="h1" data-reveal style="--d:.08s">The people, the roles.</h2>
   </div>
   <div class="pan">
-    <a href="team.html" class="pn" data-reveal><img src="assets/stat-1.webp" alt=""><span class="pn__ov"><span class="pn__t">The Team<span aria-hidden="true"><i class="arr"></i></span></span><span class="pn__d">The people behind PLG Acachet’s commercial, delivery and analytics work — based in the UAE, working internationally.</span></span></a>
-    <a href="join.html" class="pn" data-reveal style="--d:.08s"><img src="assets/service-card.webp" alt=""><span class="pn__ov"><span class="pn__t">Join Us<span aria-hidden="true"><i class="arr"></i></span></span><span class="pn__d">We look for commercial judgement and delivery discipline — people who prefer evidence to assertion.</span></span></a>
+    <a href="team.html" class="pn" data-reveal><img src="assets/stat-1.webp" alt="" loading="lazy" decoding="async"><span class="pn__ov"><span class="pn__t">The Team<span aria-hidden="true"><i class="arr"></i></span></span><span class="pn__d">The people behind PLG Acachet’s commercial, delivery and analytics work — based in the UAE, working internationally.</span></span></a>
+    <a href="join.html" class="pn" data-reveal style="--d:.08s"><img src="assets/service-card.webp" alt="" loading="lazy" decoding="async"><span class="pn__ov"><span class="pn__t">Join Us<span aria-hidden="true"><i class="arr"></i></span></span><span class="pn__d">We look for commercial judgement and delivery discipline — people who prefer evidence to assertion.</span></span></a>
   </div>
 </section>
 
 <!-- ================= CTA ================= -->
 <section class="cta" id="contact">
-  <img class="cta__bg" src="assets/contact-bg.webp" alt="">
+  <img class="cta__bg" src="assets/contact-bg.webp" alt="" loading="lazy" decoding="async">
   <div class="cta__grad"></div>
   <div class="cta__inner wrap">
     <p class="eyebrow" data-reveal>Start a Conversation</p>
     <h2 class="h1" data-reveal style="--d:.08s">Your next move starts here.</h2>
     <p class="lede" data-reveal style="--d:.16s">A rights holder with IP to commercialise. A brand looking for the right property. Tell us what you’re working on.</p>
-    <a href="index.html#contact" class="btn" data-reveal style="--d:.24s"><span class="btn__label">Talk to Us</span><span class="btn__arrow"><i class="arr"></i></span></a>
+    <a href="contact.html" class="btn" data-reveal style="--d:.24s"><span class="btn__label">Talk to Us</span><span class="btn__arrow"><i class="arr"></i></span></a>
   </div>
 </section>
 </main>
@@ -467,11 +498,11 @@ body.menu-open{overflow:hidden}
 <!-- ================= FOOTER ================= -->
 <footer class="footer">
   <div class="footer__row wrap">
-    <a href="index.html" class="logo"><span class="logo__mark"><img src="assets/plg-mark.webp" alt=""></span><span class="logo__word">PLG ACACHET</span></a>
-    <nav class="footer__nav" aria-label="Footer"><a href="about.html">About</a><a href="index.html#services">Service</a><a href="index.html#work">Our work</a><a href="#contact">Contact</a></nav>
-    <div class="footer__social"><a href="#" aria-label="Instagram"><img src="assets/icon-instagram.svg" alt=""></a><a href="#" aria-label="LinkedIn"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a></div>
+    <a href="index.html" class="logo"><span class="logo__mark"><img src="assets/plg-mark.webp" alt="" loading="lazy" decoding="async"></span><span class="logo__word">PLG ACACHET</span></a>
+    <nav class="footer__nav" aria-label="Footer"><a href="about.html">About</a><a href="services.html">Service</a><a href="our-work.html">Our work</a><a href="contact.html">Contact</a></nav>
+    <div class="footer__social"><a href="#" aria-label="Instagram"><img src="assets/icon-instagram.svg" alt="" loading="lazy" decoding="async"></a><a href="#" aria-label="LinkedIn"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a></div>
     <p class="footer__copy">© 2026 PLG Acachet. All rights reserved.</p>
-    <div class="footer__legal"><a href="#">Privacy Policy</a><a href="#">Terms and Conditions</a></div>
+    <div class="footer__legal"><a href="legal.html#privacy-policy">Privacy Policy</a><a href="legal.html#terms">Terms and Conditions</a><a href="legal.html#cookies">Cookies</a></div>
   </div>
 </footer>
 
@@ -571,6 +602,21 @@ addEventListener('resize',relayout);
 document.fonts&&document.fonts.ready.then(relayout);
 addEventListener('load',relayout);
 relayout();
-</script>
 
-</body></html>
+/* sub-nav: mouse drag, edge fades, and open with this page's tab in view */
+(()=>{
+  const sn=document.querySelector('.subnav__inner');if(!sn)return;
+  const fades=()=>{const max=sn.scrollWidth-sn.clientWidth;sn.style.setProperty('--fl',sn.scrollLeft>4?'36px':'0px');sn.style.setProperty('--fr',sn.scrollLeft<max-4?'36px':'0px')};
+  sn.addEventListener('scroll',fades,{passive:true});addEventListener('resize',fades);
+  const a=sn.querySelector('a.is-active');if(a&&sn.scrollWidth>sn.clientWidth)sn.scrollLeft=Math.max(0,a.offsetLeft-sn.clientWidth/2+a.offsetWidth/2);
+  fades();
+  let down=false,moved=false,x0=0,s0=0;
+  sn.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||sn.scrollWidth<=sn.clientWidth)return;down=true;moved=false;x0=e.clientX;s0=sn.scrollLeft});
+  addEventListener('pointermove',e=>{if(!down)return;const dx=e.clientX-x0;if(!moved&&Math.abs(dx)>5){moved=true;sn.classList.add('is-dragging')}if(moved)sn.scrollLeft=s0-dx});
+  addEventListener('pointerup',()=>{if(!down)return;down=false;sn.classList.remove('is-dragging')});
+  sn.addEventListener('click',e=>{if(moved){e.preventDefault();e.stopPropagation();moved=false}},true);
+  sn.addEventListener('dragstart',e=>e.preventDefault());
+})();
+</script>
+</body>
+</html>

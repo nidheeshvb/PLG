@@ -1,11 +1,27 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>PLG Acachet Join Us</title>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Join Us | PLG Acachet</title>
+<meta name="description" content="Careers at PLG Acachet: work across markets, disciplines and formats, from strategy to live delivery.">
+<meta name="theme-color" content="#010202">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PLG Acachet">
+<meta property="og:title" content="Join Us | PLG Acachet">
+<meta property="og:description" content="Careers at PLG Acachet: work across markets, disciplines and formats, from strategy to live delivery.">
+<meta property="og:image" content="assets/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" as="image" href="assets/service-card.webp" fetchpriority="high">
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Join Us sub-page of About Us for PLG Acachet, built on the approved homepage and About Us design language.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
+/* base reset */
+:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}
 /* Layout: About Us system — dark continuous canvas, 72px gutter, orange only on CTAs, eyebrows, active states
    and the single merged line. Story told as three lanes that converge into one as you scroll. */
 :root{
@@ -446,19 +462,65 @@ body.menu-open{overflow:hidden}
 .btn__arrow::after{display:none}
 .btn__arrow .arr,.btn:hover .btn__arrow .arr,.btn:focus-visible .btn__arrow .arr{transition:transform .45s var(--ease-out)}
 .btn:hover .btn__arrow .arr,.btn:focus-visible .btn__arrow .arr{transform:rotate(45deg)}
-</style>
+/* ================= SKIP LINK (all pages) ================= */
+.skip{position:fixed;left:16px;top:-80px;z-index:200;padding:12px 18px;border-radius:10px;background:#ff7433;color:#000d1d;font:600 15px/1 Inter,system-ui,sans-serif;transition:top .25s}
+.skip:focus{top:calc(16px + env(safe-area-inset-top,0px))}
 
+/* sub-nav: swipe / drag sideways on smaller screens, with edge fades showing there is more */
+@media (max-width:900px){
+  .subnav__inner{-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;touch-action:pan-x pan-y;cursor:grab;scroll-snap-type:x proximity;scroll-padding-inline:24px;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl,0px),#000 calc(100% - var(--fr,0px)),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl,0px),#000 calc(100% - var(--fr,0px)),transparent 100%)}
+  .subnav__inner::after{content:"";flex:0 0 1px}
+  .subnav a{scroll-snap-align:start;-webkit-user-drag:none}
+  .subnav__inner.is-dragging{cursor:grabbing;scroll-snap-type:none}
+  .subnav__inner.is-dragging a{pointer-events:none}
+}
+
+/* role filters: on mobile the chip row swipes / drags sideways edge-to-edge, with fades where more chips are hidden */
+@media (max-width:900px){
+  #chips{align-self:flex-start;width:calc(100% + 48px);min-width:0;max-width:calc(100% + 48px);margin-inline:-24px;padding:2px 24px 4px;scroll-padding-inline:24px;scroll-snap-type:x proximity;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;cursor:grab;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl,0px),#000 calc(100% - var(--fr,0px)),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl,0px),#000 calc(100% - var(--fr,0px)),transparent 100%)}
+  #chips::after{content:"";flex:0 0 1px}
+  #chips .chip{scroll-snap-align:start}
+  #chips.is-dragging{cursor:grabbing;scroll-snap-type:none}
+  #chips.is-dragging .chip{pointer-events:none}
+}
+
+/* ================= CUSTOM SELECTS (apply form) =================
+   The native <select> stays in the form for submission and validation; a styled button + listbox drives it. */
+.sel{position:relative}
+.sel__native{position:absolute!important;inset:auto auto 0 0;width:1px!important;height:1px!important;opacity:0;pointer-events:none}
+.sel__btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;font:inherit;font-size:18px;text-align:left;color:#000;background:transparent;border:0;border-bottom:1px solid #cfcfcf;padding:10px 0 12px;cursor:pointer;transition:border-color .3s}
+.sel__btn span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sel__btn.is-ph span{color:#8a8d88}
+.sel__btn i{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#f2f2ef;transition:background .3s,transform .45s var(--ease-out)}
+.sel__btn i svg{width:10px;height:10px}
+.sel__btn:hover i{background:#e9e9e5}
+.sel.open .sel__btn,.sel__btn:focus-visible{outline:none;border-color:var(--accent)}
+.sel.open .sel__btn i{background:var(--accent);transform:rotate(180deg)}
+.field.bad .sel__btn{border-color:#c4321a}
+.sel__list{position:absolute;left:0;right:0;top:calc(100% + 8px);z-index:20;margin:0;padding:6px;list-style:none;max-height:300px;overflow-y:auto;background:#fff;border:1px solid #e6e6e2;border-radius:14px;box-shadow:0 24px 50px -18px rgba(0,13,29,.35);opacity:0;visibility:hidden;transform:translateY(-6px) scale(.98);transform-origin:top;transition:opacity .25s var(--ease-out),transform .35s var(--ease-out),visibility 0s .35s}
+.sel.open .sel__list{opacity:1;visibility:visible;transform:none;transition:opacity .25s var(--ease-out),transform .35s var(--ease-out),visibility 0s}
+.sel__opt{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:10px;font-size:16px;line-height:1.3;color:#222;cursor:pointer;transition:background .2s,color .2s}
+.sel__opt:hover,.sel__opt.is-hl{background:#fff3ec;color:#000}
+.sel__opt[aria-selected="true"]{color:#e55a1c;font-weight:500}
+.sel__opt[aria-selected="true"]::after{content:"";flex:none;width:12px;height:12px;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath fill='none' stroke='%23000' stroke-width='1.8' d='M2 6.3l2.6 2.6L10 3.4'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath fill='none' stroke='%23000' stroke-width='1.8' d='M2 6.3l2.6 2.6L10 3.4'/%3E%3C/svg%3E") center/contain no-repeat}
+@media (max-width:900px){.sel__btn{font-size:16px}.sel__opt{font-size:15px;padding:13px 14px}}
+</style>
+</head>
+<body>
+<a class="skip" href="#top" onclick="var m=document.getElementById('top');if(m){m.setAttribute('tabindex','-1');m.focus();m.scrollIntoView();}return false">Skip to content</a>
 <!-- ================= NAV ================= -->
 <header class="nav" id="nav">
   <a href="index.html" class="logo" aria-label="PLG Acachet home">
-    <span class="logo__mark"><img src="assets/plg-mark.webp" alt=""></span>
+    <span class="logo__mark"><img src="assets/plg-mark.webp" alt="" decoding="async"></span>
     <span class="logo__word">PLG ACACHET</span>
   </a>
   <nav class="menu" aria-label="Primary">
     <a href="about.html" class="is-active" aria-current="page">About us</a>
-    <a href="index.html#services">Service</a>
-    <a href="index.html#work">Our Work</a>
-    <a href="index.html#contact">Contact</a>
+    <a href="services.html">Service</a>
+    <a href="our-work.html">Our Work</a>
+    <a href="contact.html">Contact</a>
   </nav>
   <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
 </header>
@@ -467,9 +529,9 @@ body.menu-open{overflow:hidden}
   <nav class="mnav__links" aria-label="Mobile">
     <a href="about.html" class="is-active">About us</a>
     <div class="mnav__sub"><a href="about.html#overview">Overview</a><a href="our-story.html">Our Story</a><a href="team.html">The Team</a><a href="#top" class="is-active" aria-current="page">Join Us</a></div>
-    <a href="index.html#services">Service</a>
-    <a href="index.html#work">Our Work</a>
-    <a href="index.html#contact">Contact</a>
+    <a href="services.html">Service</a>
+    <a href="our-work.html">Our Work</a>
+    <a href="contact.html">Contact</a>
   </nav>
   <p class="mnav__foot">© 2026 PLG Acachet</p>
 </div>
@@ -477,7 +539,7 @@ body.menu-open{overflow:hidden}
 <main id="top">
 <!-- ================= HERO ================= -->
 <section class="hero" aria-label="Join Us">
-  <div class="hero__media" id="heroMedia"><img src="assets/service-card.webp" alt=""></div>
+  <div class="hero__media" id="heroMedia"><img src="assets/service-card.webp" alt="" fetchpriority="high" decoding="async"></div>
   <div class="hero__fade"></div>
   <div class="hero__inner wrap">
     <div class="hero__l">
@@ -596,8 +658,8 @@ body.menu-open{overflow:hidden}
     <h2 class="h1" data-reveal style="--d:.08s">The story, the people.</h2>
   </div>
   <div class="pan">
-    <a href="our-story.html" class="pn" data-reveal><img src="assets/mujtamae.webp" alt=""><span class="pn__ov"><span class="pn__t">Our Story<span aria-hidden="true"><i class="arr"></i></span></span><span class="pn__d">Three businesses. One commercial focus.</span></span></a>
-    <a href="team.html" class="pn" data-reveal style="--d:.08s"><img src="assets/stat-1.webp" alt=""><span class="pn__ov"><span class="pn__t">The Team<span aria-hidden="true"><i class="arr"></i></span></span><span class="pn__d">The people behind PLG Acachet’s commercial, delivery and analytics work — based in the UAE, working internationally.</span></span></a>
+    <a href="our-story.html" class="pn" data-reveal><img src="assets/mujtamae.webp" alt="" loading="lazy" decoding="async"><span class="pn__ov"><span class="pn__t">Our Story<span aria-hidden="true"><i class="arr"></i></span></span><span class="pn__d">Three businesses. One commercial focus.</span></span></a>
+    <a href="team.html" class="pn" data-reveal style="--d:.08s"><img src="assets/stat-1.webp" alt="" loading="lazy" decoding="async"><span class="pn__ov"><span class="pn__t">The Team<span aria-hidden="true"><i class="arr"></i></span></span><span class="pn__d">The people behind PLG Acachet’s commercial, delivery and analytics work — based in the UAE, working internationally.</span></span></a>
   </div>
 </section>
 </main>
@@ -605,11 +667,11 @@ body.menu-open{overflow:hidden}
 <!-- ================= FOOTER ================= -->
 <footer class="footer">
   <div class="footer__row wrap">
-    <a href="index.html" class="logo"><span class="logo__mark"><img src="assets/plg-mark.webp" alt=""></span><span class="logo__word">PLG ACACHET</span></a>
-    <nav class="footer__nav" aria-label="Footer"><a href="about.html">About</a><a href="index.html#services">Service</a><a href="index.html#work">Our work</a><a href="index.html#contact">Contact</a></nav>
-    <div class="footer__social"><a href="#" aria-label="Instagram"><img src="assets/icon-instagram.svg" alt=""></a><a href="#" aria-label="LinkedIn"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a></div>
+    <a href="index.html" class="logo"><span class="logo__mark"><img src="assets/plg-mark.webp" alt="" loading="lazy" decoding="async"></span><span class="logo__word">PLG ACACHET</span></a>
+    <nav class="footer__nav" aria-label="Footer"><a href="about.html">About</a><a href="services.html">Service</a><a href="our-work.html">Our work</a><a href="contact.html">Contact</a></nav>
+    <div class="footer__social"><a href="#" aria-label="Instagram"><img src="assets/icon-instagram.svg" alt="" loading="lazy" decoding="async"></a><a href="#" aria-label="LinkedIn"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path fill="#000" d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a></div>
     <p class="footer__copy">© 2026 PLG Acachet. All rights reserved.</p>
-    <div class="footer__legal"><a href="#">Privacy Policy</a><a href="#">Terms and Conditions</a></div>
+    <div class="footer__legal"><a href="legal.html#privacy-policy">Privacy Policy</a><a href="legal.html#terms">Terms and Conditions</a><a href="legal.html#cookies">Cookies</a></div>
   </div>
 </footer>
 
@@ -757,6 +819,73 @@ function onScroll(){
 addEventListener('scroll',()=>requestAnimationFrame(onScroll),{passive:true});
 addEventListener('resize',onScroll);
 onScroll();
-</script>
 
-</body></html>
+/* sub-nav: mouse drag, edge fades, and open with this page's tab in view */
+(()=>{
+  const sn=document.querySelector('.subnav__inner');if(!sn)return;
+  const fades=()=>{const max=sn.scrollWidth-sn.clientWidth;sn.style.setProperty('--fl',sn.scrollLeft>4?'36px':'0px');sn.style.setProperty('--fr',sn.scrollLeft<max-4?'36px':'0px')};
+  sn.addEventListener('scroll',fades,{passive:true});addEventListener('resize',fades);
+  const a=sn.querySelector('a.is-active');if(a&&sn.scrollWidth>sn.clientWidth)sn.scrollLeft=Math.max(0,a.offsetLeft-sn.clientWidth/2+a.offsetWidth/2);
+  fades();
+  let down=false,moved=false,x0=0,s0=0;
+  sn.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||sn.scrollWidth<=sn.clientWidth)return;down=true;moved=false;x0=e.clientX;s0=sn.scrollLeft});
+  addEventListener('pointermove',e=>{if(!down)return;const dx=e.clientX-x0;if(!moved&&Math.abs(dx)>5){moved=true;sn.classList.add('is-dragging')}if(moved)sn.scrollLeft=s0-dx});
+  addEventListener('pointerup',()=>{if(!down)return;down=false;sn.classList.remove('is-dragging')});
+  sn.addEventListener('click',e=>{if(moved){e.preventDefault();e.stopPropagation();moved=false}},true);
+  sn.addEventListener('dragstart',e=>e.preventDefault());
+})();
+
+/* role filters: mouse drag, edge fades, and keep the selected chip in view */
+(()=>{
+  const sn=document.getElementById('chips');if(!sn)return;
+  const fades=()=>{const max=sn.scrollWidth-sn.clientWidth;sn.style.setProperty('--fl',sn.scrollLeft>4?'32px':'0px');sn.style.setProperty('--fr',sn.scrollLeft<max-4?'32px':'0px')};
+  sn.addEventListener('scroll',fades,{passive:true});addEventListener('resize',fades);fades();
+  let down=false,moved=false,x0=0,s0=0;
+  sn.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||sn.scrollWidth<=sn.clientWidth)return;down=true;moved=false;x0=e.clientX;s0=sn.scrollLeft});
+  addEventListener('pointermove',e=>{if(!down)return;const dx=e.clientX-x0;if(!moved&&Math.abs(dx)>5){moved=true;sn.classList.add('is-dragging')}if(moved)sn.scrollLeft=s0-dx});
+  addEventListener('pointerup',()=>{if(!down)return;down=false;sn.classList.remove('is-dragging')});
+  sn.addEventListener('click',e=>{if(moved){e.preventDefault();e.stopPropagation();moved=false;return}
+    const c=e.target.closest('.chip');if(c&&sn.scrollWidth>sn.clientWidth)sn.scrollTo({left:Math.max(0,c.offsetLeft-sn.clientWidth/2+c.offsetWidth/2),behavior:reduce?'auto':'smooth'})},true);
+  sn.addEventListener('dragstart',e=>e.preventDefault());
+})();
+
+/* custom selects for the apply form: styled button + listbox that drive the native <select> */
+(()=>{
+  const CHEV='<svg viewBox="0 0 10 10" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.5" d="M1 3.2l4 4 4-4"/></svg>';
+  const all=[];
+  document.querySelectorAll('.form .field select').forEach((sel,n)=>{
+    const wrap=document.createElement('div');wrap.className='sel';sel.parentNode.insertBefore(wrap,sel);wrap.appendChild(sel);sel.classList.add('sel__native');sel.tabIndex=-1;
+    const id='selbtn'+n,lid='sellist'+n;
+    const btn=document.createElement('button');btn.type='button';btn.className='sel__btn';btn.id=id;btn.setAttribute('aria-haspopup','listbox');btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-controls',lid);btn.innerHTML='<span></span><i>'+CHEV+'</i>';
+    const list=document.createElement('ul');list.className='sel__list';list.id=lid;list.setAttribute('role','listbox');
+    wrap.insertBefore(btn,sel);wrap.appendChild(list);
+    const lab=document.querySelector(`label[for="${sel.id}"]`);if(lab){lab.htmlFor=id;btn.setAttribute('aria-labelledby',(lab.id||(lab.id='lab'+n))+' '+id)}
+    let hl=-1;
+    const build=()=>{list.innerHTML=[...sel.options].map((o,i)=>`<li class="sel__opt" role="option" id="${lid}-${i}" data-i="${i}" aria-selected="${o.selected}">${o.textContent}</li>`).join('');sync()};
+    const sync=()=>{const o=sel.options[sel.selectedIndex];btn.firstChild.textContent=o?o.textContent:'';btn.classList.toggle('is-ph',!sel.value&&sel.required);
+      list.querySelectorAll('.sel__opt').forEach((li,i)=>li.setAttribute('aria-selected',i===sel.selectedIndex))};
+    const mark=i=>{hl=i;list.querySelectorAll('.sel__opt').forEach((li,k)=>li.classList.toggle('is-hl',k===i));const li=list.children[i];if(li){btn.setAttribute('aria-activedescendant',li.id);li.scrollIntoView({block:'nearest'})}};
+    const open=()=>{all.forEach(f=>f!==close&&f());wrap.classList.add('open');btn.setAttribute('aria-expanded','true');mark(Math.max(0,sel.selectedIndex))};
+    const close=()=>{wrap.classList.remove('open');btn.setAttribute('aria-expanded','false');btn.removeAttribute('aria-activedescendant')};
+    all.push(close);
+    const pick=i=>{sel.selectedIndex=i;sel.dispatchEvent(new Event('change',{bubbles:true}));sync();close();btn.focus();const f=sel.closest('.field');if(sel.value&&f){f.classList.remove('bad');const e=f.querySelector('.err');if(e)e.textContent=''}};
+    btn.addEventListener('click',()=>wrap.classList.contains('open')?close():open());
+    list.addEventListener('click',e=>{const li=e.target.closest('.sel__opt');if(li)pick(+li.dataset.i)});
+    list.addEventListener('pointermove',e=>{const li=e.target.closest('.sel__opt');if(li&&+li.dataset.i!==hl)mark(+li.dataset.i)});
+    btn.addEventListener('keydown',e=>{const isOpen=wrap.classList.contains('open'),n=sel.options.length;
+      if(['ArrowDown','ArrowUp'].includes(e.key)){e.preventDefault();if(!isOpen)open();else mark((hl+(e.key==='ArrowDown'?1:-1)+n)%n)}
+      else if((e.key==='Enter'||e.key===' ')&&isOpen){e.preventDefault();pick(hl)}
+      else if(e.key==='Escape'&&isOpen){e.preventDefault();close()}
+      else if(e.key==='Tab')close()});
+    sel.addEventListener('change',sync);
+    new MutationObserver(build).observe(sel,{childList:true});
+    build();
+    wrap._sync=sync;
+  });
+  document.addEventListener('click',e=>{if(!e.target.closest('.sel'))all.forEach(f=>f())});
+  // "Apply" buttons on the roles list set the selects in code: mirror that into the styled controls
+  document.addEventListener('click',e=>{if(e.target.closest('[data-apply]'))setTimeout(()=>document.querySelectorAll('.sel').forEach(w=>w._sync&&w._sync()),0)});
+})();
+</script>
+</body>
+</html>
