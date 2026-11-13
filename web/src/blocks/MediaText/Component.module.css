@@ -1,0 +1,90 @@
+.section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 40px 8px;
+  padding: 24.5px 0 59px var(--gutter);
+}
+
+.imageLeft {
+  flex-direction: row-reverse;
+  padding: 24.5px var(--gutter) 59px 0;
+}
+
+.copy {
+  flex: 1 0 0;
+  min-width: 500px;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.body {
+  max-width: none;
+  margin-top: 20px;
+}
+
+.button {
+  align-self: flex-start;
+}
+
+.media {
+  flex: 1 0 0;
+  min-width: 500px;
+  max-width: 693px;
+  margin-left: auto;
+  position: relative;
+  aspect-ratio: 693 / 531.5;
+}
+.imageLeft .media {
+  margin-left: 0;
+  margin-right: auto;
+}
+.imageLeft .fade {
+  transform: scaleX(-1);
+}
+
+.media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.cover {
+  object-fit: cover;
+}
+
+@media (max-width: 1100px) {
+  .section,
+  .imageLeft {
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
+  }
+  .copy,
+  .media {
+    min-width: 100%;
+    max-width: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .section,
+  .imageLeft {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 32px;
+    padding: 40px 24px 48px;
+  }
+  .section :global(.h1) {
+    color: #eaeaea;
+  }
+  .body {
+    margin-top: 24px;
+  }
+  .media {
+    width: 100%;
+    margin: 0;
+  }
+}

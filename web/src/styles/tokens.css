@@ -1,0 +1,34 @@
+/* Design tokens (from the Figma variables used by the prototype) */
+:root {
+  color-scheme: dark;
+  --bg: #010202;
+  --bg-2: #0d0d0e;
+  --bg-3: #0c0d0e;
+  --accent: #ff7433;
+  --accent-hover: #ff8a52;
+  --accent-press: #e55a1c;
+  --ink: #000d1d;
+  --c5: #ececec;
+  --body: #e2e2e2;
+  --muted: #70746e;
+  --card-ink: #252b27;
+  --gutter: 72px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-io: cubic-bezier(0.65, 0, 0.35, 1);
+  --h1: 56px;
+  --label: 24px;
+}
+
+@media (max-width: 1280px) {
+  :root {
+    --gutter: 48px;
+  }
+}
+
+@media (max-width: 900px) {
+  :root {
+    --gutter: 24px;
+    --h1: 34px;
+    --label: 16px;
+  }
+}

@@ -1,0 +1,32 @@
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+}
+
+.mark {
+  position: relative;
+  width: 42px;
+  height: 40px;
+  overflow: hidden;
+  flex: none;
+}
+
+.mark img {
+  position: absolute;
+  height: 135.14%;
+  width: 153.85%;
+  left: -26.15%;
+  top: 0;
+  max-width: none;
+}
+
+.word {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
+  color: #fff;
+  white-space: nowrap;
+  transition: color 0.3s;
+}

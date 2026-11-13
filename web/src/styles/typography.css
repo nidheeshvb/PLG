@@ -1,0 +1,41 @@
+/* Shared type styles used by every section */
+.eyebrow {
+  font-weight: 500;
+  font-size: var(--label);
+  line-height: 1.25;
+  color: var(--accent);
+}
+
+.h1 {
+  font-weight: 700;
+  font-size: var(--h1);
+  line-height: 1.15;
+  letter-spacing: 2px;
+}
+
+.grad {
+  background: linear-gradient(114.8deg, #fff 0.2%, #aeaeae 68%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.body {
+  font-size: 18px;
+  line-height: 1.3;
+  color: var(--body);
+}
+
+.body p + p {
+  margin-top: 0;
+}
+
+@media (max-width: 900px) {
+  .h1 {
+    letter-spacing: 0;
+  }
+  .grad {
+    background: none;
+    color: #eaeaea;
+  }
+}

@@ -1,0 +1,98 @@
+'use client'
+
+import { useActionState, useRef, useState } from 'react'
+
+import { submitEnquiry, type FormState } from '@/app/(frontend)/actions'
+import { Button } from '@/components/ui/Button/Button'
+
+import styles from './Component.module.css'
+
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+type Errors = NonNullable<FormState['errors']>
+
+/** Name / email / phone / message form. Checks fields in the browser, then again on the server. */
+export function EnquiryForm({ submitLabel, successMessage }: { submitLabel: string; successMessage: string }) {
+  const formRef = useRef<HTMLFormElement>(null)
+  const [state, action, pending] = useActionState<FormState, FormData>(async (prev, data) => {
+    const result = await submitEnquiry(prev, data)
+    if (result.ok) formRef.current?.reset()
+    return result
+  }, { ok: false })
+  const [clientErrors, setClientErrors] = useState<Errors>({})
+  const errors: Errors = { ...state.errors, ...clientErrors }
+
+  const validate = (e: React.FormEvent<HTMLFormElement>) => {
+    const f = e.currentTarget
+    const name = (f.elements.namedItem('name') as HTMLInputElement).value.trim()
+    const email = (f.elements.namedItem('email') as HTMLInputElement).value
+    const next: Errors = {}
+    if (name.length < 2) next.name = 'Please enter your name'
+    if (!EMAIL.test(email)) next.email = 'Enter a valid email'
+    setClientErrors(next)
+    if (next.name || next.email) {
+      e.preventDefault()
+      ;(f.elements.namedItem(next.name ? 'name' : 'email') as HTMLInputElement).focus()
+    }
+  }
+
+  const clear = (field: keyof Errors) => () => {
+    if (clientErrors[field]) setClientErrors({ ...clientErrors, [field]: undefined })
+  }
+  const fieldClass = (field?: keyof Errors) =>
+    [styles.field, field && errors[field] && styles.err].filter(Boolean).join(' ')
+  const sent = state.ok && !pending
+
+  return (
+    <form
+      ref={formRef}
+      className={[styles.form, sent && styles.sent].filter(Boolean).join(' ')}
+      action={action}
+      onSubmit={validate}
+      noValidate
+      data-reveal=""
+      style={{ ['--d' as string]: '.24s' }}
+      aria-label="Enquiry form"
+    >
+      <div className={fieldClass('name')}>
+        <label htmlFor="f-name">Name</label>
+        <input id="f-name" name="name" placeholder="Your name" autoComplete="name" required onInput={clear('name')} />
+        <span className={styles.msg}>{errors.name ?? 'Please enter your name'}</span>
+      </div>
+      <div className={fieldClass('email')}>
+        <label htmlFor="f-email">Email</label>
+        <input
+          id="f-email"
+          name="email"
+          type="email"
+          placeholder="you@emailid.com"
+          autoComplete="email"
+          required
+          onInput={clear('email')}
+        />
+        <span className={styles.msg}>{errors.email ?? 'Enter a valid email'}</span>
+      </div>
+      <div className={fieldClass()}>
+        <label htmlFor="f-phone">Phone</label>
+        <input id="f-phone" name="phone" type="tel" placeholder="Phone Number" autoComplete="tel" />
+      </div>
+      <div className={fieldClass()}>
+        <label htmlFor="f-msg">Tell us about your project</label>
+        <textarea id="f-msg" name="message" rows={1} placeholder="Share few details" />
+      </div>
+      <input className={styles.hp} name="company_website" tabIndex={-1} autoComplete="off" aria-hidden="true" />
+      <div className={styles.actions}>
+        <Button type="submit" disabled={pending}>
+          {pending ? 'Sending…' : sent ? 'Sent' : submitLabel}
+        </Button>
+        <p
+          className={[styles.ok, (sent || state.error) && styles.okShow, state.error && !sent && styles.okError]
+            .filter(Boolean)
+            .join(' ')}
+          role="status"
+        >
+          {state.error && !sent ? state.error : successMessage}
+        </p>
+      </div>
+    </form>
+  )
+}

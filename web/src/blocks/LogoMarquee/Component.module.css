@@ -1,0 +1,87 @@
+.logos {
+  position: relative;
+  height: 226px;
+  background: var(--bg-3);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.withLabel {
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.label {
+  padding: 0 var(--gutter);
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #8a8a8a;
+}
+
+.set {
+  gap: 120px;
+  padding: 0 60px;
+}
+
+.logo {
+  flex: none;
+  display: block;
+}
+.logo img {
+  height: var(--h);
+  width: auto;
+  opacity: 0.75;
+  transition:
+    opacity 0.3s,
+    transform 0.3s;
+}
+.logo img:hover {
+  opacity: 1;
+  transform: scale(1.06);
+}
+
+.logos::before,
+.logos::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100px;
+  z-index: 2;
+  pointer-events: none;
+}
+.logos::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--bg-3) 26%, rgba(12, 13, 14, 0) 92%);
+}
+.logos::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--bg-3) 26%, rgba(12, 13, 14, 0) 92%);
+}
+
+@media (max-width: 900px) {
+  .logos {
+    height: 70px;
+    padding: 5px 24px;
+  }
+  .withLabel {
+    height: auto;
+    padding: 24px 0;
+    gap: 16px;
+  }
+  .set {
+    gap: 36px;
+    padding: 0 18px;
+  }
+  .logo img {
+    height: var(--hm);
+  }
+  .logos::before,
+  .logos::after {
+    width: 40px;
+  }
+}

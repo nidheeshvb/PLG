@@ -1,0 +1,33 @@
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--marquee-duration, 24s) linear infinite;
+}
+
+:global(*:hover) > .marquee {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.set {
+  flex: none;
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .marquee {
+    animation-duration: calc(var(--marquee-duration, 24s) * 2 / 3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    animation: none;
+  }
+}

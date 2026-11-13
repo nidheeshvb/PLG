@@ -1,0 +1,226 @@
+.contact {
+  position: relative;
+  height: 702px;
+  margin-top: -1px;
+  overflow: hidden;
+  background: #fff;
+  color: #000;
+}
+
+.bg {
+  position: absolute;
+  left: 0;
+  top: -2px;
+  width: 100%;
+  height: calc(100% + 2px);
+}
+.bg img {
+  object-fit: cover;
+  object-position: right center;
+}
+
+.blur {
+  position: absolute;
+  left: 2px;
+  top: 69px;
+  width: 737px;
+  height: 686px;
+  background: radial-gradient(
+    closest-side,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(255, 255, 255, 0.8) 55%,
+    rgba(255, 255, 255, 0.45) 75%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  pointer-events: none;
+}
+
+.grad {
+  position: absolute;
+  left: -3px;
+  top: 0;
+  width: 640px;
+  height: 702px;
+  background: linear-gradient(90deg, #fff -3%, rgba(255, 255, 255, 0) 100%);
+}
+
+.inner {
+  position: relative;
+  padding: 67px 0 0 var(--gutter);
+  max-width: 741px;
+}
+.inner :global(.h1) {
+  color: #000;
+}
+
+.lede {
+  margin-top: 8px;
+  font-size: 20px;
+  line-height: 30px;
+  max-width: 600px;
+}
+
+.form {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: 281px 281px;
+  gap: 28px 35px;
+  padding-left: 4px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+}
+.field label {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.2;
+}
+.field input,
+.field textarea {
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #000;
+  background: transparent;
+  border: 0;
+  border-bottom: 0.5px solid #7b7b7b;
+  padding: 10px 0;
+  outline: none;
+  resize: none;
+  border-radius: 0;
+}
+.field input::placeholder,
+.field textarea::placeholder {
+  color: #575757;
+}
+.field::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1.5px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s var(--ease-out);
+}
+.field:focus-within::after {
+  transform: scaleX(1);
+}
+.err::after {
+  transform: scaleX(1);
+  background: #d93025;
+}
+
+.msg {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 4px;
+  font-size: 11px;
+  color: #d93025;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: 0.3s;
+}
+.err .msg {
+  opacity: 1;
+  transform: none;
+}
+
+.hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.actions {
+  grid-column: 1 / -1;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.ok {
+  font-size: 14px;
+  color: #1d7d3a;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: 0.4s var(--ease-out);
+}
+.okShow {
+  opacity: 1;
+  transform: none;
+}
+.okError {
+  color: #d93025;
+}
+
+.photoM {
+  display: none;
+}
+
+@media (max-width: 1280px) {
+  .inner {
+    max-width: 680px;
+  }
+}
+
+@media (max-width: 900px) {
+  .contact {
+    height: auto;
+  }
+  .bg,
+  .blur,
+  .grad {
+    display: none;
+  }
+  .inner {
+    padding: 56px 24px 40px;
+    max-width: none;
+  }
+  .inner :global(.h1) {
+    color: #222;
+  }
+  .lede {
+    margin-top: 16px;
+    font-size: 18px;
+    line-height: 1.5;
+  }
+  .form {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 0;
+    margin-top: 32px;
+  }
+  .field {
+    gap: 8px;
+  }
+  .field input,
+  .field textarea {
+    font-size: 16px;
+    padding: 12px 0;
+    min-height: 48px;
+  }
+  .actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .photoM {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 154px;
+  }
+  .photoM img {
+    object-fit: cover;
+  }
+}
