@@ -7,7 +7,9 @@ Read this before adding a feature. It's meant to replace reading the whole codeb
 - `/*.html`, `/assets/` — **static HTML prototype = visual source of truth.** Never edit. Each page has inline CSS (`<style>`) and inline JS. Serve it with the `plg-site` launch config (port 8000) to compare.
 - `/New/` — older near-copy of the prototype. Ignore.
 - `/web/` — the app (Next.js 16 App Router + Payload CMS 3 + PostgreSQL). All work happens here.
-- `/docs/architecture.md` — application architecture (layers, content model, request/editing/form flows, release pipeline) and server architecture (environments, hosting options A/B, data, caching, security, monitoring, decisions). Client-shareable. Update it when a flow, collection, environment or hosting decision changes.
+- `/docs/architecture.md` — application architecture (layers, content model, request/editing/form flows, release pipeline) and server architecture (AWS topology, CloudFront behaviours, environments, data, caching, security, monitoring, env vars, EC2 deployment, decisions). Client-shareable. Update it when a flow, collection, environment or hosting decision changes.
+- `/docs/hosting-architecture.md` — local copy of the client-facing Google Doc "PLG Acachet: Proposed Hosting Architecture" (https://docs.google.com/document/d/14CcWwoTUNQkkwt1IuCfE7VIPfJSv9roqHMVf5_4o5S4/edit). **This is the production target; build everything to work on it.** If the Google Doc changes, update the copy + architecture.md Part B.
+- `/docs/local-setup.md` — step-by-step local installation guide (clone, Node version, npm ci, .env, database options, seed, run, troubleshooting). Update it when setup steps, env vars or requirements change.
 - `/docs/technical-documentation.md` — client-shareable technical doc (no secrets). Source of truth.
 - `/docs/technical-documentation.html` — the same content as a page, published as a private artifact for sharing: https://claude.ai/artifact/KbSfFWQBra4jU5UoRLDUQM . When the .md changes, update the .html too and republish it **to that URL** (pass `url` from a new conversation) so the shared link stays the same.
 - `.claude/launch.json` — `web` (dev server, :3000) and `plg-site` (prototype, :8000).
@@ -28,6 +30,18 @@ Read this before adding a feature. It's meant to replace reading the whole codeb
 | Local DB | `embedded-postgres` (devDep, `npm run db`, port **5433**, data in `web/.postgres`) | No Postgres/Docker on the machine; user chose this. Must be running for dev, build (generateStaticParams), seed, migrate. |
 | Styling | CSS Modules | User's choice. No Tailwind. |
 | Lint | ESLint 9 flat config importing `eslint-config-next/core-web-vitals` + `/typescript` directly | FlatCompat crashed with Next 16 config. React-hooks rules are strict (see gotchas). |
+
+## Production target & integrations
+Proposed production (decisions may change; keep everything swappable): **AWS me-central-1** — Route 53, ACM, CloudFront (caches whole site + media), **EC2** running `next start` (long-running Node, not serverless), **RDS PostgreSQL**, **S3** media, optional WAF, CloudWatch. Videos: plain MP4 on S3/CloudFront, no streaming service at launch (Bunny Stream/MediaConvert only if long videos with a player are needed later).
+
+Every external service is an **env-gated integration** in `web/src/integrations/` — off locally, on in production, no code change:
+| File | Switch | Does |
+|---|---|---|
+| `storage.ts` | `S3_BUCKET` (+ `S3_REGION` default me-central-1, `S3_PREFIX` default `media`, optional keys/endpoint) | `@payloadcms/storage-s3` for the `media` collection. `alwaysInsertFields: true` so the schema (media `prefix`, `_objectkey`) is identical with S3 on or off. `MEDIA_PUBLIC_URL` → file URLs point at the CDN (`disablePayloadAccessControl`) and next.config adds it to `images.remotePatterns` |
+| `cdn.ts` | `CLOUDFRONT_DISTRIBUTION_ID` | `invalidateCdn(paths)`; called from `lib/revalidate.ts` `safeRevalidate` (page path, or `/*` for layout-wide changes) |
+| `email.ts` | `SMTP_HOST` (+ port/user/pass/from) | `@payloadcms/email-nodemailer` (SES SMTP on AWS); unset → Payload logs emails to console |
+Rules for new work: any new external service goes in `integrations/` behind an env var, is documented in `web/.env.example`, `docs/architecture.md` B9 and `docs/local-setup.md` §11, and must leave local dev working with the var unset. Don't assume serverless (EC2 is the target) or local disk persistence in production (media is on S3). Keep `/next/*`, `/admin`, `/api` uncacheable (CloudFront behaviours in architecture.md B3). Health check: `/next/health` (DB ping, `no-store`).
+Images: `next/image` with `formats: ['image/avif','image/webp']`, 30-day `minimumCacheTTL`. Hero has optional `videoMobile` (`<source media="(max-width: 900px)">`) per the hosting plan.
 
 ## Commands (run inside `web/`)
 `npm run db` (keep running) · `npm run dev` · `npm run seed` · `npm run lint` · `npm run typecheck` · `npm run build` · `npm run generate:types` (after any CMS config change) · `npm run generate:importmap` (after adding admin components referenced by path string) · `npm run migrate:create -- <name>` · `npm run migrate`.
@@ -99,7 +113,7 @@ SiteSettings global ──► (frontend)/layout.tsx ─► Header / Footer
 - Add each new page's content + media here when building that page.
 
 ## Migrations
-Dev uses Payload's automatic schema push. Before handing over/deploying a schema change: `npm run migrate:create -- <name>` and commit `src/migrations/*`. Initial migration: `20261113_150619_initial`.
+Dev uses Payload's automatic schema push. Before handing over/deploying a schema change: `npm run migrate:create -- <name>` and commit `src/migrations/*`. Migrations so far: `20261113_150619_initial`, `20261113_154236_media_storage_and_mobile_video`.
 
 ## Gotchas already hit (don't repeat)
 - `serverURL` in payload config makes media URLs absolute → next/image "unconfigured host" error. It's removed; keep URLs relative.
@@ -131,3 +145,7 @@ Dev uses Payload's automatic schema push. Before handing over/deploying a schema
 | 2026-11-13 | Case studies open on Our Work as `#case-<slug>` overlay | Matches prototype URLs |
 | 2026-11-13 | Brand/design assets (logo mark, brand marks, fade, icons) in `public/brand`, not CMS | Design, not content; can move to CMS if client wants |
 | 2026-11-13 | Two docs: this file (internal) + `docs/technical-documentation.md` (client-shareable) | User request |
+| 2026-11-13 | Production target = AWS me-central-1 (EC2 + RDS + S3 + CloudFront) per `docs/hosting-architecture.md`; may change | Client-facing hosting proposal; user asked to build for it |
+| 2026-11-13 | External services are env-gated integrations (S3, CloudFront invalidation, SMTP); off locally | Production tools must be connectable at deploy time without code changes |
+| 2026-11-13 | Images via next/image (AVIF/WebP) cached at CloudFront, not Payload imageSizes | Same outcome as the hosting doc's "several sizes in modern formats", no frontend srcset rework |
+| 2026-11-13 | Work stays on the `dev` branch; no push/merge to `main` unless asked | User instruction |

@@ -219,6 +219,10 @@ export interface HeroBlock {
    */
   video?: (number | null) | Media;
   /**
+   * A smaller version of the background video for screens up to 900px wide. Leave empty to use the main video.
+   */
+  videoMobile?: (number | null) | Media;
+  /**
    * Shown while the video loads, and instead of the video if there is none.
    */
   poster: number | Media;
@@ -248,6 +252,8 @@ export interface Media {
    * Describe the image for people using screen readers. Leave empty for purely decorative images.
    */
   alt?: string | null;
+  prefix?: string | null;
+  _objectKey?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -917,6 +923,7 @@ export interface HeroBlockSelect<T extends boolean = true> {
         id?: T;
       };
   video?: T;
+  videoMobile?: T;
   poster?: T;
   showScrollCue?: T;
   anchorId?: T;
@@ -1155,6 +1162,8 @@ export interface PartnersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  prefix?: T;
+  _objectKey?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;

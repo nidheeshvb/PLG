@@ -19,7 +19,7 @@ The PLG Acachet website is being rebuilt from the approved static HTML prototype
 | Website framework | Next.js 16 (React 19, TypeScript) | Industry-standard, fast, search-engine friendly |
 | Content management | Payload CMS 3 | Open source, runs inside the same application (no separate CMS server or licence fees) |
 | Database | PostgreSQL | Stores all content, users and form messages |
-| Media storage | Local disk in development; cloud object storage (e.g. Amazon S3, Vercel Blob, Cloudflare R2) for live | Images and videos uploaded through the CMS |
+| Media storage | Amazon S3 with CloudFront CDN in production; local disk in development | Images and videos uploaded through the CMS |
 | Styling | CSS Modules | Design ported directly from the prototype |
 | Fonts | Inter (Google Fonts, self-hosted by Next.js) | |
 
@@ -109,30 +109,46 @@ More sections are added as the remaining pages are built (section menus, image t
 
 ## 8. Hosting and deployment
 
-### Requirements
-| Item | Requirement |
-|---|---|
-| Runtime | Node.js 20.18 or newer (22 LTS recommended) — any Node host or container platform (e.g. Vercel, AWS, Azure, DigitalOcean, Render, Railway) |
-| Database | PostgreSQL 14+ (managed service recommended, e.g. Neon, Supabase, AWS RDS, Azure Database) |
-| Media storage | Cloud object storage (S3-compatible or Vercel Blob) |
-| Domain & SSL | Client's domain pointed at the host; HTTPS |
-| Email (optional) | Transactional email service (e.g. Resend, SendGrid, AWS SES) for CMS password resets and form notifications |
+### Proposed production setup (AWS, UAE region)
+The website is being built for the hosting plan in **PLG Acachet: Proposed Hosting Architecture** (local copy: `docs/hosting-architecture.md`). Hosting region: **AWS Middle East (UAE), me-central-1**, the AWS region closest to Dubai.
+
+| Component | AWS service | Purpose |
+|---|---|---|
+| DNS | Amazon Route 53 | Domain management and routing |
+| SSL certificate | AWS Certificate Manager | Free HTTPS certificate with automatic renewal |
+| CDN | Amazon CloudFront | Caches pages, images and videos close to visitors, including locations in the UAE |
+| Application server | Amazon EC2 | Runs the website and the CMS |
+| Database | Amazon RDS for PostgreSQL | CMS content, with automated daily backups |
+| Media storage | Amazon S3 | Images, videos and documents uploaded through the CMS |
+| Security (optional) | AWS WAF | Firewall against bots and common attacks |
+| Monitoring | Amazon CloudWatch | Uptime, performance and error alerts |
+
+**Ready in the application:** uploads go to S3 once the bucket is configured; media can be served from the CDN; publishing a change clears it from the CDN automatically; email works with Amazon SES; a health-check address (`/next/health`) is available for monitoring. Each of these is switched on by configuration at deployment, with no code changes, so the hosting choices can still change.
+
+**Images and videos:** images are delivered in several sizes in modern formats (AVIF/WebP), so each device downloads only what it needs. Background videos are optimised MP4 files on S3 delivered through CloudFront; the banner can also take a lighter video for phones, and a preview image shows instantly while the video loads.
 
 ### Configuration (environment variables)
 | Variable | Purpose |
 |---|---|
-| `DATABASE_URL` | PostgreSQL connection |
+| `DATABASE_URL` | PostgreSQL connection (RDS) |
 | `PAYLOAD_SECRET` | Signs CMS sign-in sessions |
 | `NEXT_PUBLIC_SITE_URL` | Public website address (share images, sitemap, live preview) |
 | `PREVIEW_SECRET` | Protects the preview link |
+| `S3_BUCKET`, `S3_REGION` | Media storage on Amazon S3 |
+| `MEDIA_PUBLIC_URL` | CDN address for media files |
+| `CLOUDFRONT_DISTRIBUTION_ID` | Clears the CDN cache when content is published |
+| `SMTP_HOST` and related settings | Outgoing email through Amazon SES (password resets, form notifications) |
 
 ### Release process
 1. Database changes are versioned as **migrations** and applied with `npm run migrate` before a release.
-2. `npm run build` produces the optimised site; `npm run start` serves it.
-3. Recommended environments: **staging** (client review) and **production**.
+2. `npm run build` produces the optimised site; `npm run start` serves it on the EC2 server.
+3. Recommended environments: **staging** (client review) and **production**, each with its own database and storage.
 
 ### Backups
-Use the database provider's automated daily backups with point-in-time recovery, plus versioning on the media storage bucket.
+RDS automated daily backups with point-in-time recovery, a snapshot before each release, and versioning on the S3 media bucket.
+
+### Local installation
+Developers can run the full website and CMS on their own computer by following `docs/local-setup.md` (requirements, step-by-step installation, database options, troubleshooting). No cloud account is needed for local development.
 
 ## 9. Project status and roadmap
 
@@ -147,7 +163,7 @@ Use the database provider's automated daily backups with point-in-time recovery,
 | 7 | Our Work (case study grid, filters, full case studies) | Planned |
 | 8 | Contact (enquiry form, offices) | Planned |
 | 9 | Legal (Terms, Privacy, Cookies) | Planned |
-| 10 | Go-live: hosting, cloud media storage, email, domain, analytics/cookie consent | Planned |
+| 10 | Go-live on AWS (me-central-1): set up EC2, RDS, S3, CloudFront, SES, domain; analytics and cookie consent | Planned |
 
 ## 10. Items needed from PLG Acachet
 
@@ -156,5 +172,5 @@ Use the database provider's automated daily backups with point-in-time recovery,
 - Office addresses, email and phone for the Contact page.
 - Legal wording (Terms, Privacy, Cookies) approved by counsel, and the chosen cookie-consent platform.
 - Where form messages should go besides the CMS inbox (email addresses, CRM, careers system).
-- Hosting preference (or approval of a recommended setup), and the domain.
+- Approval of the proposed AWS hosting setup, expected monthly visitors (to size the server and estimate cost), and the domain.
 - Names and email addresses of people who need CMS accounts, and their roles.

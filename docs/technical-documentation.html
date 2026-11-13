@@ -114,7 +114,7 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
           <tr><td>Website framework</td><td>Next.js 16 (React 19, TypeScript)</td><td class="wrap">Industry standard, fast and search-engine friendly</td></tr>
           <tr><td>Content management</td><td>Payload CMS 3</td><td class="wrap">Open source; runs inside the same application, so there is no separate CMS server and no licence fee</td></tr>
           <tr><td>Database</td><td>PostgreSQL</td><td class="wrap">Stores content, users and form messages</td></tr>
-          <tr><td>Media storage</td><td>Cloud object storage when live</td><td class="wrap">Amazon S3, Vercel Blob or Cloudflare R2; local disk during development</td></tr>
+          <tr><td>Media storage</td><td>Amazon S3 + CloudFront</td><td class="wrap">In production; local disk during development</td></tr>
           <tr><td>Styling</td><td>CSS Modules</td><td class="wrap">Design ported directly from the prototype</td></tr>
           <tr><td>Fonts</td><td>Inter</td><td class="wrap">Self-hosted by Next.js</td></tr>
         </tbody>
@@ -223,35 +223,47 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
 
     <section id="hosting">
       <h2><span>08</span>Hosting &amp; deployment</h2>
-      <h3>Requirements</h3>
+      <h3>Proposed production setup (AWS, UAE region)</h3>
+      <p>The website is being built for the hosting plan in <b>PLG Acachet: Proposed Hosting Architecture</b>. Region: <b>AWS Middle East (UAE), me-central-1</b>, the AWS region closest to Dubai.</p>
       <div class="table"><table>
-        <thead><tr><th>Item</th><th>Requirement</th></tr></thead>
+        <thead><tr><th>Component</th><th>AWS service</th><th>Purpose</th></tr></thead>
         <tbody>
-          <tr><td>Runtime</td><td class="wrap">Node.js 20.18 or newer (22 LTS recommended) on any Node host or container platform, such as Vercel, AWS, Azure, DigitalOcean, Render or Railway</td></tr>
-          <tr><td>Database</td><td class="wrap">PostgreSQL 14 or newer; a managed service is recommended (Neon, Supabase, AWS RDS, Azure Database)</td></tr>
-          <tr><td>Media storage</td><td class="wrap">S3-compatible object storage or Vercel Blob</td></tr>
-          <tr><td>Domain &amp; SSL</td><td class="wrap">PLG Acachet's domain pointed at the host, served over HTTPS</td></tr>
-          <tr><td>Email (optional)</td><td class="wrap">A transactional email service (Resend, SendGrid, AWS SES) for CMS password resets and form notifications</td></tr>
+          <tr><td>DNS</td><td>Amazon Route 53</td><td class="wrap">Domain management and routing</td></tr>
+          <tr><td>SSL certificate</td><td>AWS Certificate Manager</td><td class="wrap">Free HTTPS certificate with automatic renewal</td></tr>
+          <tr><td>CDN</td><td>Amazon CloudFront</td><td class="wrap">Caches pages, images and videos close to visitors, including locations in the UAE</td></tr>
+          <tr><td>Application server</td><td>Amazon EC2</td><td class="wrap">Runs the website and the CMS</td></tr>
+          <tr><td>Database</td><td>Amazon RDS for PostgreSQL</td><td class="wrap">CMS content, with automated daily backups</td></tr>
+          <tr><td>Media storage</td><td>Amazon S3</td><td class="wrap">Images, videos and documents uploaded through the CMS</td></tr>
+          <tr><td>Security (optional)</td><td>AWS WAF</td><td class="wrap">Firewall against bots and common attacks</td></tr>
+          <tr><td>Monitoring</td><td>Amazon CloudWatch</td><td class="wrap">Uptime, performance and error alerts</td></tr>
         </tbody>
       </table></div>
+      <p class="note"><b>Ready in the application:</b> uploads go to S3 once the bucket is configured, media can be served from the CDN, publishing clears the changed page from the CDN automatically, email works with Amazon SES, and <code>/next/health</code> is available for monitoring. Each is switched on by configuration at deployment, with no code changes, so hosting choices can still change.</p>
+      <p><b>Images and videos:</b> images are delivered in several sizes in modern formats (AVIF/WebP), so each device downloads only what it needs. Background videos are optimised MP4 files on S3 delivered through CloudFront; the banner can take a lighter video for phones, and a preview image shows instantly while the video loads.</p>
       <h3>Configuration</h3>
       <div class="table"><table>
         <thead><tr><th>Environment variable</th><th>Purpose</th></tr></thead>
         <tbody>
-          <tr><td><code>DATABASE_URL</code></td><td class="wrap">PostgreSQL connection</td></tr>
+          <tr><td><code>DATABASE_URL</code></td><td class="wrap">PostgreSQL connection (RDS)</td></tr>
           <tr><td><code>PAYLOAD_SECRET</code></td><td class="wrap">Signs CMS sign-in sessions</td></tr>
           <tr><td><code>NEXT_PUBLIC_SITE_URL</code></td><td class="wrap">Public website address, used for share images, the sitemap and live preview</td></tr>
           <tr><td><code>PREVIEW_SECRET</code></td><td class="wrap">Protects the preview link</td></tr>
+          <tr><td><code>S3_BUCKET</code>, <code>S3_REGION</code></td><td class="wrap">Media storage on Amazon S3</td></tr>
+          <tr><td><code>MEDIA_PUBLIC_URL</code></td><td class="wrap">CDN address for media files</td></tr>
+          <tr><td><code>CLOUDFRONT_DISTRIBUTION_ID</code></td><td class="wrap">Clears the CDN cache when content is published</td></tr>
+          <tr><td><code>SMTP_HOST</code> and related</td><td class="wrap">Outgoing email through Amazon SES</td></tr>
         </tbody>
       </table></div>
       <h3>Release process</h3>
       <ol class="steps">
         <li>Database changes are versioned as <b>migrations</b> and applied with <code>npm run migrate</code> before a release.</li>
-        <li><code>npm run build</code> produces the optimised site and <code>npm run start</code> serves it.</li>
-        <li>Recommended environments: <b>staging</b> for review and <b>production</b>.</li>
+        <li><code>npm run build</code> produces the optimised site and <code>npm run start</code> serves it on the EC2 server.</li>
+        <li>Recommended environments: <b>staging</b> for review and <b>production</b>, each with its own database and storage.</li>
       </ol>
       <h3>Backups</h3>
-      <p>Use the database provider's automated daily backups with point-in-time recovery, and turn on versioning for the media storage bucket.</p>
+      <p>RDS automated daily backups with point-in-time recovery, a snapshot before each release, and versioning on the S3 media bucket.</p>
+      <h3>Local installation</h3>
+      <p>Developers can run the full website and CMS on their own computer with the step-by-step local setup guide (requirements, installation, database options, troubleshooting). No cloud account is needed for local development.</p>
     </section>
 
     <section id="roadmap">
@@ -268,7 +280,7 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
           <tr><td>7</td><td class="wrap">Our Work: case study grid, filters, full case studies</td><td><span class="pill plan">Planned</span></td></tr>
           <tr><td>8</td><td class="wrap">Contact: enquiry form, offices</td><td><span class="pill plan">Planned</span></td></tr>
           <tr><td>9</td><td class="wrap">Legal: Terms, Privacy, Cookies</td><td><span class="pill plan">Planned</span></td></tr>
-          <tr><td>10</td><td class="wrap">Go-live: hosting, cloud media storage, email, domain, analytics and cookie consent</td><td><span class="pill plan">Planned</span></td></tr>
+          <tr><td>10</td><td class="wrap">Go-live on AWS (me-central-1): EC2, RDS, S3, CloudFront, SES and domain; analytics and cookie consent</td><td><span class="pill plan">Planned</span></td></tr>
         </tbody>
       </table></div>
     </section>
@@ -281,7 +293,7 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
         <li>Office addresses, email and phone for the Contact page.</li>
         <li>Legal wording for Terms, Privacy and Cookies approved by counsel, and the chosen cookie-consent platform.</li>
         <li>Where form messages should go besides the CMS inbox: email addresses, CRM or careers system.</li>
-        <li>Hosting preference, or approval of a recommended setup, and the domain.</li>
+        <li>Approval of the proposed AWS hosting setup, expected monthly visitors (to size the server and estimate cost), and the domain.</li>
         <li>Names and email addresses of people who need CMS accounts, and their roles.</li>
       </ul>
     </section>

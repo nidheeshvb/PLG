@@ -14,6 +14,8 @@ import { Pages } from './collections/Pages'
 import { Partners } from './collections/Partners'
 import { Users } from './collections/Users'
 import { SiteSettings } from './globals/SiteSettings'
+import { emailAdapter } from './integrations/email'
+import { storagePlugin } from './integrations/storage'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -44,7 +46,10 @@ export default buildConfig({
     migrationDir: path.resolve(dirname, 'migrations'),
   }),
   sharp,
+  email: emailAdapter(),
   plugins: [
+    // Production integrations are switched on by environment variables (see .env.example).
+    storagePlugin(),
     nestedDocsPlugin({
       collections: ['pages'],
       generateLabel: (_, doc) => String(doc.title ?? ''),

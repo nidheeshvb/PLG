@@ -1,6 +1,6 @@
 # PLG Acachet Website — Architecture
 
-_Last updated: 13 November 2026 · Covers Phase 1, step 1 (foundation + Home page)_
+_Last updated: 13 November 2026 · Covers Phase 1, step 1 (foundation + Home page) and the proposed AWS production setup_
 
 This document describes **how the application is built** (Part A) and **how it is hosted** (Part B).
 It contains no secrets and can be shared with the client. Diagrams use Mermaid (they render on GitHub, GitLab and most Markdown viewers).
@@ -41,6 +41,9 @@ The website and the CMS are **one application** (Next.js with Payload CMS embedd
 | CMS plugins | Nested docs (page tree + breadcrumbs), SEO (meta tab) | 3.91 |
 | Images | `next/image` + `sharp` (responsive WebP/AVIF) | |
 | Live preview | `@payloadcms/live-preview-react` + Next.js draft mode | |
+| Media storage | `@payloadcms/storage-s3` (Amazon S3), local disk when not configured | 3.91 |
+| CDN refresh | `@aws-sdk/client-cloudfront` (invalidation on publish) | |
+| Email | `@payloadcms/email-nodemailer` (SMTP, e.g. Amazon SES) | 3.91 |
 
 ## A3. Layered structure
 
@@ -234,113 +237,146 @@ flowchart LR
 
 # Part B — Server architecture
 
+The production plan is the **AWS Middle East (UAE) architecture** in [`hosting-architecture.md`](hosting-architecture.md) (prepared 12 November 2026). Development proceeds on that basis. It may change later, so every external service is connected through environment variables and can be swapped without code changes (section B9).
+
 ## B1. Hosting requirements
 
-The application is a **Node.js server** (not a static export): the CMS admin, API, form handling, preview and on-demand page rebuilds all need a running server.
+The application is a **long-running Node.js server** (not a static export): the CMS admin, API, form handling, preview and on-demand page rebuilds need a running server. That fits Amazon EC2.
 
 | Component | Requirement |
 |---|---|
-| Application | Node.js 20.18+ (22 LTS), ~1 GB RAM minimum per instance, 1–2 vCPU |
-| Database | PostgreSQL 14+, managed, with automated backups and point-in-time recovery |
-| Media storage | Object storage (S3-compatible or Vercel Blob). Required on serverless or multi-instance hosting, where local disk is temporary or not shared |
-| CDN | In front of the site and media (included with Vercel; CloudFront / Cloudflare otherwise) |
-| TLS | HTTPS on the client's domain |
-| Email (optional) | Transactional email provider for password resets and form notifications |
+| Application | Node.js 20.18+ (22 LTS), 2 GB RAM recommended (image resizing and the CMS admin build), 2 vCPU |
+| Database | PostgreSQL 14+, managed (Amazon RDS), automated backups and point-in-time recovery |
+| Media storage | Amazon S3 bucket (application uses it when `S3_BUCKET` is set) |
+| CDN | Amazon CloudFront in front of the site and the media bucket |
+| TLS | AWS Certificate Manager certificate on the client's domain |
+| Email (optional) | Amazon SES (SMTP) or any SMTP service, for password resets and form notifications |
 
 ## B2. Environments
 
 | Environment | Purpose | Database | Media | Status |
 |---|---|---|---|---|
-| Local development | Building and testing | Embedded PostgreSQL started by `npm run db` (port 5433, data in `web/.postgres`) | Local `web/media/` folder | **Decided, in use** |
-| Staging | Client review of each step | Managed PostgreSQL (separate database) | Bucket / prefix for staging | Proposed |
-| Production | Live website | Managed PostgreSQL | Production bucket + CDN | Proposed |
+| Local development | Building and testing | Embedded PostgreSQL started by `npm run db` (port 5433, data in `web/.postgres`) | Local `web/media/` folder | **In use** |
+| Staging | Client review of each step | RDS PostgreSQL (separate database or small instance) | Separate S3 bucket or prefix | Planned (same AWS setup, smaller sizes) |
+| Production | Live website | RDS PostgreSQL | S3 bucket + CloudFront | Planned |
 
-Each environment has its own database, media storage and secrets. Content is entered in production once live; staging can be refreshed from a production backup.
+Each environment has its own database, bucket and secrets. Once live, content is entered in production; staging can be refreshed from a production snapshot.
 
-## B3. Recommended topology — Option A: managed platform (proposed, recommended)
-
-```mermaid
-flowchart LR
-  U[Visitors & editors] --> DNS[Client domain · DNS]
-  DNS --> VE[Vercel edge network · CDN + TLS]
-  VE --> FN[Next.js + Payload · serverless functions]
-  VE --> ST[Static pages & optimised images · cached at edge]
-  FN --> NEON[(Neon or Supabase PostgreSQL · pooled connection)]
-  FN --> BLOB[(Vercel Blob or S3 · media)]
-  FN -. optional .-> MAIL[Resend / SendGrid]
-```
-
-- **Pros:** least operations work; automatic HTTPS, CDN, preview deployments per branch; scales automatically.
-- **Needs:** pooled database connection string (serverless opens many short connections); media storage adapter (`@payloadcms/storage-vercel-blob` or `@payloadcms/storage-s3`) added before go-live.
-- **Typical running cost:** low tens of USD/month at this traffic level (platform + database + storage), depending on plans.
-
-## B4. Alternative topology — Option B: cloud container (proposed)
+## B3. Production topology (AWS me-central-1)
 
 ```mermaid
 flowchart LR
-  U[Visitors & editors] --> CF[CloudFront / Cloudflare · CDN + TLS]
-  CF --> LB[Load balancer]
-  LB --> APP1[Container: Next.js + Payload]
-  LB -. scale out .-> APP2[Container: Next.js + Payload]
-  APP1 --> RDS[(AWS RDS / Azure Database for PostgreSQL)]
-  APP2 --> RDS
-  APP1 --> S3[(S3 / Azure Blob · media)]
-  APP2 --> S3
-  CF --> S3
+  U[Visitors & editors] --> R53[Route 53 · DNS]
+  R53 --> CF["CloudFront · CDN + TLS (ACM)<br/>optional AWS WAF"]
+  CF -->|"pages, /_next/*, /admin, /api"| EC2["EC2 · Next.js + Payload CMS<br/>(Node 22, process manager)"]
+  CF -->|"media files"| S3[(S3 · media bucket)]
+  EC2 --> RDS[(RDS for PostgreSQL)]
+  EC2 -->|uploads| S3
+  EC2 -->|"invalidate on publish"| CF
+  EC2 -. optional .-> SES[Amazon SES]
+  EC2 -. logs & metrics .-> CW[CloudWatch]
 ```
 
-- Suits a client that requires its own AWS/Azure account or a UAE region.
-- Runs as a Docker container on ECS/Fargate, Azure Container Apps, App Runner or a VM.
-- More operations work (patching, scaling rules, monitoring) than Option A.
-- Simplest form: one container + managed database + bucket; add instances behind the load balancer when needed (media must then be in the bucket, which it is).
+| # | Component | AWS service | Role in this application |
+|---|---|---|---|
+| 1 | DNS | Route 53 | Domain → CloudFront |
+| 2 | Certificate | ACM | HTTPS on the domain (certificate for CloudFront is issued in us-east-1, as CloudFront requires) |
+| 3 | CDN | CloudFront | Caches pages, images and videos at edge locations including the UAE |
+| 4 | Application | EC2 | Runs `next start` (website + CMS) |
+| 5 | Database | RDS for PostgreSQL | All CMS content, users, form messages |
+| 6 | Media | S3 | Every upload from the CMS |
+| 7 | Firewall (optional) | WAF | Bot and common-attack protection on CloudFront |
+| 8 | Monitoring | CloudWatch | Logs, metrics, alarms, health check on `/next/health` |
 
-## B5. Data and media
+### CloudFront behaviours (recommended)
+
+| Path | Origin | Caching |
+|---|---|---|
+| `/_next/static/*` | EC2 | Cache long (files are content-hashed) |
+| `/_next/image*` | EC2 | Cache, include query string in the cache key |
+| `/admin*`, `/api/*`, `/next/*` | EC2 | **No caching**; forward cookies, headers and query strings |
+| Media path (e.g. `media.<domain>/*` or `/media/*`) | S3 (Origin Access Control) | Cache long |
+| Default (`/*`, pages) | EC2 | Cache using the origin's headers; forward the draft-mode cookie so previews bypass the cache |
+
+When an editor publishes, the application clears the changed page from both Next.js's cache and CloudFront (`CreateInvalidation`; whole site for header/footer, logo or case-study changes).
+
+## B4. How images and videos are delivered
+
+| Media | Delivery |
+|---|---|
+| Images | Uploaded to S3. `next/image` serves each device a resized AVIF/WebP version; those versions are cached on the server and at CloudFront |
+| Background videos | Optimised MP4 files in S3, delivered through CloudFront. The banner supports a separate lighter **mobile video** (≤900px) and shows the poster image instantly |
+| Logos (SVG) | Served as-is from S3 via CloudFront |
+| Long videos with a player | Not needed at launch. If required later, add Bunny Stream or AWS MediaConvert; the rest of the architecture stays the same |
+
+## B5. Data, backups and migrations
 
 | Concern | Approach |
 |---|---|
-| Schema changes | Versioned migrations in `web/src/migrations`, applied before each release |
-| Connections | Pooled connections (PgBouncer / provider pooler) on serverless |
-| Media | Uploaded through the CMS; stored in object storage; served through the CDN and resized by `next/image` |
-| Backups | Daily automated database backups with point-in-time recovery (7–30 days); bucket versioning for media |
-| Restore drill | Restore a backup into staging before go-live to prove the process |
+| Schema changes | Versioned migrations in `web/src/migrations`, applied with `npm run migrate` before each release |
+| Database access | RDS in a private subnet, reachable only from the EC2 security group; TLS connections (`?sslmode=require` in `DATABASE_URL`) |
+| Backups | RDS automated daily backups with point-in-time recovery (7–35 days); snapshot before each release |
+| Media | S3 versioning on; bucket private, read through CloudFront Origin Access Control |
+| Restore drill | Restore an RDS snapshot to staging before go-live |
 
-## B6. Caching and performance
+## B6. Caching layers
 
-| Layer | What is cached | Invalidated by |
+| Layer | What | Cleared by |
 |---|---|---|
-| CDN / edge | Static page HTML, optimised images, static assets | Deploys; on-demand revalidation |
-| Next.js | Pre-rendered pages (all published pages built at deploy) | `revalidatePath` on publish (one page) or on header/footer/logos/case-study changes (whole site) |
-| Browser | Hashed static assets (long-lived) | New deploy (new file names) |
+| CloudFront | Page HTML, `/_next/*` assets, optimised images, media files | Publish (automatic invalidation); deploys for assets (new file names) |
+| Next.js server | Pre-rendered pages (all published pages built at deploy) and optimised images | `revalidatePath` on publish |
+| Browser | Content-hashed assets | New deploy |
 
-## B7. Security (infrastructure)
+## B7. Security
 
-- HTTPS everywhere; HSTS on the domain.
-- Database not publicly reachable where the platform allows (private networking / IP allow-list); TLS connections.
-- Secrets in the platform's secret store, separate per environment, rotated on handover.
-- Optional: restrict `/admin` by IP or SSO for the client's team; Web Application Firewall rules at the CDN.
-- Dependency updates and security patches applied on a regular schedule.
+- HTTPS only (CloudFront redirect), HSTS on the domain.
+- EC2 accepts web traffic only from CloudFront (CloudFront managed prefix list in the security group); SSH via AWS Systems Manager Session Manager instead of an open port.
+- RDS private, TLS; S3 private with Origin Access Control.
+- EC2 IAM role with least privilege: `s3:GetObject/PutObject/DeleteObject/ListBucket` on the media bucket, `cloudfront:CreateInvalidation` on the distribution, CloudWatch logs.
+- Secrets (`PAYLOAD_SECRET`, `DATABASE_URL`, `PREVIEW_SECRET`, SMTP) in AWS Secrets Manager or SSM Parameter Store, loaded into the process environment.
+- Optional AWS WAF managed rules (bot control, common attacks, rate limiting on `/admin` and `/api`).
 
 ## B8. Monitoring and operations
 
-| Need | Suggested tool |
+| Need | Approach |
 |---|---|
-| Uptime | Platform monitoring or an uptime service (e.g. Better Stack, UptimeRobot) on `/` and `/admin` |
-| Errors | Platform logs; optional Sentry for front- and back-end errors |
-| Performance | Vercel Analytics / Speed Insights or Lighthouse checks in CI |
-| Database | Provider dashboard: connections, storage, slow queries |
+| Uptime | CloudWatch Synthetics canary or Route 53 health check on `/next/health` (returns 200 when app and database are reachable) |
+| Logs | Application stdout/stderr shipped to CloudWatch Logs (CloudWatch agent) |
+| Alarms | EC2 CPU/memory/disk, RDS CPU/connections/storage, CloudFront 5xx rate, health check failures |
+| Process | Node process kept alive by a process manager (systemd or PM2) or run as a Docker container; restarts on failure and on reboot |
 
-## B9. Configuration (per environment)
+## B9. Configuration (environment variables)
 
-| Variable | Purpose |
-|---|---|
-| `DATABASE_URL` | PostgreSQL connection string (pooled on serverless) |
-| `PAYLOAD_SECRET` | Signs CMS sessions |
-| `NEXT_PUBLIC_SITE_URL` | Public site address (share images, sitemap, preview) |
-| `PREVIEW_SECRET` | Protects the preview route |
-| Storage credentials | Added with the media storage adapter (bucket name, region, keys or token) |
-| Email credentials | Added with the email adapter |
+Integrations switch on when their variables are set, so the same code runs locally (all off) and on AWS (all on). Full list with comments: `web/.env.example`.
 
-## B10. Decisions
+| Variable | Purpose | Production value (example) |
+|---|---|---|
+| `DATABASE_URL` | PostgreSQL connection | RDS endpoint, `?sslmode=require` |
+| `PAYLOAD_SECRET` | Signs CMS sessions | long random string |
+| `NEXT_PUBLIC_SITE_URL` | Public site address | `https://www.<domain>` |
+| `PREVIEW_SECRET` | Protects the preview route | long random string |
+| `S3_BUCKET`, `S3_REGION`, `S3_PREFIX` | Media storage on S3 (unset = local disk) | bucket name, `me-central-1`, `media` |
+| `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY` | Only outside AWS (EC2 uses its IAM role) | — |
+| `S3_ENDPOINT` | Only for S3-compatible services other than AWS | — |
+| `MEDIA_PUBLIC_URL` | Media URLs point at the CDN instead of the app | `https://media.<domain>` |
+| `CLOUDFRONT_DISTRIBUTION_ID` | Clear CDN cache on publish | distribution ID |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `EMAIL_FROM_ADDRESS`, `EMAIL_FROM_NAME` | Outgoing email (unset = printed to console) | SES SMTP endpoint in me-central-1 |
+
+Code locations: `web/src/integrations/storage.ts` (S3), `cdn.ts` (CloudFront), `email.ts` (SMTP).
+
+## B10. Deployment on EC2 (outline)
+
+1. Provision RDS, the S3 bucket, CloudFront distribution (behaviours as in B3), ACM certificate, Route 53 records and the EC2 instance with its IAM role.
+2. On the instance: install Node.js 22 LTS; check out the release; `npm ci`.
+3. Provide environment variables (Secrets Manager / Parameter Store → environment).
+4. `npm run migrate` (applies pending database migrations).
+5. `npm run build`, then run `npm run start` under systemd or PM2 (port 3000, behind CloudFront).
+6. Check `/next/health`, the home page and `/admin` sign-in; invalidate CloudFront `/*` after the first deploy.
+7. First content: run `npm run seed` once against the production database with S3 enabled (uploads go straight to S3), then change the seeded passwords; or enter content in the CMS.
+
+A CI pipeline (e.g. GitHub Actions) can run lint, typecheck and build, then deploy to EC2 via AWS Systems Manager or CodeDeploy.
+
+## B11. Decisions
 
 | Area | Decision | Status |
 |---|---|---|
@@ -348,9 +384,15 @@ flowchart LR
 | Database engine | PostgreSQL | Decided |
 | Local database | Embedded PostgreSQL (no install needed) | Decided |
 | Page model | Pages made of reorderable, configurable sections | Decided |
-| Hosting platform | Option A (Vercel + Neon/Supabase + Blob/S3) or Option B (AWS/Azure container) | **Client decision needed** |
-| Region | Closest to the audience (e.g. Middle East / Europe) | **Client decision needed** |
-| Media storage | Vercel Blob or S3-compatible bucket | Follows hosting decision |
-| Email provider | Resend / SendGrid / AWS SES | **Client decision needed** |
-| Form destinations | CMS inbox now; email/CRM later | **Client decision needed** |
-| Cookie consent & analytics | Platform to be chosen | **Client decision needed** |
+| Cloud & region | AWS, Middle East (UAE) `me-central-1` | **Proposed, development proceeds on it** |
+| Server | EC2 running Next.js + Payload | Proposed |
+| Database service | RDS for PostgreSQL | Proposed |
+| Media | S3 + CloudFront; S3 adapter built in, switched on by `S3_BUCKET` | Proposed; code ready |
+| CDN refresh | CloudFront invalidation on publish, switched on by `CLOUDFRONT_DISTRIBUTION_ID` | Proposed; code ready |
+| Video | Plain MP4 on S3/CloudFront, optional lighter mobile video; no streaming service at launch | Proposed; code ready |
+| Firewall | AWS WAF | Optional |
+| Monitoring | CloudWatch, health check `/next/health` | Proposed; endpoint ready |
+| Email | Amazon SES (SMTP adapter built in, switched on by `SMTP_HOST`) | Client decision needed; code ready |
+| Server sizing & cost | Depends on expected monthly visitors | **Client input needed** |
+| Form destinations | CMS inbox now; email/CRM later | Client decision needed |
+| Cookie consent & analytics | Platform to be chosen | Client decision needed |

@@ -17,7 +17,16 @@ const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v))
  * Full-screen showreel: the headline appears word by word once the video settles, then after a
  * while the headline and intro dissolve and the buttons glide to the centre.
  */
-export function ShowreelHero({ title, lede, links, video, poster, showScrollCue, anchorId }: HeroBlock) {
+export function ShowreelHero({
+  title,
+  lede,
+  links,
+  video,
+  videoMobile,
+  poster,
+  showScrollCue,
+  anchorId,
+}: HeroBlock) {
   const heroRef = useRef<HTMLElement>(null)
   const mediaRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
@@ -32,6 +41,7 @@ export function ShowreelHero({ title, lede, links, video, poster, showScrollCue,
 
   const posterUrl = isMediaDoc(poster) ? poster.url : null
   const videoUrl = isVideo(video) && isMediaDoc(video) ? video.url : null
+  const mobileVideoUrl = isVideo(videoMobile) && isMediaDoc(videoMobile) ? videoMobile.url : null
   if (posterUrl) preload(posterUrl, { as: 'image', fetchPriority: 'high' })
 
   // intro timing: reveal after the media settles, then calm down
@@ -117,6 +127,13 @@ export function ShowreelHero({ title, lede, links, video, poster, showScrollCue,
             poster={posterUrl ?? undefined}
             aria-hidden="true"
           >
+            {mobileVideoUrl && (
+              <source
+                src={mobileVideoUrl}
+                media="(max-width: 900px)"
+                type={(isMediaDoc(videoMobile) && videoMobile.mimeType) || 'video/mp4'}
+              />
+            )}
             <source src={videoUrl} type={(isMediaDoc(video) && video.mimeType) || 'video/mp4'} />
           </video>
         ) : (

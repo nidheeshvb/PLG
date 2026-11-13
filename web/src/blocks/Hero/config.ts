@@ -39,6 +39,12 @@ export const HeroBlock: Block = {
       description: 'Muted, looping MP4. Keep it under ~8 MB.',
     }),
     mediaField({
+      name: 'videoMobile',
+      label: 'Lighter video for phones (optional)',
+      accept: 'video',
+      description: 'A smaller version of the background video for screens up to 900px wide. Leave empty to use the main video.',
+    }),
+    mediaField({
       name: 'poster',
       label: 'Background image',
       required: true,

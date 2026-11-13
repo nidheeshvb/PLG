@@ -9,10 +9,25 @@ More documentation:
 - [`../CLAUDE.md`](../CLAUDE.md) — internal knowledge base: architecture, conventions, decisions log, known gotchas, planned blocks.
 - [`../docs/technical-documentation.md`](../docs/technical-documentation.md) — client-shareable technical documentation.
 - [`../docs/architecture.md`](../docs/architecture.md) — application and server architecture, with diagrams.
+- [`../docs/hosting-architecture.md`](../docs/hosting-architecture.md) — proposed AWS production hosting (the target this app is built for).
+- [`../docs/local-setup.md`](../docs/local-setup.md) — detailed local installation guide.
+
+## Production integrations
+
+The production target is AWS me-central-1 (EC2, RDS PostgreSQL, S3, CloudFront). Each external service is switched on by environment variables and is off locally — see `src/integrations/` and the "Production integrations" block in `.env.example`:
+
+| Service | Switch | Local default |
+|---|---|---|
+| S3 media storage | `S3_BUCKET` (+ region, prefix, optional keys) | files in `media/` |
+| Media from CDN | `MEDIA_PUBLIC_URL` | served by the app |
+| CloudFront refresh on publish | `CLOUDFRONT_DISTRIBUTION_ID` | off |
+| Email (SMTP / Amazon SES) | `SMTP_HOST` (+ credentials) | printed to the console |
+
+Health check for monitoring: `GET /next/health`.
 
 ## Run it locally
 
-Needs Node 20.18+ (22 recommended).
+Full step-by-step guide (requirements, database options, troubleshooting): [`../docs/local-setup.md`](../docs/local-setup.md). Short version, with Node 20.18+ (22 recommended):
 
 ```bash
 npm install
@@ -121,7 +136,7 @@ npm run migrate                          # on the target database
 
 - Other pages (About, Our Story, Team, Join Us, Services, Our Work, Contact, Legal) and their blocks.
 - Full case study content and the case study overlay (Our Work page).
-- Email notifications / CRM for form messages; email adapter for password resets.
-- Cloud storage for uploads (currently `media/` on disk) and the production database.
+- Email notifications / CRM for form messages (the SMTP adapter is ready; it needs SES/SMTP details).
+- Provisioning the AWS environment (adapters for S3, CloudFront and email are built and switched on by env vars).
 - Thumbnails for the block picker.
 - Social links in the footer are placeholders (instagram.com / linkedin.com).
