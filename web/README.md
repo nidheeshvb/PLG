@@ -11,6 +11,9 @@ More documentation:
 - [`../docs/architecture.md`](../docs/architecture.md) — application and server architecture, with diagrams.
 - [`../docs/hosting-architecture.md`](../docs/hosting-architecture.md) — proposed AWS production hosting (the target this app is built for).
 - [`../docs/local-setup.md`](../docs/local-setup.md) — detailed local installation guide.
+- [`../docs/editor-guide.md`](../docs/editor-guide.md) — plain-language CMS guide for content editors.
+
+Every new feature, page or section must update all related docs in the same change (checklist in `CLAUDE.md`).
 
 ## Production integrations
 

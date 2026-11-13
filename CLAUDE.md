@@ -1,7 +1,21 @@
 # PLG Acachet website — project knowledge base
 
 Read this before adding a feature. It's meant to replace reading the whole codebase: it records how things are built, why, and the traps already hit.
-**Keep it current:** every change that adds a block, collection, field pattern, decision or gotcha updates this file (and `docs/technical-documentation.md` / `docs/architecture.md` if the client would care) in the same change.
+## Documentation rule (user requirement — mandatory)
+**Every new feature, page, section/block, field, option, collection, integration, setting or decision updates ALL related documents in the same change.** A feature is not done until its docs are. Before finishing any task, go through this checklist and update each document the change touches:
+
+| Document | Audience | Update when… |
+|---|---|---|
+| `CLAUDE.md` (this file) | Developers / Claude | Anything: blocks, fields, conventions, decisions, gotchas, status, commands |
+| `docs/editor-guide.md` | **Client's content editors (non-technical)** | Any new or changed page, section, field, option, button style, collection, global, role, or editing behaviour. Use the exact CMS labels; add a row to "I want to…" and to "what affects what" where relevant; keep it plain-language |
+| `docs/technical-documentation.md` **and** `.html` (republish to https://claude.ai/artifact/KbSfFWQBra4jU5UoRLDUQM) | Client (technical overview) | Sections list, content model, features, security, hosting, roadmap/status, items needed from client |
+| `docs/architecture.md` | Client + developers | Flows, collections/content model, stack/packages, integrations, environments, env vars, deployment, decisions |
+| `docs/hosting-architecture.md` | Client | Only when the client's hosting Google Doc changes (keep it a faithful copy) |
+| `docs/local-setup.md` | Developers | Requirements, install steps, env vars, commands, seed behaviour, troubleshooting |
+| `web/README.md` | Developers | Scripts, block catalogue, integrations, structure, "not done yet" |
+| `web/.env.example` | Developers | Any new env var (with a comment) |
+
+Also update "Last updated" dates on the docs you touch. In the wrap-up, list which docs were updated.
 
 ## Repo layout
 - `/*.html`, `/assets/` — **static HTML prototype = visual source of truth.** Never edit. Each page has inline CSS (`<style>`) and inline JS. Serve it with the `plg-site` launch config (port 8000) to compare.
@@ -9,6 +23,7 @@ Read this before adding a feature. It's meant to replace reading the whole codeb
 - `/web/` — the app (Next.js 16 App Router + Payload CMS 3 + PostgreSQL). All work happens here.
 - `/docs/architecture.md` — application architecture (layers, content model, request/editing/form flows, release pipeline) and server architecture (AWS topology, CloudFront behaviours, environments, data, caching, security, monitoring, env vars, EC2 deployment, decisions). Client-shareable. Update it when a flow, collection, environment or hosting decision changes.
 - `/docs/hosting-architecture.md` — local copy of the client-facing Google Doc "PLG Acachet: Proposed Hosting Architecture" (https://docs.google.com/document/d/14CcWwoTUNQkkwt1IuCfE7VIPfJSv9roqHMVf5_4o5S4/edit). **This is the production target; build everything to work on it.** If the Google Doc changes, update the copy + architecture.md Part B.
+- `/docs/editor-guide.md` — plain-language CMS guide for the client's content editors ("I want to…" table, sections field by field, buttons, images, publishing, effects of changes). To be shared with the client at the end of phase 1.
 - `/docs/local-setup.md` — step-by-step local installation guide (clone, Node version, npm ci, .env, database options, seed, run, troubleshooting). Update it when setup steps, env vars or requirements change.
 - `/docs/technical-documentation.md` — client-shareable technical doc (no secrets). Source of truth.
 - `/docs/technical-documentation.html` — the same content as a page, published as a private artifact for sharing: https://claude.ai/artifact/KbSfFWQBra4jU5UoRLDUQM . When the .md changes, update the .html too and republish it **to that URL** (pass `url` from a new conversation) so the shared link stays the same.
@@ -149,3 +164,4 @@ Dev uses Payload's automatic schema push. Before handing over/deploying a schema
 | 2026-11-13 | External services are env-gated integrations (S3, CloudFront invalidation, SMTP); off locally | Production tools must be connectable at deploy time without code changes |
 | 2026-11-13 | Images via next/image (AVIF/WebP) cached at CloudFront, not Payload imageSizes | Same outcome as the hosting doc's "several sizes in modern formats", no frontend srcset rework |
 | 2026-11-13 | Work stays on the `dev` branch; no push/merge to `main` unless asked | User instruction |
+| 2026-11-13 | Editor guide for non-technical client editors; every change updates all related docs (checklist above) | User instruction |

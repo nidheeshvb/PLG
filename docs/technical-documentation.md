@@ -84,6 +84,8 @@ More sections are added as the remaining pages are built (section menus, image t
 6. **Header & footer** (under Settings) controls menus and footer links on every page.
 7. Messages sent through the website appear under **Inbox → Form messages**.
 
+A detailed, plain-language **Content Editor Guide** (every section and option, buttons, images, publishing, and what each change affects) is provided separately for the content team (`docs/editor-guide.md`).
+
 ### User roles
 | Role | Can do |
 |---|---|
