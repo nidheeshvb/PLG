@@ -77,3 +77,61 @@
     color: #222;
   }
 }
+
+/* ---------- Pillar style (About "Three pillars") ---------- */
+.pillars {
+  padding: 96px var(--gutter) 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+.pillars.light {
+  color: var(--paper-ink);
+}
+.pillarsHead {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px 64px;
+}
+.light .pillarsHead :global(.eyebrow),
+.light .pillarsHead :global(.h1) {
+  color: var(--paper-ink);
+}
+.pillarsNote {
+  font-size: 18px;
+  line-height: 1.45;
+  color: var(--paper-body);
+  max-width: 40ch;
+}
+.dark .pillarsNote {
+  color: var(--body);
+}
+.pcards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  --slider-pad-top: 12px;
+  --slider-pad-bottom: 28px;
+  --slider-gap: 20px;
+  --slider-pad-top-m: 12px;
+  --slider-pad-bottom-m: 24px;
+  --slider-gap-m: 14px;
+}
+
+@media (max-width: 1100px) {
+  .pillarsBar {
+    margin-top: -24px;
+  }
+}
+
+@media (max-width: 900px) {
+  .pillars {
+    padding: 56px 0 64px;
+    gap: 28px;
+  }
+  .pillarsHead {
+    padding: 0 24px;
+  }
+}

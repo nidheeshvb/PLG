@@ -5,9 +5,16 @@ import { Section } from '@/components/ui/Section'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import type { MediaTextBlock as MediaTextBlockData } from '@/payload-types'
 
+import { CardLayout } from './CardLayout'
 import styles from './Component.module.css'
 
-export function MediaTextBlock({
+export function MediaTextBlock(props: MediaTextBlockData) {
+  if (props.variant === 'card') return <CardLayout {...props} />
+  return <FadeLayout {...props} />
+}
+
+/** "fade" variant: the image fades into the black page (Home "Who we are"). */
+function FadeLayout({
   eyebrow,
   title,
   gradientTitle,

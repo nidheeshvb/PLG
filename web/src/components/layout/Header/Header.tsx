@@ -5,15 +5,38 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { CMSLink } from '@/components/ui/CMSLink'
 import { requestScrollUpdate, useRafScroll } from '@/hooks/useRafScroll'
-import type { LinkData } from '@/lib/links'
+import { resolveHref, type LinkData } from '@/lib/links'
 
 import { Logo } from '../Logo/Logo'
 import styles from './Header.module.css'
 
+type MenuLink = LinkData & { id?: string | null; subLinks?: (LinkData & { id?: string | null })[] | null }
+
 type Props = {
-  links: (LinkData & { id?: string | null })[]
+  links: MenuLink[]
   mobileNote?: string | null
 }
+
+/** A menu link is current when the page being viewed is its page or one of its sub-pages. */
+const isCurrent = (link: LinkData, pathname: string) => {
+  const href = resolveHref(link)?.split('#')[0]
+  if (!href || href.startsWith('http')) return false
+  if (href === '/') return pathname === '/'
+  return pathname === href || pathname.startsWith(`${href}/`)
+}
+
+/** Mobile menu rows: each link, then its sub-links block; every row takes the next reveal slot. */
+const mobileItems = (links: MenuLink[]) => {
+  const rows: { link: MenuLink; sub?: NonNullable<MenuLink['subLinks']>; slot: number; key: string }[] = []
+  links.forEach((l, i) => {
+    rows.push({ link: l, slot: rows.length, key: l.id ?? `l${i}` })
+    if (l.subLinks?.length) rows.push({ link: l, sub: l.subLinks, slot: rows.length, key: `${l.id ?? i}-sub` })
+  })
+  return rows
+}
+
+/** Transition delay of mobile menu row `slot` (prototype: .25s, then +.07s per row). */
+const slotDelay = (slot: number) => ({ ['--md' as string]: `${(0.25 + slot * 0.07).toFixed(2)}s` })
 
 /**
  * Fixed header: hides while scrolling down, tightens once scrolled, and switches the logo to
@@ -79,9 +102,18 @@ export function Header({ links, mobileNote }: Props) {
           <Logo wordClassName={styles.word} onClick={() => setMenu(false)} />
         </div>
         <nav className={styles.menu} aria-label="Primary">
-          {links.map((l, i) => (
-            <CMSLink key={l.id ?? i} link={l} as="text" />
-          ))}
+          {links.map((l, i) => {
+            const current = isCurrent(l, pathname)
+            return (
+              <CMSLink
+                key={l.id ?? i}
+                link={l}
+                as="text"
+                className={current ? styles.active : undefined}
+                ariaCurrent={current && resolveHref(l) === pathname ? 'page' : undefined}
+              />
+            )
+          })}
         </nav>
         <button
           type="button"
@@ -104,9 +136,24 @@ export function Header({ links, mobileNote }: Props) {
         inert={!open}
       >
         <nav className={styles.mnavLinks} aria-label="Mobile">
-          {links.map((l, i) => (
-            <CMSLink key={l.id ?? i} link={l} as="text" onClick={() => setMenu(false)} />
-          ))}
+          {mobileItems(links).map(({ link: l, sub, slot, key }) =>
+            sub ? (
+              <div key={key} className={styles.mnavSub} style={slotDelay(slot)}>
+                {sub.map((s, k) => (
+                  <CMSLink key={s.id ?? k} link={s} as="text" onClick={() => setMenu(false)} />
+                ))}
+              </div>
+            ) : (
+              <CMSLink
+                key={key}
+                link={l}
+                as="text"
+                className={isCurrent(l, pathname) ? styles.active : undefined}
+                style={slotDelay(slot)}
+                onClick={() => setMenu(false)}
+              />
+            ),
+          )}
         </nav>
         {mobileNote && <p className={styles.mnavFoot}>{mobileNote}</p>}
       </div>

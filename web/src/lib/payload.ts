@@ -59,3 +59,16 @@ export const getPartners = cache(async () => {
   })
   return docs
 })
+
+/** Team members in their set order (The Team page). */
+export const getTeamMembers = cache(async () => {
+  const payload = await getPayloadClient()
+  const { docs } = await payload.find({
+    collection: 'team-members',
+    sort: 'sortOrder',
+    limit: 200,
+    depth: 1,
+    pagination: false,
+  })
+  return docs
+})

@@ -1,0 +1,115 @@
+.subnav {
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+}
+
+.inner {
+  display: flex;
+  gap: 40px;
+  padding: 0 var(--gutter);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.inner::-webkit-scrollbar {
+  display: none;
+}
+
+.inner a {
+  position: relative;
+  padding: 22px 0;
+  font-size: 15px;
+  color: #9a9a9a;
+  white-space: nowrap;
+  transition: color 0.25s;
+}
+.inner a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s var(--ease-out);
+}
+.inner a:hover {
+  color: #fff;
+}
+.inner a.active {
+  color: #fff;
+}
+.inner a.active::after {
+  transform: scaleX(1);
+}
+
+.tag {
+  margin-left: auto;
+  align-self: center;
+  font-size: 13px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.back {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.back :global(.arr) {
+  transform: rotate(-90deg);
+  width: 9px;
+  height: 9px;
+}
+
+@media (max-width: 900px) {
+  .back {
+    display: none;
+  }
+  .inner {
+    gap: 28px;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y;
+    cursor: grab;
+    scroll-snap-type: x proximity;
+    scroll-padding-inline: 24px;
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent 0,
+      #000 var(--fl, 0px),
+      #000 calc(100% - var(--fr, 0px)),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent 0,
+      #000 var(--fl, 0px),
+      #000 calc(100% - var(--fr, 0px)),
+      transparent 100%
+    );
+  }
+  .inner::after {
+    content: '';
+    flex: 0 0 1px;
+  }
+  .inner a {
+    scroll-snap-align: start;
+    -webkit-user-drag: none;
+  }
+  .tag {
+    display: none;
+  }
+  .dragging {
+    cursor: grabbing;
+    scroll-snap-type: none;
+  }
+  .dragging a {
+    pointer-events: none;
+  }
+}

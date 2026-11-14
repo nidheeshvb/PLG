@@ -1,7 +1,7 @@
 import type { StatementBlock as StatementBlockData } from '@/payload-types'
 
 import styles from './Component.module.css'
-import { WordReveal } from './WordReveal'
+import { WordReveal } from '@/components/ui/WordReveal'
 
 /** One large sentence; optionally its words light up as it scrolls through the screen. */
 export function StatementBlock({ text, animation, showBrandMarks, anchorId }: StatementBlockData) {

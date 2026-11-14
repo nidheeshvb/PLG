@@ -76,7 +76,7 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
   <header class="top">
     <div class="brand"><i></i>PLG Acachet · Website rebuild</div>
     <h1>Website Technical Documentation</h1>
-    <div class="meta"><span>Last updated 13 November 2026</span><span class="pill">Step 1 complete: Home page</span></div>
+    <div class="meta"><span>Last updated 14 November 2026</span><span class="pill">Step 4 complete: The Team page</span></div>
   </header>
 
   <nav class="toc" aria-label="Contents">
@@ -142,7 +142,7 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
       <h2><span>04</span>Content model</h2>
       <h3>Pages</h3>
       <ul>
-        <li><b>Page name</b> and <b>URL name</b>. The web address is worked out automatically, including nested pages such as <code>/legal/terms</code>.</li>
+        <li><b>Page name</b> and <b>URL name</b>. The web address is worked out automatically, including nested pages such as <code>/about/our-story</code> or <code>/legal/terms</code>. The breadcrumb at the top of inner pages is built from this page tree automatically.</li>
         <li><b>Sections</b>: the ordered list of content blocks.</li>
         <li><b>SEO</b>: page title, description and share image for search engines and social media.</li>
         <li><b>Drafts, versions and scheduling</b>: changes save as drafts automatically, can be previewed live, published when ready or scheduled, and earlier versions can be restored.</li>
@@ -153,18 +153,28 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
         <tbody>
           <tr><td>Case studies</td><td class="wrap">Case study tiles, and the full case studies once the Our Work page is built</td></tr>
           <tr><td>Partner logos</td><td class="wrap">The scrolling logo strip, with order and display size per logo</td></tr>
+          <tr><td>Team members</td><td class="wrap">The Team page: name, job title, photo, filter group, org chart position (and column head), "Senior account owner" label, bio, social links, order</td></tr>
           <tr><td>Images &amp; videos</td><td class="wrap">Every uploaded image, logo and video, with alt text and focal point</td></tr>
           <tr><td>Form messages</td><td class="wrap">Messages sent from the website's forms (read-only inbox)</td></tr>
-          <tr><td>Header &amp; footer</td><td class="wrap">Menu links, footer links, legal links, social media links, copyright line</td></tr>
+          <tr><td>Header &amp; footer</td><td class="wrap">Menu links (with optional mobile sub-links), the site-wide "Start a conversation" banner, footer links, legal links, social media links, copyright line</td></tr>
         </tbody>
       </table></div>
       <h3>Sections available today</h3>
       <div class="table"><table>
         <thead><tr><th>Section</th><th>What it is</th><th>Editor options</th></tr></thead>
         <tbody>
-          <tr><td>Banner</td><td class="wrap">Full-screen showreel with headline and up to two buttons</td><td class="wrap">Video, background image, headline, intro text, buttons, scroll indicator</td></tr>
-          <tr><td>Text with image</td><td class="wrap">Heading, text and button beside an image</td><td class="wrap">Image left or right, shaded title, fade edge, button on or off</td></tr>
-          <tr><td>Cards</td><td class="wrap">Row of image cards, swipeable on mobile</td><td class="wrap">Card style; cards with title, text, image and link; white or dark background</td></tr>
+          <tr><td>Banner</td><td class="wrap">Page-top banner. Styles: <i>Showreel</i> (Home, full-screen video) and <i>Inner page</i> (automatic breadcrumb, headline with an orange last word, intro and buttons)</td><td class="wrap">Style, video, background image, headline size (wrapping, one line, fitted; slightly larger on phones for short headlines), photo dimmed or brighter, intro text, buttons, scroll indicator, brand mark</td></tr>
+          <tr><td>Section menu</td><td class="wrap">Bar of links under the banner</td><td class="wrap">Links generated from the page's sections (highlighting the one being read) or from the main menu's sub-links (highlighting this page, with a "Back to…" link); optional note</td></tr>
+          <tr><td>Lead paragraph</td><td class="wrap">Large paragraph whose words light up while scrolling, with an optional diagram and closing line</td><td class="wrap">Text size; orange words (end of paragraph or particular names); animation on or off; "Three into one" and "Lanes into one" diagrams; closing line with button</td></tr>
+          <tr><td>Text with image</td><td class="wrap">Heading, text and button beside an image. Styles: <i>fade</i> (Home) and <i>rounded image on a grey band</i> (About "Mujtamae")</td><td class="wrap">Image left or right, shaded title, fade edge, button on or off, list, illustrative report card with bars</td></tr>
+          <tr><td>Cards</td><td class="wrap">Row of image cards, swipeable on mobile. Styles: <i>numbered</i> and <i>pillar</i></td><td class="wrap">Card style; cards with title, label, text, image and link; note; white or dark background</td></tr>
+          <tr><td>Side-by-side statements</td><td class="wrap">Heading plus 2–3 large statements (Vision &amp; Mission)</td><td class="wrap">Statements, brand mark on or off</td></tr>
+          <tr><td>Text over image</td><td class="wrap">Heading and text over a drifting photo with a scrolling fact strip</td><td class="wrap">Image, text, strip items</td></tr>
+          <tr><td>Group structure</td><td class="wrap">Text, counting key facts and nested company frames (Our Ownership)</td><td class="wrap">Facts, closing line, 1–4 levels with label, detail, description and figure</td></tr>
+          <tr><td>Team directory</td><td class="wrap">Team portraits with a grid / org chart switch, a "Show" filter by group with counts, and a profile panel (The Team)</td><td class="wrap">Intro with orange words, all people or a chosen set, org chart view on/off, filter on/off; the org chart is built from each person's position</td></tr>
+          <tr><td>Group chain</td><td class="wrap">Statement, a chain of company names and a text link (The Team "Group scale")</td><td class="wrap">1–5 names (first highlighted), link on/off</td></tr>
+          <tr><td>Link tiles</td><td class="wrap">Expanding image tiles linking to other pages</td><td class="wrap">Standard or tall style; up to 4 tiles: title, text, image, destination</td></tr>
+          <tr><td>Call to action banner</td><td class="wrap">White "Start a conversation" banner</td><td class="wrap">Site-wide content from Header &amp; footer, or page-specific content</td></tr>
           <tr><td>Stacking panels</td><td class="wrap">Full-screen panels that slide over each other while scrolling</td><td class="wrap">Up to 4 panels with heading, text, image and button</td></tr>
           <tr><td>Key numbers</td><td class="wrap">Large animated numbers over full-screen images</td><td class="wrap">Numbers, suffix such as "+", captions, images, seconds per number</td></tr>
           <tr><td>Logo strip</td><td class="wrap">Continuously scrolling partner logos</td><td class="wrap">Optional heading; all logos or a chosen set</td></tr>
@@ -174,7 +184,7 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
         </tbody>
       </table></div>
       <p>Every section also has <b>Section settings</b>: a Section ID so buttons can jump to it, a name for section menus, and <b>Hide this section on the website</b>.</p>
-      <p class="note">More sections arrive with the remaining pages: section menus, image tiles, team directory, open roles, service details, case study grid, offices and legal documents. Existing sections gain new styles where possible rather than being duplicated.</p>
+      <p class="note">More sections arrive with the remaining pages: open roles, service details, case study grid, offices and legal documents. Existing sections gain new styles where possible rather than being duplicated.</p>
     </section>
 
     <section id="editing">
@@ -185,7 +195,7 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
         <li>Edit text and images inside a section. Drag sections to reorder, use <b>Add Section</b> to insert one, or use <b>Section settings → Hide this section</b> to take one off the page without deleting it.</li>
         <li>Click the <b>eye icon</b> for a <b>live preview</b> beside the editor, at desktop, tablet and mobile sizes. Changes save as a draft and are not public yet.</li>
         <li>Click <b>Publish changes</b> to put them live, or schedule them.</li>
-        <li><b>Header &amp; footer</b> (under Settings) controls menus and footer links on every page.</li>
+        <li><b>Header &amp; footer</b> (under Settings) controls menus, footer links and the site-wide "Start a conversation" banner on every page.</li>
         <li>Messages from the website appear under <b>Inbox → Form messages</b>.</li>
       </ol>
       <p class="note">A detailed, plain-language <b>Content Editor Guide</b> (every section and option, buttons, images, publishing, and what each change affects) is provided separately for the content team.</p>
@@ -194,7 +204,7 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
         <thead><tr><th>Role</th><th>Can do</th></tr></thead>
         <tbody>
           <tr><td>Admin</td><td class="wrap">Everything, including managing user accounts</td></tr>
-          <tr><td>Editor</td><td class="wrap">All website content (pages, sections, images, case studies, logos, header and footer) and reading form messages; cannot manage users</td></tr>
+          <tr><td>Editor</td><td class="wrap">All website content (pages, sections, images, case studies, logos, team members, header and footer) and reading form messages; cannot manage users</td></tr>
         </tbody>
       </table></div>
     </section>
@@ -203,7 +213,8 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
       <h2><span>06</span>Website features</h2>
       <ul>
         <li><b>Responsive</b>: matches the prototype on desktop, tablet (card rows become swipeable) and mobile.</li>
-        <li><b>Motion</b> from the prototype: showreel intro, scroll reveals, stacking panels, auto-advancing key numbers, word-by-word statement, and a "View" cursor on case studies. All motion respects the visitor's reduced-motion setting.</li>
+        <li><b>Motion</b> from the prototype: showreel intro, scroll reveals, stacking panels, auto-advancing key numbers, word-by-word statement and lead paragraph, banner and background parallax, drawn diagram lines, counting facts, a highlighted group structure, expanding link tiles, and a "View" cursor on case studies. All motion respects the visitor's reduced-motion setting.</li>
+        <li><b>Navigation</b>: the current page is highlighted in the menu, inner pages have an automatic breadcrumb, and long pages have a section menu that follows the reader (swipeable on phones).</li>
         <li><b>Accessibility</b>: skip-to-content link, keyboard-operable menu (Escape closes it), labelled controls, a pause button for the background video, and alt text managed in the CMS.</li>
         <li><b>Performance</b>: static pages, images resized and converted (WebP/AVIF) for each device, self-hosted fonts, the showreel pauses when off screen, and scroll effects run at most once per frame.</li>
         <li><b>SEO</b>: per-page title and description, canonical URLs, share images, and automatic <code>sitemap.xml</code> and <code>robots.txt</code>.</li>
@@ -273,9 +284,9 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
         <thead><tr><th>Step</th><th>Scope</th><th>Status</th></tr></thead>
         <tbody>
           <tr><td>1</td><td class="wrap">Foundation, CMS, header and footer, <b>Home page</b></td><td><span class="pill">Complete, in review</span></td></tr>
-          <tr><td>2</td><td class="wrap">About Us</td><td><span class="pill plan">Planned</span></td></tr>
-          <tr><td>3</td><td class="wrap">Our Story</td><td><span class="pill plan">Planned</span></td></tr>
-          <tr><td>4</td><td class="wrap">The Team: directory and profiles</td><td><span class="pill plan">Planned</span></td></tr>
+          <tr><td>2</td><td class="wrap"><b>About Us</b>: banner, section menu, overview diagram, pillars, Mujtamae, vision &amp; mission, why the UAE, ownership, more about us, call to action</td><td><span class="pill">Complete, in review</span></td></tr>
+          <tr><td>3</td><td class="wrap"><b>Our Story</b>: banner, section menu, the combination with the "lanes into one" diagram, more about us, call to action</td><td><span class="pill">Complete, in review</span></td></tr>
+          <tr><td>4</td><td class="wrap"><b>The Team</b>: banner, section menu, team directory with grid / org chart / filter / profile panel, group scale, more about us, call to action</td><td><span class="pill">Complete, in review</span></td></tr>
           <tr><td>5</td><td class="wrap">Join Us: open roles, application form with CV upload</td><td><span class="pill plan">Planned</span></td></tr>
           <tr><td>6</td><td class="wrap">Services</td><td><span class="pill plan">Planned</span></td></tr>
           <tr><td>7</td><td class="wrap">Our Work: case study grid, filters, full case studies</td><td><span class="pill plan">Planned</span></td></tr>
@@ -289,8 +300,9 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
     <section id="needed">
       <h2><span>10</span>Needed from PLG Acachet</h2>
       <ul class="checks">
-        <li>Approved copy, figures and case study content where the prototype has placeholders.</li>
-        <li>Real social media links (currently placeholders).</li>
+        <li>Approved copy, figures and case study content where the prototype has placeholders (About: the Mujtamae report card is an illustrative mock-up; please confirm its figures or wording).</li>
+        <li>Real social media links (currently placeholders), including each team member's LinkedIn / Instagram / X profile.</li>
+        <li>Team bios (50–70 words each), confirmation of the org chart reporting lines, and photos for Sherif Saed and Emma Valdez.</li>
         <li>Office addresses, email and phone for the Contact page.</li>
         <li>Legal wording for Terms, Privacy and Cookies approved by counsel, and the chosen cookie-consent platform.</li>
         <li>Where form messages should go besides the CMS inbox: email addresses, CRM or careers system.</li>

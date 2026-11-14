@@ -1,6 +1,6 @@
 # PLG Acachet Website — Architecture
 
-_Last updated: 13 November 2026 · Covers Phase 1, step 1 (foundation + Home page) and the proposed AWS production setup_
+_Last updated: 14 November 2026 · Covers Phase 1, steps 1–4 (foundation, Home, About, Our Story and The Team pages) and the proposed AWS production setup_
 
 This document describes **how the application is built** (Part A) and **how it is hosted** (Part B).
 It contains no secrets and can be shared with the client. Diagrams use Mermaid (they render on GitHub, GitLab and most Markdown viewers).
@@ -51,13 +51,13 @@ The website and the CMS are **one application** (Next.js with Payload CMS embedd
 flowchart TB
   subgraph Presentation
     R["Route: app/(frontend)/[[...slug]]/page.tsx<br/>Layout: header, footer, global behaviours"]
-    RB[RenderBlocks: blockType → component]
-    B["Blocks: Banner, Text with image, Cards, ... (config + component + CSS)"]
-    UI["UI primitives: Button, CMSLink, Media, RichText,<br/>SectionHeader, Section, Slider, Marquee, cursor, reveal"]
+    RB["RenderBlocks: blockType → component<br/>+ page context (breadcrumbs, section-menu items)"]
+    B["Blocks: Banner, Section menu, Lead paragraph, Text with image, Cards, ... (config + component + CSS)"]
+    UI["UI primitives: Button, CMSLink, Media, RichText,<br/>SectionHeader, Section, Slider, Marquee, Parallax,<br/>WordReveal, cursor, reveal"]
   end
   subgraph Content
-    F["Reusable CMS field groups: link, section header,<br/>section settings, rich text, media, slug"]
-    COL["Collections & globals: Pages, Case studies, Partners,<br/>Media, Form messages, Users · Header & footer"]
+    F["Reusable CMS field groups: link, section header,<br/>section settings, rich text, media, slug, call to action"]
+    COL["Collections & globals: Pages, Case studies, Partners,<br/>Team members, Media, Form messages, Users · Header & footer"]
   end
   subgraph Data
     L["lib/payload.ts: the only data-access module"]
@@ -84,6 +84,7 @@ flowchart TB
 | `app/robots.ts` | robots.txt |
 | `blocks/<Name>/` | One folder per section type: `config.ts` (CMS fields), `Component.tsx`, `Component.module.css` |
 | `blocks/index.ts`, `blocks/RenderBlocks.tsx` | Block registry for the CMS and for rendering |
+| `blocks/context.ts` | Page context handed to every block (page title/path/breadcrumbs, section-menu items derived from the sections) |
 | `collections/`, `globals/` | Content model |
 | `fields/` | Reusable CMS field groups |
 | `access/` | Permission rules (admin / editor / public) |
@@ -107,7 +108,8 @@ erDiagram
   SECTION }o--o{ PAGES : "button links"
   CASE_STUDIES }o--|| MEDIA : "cover image / video"
   PARTNERS }o--|| MEDIA : "logo"
-  SITE_SETTINGS }o--o{ PAGES : "menu & footer links"
+  SITE_SETTINGS }o--o{ PAGES : "menu, sub-menu, footer & call-to-action links"
+  SITE_SETTINGS }o--o| MEDIA : "call-to-action image"
   USERS ||--o{ PAGES : "edits (versions)"
   FORM_SUBMISSIONS }o--|| WEBSITE_FORM : "created by"
 ```
@@ -118,12 +120,17 @@ erDiagram
 | Section (block) | blockType + its fields + Section settings (anchorId, navLabel, theme, hideSection) | Stored inside the page |
 | Case studies | title, slug, cardTitle, summary, client, image, video | Extended with full case study content in a later step |
 | Partners | name, logo, height, mobileHeight, sortOrder | |
+| Team members | name, jobTitle, photo, group (management / creative / staff), department (top / commercial / delivery / operations), headOfDepartment, accountOwner, bio, linkedin, instagram, x, sortOrder | The Team page directory; org chart derived from department + head |
 | Media | file, alt, focal point | Images, SVG, MP4/WebM |
 | Form submissions | form, name, email, phone, message, page | Created only by the website |
 | Users | email, password, name, role (admin / editor) | |
-| Site settings (global) | headerLinks, mobileMenuNote, footerLinks, legalLinks, social, copyright | |
+| Site settings (global) | headerLinks (+ subLinks for the mobile menu), mobileMenuNote, cta (site-wide call to action), footerLinks, legalLinks, social, copyright | |
 
-**Page addresses** are computed, not typed: `home` → `/`; other pages → their nested path (e.g. `/legal/terms`), stored in `path` and used for lookups.
+**Page addresses** are computed, not typed: `home` → `/`; other pages → their nested path (e.g. `/about/our-story`, `/legal/terms`), stored in `path` and used for lookups. Our Story, The Team and Join Us are children of About.
+
+**Derived, never typed by editors:** breadcrumbs (from the nested-docs page tree), section-menu links (from each section's Section ID + "Name in section menu", or from the main menu's sub-links for the group containing the page, plus a "Back to <parent>" link), card numbers (from order), the Team org chart (from each member's position and column head) and filter options with counts (from member groups), the current-page highlight in the header (from the URL).
+
+**Sections available (step 4):** Banner (`hero`: showreel / page, with headline size, larger-on-phones + photo style options), Section menu (`sectionNav`: sections / menu), Lead paragraph (`leadText`: text size, orange words tail / particular words, diagrams "merge" and "weave", closing line), Text with image (`mediaText`: fade / card), Cards (`cardCarousel`: service / pillar), Stacking panels, Side-by-side statements (`statements`), Text over image (`backgroundText`), Key numbers, Logo strip, Case study showcase, Group structure (`ownership`), Team directory (`teamDirectory`: reads Team members; grid / org chart, filter, profile panel), Group chain (`groupScale`), Statement, Link tiles (`linkTiles`: standard / tall), Call to action banner (`ctaBanner`, site-wide default in Site settings with per-page override), Form.
 
 ## A6. Request lifecycle (public page)
 
@@ -199,7 +206,8 @@ Later: notification email and CRM/careers-system hand-off from the same server a
 |---|---|
 | Server vs client | Server components render markup; small client components add behaviour (menu, sliders, carousels, scroll effects, forms) |
 | Scroll effects | One shared, frame-batched scroll loop (`useRafScroll`): all layout reads, then all style writes, at most once per frame |
-| Reveal on scroll | One global observer adds `.in` to elements marked `data-reveal` |
+| Reveal on scroll | One global observer adds `.in` to elements marked `data-reveal` (fade/slide in) or `data-inview` (no styling; blocks start their own animations, e.g. diagram lines, report bars, nested frames) |
+| Page context | `RenderBlocks` passes each block the page (title, path, breadcrumbs) and the section-menu items, so the Banner breadcrumb and the Section menu need no editor input |
 | Styling | Global tokens + shared typography; everything else in per-component CSS Modules |
 | Header tone | Sections with white backgrounds mark themselves `data-nav-tone="light"`; the header reads that while scrolling |
 | Accessibility | Reduced-motion respected everywhere; keyboard menu; labelled controls |
@@ -384,6 +392,11 @@ A CI pipeline (e.g. GitHub Actions) can run lint, typecheck and build, then depl
 | Database engine | PostgreSQL | Decided |
 | Local database | Embedded PostgreSQL (no install needed) | Decided |
 | Page model | Pages made of reorderable, configurable sections | Decided |
+| About sub-pages | Our Story, The Team, Join Us nested under About (`/about/our-story` …), matching the prototype breadcrumb "Home / About Us / Our Story" | Decided (step 2) |
+| Call to action | One site-wide "Start a conversation" banner in Header & footer; pages can override | Decided (step 2) |
+| Inner-page look | The look shared by every inner prototype page is the default; About's differences (brighter banner photo, fitted headline, tall tiles on black) are options | Decided (step 3) |
+| Section menu on About sub-pages | Copies the main menu's About sub-links (one place to edit) | Decided (step 3) |
+| Team members | A shared collection (not fields inside the page), so people are edited once and the org chart / filter are derived from each person's group and position | Decided (step 4) |
 | Cloud & region | AWS, Middle East (UAE) `me-central-1` | **Proposed, development proceeds on it** |
 | Server | EC2 running Next.js + Payload | Proposed |
 | Database service | RDS for PostgreSQL | Proposed |

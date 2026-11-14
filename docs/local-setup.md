@@ -2,7 +2,7 @@
 
 How to get the PLG Acachet website (Next.js + Payload CMS) running on your own computer, from a fresh machine to a working site and CMS.
 
-_Last updated: 13 November 2026_
+_Last updated: 14 November 2026_
 
 **Time needed:** about 15–20 minutes (most of it is downloading packages).
 **Result:** the website at <http://localhost:3000> and the CMS at <http://localhost:3000/admin>, filled with the Home page content.
@@ -133,8 +133,8 @@ npm run seed
 
 This:
 - creates the admin and editor users from your `SEED_*` settings,
-- uploads the Home page images, videos and logos from the prototype's `assets/` folder,
-- creates the partner logos, the five Home case studies, the Home page with all its sections, placeholder pages (About, Services, Our Work, Contact, Legal) and the header/footer links.
+- uploads the Home, About and Team images (including `assets/team/` portraits), videos and logos from the prototype's `assets/` folder (and fills in alt text added to the seed later, unless an editor already wrote one),
+- creates the partner logos, the five Home case studies, the 11 team members, the **Home**, **About**, **Our Story** and **The Team** pages with all their sections, empty placeholder pages (Join Us under About; Services, Our Work, Contact, Legal and its three sub-pages), the header/footer links (including the About sub-links in the mobile menu) and the site-wide call to action.
 
 It ends with `Done.` It's safe to run again: it updates existing records instead of duplicating them (it never changes an existing user's password).
 
@@ -155,7 +155,10 @@ The first page load compiles the app and can take 15–30 seconds; after that it
 
 - [ ] The Home page shows the showreel, then all sections down to the contact form and footer.
 - [ ] Resizing the browser to phone width shows the mobile menu and swipeable cards.
-- [ ] In the CMS, **Pages → Home** lists nine sections; editing text and clicking the eye icon shows a live preview.
+- [ ] <http://localhost:3000/about> shows the About page: banner with breadcrumb, section menu, and every section down to the white "Start a conversation" banner.
+- [ ] <http://localhost:3000/about/our-story> shows Our Story: breadcrumb "Home / About Us / Our Story", the section menu with "Back to About Us", and the lines of the diagram drawing as you scroll.
+- [ ] <http://localhost:3000/about/team> shows The Team: the portrait grid, the **Org chart** switch, the **Show** filter (All 11 / Management 4 / Creative 4), and a profile panel when a name is clicked.
+- [ ] In the CMS, **Pages → Home** lists nine sections, **Pages → About Us** ten, **Pages → Our Story** five and **Pages → The Team** six, and **Content → Team members** lists 11 people; editing text and clicking the eye icon shows a live preview.
 - [ ] Submitting the contact form shows "Sent", and the message appears under **Inbox → Form messages**.
 
 ## 10. Everyday use
@@ -245,3 +248,4 @@ Restart `npm run dev` after changing `.env`. Files uploaded while S3 is on live 
 | Images fail with "hostname is not configured" | `MEDIA_PUBLIC_URL` is set to a domain that isn't serving the files; leave it empty locally |
 | Everything is very slow on Windows | Move the project out of OneDrive/Dropbox and exclude it from antivirus real-time scanning |
 | "Pulling schema" asks to confirm data loss | A field was removed or renamed in the code. For local data you don't need, answer yes; otherwise answer no and ask the team |
+| `npm run dev` hangs on the first request after pulling (no error) | The schema sync is waiting for an answer to a "created or renamed?" question in the `npm run dev` terminal. Look at that terminal and pick the first option (create) unless you know a field was renamed. Usually caused by a field renamed in the code after your local database already had the old name |

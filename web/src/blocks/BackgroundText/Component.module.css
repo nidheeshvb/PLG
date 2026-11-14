@@ -1,0 +1,91 @@
+/* prototype about.html .uae (Why the UAE) */
+.section {
+  position: relative;
+  min-height: 760px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  background: #000;
+}
+.bg {
+  position: absolute;
+  inset: -8% 0;
+  will-change: transform;
+}
+.bg img {
+  object-fit: cover;
+  object-position: 50% 30%;
+}
+.shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.7) 38%, rgba(0, 0, 0, 0.05) 75%),
+    linear-gradient(180deg, var(--bg) 0%, rgba(0, 0, 0, 0) 18%, rgba(0, 0, 0, 0) 80%, var(--bg) 100%);
+}
+.inner {
+  position: relative;
+  padding: 120px var(--gutter);
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.inner :global(.body) {
+  max-width: 62ch;
+}
+
+.ticker {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  overflow: hidden;
+}
+/* the strip keeps running on hover and at the same speed on phones (as in the prototype) */
+.ticker .track {
+  animation-play-state: running !important;
+  animation-duration: 30s;
+}
+.set {
+  gap: 56px;
+  padding: 22px 28px;
+  font-size: 18px;
+  color: #dcdcdc;
+  white-space: nowrap;
+}
+.item {
+  display: contents;
+}
+.item i {
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  transform: rotate(45deg);
+  flex: none;
+}
+
+@media (max-width: 900px) {
+  .section {
+    min-height: 0;
+    align-items: flex-end;
+  }
+  .shade {
+    background: linear-gradient(180deg, var(--bg) 0%, rgba(0, 0, 0, 0.2) 25%, rgba(0, 0, 0, 0.85) 58%, #000 100%);
+  }
+  .inner {
+    padding: 280px 24px 110px;
+  }
+  .set {
+    font-size: 15px;
+    gap: 36px;
+    padding: 16px 18px;
+  }
+  .ticker .track {
+    animation-duration: 30s;
+  }
+}

@@ -70,6 +70,7 @@ export interface Config {
     pages: Page;
     'case-studies': CaseStudy;
     partners: Partner;
+    'team-members': TeamMember;
     media: Media;
     'form-submissions': FormSubmission;
     users: User;
@@ -84,6 +85,7 @@ export interface Config {
     pages: PagesSelect<false> | PagesSelect<true>;
     'case-studies': CaseStudiesSelect<false> | CaseStudiesSelect<true>;
     partners: PartnersSelect<false> | PartnersSelect<true>;
+    'team-members': TeamMembersSelect<false> | TeamMembersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -152,13 +154,22 @@ export interface Page {
   layout?:
     | (
         | HeroBlock
+        | SectionNavBlock
+        | LeadTextBlock
         | MediaTextBlock
         | CardCarouselBlock
         | StackedPanelsBlock
+        | StatementsBlock
+        | BackgroundTextBlock
         | StatsCarouselBlock
         | LogoMarqueeBlock
         | CaseStudyGalleryBlock
+        | OwnershipBlock
+        | TeamDirectoryBlock
+        | GroupScaleBlock
         | StatementBlock
+        | LinkTilesBlock
+        | CtaBannerBlock
         | FormBlock
       )[]
     | null;
@@ -196,9 +207,34 @@ export interface Page {
  * via the `definition` "HeroBlock".
  */
 export interface HeroBlock {
-  variant: 'showreel';
+  variant: 'page' | 'showreel';
+  /**
+   * Press Enter to start a new line. On inner pages each line stays on one line.
+   */
   title: string;
+  highlightLastWord?: boolean | null;
+  largerOnPhones?: boolean | null;
+  headlineSize?: ('wrap' | 'oneLine' | 'fitted') | null;
+  imageStyle?: ('dim' | 'bright') | null;
   lede?: string | null;
+  /**
+   * Use bold for the part that should stand out in white.
+   */
+  intro?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   links?:
     | {
         label: string;
@@ -215,7 +251,7 @@ export interface HeroBlock {
       }[]
     | null;
   /**
-   * Muted, looping MP4. Keep it under ~8 MB.
+   * Muted, looping MP4. Keep it under ~8 MB. Optional on inner pages.
    */
   video?: (number | null) | Media;
   /**
@@ -227,6 +263,7 @@ export interface HeroBlock {
    */
   poster: number | Media;
   showScrollCue?: boolean | null;
+  showBrandMark?: boolean | null;
   /**
    * Optional. Lets buttons jump to this section (e.g. "contact"). Lowercase letters, numbers and dashes.
    */
@@ -268,9 +305,108 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionNavBlock".
+ */
+export interface SectionNavBlock {
+  source?: ('sections' | 'menu') | null;
+  /**
+   * Hidden on phones. E.g. “Also in About: Our Story · The Team · Join Us”.
+   */
+  note?: string | null;
+  /**
+   * Optional. Lets buttons jump to this section (e.g. "contact"). Lowercase letters, numbers and dashes.
+   */
+  anchorId?: string | null;
+  /**
+   * Optional. Shown in the page’s section menu, where the page has one.
+   */
+  navLabel?: string | null;
+  hideSection?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'sectionNav';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LeadTextBlock".
+ */
+export interface LeadTextBlock {
+  /**
+   * The short orange line on the left.
+   */
+  eyebrow?: string | null;
+  text: string;
+  textSize?: ('lg' | 'md') | null;
+  animation?: ('scrollReveal' | 'none') | null;
+  highlightMode?: ('none' | 'tail' | 'words') | null;
+  /**
+   * End of the paragraph: copy the end exactly, e.g. “structure a partnership, sell it, deliver it and measure it.” Particular words: separate them with commas, e.g. “Acachet, PLG, Mujtamae” (they turn orange as they light up).
+   */
+  highlight?: string | null;
+  diagram?: ('none' | 'merge' | 'weave') | null;
+  mergeItems?:
+    | {
+        label?: string | null;
+        name: string;
+        text?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  weaveStartLabel?: string | null;
+  weaveEndLabel?: string | null;
+  weaveItems?:
+    | {
+        name: string;
+        tag?: string | null;
+        text?: string | null;
+        /**
+         * Shown in black and white; colour on hover.
+         */
+        image?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Shown next to the logo where the lines meet.
+   */
+  weaveResult?: string | null;
+  /**
+   * Small line under the name (hidden on tablets and phones).
+   */
+  weaveNote?: string | null;
+  showClosing?: boolean | null;
+  closingText?: string | null;
+  closingLink?: {
+    label?: string | null;
+    appearance?: ('primary' | 'ghost' | 'dark') | null;
+    type?: ('page' | 'section' | 'url') | null;
+    page?: (number | null) | Page;
+    /**
+     * The "Section ID" set on a section (e.g. contact). For a page link this is optional and jumps to that section on the page.
+     */
+    section?: string | null;
+    url?: string | null;
+    newTab?: boolean | null;
+  };
+  /**
+   * Optional. Lets buttons jump to this section (e.g. "contact"). Lowercase letters, numbers and dashes.
+   */
+  anchorId?: string | null;
+  /**
+   * Optional. Shown in the page’s section menu, where the page has one.
+   */
+  navLabel?: string | null;
+  hideSection?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'leadText';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "MediaTextBlock".
  */
 export interface MediaTextBlock {
+  variant: 'fade' | 'card';
   /**
    * The short orange line above the title.
    */
@@ -295,6 +431,17 @@ export interface MediaTextBlock {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * E.g. “Where it fits”. Shown above the list.
+   */
+  listHeading?: string | null;
+  listItems?:
+    | {
+        title: string;
+        text?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   showButton?: boolean | null;
   link?: {
     label: string;
@@ -311,6 +458,21 @@ export interface MediaTextBlock {
   image: number | Media;
   imagePosition?: ('right' | 'left') | null;
   fadeImageEdge?: boolean | null;
+  /**
+   * A small illustrative dashboard card on the image. Leave the title empty to hide it.
+   */
+  report?: {
+    title?: string | null;
+    badge?: string | null;
+    bars?:
+      | {
+          label: string;
+          value: number;
+          id?: string | null;
+        }[]
+      | null;
+    caption?: string | null;
+  };
   /**
    * Optional. Lets buttons jump to this section (e.g. "contact"). Lowercase letters, numbers and dashes.
    */
@@ -337,13 +499,20 @@ export interface CardCarouselBlock {
    * Press Enter to start a new line.
    */
   title: string;
-  cardStyle: 'service';
+  cardStyle: 'service' | 'pillar';
   /**
-   * Cards are numbered automatically in this order.
+   * Numbered cards are numbered automatically in this order.
    */
   cards?:
     | {
+        /**
+         * Pillar cards show this as the big word on the image.
+         */
         title: string;
+        /**
+         * Shown above the text, e.g. “Network”.
+         */
+        tag?: string | null;
         text?: string | null;
         image: number | Media;
         hasLink?: boolean | null;
@@ -361,6 +530,9 @@ export interface CardCarouselBlock {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Numbered cards: shown under the cards. Pillar cards: shown next to the title.
+   */
   note?: string | null;
   /**
    * Optional. Lets buttons jump to this section (e.g. "contact"). Lowercase letters, numbers and dashes.
@@ -422,6 +594,85 @@ export interface StackedPanelsBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'stackedPanels';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StatementsBlock".
+ */
+export interface StatementsBlock {
+  /**
+   * The short orange line above the title.
+   */
+  eyebrow?: string | null;
+  /**
+   * Press Enter to start a new line.
+   */
+  title: string;
+  gradientTitle?: boolean | null;
+  items?:
+    | {
+        /**
+         * E.g. “Vision”.
+         */
+        label: string;
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  showBrandMark?: boolean | null;
+  /**
+   * Optional. Lets buttons jump to this section (e.g. "contact"). Lowercase letters, numbers and dashes.
+   */
+  anchorId?: string | null;
+  /**
+   * Optional. Shown in the page’s section menu, where the page has one.
+   */
+  navLabel?: string | null;
+  hideSection?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'statements';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BackgroundTextBlock".
+ */
+export interface BackgroundTextBlock {
+  /**
+   * The short orange line above the title.
+   */
+  eyebrow?: string | null;
+  /**
+   * Press Enter to start a new line.
+   */
+  title: string;
+  gradientTitle?: boolean | null;
+  text?: string | null;
+  /**
+   * The left side is darkened so the text stays readable.
+   */
+  image: number | Media;
+  /**
+   * Short facts that scroll along the bottom of the section.
+   */
+  ticker?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Optional. Lets buttons jump to this section (e.g. "contact"). Lowercase letters, numbers and dashes.
+   */
+  anchorId?: string | null;
+  /**
+   * Optional. Shown in the page’s section menu, where the page has one.
+   */
+  navLabel?: string | null;
+  hideSection?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'backgroundText';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -581,6 +832,204 @@ export interface CaseStudy {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "OwnershipBlock".
+ */
+export interface OwnershipBlock {
+  /**
+   * The short orange line above the title.
+   */
+  eyebrow?: string | null;
+  /**
+   * Press Enter to start a new line.
+   */
+  title: string;
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Numbers count up when they scroll into view (e.g. “1852”, “50+”). Text such as “UAE · MEA” stays as it is.
+   */
+  facts?:
+    | {
+        value: string;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Use bold for the opening words.
+   */
+  closing?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Each level is drawn inside the one above it. The last level is highlighted by default.
+   */
+  levels?:
+    | {
+        name: string;
+        tag?: string | null;
+        detail?: string | null;
+        text?: string | null;
+        figure?: string | null;
+        figureLabel?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Optional. Lets buttons jump to this section (e.g. "contact"). Lowercase letters, numbers and dashes.
+   */
+  anchorId?: string | null;
+  /**
+   * Optional. Shown in the page’s section menu, where the page has one.
+   */
+  navLabel?: string | null;
+  hideSection?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'ownership';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TeamDirectoryBlock".
+ */
+export interface TeamDirectoryBlock {
+  /**
+   * The short orange line on the left.
+   */
+  eyebrow?: string | null;
+  intro?: string | null;
+  /**
+   * Optional. Copy the words exactly as they appear in the intro paragraph.
+   */
+  highlight?: string | null;
+  /**
+   * Leave empty to show everyone in “Team members” (in their set order). Choose people to show only them, in the order chosen here.
+   */
+  members?: (number | TeamMember)[] | null;
+  showOrgChart?: boolean | null;
+  showFilter?: boolean | null;
+  /**
+   * Optional. Lets buttons jump to this section (e.g. "contact"). Lowercase letters, numbers and dashes.
+   */
+  anchorId?: string | null;
+  /**
+   * Optional. Shown in the page’s section menu, where the page has one.
+   */
+  navLabel?: string | null;
+  hideSection?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'teamDirectory';
+}
+/**
+ * People shown on The Team page. Lower “Order” numbers appear first.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-members".
+ */
+export interface TeamMember {
+  id: number;
+  name: string;
+  jobTitle: string;
+  /**
+   * Portrait photo (shown black and white, in colour on hover). Leave empty to show a placeholder silhouette. Set the focal point on the face.
+   */
+  photo?: (number | null) | Media;
+  /**
+   * Management and Creative get a small label on the photo and their own filter option.
+   */
+  group: 'management' | 'creative' | 'staff';
+  department: 'top' | 'commercial' | 'delivery' | 'operations';
+  /**
+   * Shown at the top of the column; everyone else in the column is listed below.
+   */
+  headOfDepartment?: boolean | null;
+  accountOwner?: boolean | null;
+  /**
+   * Optional, 50–70 words: open with the value this person brings to a client, then their experience. Shown in the profile panel.
+   */
+  bio?: string | null;
+  linkedin?: string | null;
+  instagram?: string | null;
+  x?: string | null;
+  /**
+   * Lower numbers appear first in the grid and in each org chart column.
+   */
+  sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "GroupScaleBlock".
+ */
+export interface GroupScaleBlock {
+  /**
+   * The short orange line on the left.
+   */
+  eyebrow?: string | null;
+  text: string;
+  /**
+   * Shown left to right, joined by short lines. The first name is highlighted.
+   */
+  chain?:
+    | {
+        name: string;
+        id?: string | null;
+      }[]
+    | null;
+  showLink?: boolean | null;
+  link?: {
+    label: string;
+    type?: ('page' | 'section' | 'url') | null;
+    page?: (number | null) | Page;
+    /**
+     * The "Section ID" set on a section (e.g. contact). For a page link this is optional and jumps to that section on the page.
+     */
+    section?: string | null;
+    url?: string | null;
+    newTab?: boolean | null;
+  };
+  /**
+   * Optional. Lets buttons jump to this section (e.g. "contact"). Lowercase letters, numbers and dashes.
+   */
+  anchorId?: string | null;
+  /**
+   * Optional. Shown in the page’s section menu, where the page has one.
+   */
+  navLabel?: string | null;
+  hideSection?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'groupScale';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "StatementBlock".
  */
 export interface StatementBlock {
@@ -599,6 +1048,104 @@ export interface StatementBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'statement';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LinkTilesBlock".
+ */
+export interface LinkTilesBlock {
+  /**
+   * The short orange line above the title.
+   */
+  eyebrow?: string | null;
+  /**
+   * Press Enter to start a new line.
+   */
+  title: string;
+  tileStyle?: ('standard' | 'tall') | null;
+  tiles?:
+    | {
+        title: string;
+        text?: string | null;
+        image: number | Media;
+        /**
+         * The “Text” here is only for screen readers; leave it empty to use the title.
+         */
+        link?: {
+          label?: string | null;
+          type?: ('page' | 'section' | 'url') | null;
+          page?: (number | null) | Page;
+          /**
+           * The "Section ID" set on a section (e.g. contact). For a page link this is optional and jumps to that section on the page.
+           */
+          section?: string | null;
+          url?: string | null;
+          newTab?: boolean | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Optional. Lets buttons jump to this section (e.g. "contact"). Lowercase letters, numbers and dashes.
+   */
+  anchorId?: string | null;
+  /**
+   * Optional. Shown in the page’s section menu, where the page has one.
+   */
+  navLabel?: string | null;
+  hideSection?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'linkTiles';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CtaBannerBlock".
+ */
+export interface CtaBannerBlock {
+  /**
+   * Edited once in Header & footer → Call to action. Untick to write different content for this page.
+   */
+  useDefault?: boolean | null;
+  custom?: {
+    /**
+     * The short orange line above the title.
+     */
+    eyebrow?: string | null;
+    /**
+     * Press Enter to start a new line.
+     */
+    title?: string | null;
+    lede?: string | null;
+    link?: {
+      label?: string | null;
+      appearance?: ('primary' | 'ghost' | 'dark') | null;
+      type?: ('page' | 'section' | 'url') | null;
+      page?: (number | null) | Page;
+      /**
+       * The "Section ID" set on a section (e.g. contact). For a page link this is optional and jumps to that section on the page.
+       */
+      section?: string | null;
+      url?: string | null;
+      newTab?: boolean | null;
+    };
+    /**
+     * Shown on the right; the left side fades to white behind the text.
+     */
+    image?: (number | null) | Media;
+  };
+  /**
+   * Optional. Lets buttons jump to this section (e.g. "contact"). Lowercase letters, numbers and dashes.
+   */
+  anchorId?: string | null;
+  /**
+   * Optional. Shown in the page’s section menu, where the page has one.
+   */
+  navLabel?: string | null;
+  hideSection?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'ctaBanner';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -808,6 +1355,10 @@ export interface PayloadLockedDocument {
         value: number | Partner;
       } | null)
     | ({
+        relationTo: 'team-members';
+        value: number | TeamMember;
+      } | null)
+    | ({
         relationTo: 'media';
         value: number | Media;
       } | null)
@@ -871,13 +1422,22 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         hero?: T | HeroBlockSelect<T>;
+        sectionNav?: T | SectionNavBlockSelect<T>;
+        leadText?: T | LeadTextBlockSelect<T>;
         mediaText?: T | MediaTextBlockSelect<T>;
         cardCarousel?: T | CardCarouselBlockSelect<T>;
         stackedPanels?: T | StackedPanelsBlockSelect<T>;
+        statements?: T | StatementsBlockSelect<T>;
+        backgroundText?: T | BackgroundTextBlockSelect<T>;
         statsCarousel?: T | StatsCarouselBlockSelect<T>;
         logoMarquee?: T | LogoMarqueeBlockSelect<T>;
         caseStudyGallery?: T | CaseStudyGalleryBlockSelect<T>;
+        ownership?: T | OwnershipBlockSelect<T>;
+        teamDirectory?: T | TeamDirectoryBlockSelect<T>;
+        groupScale?: T | GroupScaleBlockSelect<T>;
         statement?: T | StatementBlockSelect<T>;
+        linkTiles?: T | LinkTilesBlockSelect<T>;
+        ctaBanner?: T | CtaBannerBlockSelect<T>;
         form?: T | FormBlockSelect<T>;
       };
   meta?:
@@ -909,7 +1469,12 @@ export interface PagesSelect<T extends boolean = true> {
 export interface HeroBlockSelect<T extends boolean = true> {
   variant?: T;
   title?: T;
+  highlightLastWord?: T;
+  largerOnPhones?: T;
+  headlineSize?: T;
+  imageStyle?: T;
   lede?: T;
+  intro?: T;
   links?:
     | T
     | {
@@ -926,6 +1491,72 @@ export interface HeroBlockSelect<T extends boolean = true> {
   videoMobile?: T;
   poster?: T;
   showScrollCue?: T;
+  showBrandMark?: T;
+  anchorId?: T;
+  navLabel?: T;
+  hideSection?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionNavBlock_select".
+ */
+export interface SectionNavBlockSelect<T extends boolean = true> {
+  source?: T;
+  note?: T;
+  anchorId?: T;
+  navLabel?: T;
+  hideSection?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LeadTextBlock_select".
+ */
+export interface LeadTextBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  text?: T;
+  textSize?: T;
+  animation?: T;
+  highlightMode?: T;
+  highlight?: T;
+  diagram?: T;
+  mergeItems?:
+    | T
+    | {
+        label?: T;
+        name?: T;
+        text?: T;
+        id?: T;
+      };
+  weaveStartLabel?: T;
+  weaveEndLabel?: T;
+  weaveItems?:
+    | T
+    | {
+        name?: T;
+        tag?: T;
+        text?: T;
+        image?: T;
+        id?: T;
+      };
+  weaveResult?: T;
+  weaveNote?: T;
+  showClosing?: T;
+  closingText?: T;
+  closingLink?:
+    | T
+    | {
+        label?: T;
+        appearance?: T;
+        type?: T;
+        page?: T;
+        section?: T;
+        url?: T;
+        newTab?: T;
+      };
   anchorId?: T;
   navLabel?: T;
   hideSection?: T;
@@ -937,10 +1568,19 @@ export interface HeroBlockSelect<T extends boolean = true> {
  * via the `definition` "MediaTextBlock_select".
  */
 export interface MediaTextBlockSelect<T extends boolean = true> {
+  variant?: T;
   eyebrow?: T;
   title?: T;
   gradientTitle?: T;
   body?: T;
+  listHeading?: T;
+  listItems?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        id?: T;
+      };
   showButton?: T;
   link?:
     | T
@@ -956,6 +1596,20 @@ export interface MediaTextBlockSelect<T extends boolean = true> {
   image?: T;
   imagePosition?: T;
   fadeImageEdge?: T;
+  report?:
+    | T
+    | {
+        title?: T;
+        badge?: T;
+        bars?:
+          | T
+          | {
+              label?: T;
+              value?: T;
+              id?: T;
+            };
+        caption?: T;
+      };
   anchorId?: T;
   navLabel?: T;
   hideSection?: T;
@@ -974,6 +1628,7 @@ export interface CardCarouselBlockSelect<T extends boolean = true> {
     | T
     | {
         title?: T;
+        tag?: T;
         text?: T;
         image?: T;
         hasLink?: T;
@@ -1022,6 +1677,50 @@ export interface StackedPanelsBlockSelect<T extends boolean = true> {
               url?: T;
               newTab?: T;
             };
+        id?: T;
+      };
+  anchorId?: T;
+  navLabel?: T;
+  hideSection?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StatementsBlock_select".
+ */
+export interface StatementsBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  gradientTitle?: T;
+  items?:
+    | T
+    | {
+        label?: T;
+        text?: T;
+        id?: T;
+      };
+  showBrandMark?: T;
+  anchorId?: T;
+  navLabel?: T;
+  hideSection?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BackgroundTextBlock_select".
+ */
+export interface BackgroundTextBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  gradientTitle?: T;
+  text?: T;
+  image?: T;
+  ticker?:
+    | T
+    | {
+        text?: T;
         id?: T;
       };
   anchorId?: T;
@@ -1098,12 +1797,155 @@ export interface CaseStudyGalleryBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "OwnershipBlock_select".
+ */
+export interface OwnershipBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  body?: T;
+  facts?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  closing?: T;
+  levels?:
+    | T
+    | {
+        name?: T;
+        tag?: T;
+        detail?: T;
+        text?: T;
+        figure?: T;
+        figureLabel?: T;
+        id?: T;
+      };
+  anchorId?: T;
+  navLabel?: T;
+  hideSection?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TeamDirectoryBlock_select".
+ */
+export interface TeamDirectoryBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  intro?: T;
+  highlight?: T;
+  members?: T;
+  showOrgChart?: T;
+  showFilter?: T;
+  anchorId?: T;
+  navLabel?: T;
+  hideSection?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "GroupScaleBlock_select".
+ */
+export interface GroupScaleBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  text?: T;
+  chain?:
+    | T
+    | {
+        name?: T;
+        id?: T;
+      };
+  showLink?: T;
+  link?:
+    | T
+    | {
+        label?: T;
+        type?: T;
+        page?: T;
+        section?: T;
+        url?: T;
+        newTab?: T;
+      };
+  anchorId?: T;
+  navLabel?: T;
+  hideSection?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "StatementBlock_select".
  */
 export interface StatementBlockSelect<T extends boolean = true> {
   text?: T;
   animation?: T;
   showBrandMarks?: T;
+  anchorId?: T;
+  navLabel?: T;
+  hideSection?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LinkTilesBlock_select".
+ */
+export interface LinkTilesBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  tileStyle?: T;
+  tiles?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        image?: T;
+        link?:
+          | T
+          | {
+              label?: T;
+              type?: T;
+              page?: T;
+              section?: T;
+              url?: T;
+              newTab?: T;
+            };
+        id?: T;
+      };
+  anchorId?: T;
+  navLabel?: T;
+  hideSection?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CtaBannerBlock_select".
+ */
+export interface CtaBannerBlockSelect<T extends boolean = true> {
+  useDefault?: T;
+  custom?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        lede?: T;
+        link?:
+          | T
+          | {
+              label?: T;
+              appearance?: T;
+              type?: T;
+              page?: T;
+              section?: T;
+              url?: T;
+              newTab?: T;
+            };
+        image?: T;
+      };
   anchorId?: T;
   navLabel?: T;
   hideSection?: T;
@@ -1152,6 +1994,26 @@ export interface PartnersSelect<T extends boolean = true> {
   logo?: T;
   height?: T;
   mobileHeight?: T;
+  sortOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-members_select".
+ */
+export interface TeamMembersSelect<T extends boolean = true> {
+  name?: T;
+  jobTitle?: T;
+  photo?: T;
+  group?: T;
+  department?: T;
+  headOfDepartment?: T;
+  accountOwner?: T;
+  bio?: T;
+  linkedin?: T;
+  instagram?: T;
+  x?: T;
   sortOrder?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1295,7 +2157,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 export interface SiteSetting {
   id: number;
   /**
-   * The links in the top menu (and the mobile menu).
+   * The links in the top menu (and the mobile menu). The link for the page being viewed is highlighted automatically.
    */
   headerLinks?:
     | {
@@ -1308,10 +2170,54 @@ export interface SiteSetting {
         section?: string | null;
         url?: string | null;
         newTab?: boolean | null;
+        /**
+         * Shown indented under this link in the mobile menu, e.g. About → Overview, Our Story.
+         */
+        subLinks?:
+          | {
+              label: string;
+              type?: ('page' | 'section' | 'url') | null;
+              page?: (number | null) | Page;
+              /**
+               * The "Section ID" set on a section (e.g. contact). For a page link this is optional and jumps to that section on the page.
+               */
+              section?: string | null;
+              url?: string | null;
+              newTab?: boolean | null;
+              id?: string | null;
+            }[]
+          | null;
         id?: string | null;
       }[]
     | null;
   mobileMenuNote?: string | null;
+  cta?: {
+    /**
+     * The short orange line above the title.
+     */
+    eyebrow?: string | null;
+    /**
+     * Press Enter to start a new line.
+     */
+    title?: string | null;
+    lede?: string | null;
+    link?: {
+      label?: string | null;
+      appearance?: ('primary' | 'ghost' | 'dark') | null;
+      type?: ('page' | 'section' | 'url') | null;
+      page?: (number | null) | Page;
+      /**
+       * The "Section ID" set on a section (e.g. contact). For a page link this is optional and jumps to that section on the page.
+       */
+      section?: string | null;
+      url?: string | null;
+      newTab?: boolean | null;
+    };
+    /**
+     * Shown on the right; the left side fades to white behind the text.
+     */
+    image?: (number | null) | Media;
+  };
   footerLinks?:
     | {
         label: string;
@@ -1368,9 +2274,39 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         section?: T;
         url?: T;
         newTab?: T;
+        subLinks?:
+          | T
+          | {
+              label?: T;
+              type?: T;
+              page?: T;
+              section?: T;
+              url?: T;
+              newTab?: T;
+              id?: T;
+            };
         id?: T;
       };
   mobileMenuNote?: T;
+  cta?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        lede?: T;
+        link?:
+          | T
+          | {
+              label?: T;
+              appearance?: T;
+              type?: T;
+              page?: T;
+              section?: T;
+              url?: T;
+              newTab?: T;
+            };
+        image?: T;
+      };
   footerLinks?:
     | T
     | {

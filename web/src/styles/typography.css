@@ -11,6 +11,8 @@
   font-size: var(--h1);
   line-height: 1.15;
   letter-spacing: 2px;
+  /* every prototype page except the older homepage balances title lines */
+  text-wrap: balance;
 }
 
 .grad {

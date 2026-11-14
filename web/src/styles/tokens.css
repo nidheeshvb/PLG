@@ -12,6 +12,9 @@
   --body: #e2e2e2;
   --muted: #70746e;
   --card-ink: #252b27;
+  --line: rgba(255, 255, 255, 0.12);
+  --paper-ink: #222;
+  --paper-body: #3a3d3b;
   --gutter: 72px;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-io: cubic-bezier(0.65, 0, 0.35, 1);

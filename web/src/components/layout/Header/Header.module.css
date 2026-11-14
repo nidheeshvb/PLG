@@ -43,6 +43,9 @@
 .onLight .burger {
   background: rgba(255, 255, 255, 0.7);
 }
+.onLight .menu {
+  background: rgba(0, 0, 0, 0.78);
+}
 
 .menu {
   display: flex;
@@ -76,6 +79,10 @@
 }
 .menu a:active {
   background: rgba(255, 255, 255, 0.18);
+}
+.menu a.active {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .burger {
@@ -183,20 +190,28 @@
   opacity: 1;
   transform: none;
 }
-.mnavOpen .mnavLinks a:nth-child(1) {
-  transition-delay: 0.25s;
+/* each row's delay comes from --md (set per row, so the sub-links block takes a slot too) */
+.mnavOpen .mnavLinks > a {
+  transition-delay: var(--md, 0.25s);
 }
-.mnavOpen .mnavLinks a:nth-child(2) {
-  transition-delay: 0.32s;
+.mnavLinks a.active {
+  color: var(--accent);
 }
-.mnavOpen .mnavLinks a:nth-child(3) {
-  transition-delay: 0.39s;
+.mnavSub {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-left: 18px;
+  margin-top: -14px;
+  border-left: 1px solid #333;
 }
-.mnavOpen .mnavLinks a:nth-child(4) {
-  transition-delay: 0.46s;
+.mnavLinks .mnavSub a {
+  font-size: 17px;
+  line-height: 24px;
+  color: #999;
 }
-.mnavOpen .mnavLinks a:nth-child(n + 5) {
-  transition-delay: 0.53s;
+.mnavOpen .mnavSub a {
+  transition-delay: var(--md, 0.32s);
 }
 .mnavFoot {
   margin-top: auto;

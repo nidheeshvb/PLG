@@ -1,0 +1,239 @@
+/* prototype about.html .own (Our Ownership). Note: the prototype has no desktop styles for the
+   text inside the frames (name/label/figure use browser defaults); they are matched as-is. */
+.section {
+  background: #fff;
+  color: var(--paper-ink);
+  padding: 110px var(--gutter);
+}
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: 56px 88px;
+  align-items: center;
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+.copy :global(.eyebrow),
+.copy :global(.h1) {
+  color: var(--paper-ink);
+}
+.body {
+  color: var(--paper-body);
+  max-width: 62ch;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr));
+  border-top: 1px solid #e0e0db;
+  border-bottom: 1px solid #e0e0db;
+}
+.fact {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 20px 20px 22px;
+  border-left: 1px solid #e0e0db;
+}
+.fact:first-child {
+  border-left: 0;
+  padding-left: 0;
+}
+.fact > span {
+  font-size: 11.5px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.fact b {
+  display: block;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 1;
+  letter-spacing: -0.6px;
+  color: var(--paper-ink);
+  font-variant-numeric: tabular-nums;
+}
+.fact:first-child b {
+  color: var(--accent);
+}
+
+.close {
+  font-size: 18px;
+  line-height: 1.45;
+  color: var(--paper-body);
+  max-width: 46ch;
+}
+.close b,
+.close strong {
+  font-weight: 600;
+  color: var(--paper-ink);
+}
+
+/* ---------- nested frames ---------- */
+.ledger {
+  position: relative;
+}
+.box {
+  position: relative;
+  border-radius: 22px;
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  overflow: hidden;
+  cursor: default;
+  opacity: 0;
+  transform: translateY(22px) scale(0.985);
+  transition:
+    opacity 0.9s var(--ease-out),
+    transform 1.1s var(--ease-out),
+    background-color 0.7s var(--ease-io),
+    border-color 0.7s var(--ease-io),
+    box-shadow 0.8s var(--ease-io);
+  transition-delay: calc(var(--i) * 0.18s), calc(var(--i) * 0.18s), 0s, 0s, 0s;
+}
+.ledger:global(.in) .box {
+  opacity: 1;
+  transform: none;
+}
+.box0 {
+  background: #f2f2ef;
+  border: 1px solid #e3e3de;
+}
+.box1 {
+  background: #fff;
+  border: 1px solid #e0e0db;
+  box-shadow: 0 22px 44px -32px rgba(0, 0, 0, 0.35);
+}
+.box2 {
+  background: #fbfbf9;
+  border: 1px solid #e0e0db;
+}
+.box::before {
+  content: '';
+  position: absolute;
+  right: -60px;
+  top: -60px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 116, 51, 0.38), rgba(255, 116, 51, 0) 70%);
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity 0.8s var(--ease-io),
+    transform 1s var(--ease-out);
+}
+.box.hot {
+  background: var(--ink);
+  border-color: var(--ink);
+  box-shadow: 0 30px 60px -30px rgba(0, 13, 29, 0.6);
+}
+.box.hot::before {
+  opacity: 1;
+  transform: none;
+}
+.box:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.meta,
+.meta b,
+.name,
+.txt,
+.fig,
+.fig small {
+  transition: color 0.6s var(--ease-io);
+}
+.meta i {
+  transition:
+    background 0.6s var(--ease-io),
+    box-shadow 0.6s var(--ease-io);
+}
+.box2 .name {
+  font-size: 34px;
+}
+.hot > .boxHead .meta {
+  color: #9aa3ad;
+}
+.hot > .boxHead .meta b {
+  color: var(--accent);
+}
+.hot > .boxHead .meta i {
+  background: var(--accent);
+  box-shadow: 0 0 0 4px rgba(255, 116, 51, 0.2);
+}
+.hot > .boxHead .name {
+  color: #fff;
+}
+.hot > .boxHead .txt {
+  color: #c9ced4;
+}
+.hot > .boxHead .fig {
+  color: var(--accent);
+}
+.hot > .boxHead .fig small {
+  color: #9aa3ad;
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .section {
+    padding: 64px 24px;
+  }
+  .box {
+    padding: 18px 16px;
+    border-radius: 18px;
+    gap: 18px;
+  }
+  .name {
+    font-size: 22px;
+  }
+  .box2 .name {
+    font-size: 26px;
+  }
+  .fig {
+    text-align: left;
+    font-size: 28px;
+    margin-top: 6px;
+  }
+  .fig small {
+    display: inline;
+    margin-left: 8px;
+  }
+  .fact {
+    padding: 16px 12px 18px;
+  }
+  .fact b {
+    font-size: 20px;
+    line-height: 1.15;
+  }
+  .sep {
+    display: none;
+  }
+  .fact > span {
+    font-size: 10.5px;
+    letter-spacing: 1px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .box {
+    opacity: 1;
+    transform: none;
+  }
+}

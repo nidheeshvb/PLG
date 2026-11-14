@@ -1,0 +1,52 @@
+/* prototype about.html .cta (Start a Conversation) */
+.cta {
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  color: #000;
+}
+.bg {
+  object-fit: cover;
+  object-position: right center;
+}
+.grad {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #fff 30%, rgba(255, 255, 255, 0.75) 50%, rgba(255, 255, 255, 0) 72%);
+}
+.inner {
+  position: relative;
+  padding: 96px max(var(--gutter), env(safe-area-inset-right, 0px)) 96px max(var(--gutter), env(safe-area-inset-left, 0px));
+  /* every page except the older About prototype: 760px plus one gutter */
+  max-width: calc(760px + var(--gutter));
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.inner :global(.h1) {
+  color: #000;
+}
+.lede {
+  font-size: 20px;
+  line-height: 1.5;
+  max-width: 40ch;
+  color: #222;
+}
+.button {
+  align-self: flex-start;
+}
+
+@media (max-width: 900px) {
+  .bg {
+    opacity: 0.35;
+  }
+  .grad {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), #fff 70%);
+  }
+  .inner {
+    padding: 64px 24px;
+  }
+  .lede {
+    font-size: 17px;
+  }
+}

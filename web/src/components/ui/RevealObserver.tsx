@@ -3,10 +3,10 @@
 import { usePathname } from 'next/navigation'
 import { useEffect } from 'react'
 
-const SELECTOR = '[data-reveal],[data-panel]'
+const SELECTOR = '[data-reveal],[data-panel],[data-inview]'
 
 /**
- * Adds `.in` to every [data-reveal] / [data-panel] element as it scrolls into view.
+ * Adds `.in` to every [data-reveal] / [data-panel] / [data-inview] element ([data-inview] has no styles of its own: blocks use it to start their own animations) as it scrolls into view.
  * Mounted once in the layout; also picks up elements added later (live preview, client renders).
  */
 export function RevealObserver() {

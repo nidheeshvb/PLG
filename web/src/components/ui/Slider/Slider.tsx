@@ -15,6 +15,8 @@ type Props = {
   /** Show position dots on mobile (the prototype keeps them hidden). */
   dots?: boolean
   label?: string
+  /** Extra class for the arrow bar (e.g. to pull it closer to the track). */
+  barClassName?: string
 }
 
 /**
@@ -22,7 +24,7 @@ type Props = {
  * On desktop the track keeps the block's own layout; at ≤1100px it becomes a snap slider with
  * mouse drag + momentum, arrow buttons and (≤900px) swipe dots.
  */
-export function Slider({ children, className, tone = 'dark', dots = false, label }: Props) {
+export function Slider({ children, className, tone = 'dark', dots = false, label, barClassName }: Props) {
   const trackRef = useRef<HTMLDivElement>(null)
   const count = Children.count(children)
   const [active, setActive] = useState(0)
@@ -164,7 +166,7 @@ export function Slider({ children, className, tone = 'dark', dots = false, label
       >
         {children}
       </div>
-      <div className={[styles.bar, tone === 'light' && styles.barLight].filter(Boolean).join(' ')}>
+      <div className={[styles.bar, tone === 'light' && styles.barLight, barClassName].filter(Boolean).join(' ')}>
         <div className={styles.nav}>
           <button type="button" aria-label="Previous" disabled={edges.start} onClick={() => step(-1)}>
             <i className="arr" />

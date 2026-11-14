@@ -1,0 +1,563 @@
+/* Sizes: .lg = About "Overview", .md = Our Story "The Combination" */
+.section {
+  padding: 120px var(--gutter) 110px;
+  position: relative;
+}
+.md {
+  padding: 130px var(--gutter) 120px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 40px 64px;
+}
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.lead {
+  font-weight: 500;
+  font-size: 38px;
+  line-height: 1.32;
+  letter-spacing: 0.2px;
+  color: #eaeaea;
+}
+.md .lead {
+  font-size: 36px;
+  line-height: 1.36;
+  letter-spacing: 0.1px;
+  max-width: 30em;
+}
+.w {
+  opacity: 0.3;
+  transition:
+    opacity 0.35s,
+    color 0.35s;
+}
+.md .w {
+  opacity: 0.28;
+}
+.w.on {
+  opacity: 1;
+}
+/* tail highlight: always orange; particular words: orange once lit */
+.hl {
+  color: var(--accent);
+}
+.nm.on,
+.static .nm {
+  color: var(--accent);
+}
+
+/* closing line + button */
+.closing {
+  margin-top: 72px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
+}
+.closing p {
+  font-size: 18px;
+  line-height: 1.45;
+  color: #bdbdbd;
+  max-width: 48ch;
+}
+
+/* ---------- "Lanes into one" diagram ---------- */
+.weave {
+  margin-top: 110px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) auto;
+  align-items: stretch;
+}
+.weaveK {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  font-size: 13px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: #8a8d88;
+  padding-bottom: 18px;
+}
+.weaveK span:last-child {
+  grid-column: 3;
+}
+.lanes {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--line);
+}
+.lane {
+  position: relative;
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 0 24px;
+  align-items: center;
+  min-height: 168px;
+  padding-block: 24px;
+  border-bottom: 1px solid var(--line);
+}
+.laneImg {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  transition:
+    transform 0.6s var(--ease-out),
+    border-color 0.4s;
+}
+.laneImg img {
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.05);
+  transition: filter 0.6s;
+}
+.lane:hover .laneImg {
+  transform: scale(1.08);
+  border-color: var(--accent);
+}
+.lane:hover .laneImg img {
+  filter: none;
+}
+.laneBody {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+.laneTop {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 16px;
+}
+.laneName {
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 1;
+  letter-spacing: -0.5px;
+  color: #fff;
+}
+.laneK {
+  font-size: 12px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: #8a8d88;
+}
+.laneTxt {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #bdbdbd;
+  max-width: 44ch;
+}
+/* marker on the lane/line boundary, so each line starts from its centre */
+.lane::after {
+  content: '';
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin-top: -6px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: var(--bg);
+  transition:
+    border-color 0.5s,
+    background 0.5s,
+    box-shadow 0.5s;
+}
+.lane.lit::after {
+  border-color: #fff;
+  background: #fff;
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.08);
+}
+.weaveSvg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+.weaveSvg path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.4);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+}
+.weaveSvg path.hot {
+  stroke: var(--accent);
+  stroke-width: 2.4;
+}
+.weaveSvg path.ghost {
+  stroke: rgba(255, 255, 255, 0.08);
+}
+.weaveSvg circle {
+  fill: var(--accent);
+  opacity: 0;
+  transition:
+    opacity 0.4s,
+    r 0.5s var(--ease-out);
+}
+.merged .weaveSvg circle {
+  opacity: 1;
+}
+.weaveEnd {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  padding-left: 28px;
+  opacity: 0.25;
+  transform: translateX(-12px);
+  transition:
+    opacity 0.8s var(--ease-out),
+    transform 0.8s var(--ease-out);
+}
+.done .weaveEnd {
+  opacity: 1;
+  transform: none;
+}
+.weaveMark {
+  position: relative;
+  width: 64px;
+  height: 60px;
+  overflow: hidden;
+  flex: none;
+}
+.weaveMark img {
+  position: absolute;
+  height: 135.14%;
+  width: 153.85%;
+  left: -26.15%;
+  top: 0;
+  max-width: none;
+}
+.weaveName {
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 1.05;
+  letter-spacing: -0.5px;
+  color: #fff;
+  white-space: nowrap;
+}
+.weaveNote {
+  font-size: 15px;
+  line-height: 1.45;
+  color: #bdbdbd;
+  max-width: 22ch;
+}
+
+@media (max-width: 1280px) {
+  .laneName,
+  .weaveName {
+    font-size: 34px;
+  }
+}
+@media (max-width: 1100px) {
+  .md .lead {
+    font-size: 30px;
+  }
+  .weave {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr) auto;
+  }
+  .weaveNote {
+    display: none;
+  }
+}
+@media (max-width: 900px) {
+  .md {
+    padding: 64px 24px;
+  }
+  .md .grid {
+    gap: 16px;
+  }
+  .md .lead {
+    font-size: 22px;
+    line-height: 1.45;
+  }
+  .closing {
+    margin-top: 48px;
+  }
+  .closing p {
+    font-size: 16px;
+  }
+  /* lanes stack; one vertical rail joins them into the result */
+  .weave {
+    margin-top: 56px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-left: 28px;
+  }
+  .weave::before {
+    content: '';
+    position: absolute;
+    left: 5.5px;
+    top: var(--rt, 44px);
+    height: var(--rh, 0px);
+    width: 1px;
+    background: rgba(255, 255, 255, 0.24);
+  }
+  .weave::after {
+    content: '';
+    position: absolute;
+    left: 5.5px;
+    top: var(--rt, 44px);
+    height: var(--rh, 0px);
+    width: 2px;
+    margin-left: -0.5px;
+    background: var(--accent);
+    transform: scaleY(var(--p, 0));
+    transform-origin: top;
+  }
+  .weaveK {
+    display: block;
+    padding-bottom: 12px;
+  }
+  .weaveK span:last-child {
+    display: none;
+  }
+  .weaveSvg {
+    display: none;
+  }
+  .lane {
+    grid-template-columns: 52px minmax(0, 1fr);
+    gap: 0 16px;
+    min-height: 0;
+    padding-block: 22px;
+  }
+  .lane::after {
+    left: -28px;
+    right: auto;
+    top: 50%;
+    z-index: 1;
+  }
+  .laneImg {
+    width: 52px;
+    height: 52px;
+  }
+  .laneName {
+    font-size: 28px;
+  }
+  .laneTxt {
+    font-size: 15px;
+  }
+  .weaveEnd {
+    flex-direction: row;
+    align-items: center;
+    padding: 24px 0 0;
+    gap: 14px;
+    transform: none;
+  }
+  .weaveMark {
+    width: 42px;
+    height: 40px;
+  }
+  .weaveName {
+    font-size: 26px;
+  }
+}
+
+/* ---------- "Three into one" diagram ---------- */
+.merge {
+  margin-top: 96px;
+  position: relative;
+}
+.row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+.src {
+  position: relative;
+  padding: 28px 28px 32px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.k {
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.name {
+  font-weight: 600;
+  font-size: 28px;
+  color: #fff;
+}
+.txt {
+  font-size: 16px;
+  line-height: 1.45;
+  color: #bdbdbd;
+  max-width: 34ch;
+}
+.src::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -1px;
+  height: 1px;
+  width: 0;
+  background: var(--accent);
+  transition: width 1.2s var(--ease-out);
+}
+.merge:global(.in) .src::before {
+  width: 100%;
+}
+.merge:global(.in) .src:nth-child(2)::before {
+  transition-delay: 0.15s;
+}
+.merge:global(.in) .src:nth-child(3)::before {
+  transition-delay: 0.3s;
+}
+
+.lines {
+  display: block;
+  width: 100%;
+  height: 110px;
+}
+.lines path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.22);
+  stroke-width: 1;
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  transition: stroke-dashoffset 1.6s 0.4s var(--ease-out);
+}
+.merge:global(.in) .lines path {
+  stroke-dashoffset: 0;
+}
+.lines path.hot {
+  stroke: var(--accent);
+}
+
+/* the three lines land on the PLG Acachet lockup, flanked by hairlines */
+.result {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: 6px 0 0;
+}
+.result::before,
+.result::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.22));
+}
+.result::after {
+  background: linear-gradient(270deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.22));
+}
+.lock {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 8px;
+  opacity: 0;
+  transform: scale(0.92);
+  transition:
+    opacity 0.9s var(--ease-out),
+    transform 1.1s var(--ease-out);
+  transition-delay: 1.2s;
+}
+.merge:global(.in) .lock {
+  opacity: 1;
+  transform: none;
+}
+.lock b {
+  font-weight: 700;
+  font-size: 34px;
+  letter-spacing: 1px;
+  color: #fff;
+  white-space: nowrap;
+}
+.mark {
+  position: relative;
+  width: 62px;
+  height: 59px;
+  overflow: hidden;
+  flex: none;
+}
+.mark img {
+  position: absolute;
+  height: 135.14%;
+  width: 153.85%;
+  left: -26.15%;
+  top: 0;
+  max-width: none;
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .lead {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 900px) {
+  .section {
+    padding: 64px 24px;
+  }
+  .grid {
+    gap: 20px;
+  }
+  .lead {
+    font-size: 24px;
+    line-height: 1.4;
+  }
+  .merge {
+    margin-top: 56px;
+  }
+  .row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .src {
+    padding: 22px 0;
+  }
+  .lines {
+    display: none;
+  }
+  .result {
+    margin-top: 28px;
+    gap: 14px;
+  }
+  .lock {
+    padding: 12px 4px;
+    gap: 12px;
+  }
+  .mark {
+    width: 40px;
+    height: 38px;
+  }
+  .lock b {
+    font-size: 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lock {
+    opacity: 1;
+    transform: none;
+  }
+  .lines path {
+    stroke-dashoffset: 0;
+  }
+}

@@ -1,6 +1,7 @@
 import type { GlobalConfig } from 'payload'
 
 import { anyone, isLoggedIn } from '@/access'
+import { ctaFields } from '@/fields/ctaFields'
 import { linkArray } from '@/fields/link'
 import { revalidateEverything } from '@/lib/revalidate'
 
@@ -25,13 +26,29 @@ export const SiteSettings: GlobalConfig = {
         {
           label: 'Header',
           fields: [
-            linkArray({
-              name: 'headerLinks',
-              label: 'Menu links',
-              appearance: false,
-              maxRows: 6,
-              description: 'The links in the top menu (and the mobile menu).',
-            }),
+            (() => {
+              const menu = linkArray({
+                name: 'headerLinks',
+                label: 'Menu links',
+                appearance: false,
+                maxRows: 6,
+                description:
+                  'The links in the top menu (and the mobile menu). The link for the page being viewed is highlighted automatically.',
+              })
+              return {
+                ...menu,
+                fields: [
+                  ...menu.fields,
+                  linkArray({
+                    name: 'subLinks',
+                    label: 'Sub-links in the mobile menu (optional)',
+                    appearance: false,
+                    maxRows: 6,
+                    description: 'Shown indented under this link in the mobile menu, e.g. About → Overview, Our Story.',
+                  }),
+                ],
+              }
+            })(),
             {
               name: 'mobileMenuNote',
               type: 'text',
@@ -39,6 +56,12 @@ export const SiteSettings: GlobalConfig = {
               defaultValue: '© 2026 PLG Acachet',
             },
           ],
+        },
+        {
+          label: 'Call to action',
+          description:
+            'The white “Start a conversation” banner near the bottom of pages. Pages with a “Call to action banner” section show this unless they use their own text.',
+          fields: [{ name: 'cta', type: 'group', label: false, fields: ctaFields({ required: false }) }],
         },
         {
           label: 'Footer',

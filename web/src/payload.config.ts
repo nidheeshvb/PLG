@@ -12,6 +12,7 @@ import { FormSubmissions } from './collections/FormSubmissions'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Partners } from './collections/Partners'
+import { TeamMembers } from './collections/TeamMembers'
 import { Users } from './collections/Users'
 import { SiteSettings } from './globals/SiteSettings'
 import { emailAdapter } from './integrations/email'
@@ -36,7 +37,7 @@ export default buildConfig({
       ],
     },
   },
-  collections: [Pages, CaseStudies, Partners, Media, FormSubmissions, Users],
+  collections: [Pages, CaseStudies, Partners, TeamMembers, Media, FormSubmissions, Users],
   globals: [SiteSettings],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

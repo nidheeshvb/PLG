@@ -10,7 +10,7 @@ import { getPayload, type Payload } from 'payload'
 
 import config from '../payload.config'
 import type { Page } from '../payload-types'
-import { paragraphs } from './lexical'
+import { paragraphs, richParagraph } from './lexical'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 /** The prototype's asset folder (repo root /assets). */
@@ -22,11 +22,16 @@ type MediaSeed = { file: string; alt?: string; focalX?: number; focalY?: number 
 async function upsertMedia(payload: Payload, { file, alt = '', focalX, focalY }: MediaSeed) {
   const existing = await payload.find({
     collection: 'media',
-    where: { filename: { equals: file } },
+    where: { filename: { equals: path.basename(file) } },
     limit: 1,
     depth: 0,
   })
-  if (existing.docs[0]) return existing.docs[0].id
+  const found = existing.docs[0]
+  if (found) {
+    // fill in alt text added to the seed later, without overwriting an editor's own
+    if (alt && !found.alt) await payload.update({ collection: 'media', id: found.id, data: { alt }, context })
+    return found.id
+  }
   const doc = await payload.create({
     collection: 'media',
     data: { alt, ...(focalX != null ? { focalX, focalY } : {}) },
@@ -37,7 +42,7 @@ async function upsertMedia(payload: Payload, { file, alt = '', focalX, focalY }:
   return doc.id
 }
 
-async function upsert<C extends 'partners' | 'case-studies' | 'pages'>(
+async function upsert<C extends 'partners' | 'case-studies' | 'pages' | 'team-members'>(
   payload: Payload,
   collection: C,
   where: Record<string, { equals: unknown }>,
@@ -75,7 +80,7 @@ async function seed() {
     bridge: await upsertMedia(payload, { file: 'bridge.webp', alt: 'UAE skyline programme' }),
     mujtamae: await upsertMedia(payload, { file: 'mujtamae.webp', alt: 'Mujtamae analytics' }),
     stat1: await upsertMedia(payload, { file: 'stat-1.webp' }),
-    stat2: await upsertMedia(payload, { file: 'stat-2.webp' }),
+    stat2: await upsertMedia(payload, { file: 'stat-2.webp', alt: 'Athlete in helmet, Mujtamae analytics' }),
     stat3: await upsertMedia(payload, { file: 'stat-3.webp' }),
     stat4: await upsertMedia(payload, { file: 'stat-4.webp', focalX: 50, focalY: 52 }),
     workUci: await upsertMedia(payload, { file: 'work-uci.webp', alt: 'UCI Cycling Esports World Championships' }),
@@ -157,6 +162,19 @@ async function seed() {
   const contact = await page('contact', 'Contact', {
     meta: { description: 'What should sport do next? Tell PLG Acachet the ambition: a market to enter, a property to take global, an asset to commercialise.' },
   })
+  // About's sub-pages (built in the next steps; empty for now so menus and tiles link somewhere)
+  const ourStory = await page('our-story', 'Our Story', {
+    parent: about,
+    meta: { description: 'How PLG Acachet got here: three businesses, one commercial focus.' },
+  })
+  const team = await page('team', 'The Team', {
+    parent: about,
+    meta: { description: 'The people behind PLG Acachet’s commercial, delivery and analytics work.' },
+  })
+  const join = await page('join', 'Join Us', {
+    parent: about,
+    meta: { description: 'Careers at PLG Acachet: commercial judgement and delivery discipline.' },
+  })
   const legal = await page('legal', 'Legal')
   const terms = await page('terms', 'Terms & Conditions', { parent: legal })
   const privacy = await page('privacy-policy', 'Privacy Policy', { parent: legal })
@@ -190,6 +208,7 @@ async function seed() {
     {
       blockType: 'mediaText',
       blockName: 'Who we are',
+      variant: 'fade',
       anchorId: 'about',
       eyebrow: 'Who we are',
       title: 'Maximizing Brand &\nSponsorship Value',
@@ -312,13 +331,467 @@ async function seed() {
   })
   payload.logger.info('  home page')
 
+  // ---------- About ----------
+  const aboutLayout = [
+    {
+      blockType: 'hero',
+      blockName: 'Banner',
+      variant: 'page',
+      title: 'Built to\ncommercialise sport.',
+      highlightLastWord: true,
+      headlineSize: 'fitted',
+      imageStyle: 'bright',
+      intro: richParagraph(
+        'PLG Acachet combines a UAE relationship network, brand activation and media production capability, and sports analytics — ',
+        { bold: 'organised around one objective: commercial return.' },
+      ),
+      links: [
+        toPage(ourWork, 'See Our Work'),
+        { label: 'Talk to Us', appearance: 'ghost', type: 'section', section: 'contact' },
+      ],
+      poster: m.mujtamae,
+      showBrandMark: true,
+    },
+    {
+      blockType: 'sectionNav',
+      blockName: 'Section menu',
+      source: 'sections',
+      note: 'Also in About: Our Story · The Team · Join Us',
+    },
+    {
+      blockType: 'leadText',
+      blockName: 'Overview',
+      anchorId: 'overview',
+      navLabel: 'Overview',
+      eyebrow: 'Overview',
+      text: 'PLG Acachet brings together Acachet’s relationships across UAE government and corporate bodies, PLG’s decade in top tier esports, sports and phygital event and media production, and Mujtamae’s sports analytics platform. The result is a consultancy that can structure a partnership, sell it, deliver it and measure it.',
+      textSize: 'lg',
+      highlightMode: 'tail',
+      highlight: 'structure a partnership, sell it, deliver it and measure it.',
+      animation: 'scrollReveal',
+      diagram: 'merge',
+      mergeItems: [
+        { label: 'Relationships', name: 'Acachet', text: 'Relationships across UAE government and corporate bodies.' },
+        { label: 'Production', name: 'PLG', text: 'A decade in top tier esports, sports and phygital event and media production.' },
+        { label: 'Analytics', name: 'Mujtamae', text: 'The sports analytics platform that measures the return.' },
+      ],
+    },
+    {
+      blockType: 'cardCarousel',
+      blockName: 'Three pillars',
+      anchorId: 'pillars',
+      navLabel: 'Three Pillars',
+      theme: 'light',
+      cardStyle: 'pillar',
+      eyebrow: 'Three Pillars',
+      title: 'Relationships. Delivery. Proof.',
+      note: 'What each programme stands on, from the first introduction to the final report.',
+      cards: [
+        {
+          title: 'Relationships',
+          tag: 'Network',
+          text: 'An established network across UAE government, sovereign-adjacent institutions and major corporates, built over more than a decade.',
+          image: m.bridge,
+        },
+        {
+          title: 'Delivery',
+          tag: 'Production',
+          text: 'Production, tournament operations and broadcast, delivered to an international standard.',
+          image: m.workUci,
+        },
+        {
+          title: 'Proof',
+          tag: 'Analytics',
+          text: 'An analytics platform that measures the return on every activation we run.',
+          image: m.stat4,
+        },
+      ].map((c) => ({ ...c, hasLink: false })),
+    },
+    {
+      blockType: 'mediaText',
+      blockName: 'Mujtamae',
+      anchorId: 'mujtamae',
+      navLabel: 'Mujtamae',
+      variant: 'card',
+      eyebrow: 'Mujtamae',
+      title: 'The analytics behind the programme.',
+      gradientTitle: true,
+      body: paragraphs(
+        'Mujtamae is PLG Acachet’s sports analytics platform. It brings together sports communities and full-spectrum sports analytics, giving rights holders, brands and partners a measured view of audience, engagement and commercial return across sport, esports and phygital.',
+      ),
+      listHeading: 'Where it fits',
+      listItems: [
+        {
+          title: 'Strategy & Consulting',
+          text: 'Models audience, engagement and commercial return before a partnership is structured and taken to market.',
+        },
+        {
+          title: 'Events & Activations',
+          text: 'Measures every activation live and after the event, against the objectives agreed in the deal.',
+        },
+      ],
+      showButton: true,
+      link: { label: 'Request a Sample Report', appearance: 'primary', type: 'section', section: 'contact' },
+      image: m.stat2,
+      imagePosition: 'left',
+      report: {
+        title: 'Mujtamae · Programme view',
+        badge: 'Live',
+        bars: [
+          { label: 'Audience', value: 78 },
+          { label: 'Engagement', value: 64 },
+          { label: 'Commercial return', value: 86 },
+        ],
+        caption: 'Illustrative UI — sport · esports · phygital',
+      },
+    },
+    {
+      blockType: 'statements',
+      blockName: 'Vision & Mission',
+      anchorId: 'vision',
+      navLabel: 'Vision & Mission',
+      eyebrow: 'Vision & Mission',
+      title: 'Why we exist.',
+      gradientTitle: true,
+      items: [
+        {
+          label: 'Vision',
+          text: 'To be the commercial partner that rights holders and brands trust to move between the UAE and the world.',
+        },
+        {
+          label: 'Mission',
+          text: 'To commercialise third-party IP through sponsorship sales, partnerships and media — and to show the return.',
+        },
+      ],
+      showBrandMark: true,
+    },
+    {
+      blockType: 'backgroundText',
+      blockName: 'Why the UAE',
+      anchorId: 'uae',
+      navLabel: 'Why the UAE',
+      eyebrow: 'Why The UAE?',
+      title: 'A market in its own right. A base for every region.',
+      gradientTitle: true,
+      text: 'The UAE is one of the world’s fastest-growing sports markets, with major international properties, a young and digitally engaged population, and sustained national investment in technology. It is a significant market in its own right, and a strong base from which to work across regions.',
+      image: m.bridge,
+      ticker: [
+        'One of the fastest-growing sports markets',
+        'Major international properties',
+        'Young, digitally engaged population',
+        'Sustained investment in technology',
+      ].map((text) => ({ text })),
+    },
+    {
+      blockType: 'ownership',
+      blockName: 'Our ownership',
+      anchorId: 'ownership',
+      navLabel: 'Our Ownership',
+      eyebrow: 'Our Ownership',
+      title: 'Part of an established group.',
+      body: paragraphs(
+        'PLG Acachet is part of Muller & Phipps Middle East Group Holdings (M&P Group ME), a technology distribution group with sales, marketing and distribution operations across the UAE and wider MEA region. M&P Group ME is part of The Getz Group, an international marketing, distribution and sourcing group founded in 1852 and operating in more than 50 countries.',
+      ),
+      facts: [
+        { value: '1852', label: 'Getz Group founded' },
+        { value: '50+', label: 'Countries' },
+        { value: 'UAE · MEA', label: 'Regional presence' },
+      ],
+      closing: richParagraph(
+        { bold: 'For rights holders and brands,' },
+        ' this means regional scale and the backing of an established international group.',
+      ),
+      levels: [
+        {
+          name: 'The Getz Group',
+          tag: 'Parent group',
+          detail: 'Est. 1852',
+          text: 'International marketing, sales, distribution, sourcing, manufacturing and licensing, across more than 50 countries.',
+          figure: '50+',
+          figureLabel: 'Countries',
+        },
+        {
+          name: 'M&P Group ME',
+          tag: 'Regional holding',
+          detail: 'Technology distribution',
+          text: 'Technology distribution across the UAE and MEA. Provides regional scale and presence.',
+          figure: 'MEA',
+          figureLabel: 'Region',
+        },
+        {
+          name: 'PLG Acachet',
+          tag: 'Our company',
+          detail: 'Sports, phygital & media',
+          text: 'Sports, phygital and media consultancy, based in the UAE.',
+          figure: 'UAE',
+          figureLabel: 'Home base',
+        },
+      ],
+    },
+    {
+      blockType: 'linkTiles',
+      blockName: 'More about us',
+      anchorId: 'more',
+      tileStyle: 'tall',
+      eyebrow: 'More about us',
+      title: 'The story, the people, the roles.',
+      tiles: [
+        {
+          title: 'Our Story',
+          text: 'How we got here. Three businesses. One commercial focus.',
+          image: m.mujtamae,
+          link: { type: 'page', page: ourStory },
+        },
+        {
+          title: 'The Team',
+          text: 'The people behind PLG Acachet’s commercial, delivery and analytics work — based in the UAE, working internationally.',
+          image: m.stat1,
+          link: { type: 'page', page: team },
+        },
+        {
+          title: 'Join Us',
+          text: 'We look for commercial judgement and delivery discipline — people who prefer evidence to assertion.',
+          image: m.serviceCard,
+          link: { type: 'page', page: join },
+        },
+      ],
+    },
+    { blockType: 'ctaBanner', blockName: 'Call to action', anchorId: 'contact', useDefault: true },
+  ]
+  await page('about', 'About Us', {
+    layout: aboutLayout as Page['layout'],
+    meta: {
+      title: 'About Us | PLG Acachet',
+      description:
+        'PLG Acachet combines a UAE relationship network, brand activation and media production, and sports analytics, organised around one objective: commercial return.',
+      image: m.og,
+    },
+  })
+  payload.logger.info('  about page')
+
+  // ---------- Our Story ----------
+  const storyLayout = [
+    {
+      blockType: 'hero',
+      blockName: 'Banner',
+      variant: 'page',
+      title: 'How we got here.',
+      highlightLastWord: true,
+      headlineSize: 'oneLine',
+      imageStyle: 'dim',
+      intro: richParagraph({ bold: 'Three businesses.' }, ' One commercial focus.'),
+      links: [toPage(ourWork, 'See Our Work'), toPage(team, 'Meet the Team', undefined, 'ghost')],
+      poster: m.intro,
+      showBrandMark: false,
+    },
+    { blockType: 'sectionNav', blockName: 'Section menu', source: 'menu' },
+    {
+      blockType: 'leadText',
+      blockName: 'The Combination',
+      anchorId: 'combination',
+      eyebrow: 'The Combination',
+      text: 'PLG Acachet unites three businesses that previously operated separately. Acachet built relationships across UAE government and corporate bodies over more than a decade, delivering city-scale and corporate sport programming. PLG built a decade of esports and phygital delivery — tournaments, broadcast and community programming. Mujtamae built the platform to measure return on sport, esports and phygital activation.',
+      textSize: 'md',
+      animation: 'scrollReveal',
+      highlightMode: 'words',
+      highlight: 'Acachet, PLG, Mujtamae',
+      diagram: 'weave',
+      weaveStartLabel: 'Previously separate',
+      weaveEndLabel: 'Now one business',
+      weaveItems: [
+        {
+          name: 'Acachet',
+          tag: 'Relationships · 10+ years',
+          text: 'UAE government and corporate bodies. City-scale and corporate sport programming.',
+          image: m.bridge,
+        },
+        {
+          name: 'PLG',
+          tag: 'Delivery · A decade',
+          text: 'Esports and phygital. Tournaments, broadcast and community programming.',
+          image: m.workUci,
+        },
+        {
+          name: 'Mujtamae',
+          tag: 'Measurement · Platform',
+          text: 'Measures return on sport, esports and phygital activation.',
+          image: m.stat4,
+        },
+      ],
+      weaveResult: 'PLG Acachet',
+      weaveNote: 'One commercial focus.',
+      showClosing: true,
+      closingText: 'The combined business in practice, across sport, esports and phygital programmes.',
+      closingLink: toPage(ourWork, 'See our work'),
+    },
+    {
+      blockType: 'linkTiles',
+      blockName: 'More about us',
+      anchorId: 'more',
+      tileStyle: 'standard',
+      eyebrow: 'More about us',
+      title: 'The people, the roles.',
+      tiles: [
+        {
+          title: 'The Team',
+          text: 'The people behind PLG Acachet’s commercial, delivery and analytics work — based in the UAE, working internationally.',
+          image: m.stat1,
+          link: { type: 'page', page: team },
+        },
+        {
+          title: 'Join Us',
+          text: 'We look for commercial judgement and delivery discipline — people who prefer evidence to assertion.',
+          image: m.serviceCard,
+          link: { type: 'page', page: join },
+        },
+      ],
+    },
+    { blockType: 'ctaBanner', blockName: 'Call to action', anchorId: 'contact', useDefault: true },
+  ]
+  await page('our-story', 'Our Story', {
+    parent: about,
+    layout: storyLayout as Page['layout'],
+    meta: {
+      title: 'Our Story | PLG Acachet',
+      description: 'How PLG Acachet got here: three businesses that previously operated separately, one commercial focus.',
+      image: m.og,
+    },
+  })
+  payload.logger.info('  our story page')
+
+  // ---------- team members (names, titles and photos from the prototype; bios and social handles to follow from PLG) ----------
+  type Member = [name: string, jobTitle: string, group: string, department: string, photo?: string, head?: boolean]
+  const people: Member[] = [
+    ['Matthew Pickering', 'Chief Executive Officer', 'management', 'top', 'matthew'],
+    ['Jeraz Pastakia', 'Account Director', 'management', 'commercial', 'jeraz', true],
+    ['Gisli Gudnason', 'Technical Director', 'management', 'delivery', 'gisli', true],
+    ['Younus Khan', 'Finance Manager', 'management', 'operations', 'younus', true],
+    ['Jesse Tasnim Emad', 'Graphic Designer / Artworker', 'creative', 'delivery', 'jesse'],
+    ['Omar Gomma', 'Content Creator', 'creative', 'delivery', 'omar'],
+    ['Khalid Salim', 'Copy Editor', 'creative', 'delivery', 'khalid'],
+    ['Sherif Saed', 'Social Media Manager', 'creative', 'commercial'],
+    ['Sami Alam', 'Esports & Community Manager', 'staff', 'commercial', 'sami'],
+    ['Emma Valdez', 'Office Manager', 'staff', 'operations'],
+    ['Stanley Kinyanjui', 'Office Organizer', 'staff', 'operations', 'stanley'],
+  ]
+  for (const [i, [name, jobTitle, group, department, photo, head]] of people.entries()) {
+    await upsert(payload, 'team-members', { name: { equals: name } }, {
+      name,
+      jobTitle,
+      group,
+      department,
+      headOfDepartment: Boolean(head),
+      accountOwner: group === 'management',
+      photo: photo ? await upsertMedia(payload, { file: `team/${photo}.webp`, alt: name, focalX: 50, focalY: 20 }) : null,
+      // placeholders until PLG supplies each person's profiles (the prototype links them to "#")
+      linkedin: 'https://www.linkedin.com/',
+      instagram: 'https://www.instagram.com/',
+      x: 'https://x.com/',
+      sortOrder: i,
+    })
+  }
+  payload.logger.info('  team members')
+
+  // ---------- The Team ----------
+  const teamLayout = [
+    {
+      blockType: 'hero',
+      blockName: 'Banner',
+      variant: 'page',
+      title: 'The team.',
+      highlightLastWord: true,
+      largerOnPhones: true,
+      headlineSize: 'wrap',
+      imageStyle: 'dim',
+      intro: richParagraph('The people behind PLG Acachet’s commercial, delivery and analytics work — ', {
+        bold: 'based in the UAE, working internationally.',
+      }),
+      links: [
+        { label: 'Meet the Leadership', appearance: 'primary', type: 'section', section: 'people' },
+        toPage(join, 'Join Us', undefined, 'ghost'),
+      ],
+      poster: m.stat1,
+      showBrandMark: false,
+    },
+    { blockType: 'sectionNav', blockName: 'Section menu', source: 'menu' },
+    {
+      blockType: 'teamDirectory',
+      blockName: 'Leadership',
+      anchorId: 'people',
+      eyebrow: 'Leadership',
+      intro:
+        'Commercial leaders, producers, creatives, technologists and analysts working as one team around every brief, with a named senior owner on every account.',
+      highlight: 'named senior owner',
+      showOrgChart: true,
+      showFilter: true,
+    },
+    {
+      blockType: 'groupScale',
+      blockName: 'Group scale',
+      anchorId: 'group',
+      eyebrow: 'Group scale',
+      text: 'Every account is owned by a senior name, and stands on the balance sheet, governance and reach of Getz Group and M&P Group Middle East behind it.',
+      chain: [{ name: 'PLG Acachet' }, { name: 'M&P Group Middle East' }, { name: 'Getz Group' }],
+      showLink: true,
+      link: { label: 'See the full ownership structure', type: 'page', page: about, section: 'ownership' },
+    },
+    {
+      blockType: 'linkTiles',
+      blockName: 'More about us',
+      anchorId: 'more',
+      tileStyle: 'standard',
+      eyebrow: 'More about us',
+      title: 'The story, the roles.',
+      tiles: [
+        {
+          title: 'Our Story',
+          text: 'Three businesses. One commercial focus.',
+          image: m.mujtamae,
+          link: { type: 'page', page: ourStory },
+        },
+        {
+          title: 'Join Us',
+          text: 'We look for commercial judgement and delivery discipline — people who prefer evidence to assertion.',
+          image: m.serviceCard,
+          link: { type: 'page', page: join },
+        },
+      ],
+    },
+    { blockType: 'ctaBanner', blockName: 'Call to action', anchorId: 'contact', useDefault: true },
+  ]
+  await page('team', 'The Team', {
+    parent: about,
+    layout: teamLayout as Page['layout'],
+    meta: {
+      title: 'The Team | PLG Acachet',
+      description: 'The people behind PLG Acachet’s commercial, delivery and analytics work, based in the UAE and working internationally.',
+      image: m.og,
+    },
+  })
+  payload.logger.info('  team page')
+
   // ---------- header & footer ----------
-  const nav = (p: number, label: string) => ({ label, type: 'page', page: p })
+  const nav = (p: number, label: string, section?: string) => ({ label, type: 'page', page: p, ...(section ? { section } : {}) })
   await payload.updateGlobal({
     slug: 'site-settings',
     context,
     data: {
-      headerLinks: [nav(about, 'About us'), nav(services, 'Service'), nav(ourWork, 'Our Work'), nav(contact, 'Contact')],
+      headerLinks: [
+        {
+          ...nav(about, 'About us'),
+          subLinks: [nav(about, 'Overview', 'overview'), nav(ourStory, 'Our Story'), nav(team, 'The Team'), nav(join, 'Join Us')],
+        },
+        nav(services, 'Service'),
+        nav(ourWork, 'Our Work'),
+        nav(contact, 'Contact'),
+      ],
+      cta: {
+        eyebrow: 'Start a Conversation',
+        title: 'Your next move starts here.',
+        lede: 'A rights holder with IP to commercialise. A brand looking for the right property. Tell us what you’re working on.',
+        link: { label: 'Talk to Us', type: 'page', page: contact },
+        image: m.contactBg,
+      },
       mobileMenuNote: '© 2026 PLG Acachet',
       footerLinks: [nav(about, 'About'), nav(services, 'Service'), nav(ourWork, 'Our work'), nav(contact, 'Contact')],
       legalLinks: [nav(privacy, 'Privacy'), nav(terms, 'Terms & Conditions'), nav(cookies, 'Cookies')],

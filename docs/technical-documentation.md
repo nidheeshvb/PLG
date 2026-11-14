@@ -1,6 +1,6 @@
 # PLG Acachet Website — Technical Documentation
 
-_Last updated: 13 November 2026 · Status: Phase 1, step 1 (Home page) complete_
+_Last updated: 14 November 2026 · Status: Phase 1, step 4 (The Team page) complete_
 
 ---
 
@@ -43,7 +43,7 @@ The full application and server architecture, with diagrams and hosting options,
 
 ### 4.1 Pages
 Each page has:
-- **Page name** and **URL name** (the web address is worked out automatically, including nested pages such as `/legal/terms`).
+- **Page name** and **URL name** (the web address is worked out automatically, including nested pages such as `/about/our-story` or `/legal/terms`). Pages can sit under a parent page; the breadcrumb at the top of inner pages is built from this page tree automatically.
 - **Sections** — the ordered list of content blocks.
 - **SEO** — page title, description and share image for search engines and social media.
 - **Drafts, versions and scheduling** — changes are saved as drafts automatically, can be previewed live, published when ready, scheduled for later, and earlier versions can be restored.
@@ -53,16 +53,26 @@ Each page has:
 |---|---|
 | Case studies | Case study tiles (and, from the Our Work page, the full case studies) |
 | Partner logos | The scrolling logo strip; order and display size per logo |
+| Team members | The Team page: name, job title, photo, filter group, org chart position (and column head), "Senior account owner" label, bio, social links, order |
 | Images & videos | Every uploaded image, logo and video, with alt text and focal point |
 | Form messages | Messages sent from the website's forms (read-only inbox) |
-| Header & footer | Menu links, footer links, legal links, social media links, copyright line |
+| Header & footer | Menu links (with optional mobile sub-links), the site-wide "Start a conversation" banner, footer links, legal links, social media links, copyright line |
 
 ### 4.3 Sections available today
 | Section | What it is | Options for editors |
 |---|---|---|
-| Banner (top of page) | Full-screen showreel with headline and up to two buttons | Video, background image, headline, intro text, buttons, scroll indicator |
-| Text with image | Heading, text and button beside an image | Image left or right, shaded title, fade edge, button on/off |
-| Cards | Row of image cards (swipeable on mobile) | Card style, cards (title, text, image, link), white or dark background |
+| Banner (top of page) | Page-top banner. Styles: *Showreel* (Home, full-screen video) and *Inner page* (automatic breadcrumb, headline with orange last word, intro and buttons) | Style, video, background image, headline (size: wrapping, one line, fitted; slightly larger on phones for short headlines), photo dimmed or brighter, intro text, buttons, scroll indicator, brand mark |
+| Section menu | Bar of links under the banner | Links generated either from the page's sections (highlighting the one being read) or from the main menu's sub-links (highlighting this page, with a "Back to…" link); optional note |
+| Lead paragraph | Large paragraph whose words light up while scrolling, optional diagram and closing line | Text size, orange words (end of paragraph or particular names), animation on/off, diagrams "Three into one" and "Lanes into one" (rows with photos, lines drawn while scrolling), closing line with button |
+| Text with image | Heading, text and button beside an image. Styles: *fade* (Home) and *rounded image on grey band* (About "Mujtamae") | Image left or right, shaded title, fade edge, button on/off, list, illustrative report card with bars |
+| Cards | Row of image cards (swipeable on mobile). Styles: *numbered* and *pillar* | Card style, cards (title, label, text, image, link), note, white or dark background |
+| Side-by-side statements | Heading plus 2–3 large statements (Vision & Mission) | Statements, brand mark on/off |
+| Text over image | Heading and text over a drifting photo with a scrolling fact strip | Image, text, strip items |
+| Group structure | Text, counting key facts and nested company frames (Our Ownership) | Facts, closing line, 1–4 levels with label, detail, description, figure |
+| Team directory | Team portraits with a grid / org chart switch, a "Show" filter by group with counts, and a profile panel (The Team) | Intro with orange words, all people or a chosen set, org chart view on/off, filter on/off. People come from Team members; the org chart is built from each person's position |
+| Group chain | Statement, a chain of company names and a text link (The Team "Group scale") | 1–5 names (first highlighted), link on/off |
+| Link tiles | Expanding image tiles linking to other pages | Standard or tall style; up to 4 tiles: title, text, image, destination |
+| Call to action banner | White "Start a conversation" banner | Uses the site-wide content from Header & footer, or page-specific content |
 | Stacking panels | Full-screen panels that slide over each other while scrolling | Up to 4 panels with heading, text, image, button |
 | Key numbers | Large animated numbers over full-screen images | Numbers, suffix (e.g. "+"), captions, images, seconds per number |
 | Logo strip | Continuously scrolling partner logos | Optional heading; all logos or a chosen set |
@@ -72,7 +82,7 @@ Each page has:
 
 Every section also has **Section settings**: a Section ID (so buttons can jump to it), a name for section menus, and **hide on website**.
 
-More sections are added as the remaining pages are built (section menus, image tiles, team directory, open roles, service details, case study grid, offices, legal documents and others). Existing sections gain new styles where possible rather than duplicating them.
+More sections are added as the remaining pages are built (open roles, service details, case study grid, offices, legal documents and others). Existing sections gain new styles where possible rather than duplicating them.
 
 ## 5. Editing workflow (for the content team)
 
@@ -81,7 +91,7 @@ More sections are added as the remaining pages are built (section menus, image t
 3. Edit text and images inside a section; drag sections to reorder; use **Add Section** to insert a new one; use **Section settings → Hide this section** to take one off the page without deleting it.
 4. Click the **eye icon** to see a **live preview** next to the editor (desktop, tablet and mobile sizes). Changes are saved as a draft automatically and are **not public** yet.
 5. Click **Publish changes** to put the changes live (or schedule them).
-6. **Header & footer** (under Settings) controls menus and footer links on every page.
+6. **Header & footer** (under Settings) controls menus, footer links and the site-wide "Start a conversation" banner on every page.
 7. Messages sent through the website appear under **Inbox → Form messages**.
 
 A detailed, plain-language **Content Editor Guide** (every section and option, buttons, images, publishing, and what each change affects) is provided separately for the content team (`docs/editor-guide.md`).
@@ -90,12 +100,13 @@ A detailed, plain-language **Content Editor Guide** (every section and option, b
 | Role | Can do |
 |---|---|
 | Admin | Everything, including managing user accounts |
-| Editor | All website content (pages, sections, images, case studies, logos, header & footer) and read form messages; cannot manage users |
+| Editor | All website content (pages, sections, images, case studies, logos, team members, header & footer) and read form messages; cannot manage users |
 
 ## 6. Website features
 
 - **Responsive** design matching the prototype at desktop, tablet (sliders become swipeable) and mobile.
-- **Motion** from the prototype: showreel intro, scroll reveals, stacking panels, auto-advancing key numbers, word-by-word statement, custom "View" cursor on case studies. All motion respects the visitor's **reduced-motion** setting.
+- **Motion** from the prototype: showreel intro, scroll reveals, stacking panels, auto-advancing key numbers, word-by-word statement and lead paragraph, custom "View" cursor on case studies, banner and background parallax, drawn diagram lines, counting facts, highlighted group structure, expanding link tiles. All motion respects the visitor's **reduced-motion** setting.
+- **Navigation:** the current page is highlighted in the menu; inner pages have an automatic breadcrumb; long pages have a section menu that follows the reader (swipeable on phones).
 - **Accessibility:** skip-to-content link, keyboard-operable menu (Escape closes), labelled controls, video pause button, alt text managed in the CMS.
 - **Performance:** static pages, optimised responsive images (WebP/AVIF at the right size for each device), self-hosted fonts, the showreel pauses when off screen, scroll effects batched to once per frame.
 - **SEO:** per-page title and description, canonical URLs, Open Graph/Twitter share images, automatic `sitemap.xml` and `robots.txt`.
@@ -157,9 +168,9 @@ Developers can run the full website and CMS on their own computer by following `
 | Step | Scope | Status |
 |---|---|---|
 | 1 | Foundation, CMS, header/footer, **Home page** | ✅ Complete — in review |
-| 2 | About Us | Planned |
-| 3 | Our Story | Planned |
-| 4 | The Team (team directory, profiles) | Planned |
+| 2 | **About Us** (banner, section menu, overview diagram, pillars, Mujtamae, vision & mission, why the UAE, ownership, more about us, call to action) | ✅ Complete — in review |
+| 3 | **Our Story** (banner, section menu, the combination with "lanes into one" diagram, more about us, call to action) | ✅ Complete — in review |
+| 4 | **The Team** (banner, section menu, team directory with grid / org chart / filter / profile panel, group scale, more about us, call to action) | ✅ Complete — in review |
 | 5 | Join Us (open roles, application form with CV upload) | Planned |
 | 6 | Services | Planned |
 | 7 | Our Work (case study grid, filters, full case studies) | Planned |
@@ -169,8 +180,9 @@ Developers can run the full website and CMS on their own computer by following `
 
 ## 10. Items needed from PLG Acachet
 
-- Approved copy, figures and case study content where the prototype has placeholders.
-- Real social media links (currently placeholders).
+- Approved copy, figures and case study content where the prototype has placeholders (About: the Mujtamae report card is an illustrative mock-up; confirm its figures or wording).
+- Real social media links (currently placeholders), including each team member's LinkedIn / Instagram / X profile.
+- Team bios (50–70 words each) and confirmation of the org chart reporting lines; photos for Sherif Saed and Emma Valdez.
 - Office addresses, email and phone for the Contact page.
 - Legal wording (Terms, Privacy, Cookies) approved by counsel, and the chosen cookie-consent platform.
 - Where form messages should go besides the CMS inbox (email addresses, CRM, careers system).

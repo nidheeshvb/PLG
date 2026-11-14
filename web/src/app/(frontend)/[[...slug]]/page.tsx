@@ -49,7 +49,7 @@ export default async function Page({ params }: Props) {
   return (
     <>
       {preview && <LivePreviewListener />}
-      {page.layout?.length ? <RenderBlocks blocks={page.layout} /> : <EmptyPage title={page.title} />}
+      {page.layout?.length ? <RenderBlocks blocks={page.layout} page={page} /> : <EmptyPage title={page.title} />}
     </>
   )
 }

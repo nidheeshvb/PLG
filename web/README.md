@@ -65,7 +65,9 @@ CMS page.layout ─► RenderBlocks ─► one React component per blockType
 - One route renders every page: `src/app/(frontend)/[[...slug]]/page.tsx` (`/`, `/about`, `/legal/terms`, …).
 - The page address comes from the page's URL name and parent page (nested pages via the nested-docs plugin); Home has the URL name `home`.
 - Drafts + autosave + live preview: the admin preview opens `/next/preview`, which turns on Next.js draft mode.
-- Publishing revalidates the page; changing header/footer, logos or case studies revalidates the whole site.
+- Publishing revalidates the page; changing header/footer, logos, case studies or team members revalidates the whole site.
+- Every block also receives the **page context** (`blocks/context.ts`): the page's title, path and breadcrumbs, and the section-menu items derived from the sections' `anchorId` + `navLabel`. The Banner breadcrumb and the Section menu use it, so editors never type them.
+- Our Story, The Team and Join Us are child pages of About (`/about/our-story`, …).
 
 ## Code layout
 
@@ -78,13 +80,14 @@ src/
     Component.tsx        ← how it renders
     Component.module.css ← its styles
   blocks/index.ts        list of block configs offered to editors
-  blocks/RenderBlocks.tsx blockType → component map
-  collections/           Pages, CaseStudies, Partners, Media, FormSubmissions, Users
+  blocks/RenderBlocks.tsx blockType → component map (+ page context for every block)
+  blocks/context.ts      page context type + section-menu item derivation
+  collections/           Pages, CaseStudies, Partners, TeamMembers (+ teamOptions), Media, FormSubmissions, Users
   globals/SiteSettings   header & footer
-  fields/                reusable field groups: link, linkArray, sectionHeader, sectionSettings, richText, media, slug
+  fields/                reusable field groups: link, linkArray, sectionHeader, sectionSettings, richText, media, slug, ctaFields
   components/layout/     Header (+ mobile menu), Footer, Logo, SkipLink
   components/ui/         primitives with no CMS knowledge: Button, CMSLink, Media, RichText, SectionHeader,
-                         Section, Slider, Marquee, CustomCursor, RevealObserver
+                         Section, Slider, Marquee, Parallax, WordReveal, CustomCursor, RevealObserver
   hooks/                 useRafScroll (one shared, frame-batched scroll loop), useReducedMotion
   lib/                   payload queries, link resolving, preview, revalidation, routes
   styles/                global tokens, reset and shared type only
@@ -92,19 +95,28 @@ src/
   migrations/            database migrations
 ```
 
-### Block library (step 1)
+### Block library (steps 1–4)
 
-| Block (CMS name) | Used on Home for | Built to be reused for |
-|---|---|---|
-| `hero` (Banner) | showreel banner | inner-page banners — add a `page` variant |
-| `mediaText` (Text with image) | Who we are | About sections; image left/right |
-| `cardCarousel` (Cards) | What we do | About "Three pillars" — add a `pillar` card style |
-| `stackedPanels` (Stacking panels) | Global Bridge / Mujtamae | — |
-| `statsCarousel` (Key numbers) | stats | — |
-| `logoMarquee` (Logo strip) | partner logos | Our Work logos (has an optional label) |
-| `caseStudyGallery` (Case study showcase) | case studies | — |
-| `statement` (Statement) | brand statement | Join Us statement (`none` animation) |
-| `form` (Form) | contact form | Contact page; Join Us — add an `application` form type |
+| Block (CMS name) | Variants / options | Used for | Planned reuse |
+|---|---|---|---|
+| `hero` (Banner) | `variant`: `showreel` · `page` (auto breadcrumb, orange last word, intro rich text, brand mark, `headlineSize` wrap/oneLine/fitted, `largerOnPhones` (11vw), `imageStyle` dim/bright) | Home showreel; About, Our Story, Team banners | every inner page (`page`) |
+| `sectionNav` (Section menu) | `source`: `sections` (from sections' `anchorId` + `navLabel`, scroll-spy, note) · `menu` (main-menu sub-links of the page's group + "Back to …") | About (sections); Our Story, Team (menu) | Join (menu); Services (sticky/numbered variant later) |
+| `leadText` (Lead paragraph) | `textSize` lg/md, `highlightMode` tail/words, scroll reveal, `diagram`: `none` · `merge` · `weave` (lanes into one), closing line + button | About overview; Our Story combination | Join, Services approach (more diagrams as variants) |
+| `mediaText` (Text with image) | `variant`: `fade` · `card` (list, report card with bars) | Home "Who we are"; About Mujtamae | — |
+| `cardCarousel` (Cards) | `cardStyle`: `service` · `pillar` (card `tag`, note in header) | Home "What we do"; About pillars | — |
+| `stackedPanels` (Stacking panels) | 1–4 panels | Home | — |
+| `statements` (Side-by-side statements) | 1–3 items, brand mark | About vision & mission | — |
+| `backgroundText` (Text over image) | parallax image, ticker | About why the UAE | — |
+| `statsCarousel` (Key numbers) | autoplay | Home | — |
+| `logoMarquee` (Logo strip) | optional label | Home | Our Work |
+| `caseStudyGallery` (Case study showcase) | full-width tiles | Home | — |
+| `ownership` (Group structure) | facts (count-up), closing, nested levels | About ownership | — |
+| `teamDirectory` (Team directory) | intro + orange words, `members` (empty = all from `team-members`), `showOrgChart`, `showFilter`; client grid ↔ org chart, filter with counts, profile drawer (portal) | Team "Leadership" | — |
+| `groupScale` (Group chain) | statement, 1–5 chain names (first highlighted), optional text link | Team "Group scale" | — |
+| `statement` (Statement) | scroll reveal / none | Home | Join Us |
+| `linkTiles` (Link tiles) | `tileStyle`: `standard` (grey band) · `tall` (About); 1–4 expanding tiles | About, Our Story, Team "More about us" | Join; Services categories |
+| `ctaBanner` (Call to action banner) | site-wide default (`site-settings.cta`) or page override | About, Our Story, Team | Join, Services, Our Work… |
+| `form` (Form) | `formType`: `enquiry` | Home | Contact; Join (`application`) |
 
 **Rule for new pages:** reuse a block → otherwise add a variant/option to an existing block → only then create a new block.
 
@@ -119,6 +131,7 @@ src/
 
 CSS Modules per component. Only tokens, reset, `.eyebrow` / `.h1` / `.grad` / `.body`, the `.arr` icon and `[data-reveal]` are global.
 Add `data-reveal` (or `data-reveal="scale"`) to any element to fade it in on scroll; `--d` sets the delay.
+Add `data-inview` to get the `.in` class with no styling, to start a block's own animation (diagram lines, report bars, nested frames).
 Sections marked `tone="light"` switch the header logo to dark while it is over them.
 
 ## Database migrations
@@ -137,7 +150,8 @@ npm run migrate                          # on the target database
 
 ## Not done yet
 
-- Other pages (About, Our Story, Team, Join Us, Services, Our Work, Contact, Legal) and their blocks.
+- Other pages (Join Us, Services, Our Work, Contact, Legal) and their blocks. Join Us exists as an empty child page of About.
+- Team bios and social profile links (seeded as placeholders: no bios, platform home pages); photos for two people.
 - Full case study content and the case study overlay (Our Work page).
 - Email notifications / CRM for form messages (the SMTP adapter is ready; it needs SES/SMTP details).
 - Provisioning the AWS environment (adapters for S3, CloudFront and email are built and switched on by env vars).

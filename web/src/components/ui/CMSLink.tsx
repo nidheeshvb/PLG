@@ -16,6 +16,8 @@ type Props = {
   revealDelay?: number
   children?: ReactNode
   onClick?: () => void
+  /** Text links only: marks the link for the page being viewed. */
+  ariaCurrent?: 'page'
 }
 
 /** Renders any link coming from the CMS. Renders nothing if the link points nowhere. */
@@ -44,13 +46,13 @@ export function CMSLink({ link, as = 'button', children, className, ...rest }: P
   const targetProps = link.newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {}
   if (href.startsWith('#') || isExternal(href)) {
     return (
-      <a href={href} className={className} style={rest.style} onClick={rest.onClick} {...targetProps}>
+      <a href={href} className={className} style={rest.style} onClick={rest.onClick} aria-current={rest.ariaCurrent} {...targetProps}>
         {label}
       </a>
     )
   }
   return (
-    <Link href={href} className={className} style={rest.style} onClick={rest.onClick} {...targetProps}>
+    <Link href={href} className={className} style={rest.style} onClick={rest.onClick} aria-current={rest.ariaCurrent} {...targetProps}>
       {label}
     </Link>
   )
