@@ -34,6 +34,20 @@ export const FormSubmissions: CollectionConfig = {
     { name: 'phone', type: 'text', admin: { condition: (data) => data?.form !== 'application' } },
     {
       type: 'row',
+      admin: { condition: (data) => data?.form !== 'application' },
+      fields: [
+        { name: 'company', type: 'text', label: 'Company', admin: { width: '50%' } },
+        { name: 'consent', type: 'checkbox', label: 'Agreed to be contacted about this enquiry', admin: { width: '50%' } },
+      ],
+    },
+    {
+      name: 'interests',
+      type: 'textarea',
+      label: 'Looking to unlock',
+      admin: { rows: 2, condition: (data) => data?.form !== 'application' },
+    },
+    {
+      type: 'row',
       admin: { condition: (data) => data?.form === 'application' },
       fields: [
         { name: 'role', type: 'text', label: 'Applying for', admin: { width: '50%' } },

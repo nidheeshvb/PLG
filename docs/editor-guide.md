@@ -2,7 +2,7 @@
 
 How to update the website yourself using the content management system (CMS). No technical knowledge needed.
 
-_Last updated: 16 November 2026 · Covers: Home, About, Our Story, The Team, Join Us, Services and Our Work pages, header and footer. More pages are added to this guide as they are built._
+_Last updated: 16 November 2026 · Covers: Home, About, Our Story, The Team, Join Us, Services, Our Work and Contact pages, header and footer. More pages are added to this guide as they are built._
 
 ---
 
@@ -122,6 +122,9 @@ After signing in you see the **Dashboard**. The menu on the left (click ☰ if i
 | Change footer or social media links | **Header & footer → Footer** |
 | Change how a page appears on Google / when shared | **Pages →** your page → **SEO** tab |
 | Read contact form messages and job applications | **Inbox → Form messages** |
+| Change the office email, phone, address or hours | **Pages → Contact → Office** → **Contact details** |
+| Change the "What are you looking to unlock?" choices | **Pages → Contact → Form** → **Detailed enquiry** → **Choices** |
+| Change the promises beside the Contact form | **Pages → Contact → Form** → **Detailed enquiry** → **Promises under the intro** |
 | Add a colleague | **Users → Create New** *(admins only)* |
 
 ## 4. How a page is built: sections
@@ -211,6 +214,14 @@ On **Pages → Our Work**:
 02  Case study grid          Case studies
 03  Logo strip               Brands we’ve worked with
 04  Call to action banner    Call to action
+```
+
+On **Pages → Contact**:
+
+```
+01  Banner (top of page)     Banner
+02  Form                     Enquiry
+03  Office                   Offices
 ```
 
 - The first word is the **kind of section**; the second is its **name** (only you see the name; click it to rename).
@@ -505,6 +516,16 @@ Big animated numbers over full-screen pictures, changing automatically.
 
 The number counts up from zero the first time it appears.
 
+### Office
+The Contact page's office: a tall photo with the city and a live local-time clock, and beside it a heading, intro and the contact details. Empty details are left out.
+
+| Field | What it does |
+|---|---|
+| **Small heading / Title / Shaded title** | See [Headings](#headings). |
+| **Intro** | The paragraph under the title. |
+| **Photo** | **Location photo** (set its focal point), **Small label** (e.g. "Head office"), **City**, **Local time shown** (a clock with a green dot; *None* to hide it). |
+| **Contact details** | **Email** and **Phone** (each with a **Copy** button; clicking them opens email / calls on phones), **Address** (press Enter for a new line; a **Directions** button opens Google Maps), **Directions: search for** (optional: what Maps searches for instead of the address), **Opening hours**. |
+
 ### Logo strip
 A continuously scrolling row of partner logos.
 
@@ -551,17 +572,18 @@ One large sentence across the page.
 | **Show the brand marks behind the text** | *Centred* look only: the large PLG shapes in the background. |
 
 ### Form
-A website form: the contact form ("Your next move starts here" on Home) or the job application form ("Tell us where you fit" on Join Us).
+A website form: the contact form ("Your next move starts here" on Home), the detailed enquiry ("Tell us the ambition" on Contact) or the job application form ("Tell us where you fit" on Join Us).
 
 | Field | What it does |
 |---|---|
-| **Form** | *Enquiry*: name, email, phone and message, over a photo. *Job application*: full name, email, **Applying for** (a list of the open roles, plus "General application"), **Your discipline** (Commercial, Delivery, Creative, Analytics, Something else), LinkedIn or portfolio link, CV and a message, on a white band. Use one job application form per page. |
+| **Form** | *Enquiry*: name, email, phone and message, over a photo. *Job application*: full name, email, **Applying for** (a list of the open roles, plus "General application"), **Your discipline** (Commercial, Delivery, Creative, Analytics, Something else), LinkedIn or portfolio link, CV and a message, on a white band. Use one job application form per page. *Detailed enquiry*: name, company, work email, phone (optional), **choices** ("What are you looking to unlock?"), message and a consent tick box, on a white band with the intro and promises beside it. |
 | **Small heading / Title** | Above the form (on the left for a job application). |
 | **Intro text** | Paragraph under the title. |
 | **Background photo** | *Enquiry* only. Shown to the right of the form (below it on phones). |
 | **Button text** | The send button's words. |
 | **Message after sending** | Shown once the message is sent. For a job application it follows "Thanks, *first name*." |
 | **Small note next to the button** | *Job application* only, e.g. "We keep profiles on file and get in touch when a role fits." |
+| **Detailed enquiry** | *Detailed enquiry* only. **Promises under the intro** (up to 4, numbered 01, 02… automatically: a bold line and a text under it); **Line at the bottom** + **Its link** (e.g. "Looking for a role? See open roles"); **Choices: question / hint** and the **Choices** (tick **Shows the note below** on a choice such as "Careers" to show the **Note** and **Note link** when it is ticked); **Message: label / hint inside the box**; **Consent tick box** wording; **Heading after sending**. The **Message after sending** follows the visitor's first name ("Sam, your enquiry is with the team."), and the thank-you lists the choices they ticked. |
 
 > The **CV** field is shown on the form, but a chosen file is **not sent or saved yet**: applications in Form messages have no CV attached. Sending CVs is waiting for a decision on how they are stored and who can see them. Until then, rely on the LinkedIn or portfolio link.
 
@@ -703,7 +725,7 @@ To show a case study on Home: **Pages → Home → Case study showcase → Case 
 
 ## 15. Messages from the website
 
-**Inbox → Form messages** lists every message sent through the website's forms, newest first. The **Form** column says whether it is an *Enquiry* (name, email, phone, message) or a *Job application* (name, email, **Applying for**, **Discipline**, **LinkedIn or portfolio link**, message). Each also shows which page it was sent from. Click one to read it.
+**Inbox → Form messages** lists every message sent through the website's forms, newest first. The **Form** column says whether it is an *Enquiry* (name, email, phone, message; from the Contact page also **Company**, **Looking to unlock** and the consent tick) or a *Job application* (name, email, **Applying for**, **Discipline**, **LinkedIn or portfolio link**, message). Each also shows which page it was sent from. Click one to read it.
 
 Messages can't be edited. Admins can delete them.
 
@@ -745,4 +767,4 @@ Messages can't be edited. Admins can delete them.
 ---
 
 ### Coming with the next pages
-Contact and Legal, with their sections (offices, legal documents). This guide will be updated as each one is added.
+Legal, with its documents. This guide will be updated as each one is added.

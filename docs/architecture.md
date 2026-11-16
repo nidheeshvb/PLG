@@ -1,6 +1,6 @@
 # PLG Acachet Website — Architecture
 
-_Last updated: 16 November 2026 · Covers Phase 1, steps 1–7 (foundation, Home, About, Our Story, The Team, Join Us, Services and Our Work pages) and the proposed AWS production setup_
+_Last updated: 16 November 2026 · Covers Phase 1, steps 1–8 (foundation, Home, About, Our Story, The Team, Join Us, Services, Our Work and Contact pages) and the proposed AWS production setup_
 
 This document describes **how the application is built** (Part A) and **how it is hosted** (Part B).
 It contains no secrets and can be shared with the client. Diagrams use Mermaid (they render on GitHub, GitLab and most Markdown viewers).
@@ -123,7 +123,7 @@ erDiagram
 | Team members | name, jobTitle, photo, group (management / creative / staff), department (top / commercial / delivery / operations), headOfDepartment, accountOwner, bio, linkedin, instagram, x, sortOrder | The Team page directory; org chart derived from department + head |
 | Open roles | title, team (commercial / delivery / creative / analytics), location, employmentType, summary, points[], isOpen, sortOrder | Join Us "Open roles" list and the application form's role list (only `isOpen`) |
 | Media | file, alt, focal point | Images, SVG, MP4/WebM |
-| Form submissions | form (enquiry / application), name, email, phone, role, discipline, profileLink, message, page | Created only by the website. Application fields shown only for job applications. No CV file yet: the form shows the CV field, but the file is not sent (backlog) |
+| Form submissions | form (enquiry / application), name, email, phone, company, interests, consent, role, discipline, profileLink, message, page | Created only by the website. Application fields shown only for job applications. No CV file yet: the form shows the CV field, but the file is not sent (backlog) |
 | Users | email, password, name, role (admin / editor) | |
 | Site settings (global) | headerLinks (+ subLinks for the mobile menu), mobileMenuNote, cta (site-wide call to action), footerLinks, legalLinks, social, copyright | |
 
@@ -131,7 +131,7 @@ erDiagram
 
 **Derived, never typed by editors:** breadcrumbs (from the nested-docs page tree), section-menu links (from each section's Section ID + "Name in section menu", or from the main menu's sub-links for the group containing the page, plus a "Back to <parent>" link), card numbers (from order), the Team org chart (from each member's position and column head) and filter options with counts (from member groups), the Join Us role filter buttons with counts (from each role's team), service numbers ("02 / 04") and alternating bands (from the order of Service detail sections), the current-page highlight in the header (from the URL).
 
-**Sections available (step 7):** Banner (`hero`: showreel / page, with headline size, larger/smaller-on-phones + photo style options), Section menu (`sectionNav`: sections / menu; bar / sticky numbered), Lead paragraph (`leadText`: text size, orange words tail / particular words / phrase, diagrams "merge", "weave" and "cross", details row with labelled list, heading, notes, grey band, closing line), Text with image (`mediaText`: fade / card), Cards (`cardCarousel`: service / pillar), Stacking panels, Side-by-side statements (`statements`), Text over image (`backgroundText`), Key numbers, Logo strip (optional label → slim look), Case study showcase (optional per-tile photo), Case study grid (`caseStudyGrid`: sticky filter, tiles, full case study view by URL hash), Group structure (`ownership`), Team directory (`teamDirectory`: reads Team members; grid / org chart, filter, profile panel), Group chain (`groupScale`), Open roles (`openRoles`: reads Open roles; team filter, expandable rows, "Apply" prefills the form), Statement (centered / band), Link tiles (`linkTiles`: standard / tall / numbered), Service detail (`serviceDetail`: nested content pieces photo / highlight / list / collage; number and band from position), Call to action banner (`ctaBanner`, site-wide default in Site settings with per-page override), Form (enquiry / application).
+**Sections available (step 8):** Banner (`hero`: showreel / page, with headline size, larger/smaller-on-phones + photo style options), Section menu (`sectionNav`: sections / menu; bar / sticky numbered), Lead paragraph (`leadText`: text size, orange words tail / particular words / phrase, diagrams "merge", "weave" and "cross", details row with labelled list, heading, notes, grey band, closing line), Text with image (`mediaText`: fade / card), Cards (`cardCarousel`: service / pillar), Stacking panels, Side-by-side statements (`statements`), Text over image (`backgroundText`), Key numbers, Logo strip (optional label → slim look), Case study showcase (optional per-tile photo), Case study grid (`caseStudyGrid`: sticky filter, tiles, full case study view by URL hash), Group structure (`ownership`), Team directory (`teamDirectory`: reads Team members; grid / org chart, filter, profile panel), Group chain (`groupScale`), Open roles (`openRoles`: reads Open roles; team filter, expandable rows, "Apply" prefills the form), Statement (centered / band), Link tiles (`linkTiles`: standard / tall / numbered), Service detail (`serviceDetail`: nested content pieces photo / highlight / list / collage; number and band from position), Call to action banner (`ctaBanner`, site-wide default in Site settings with per-page override), Form (enquiry / detailed enquiry / application), Office (`offices`: photo, live local time, contact rows with copy / directions).
 
 ## A6. Request lifecycle (public page)
 
@@ -205,7 +205,7 @@ All case study content is part of the statically built Our Work page, so opening
 sequenceDiagram
   participant V as Visitor
   participant F as Form (browser)
-  participant SA as Server action submitEnquiry / submitApplication
+  participant SA as Server action submitEnquiry / submitContact / submitApplication
   participant DB as PostgreSQL
   V->>F: fill in + submit
   F->>F: check name, email (application: discipline)

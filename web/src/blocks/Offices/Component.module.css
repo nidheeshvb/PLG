@@ -1,0 +1,252 @@
+/* Contact page offices (prototype contact.html .off) */
+.off {
+  padding: 120px var(--gutter);
+  scroll-margin-top: 40px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 48px 88px;
+  align-items: stretch;
+}
+.img {
+  position: relative;
+  margin: 0;
+  min-height: 620px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #000;
+}
+.img img {
+  object-fit: cover;
+  object-position: 50% 40%;
+  transition: transform 1.6s var(--ease-out);
+}
+.img:hover img {
+  transform: scale(1.03);
+}
+.img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.85) 100%);
+}
+.tag {
+  position: absolute;
+  left: 28px;
+  top: 28px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.5);
+}
+.tag::before {
+  content: '';
+  width: 28px;
+  height: 2px;
+  background: var(--accent);
+}
+.cap {
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  bottom: 28px;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px 20px;
+}
+.city {
+  font-weight: 700;
+  font-size: 44px;
+  line-height: 1;
+  letter-spacing: -0.8px;
+  color: #fff;
+}
+.time {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #d0d0d0;
+}
+.time b {
+  font-weight: 600;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+.time i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #3ccf7a;
+  box-shadow: 0 0 0 4px rgba(60, 207, 122, 0.2);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  50% {
+    box-shadow: 0 0 0 7px rgba(60, 207, 122, 0);
+  }
+}
+.body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 28px;
+  min-width: 0;
+}
+.lede {
+  font-size: 19px;
+  line-height: 1.5;
+  color: #bdbdbd;
+  max-width: 44ch;
+}
+.rows {
+  border-top: 2px solid var(--accent);
+  border-bottom: 1px solid var(--line);
+}
+.row {
+  display: grid;
+  grid-template-columns: 100px minmax(0, 1fr) auto;
+  gap: 10px 24px;
+  align-items: center;
+  padding: 22px 0;
+  border-top: 1px solid var(--line);
+}
+.row:first-child {
+  border-top: 0;
+}
+.row dt {
+  font-size: 12px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.row dd {
+  font-size: 22px;
+  line-height: 1.4;
+  color: #fff;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.row dd a {
+  color: #fff;
+  background: linear-gradient(var(--accent), var(--accent)) 0 100% / 0 1px no-repeat;
+  transition:
+    color 0.3s,
+    background-size 0.45s var(--ease-out);
+}
+.row dd a:hover {
+  color: var(--accent);
+  background-size: 100% 1px;
+}
+.small dd {
+  font-size: 17px;
+  color: #e2e2e2;
+}
+.copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  font-size: 13px;
+  color: #cfcfcf;
+  white-space: nowrap;
+  transition:
+    background 0.3s,
+    border-color 0.3s,
+    color 0.3s;
+}
+.copy:hover {
+  background: #fff;
+  border-color: #fff;
+  color: var(--ink);
+}
+.copy.ok {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--ink);
+}
+.copy svg {
+  width: 13px;
+  height: 13px;
+}
+.copy :global(.arr) {
+  width: 9px;
+  height: 9px;
+  transition: transform 0.45s var(--ease-out);
+}
+.copy:hover :global(.arr) {
+  transform: rotate(45deg);
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .img {
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+  }
+}
+@media (max-width: 900px) {
+  .off {
+    padding: 64px 24px;
+  }
+  .img {
+    aspect-ratio: 4 / 5;
+  }
+  .tag {
+    left: 18px;
+    top: 20px;
+  }
+  .cap {
+    left: 18px;
+    right: 18px;
+    bottom: 20px;
+  }
+  .city {
+    font-size: 32px;
+  }
+  .body {
+    gap: 22px;
+  }
+  .lede {
+    font-size: 16px;
+  }
+  .row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 6px 12px;
+    padding: 16px 0;
+  }
+  .row dt {
+    grid-column: 1 / -1;
+  }
+  .row dd {
+    font-size: 18px;
+  }
+  .small dd {
+    font-size: 15px;
+  }
+  .addr dd {
+    grid-column: 1 / -1;
+  }
+  .addr .copy {
+    grid-column: 1 / -1;
+    justify-self: start;
+    margin-top: 6px;
+  }
+}

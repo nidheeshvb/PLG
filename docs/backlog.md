@@ -9,7 +9,7 @@ Each item links to a detail doc. That doc covers what is built, what is skipped,
 | # | Feature | Where | UI on the site | What is skipped | Waiting for | Detail |
 |---|---|---|---|---|---|---|
 | 1 | CV upload | Join Us → "Send us your profile" form | ✅ Drop zone shown (file name and size after picking) | The file is not sent, stored or shown in Form messages | Client: retention, access, consent, ATS; AWS: private S3 bucket | [backlog-cv-upload.md](backlog-cv-upload.md) |
-| 2 | Form notifications / CRM hand-off | All forms (enquiry, job application) | ✅ Forms work; messages saved to Inbox → Form messages | No email to PLG, no CRM or careers-system hand-off | Client: recipient addresses, CRM/ATS; SES/SMTP details | Detail doc to write when picked up (SMTP adapter is already env-gated: `integrations/email.ts`) |
+| 2 | Form notifications / CRM hand-off | All forms (Home enquiry, Contact detailed enquiry, job application) | ✅ Forms work; messages saved to Inbox → Form messages | No email to PLG, no CRM or careers-system hand-off | Client: recipient addresses, CRM/ATS; SES/SMTP details | Detail doc to write when picked up (SMTP adapter is already env-gated: `integrations/email.ts`) |
 | 3 | Cookie consent and analytics | Whole site | ➖ None yet (not in the prototype) | Consent banner, analytics tags | Client: consent platform and analytics tool (go-live step) | Detail doc to write when picked up |
 | 4 | Extra case study sections (Mujtamae link, idea line, operating model, intro, at a glance) | Our Work → full case study | ➖ Not shown (the prototype hides them too) | The fields and their parts of the view | Client: are they wanted, and with which content | [backlog-case-study-extras.md](backlog-case-study-extras.md) |
 

@@ -1335,6 +1335,96 @@ async function seed() {
   })
   payload.logger.info('  our work page')
 
+  // ---------- Contact ----------
+  const ct = {
+    // the banner crops contact-bg at 70% / 50%; the call-to-action banner keeps its own crop, so a copy
+    hero: await upsertMedia(payload, { file: 'contact-bg.webp', as: 'contact-bg-hero.webp', focalX: 70, focalY: 50 }),
+    office: await upsertMedia(payload, { file: 'bridge.webp', as: 'bridge-office.webp', alt: 'Dubai skyline', focalX: 50, focalY: 40 }),
+  }
+  const contactLayout = [
+    {
+      blockType: 'hero',
+      blockName: 'Banner',
+      variant: 'page',
+      title: 'What should sport\ndo next?',
+      highlightLastWord: true,
+      headlineSize: 'fitted',
+      smallerOnPhones: true,
+      imageStyle: 'dim',
+      intro: richParagraph('A market to enter. A property to take global. An asset to commercialise. A format nobody has run before. ', {
+        bold: 'Tell us the ambition.',
+      }),
+      links: [],
+      poster: ct.hero,
+      showBrandMark: false,
+    },
+    {
+      blockType: 'form',
+      blockName: 'Enquiry',
+      anchorId: 'enquiry',
+      formType: 'contact',
+      eyebrow: 'Start the Conversation',
+      title: 'Tell us the ambition.',
+      lede: 'Rights holder, brand or partner: tell us what you want sport to do next, and we’ll come back with how we’d approach it.',
+      promises: [
+        { title: 'A reply within two business days.', text: 'Every enquiry is answered.' },
+        { title: 'A senior name from the start.', text: 'The person who replies is the person who owns the account.' },
+        { title: 'The UAE and beyond.', text: 'Into the UAE, or from the UAE to international markets.' },
+      ],
+      asideText: 'Looking for a role?',
+      asideLink: { label: 'See open roles', type: 'page', page: join },
+      interestsLabel: 'What are you looking to unlock?',
+      interestsHint: 'Choose any that apply',
+      interests: [
+        'Bring a brand, rights or IP into the UAE',
+        'Take a property or platform international',
+        'Commercialise an asset or sponsorship platform',
+        'Build a partnership',
+        'Create an event or experience',
+        'Develop a phygital format',
+        'Grow an audience',
+        'Measure and prove return',
+        'Careers',
+        'Something else',
+      ].map((label) => ({ label, showsNote: label === 'Careers' })),
+      interestNote: 'Applying for a role? Open positions and CV upload are on',
+      interestNoteLink: { label: 'Join Us', type: 'page', page: join, section: 'roles' },
+      messageLabel: 'Tell us about the ambition',
+      messagePlaceholder: 'What you’re working on, where, and what success would look like.',
+      consentText: 'I agree to PLG Acachet using my details to respond to this enquiry.',
+      submitLabel: 'Start the Conversation',
+      successTitle: 'Thank you. We’ll be in touch within two business days.',
+      successMessage: 'your enquiry is with the team.',
+    },
+    {
+      blockType: 'offices',
+      blockName: 'Offices',
+      anchorId: 'offices',
+      eyebrow: 'Offices',
+      title: 'Based in the UAE.',
+      gradientTitle: true,
+      lede: 'One team in Dubai, working with partners across international markets. Write, call or come and see us.',
+      image: ct.office,
+      tag: 'Head office',
+      city: 'Dubai, UAE',
+      timeZone: 'Asia/Dubai',
+      email: 'info@powerleaguegaming.com',
+      phone: '+971 4 876 48133',
+      address: 'Unit B33, Production City\nDubai, UAE',
+      directionsQuery: 'Production City Dubai UAE',
+      hours: 'Sunday – Thursday\n09:00 – 18:00 GST',
+    },
+  ]
+  await page('contact', 'Contact', {
+    layout: contactLayout as Page['layout'],
+    meta: {
+      title: 'Contact | PLG Acachet',
+      description: 'What should sport do next? Tell PLG Acachet the ambition: a market to enter, a property to take global, an asset to commercialise.',
+      image: m.og,
+    },
+  })
+  payload.logger.info('  contact page')
+
   // ---------- header & footer ----------
   const nav = (p: number, label: string, section?: string) => ({ label, type: 'page', page: p, ...(section ? { section } : {}) })
   await payload.updateGlobal({

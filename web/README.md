@@ -3,7 +3,7 @@
 Next.js 16 (App Router, TypeScript) with Payload CMS 3 in the same app, on PostgreSQL.
 The static HTML prototype in the repository root is the visual reference; this app rebuilds it page by page.
 
-**Status:** step 7: foundation, Home, About, Our Story, The Team, Join Us, Services and Our Work are built. The other pages exist as empty placeholders so links work.
+**Status:** step 8: foundation, Home, About, Our Story, The Team, Join Us, Services, Our Work and Contact are built. The other pages exist as empty placeholders so links work.
 
 More documentation:
 - [`../CLAUDE.md`](../CLAUDE.md) — internal knowledge base: architecture, conventions, decisions log, known gotchas, planned blocks.
@@ -97,7 +97,7 @@ src/
   migrations/            database migrations
 ```
 
-### Block library (steps 1–7)
+### Block library (steps 1–8)
 
 | Block (CMS name) | Variants / options | Used for | Planned reuse |
 |---|---|---|---|
@@ -121,7 +121,8 @@ src/
 | `linkTiles` (Link tiles) | `tileStyle`: `standard` (grey band) · `tall` (About); 1–4 expanding tiles | About, Our Story, Team, Join "More about us"; Services categories (`numbered`) | — |
 | `serviceDetail` (Service detail) | name, hook, intro, ≤2 buttons; `content` nested pieces: photo (scroll zoom), highlight, list of sub-services, collage; number + band from position | Services ×4 | — |
 | `ctaBanner` (Call to action banner) | site-wide default (`site-settings.cta`) or page override | About, Our Story, Team | Join, Services, Our Work… |
-| `form` (Form) | `formType`: `enquiry` · `application` (role + discipline dropdowns, link, CV drop zone (UI only, file not sent yet), message) | Home; Join | Contact |
+| `form` (Form) | `formType`: `enquiry` · `contact` (detailed enquiry: company, work email, choices with an optional note, 1500-character message, consent; promises beside it) · `application` (role + discipline dropdowns, link, CV drop zone (UI only, file not sent yet), message) | Home; Contact; Join | — |
+| `offices` (Office) | photo with live local time, email / phone with Copy, address with Directions, hours | Contact | — |
 
 **Rule for new pages:** reuse a block → otherwise add a variant/option to an existing block → only then create a new block.
 
@@ -155,7 +156,7 @@ npm run migrate                          # on the target database
 
 ## Not done yet
 
-- Other pages (Contact, Legal) and their blocks.
+- The Legal pages and their block.
 - CV upload logic on the Join Us application form (the field is shown but the file is not sent): on hold, see `docs/backlog-cv-upload.md`.
 - Open role descriptions (the six seeded roles from the prototype have none).
 - Team bios and social profile links (seeded as placeholders: no bios, platform home pages); photos for two people.

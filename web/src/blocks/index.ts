@@ -12,6 +12,7 @@ import { LeadTextBlock } from './LeadText/config'
 import { LinkTilesBlock } from './LinkTiles/config'
 import { LogoMarqueeBlock } from './LogoMarquee/config'
 import { MediaTextBlock } from './MediaText/config'
+import { OfficesBlock } from './Offices/config'
 import { OpenRolesBlock } from './OpenRoles/config'
 import { OwnershipBlock } from './Ownership/config'
 import { SectionNavBlock } from './SectionNav/config'
@@ -45,4 +46,5 @@ export const pageBlocks: Block[] = [
   LinkTilesBlock,
   CtaBannerBlock,
   FormBlock,
+  OfficesBlock,
 ]

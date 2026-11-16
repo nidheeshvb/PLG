@@ -176,6 +176,7 @@ export interface Page {
         | LinkTilesBlock
         | CtaBannerBlock
         | FormBlock
+        | OfficesBlock
       )[]
     | null;
   meta?: {
@@ -1527,7 +1528,7 @@ export interface FormBlock {
   /**
    * Job application: the “Applying for” list shows the roles in Content → Open roles. Use one per page; the “Apply for this role” buttons fill it in.
    */
-  formType: 'enquiry' | 'application';
+  formType: 'enquiry' | 'application' | 'contact';
   /**
    * The short orange line above the title.
    */
@@ -1543,6 +1544,56 @@ export interface FormBlock {
   backgroundImage?: (number | null) | Media;
   submitLabel: string;
   successMessage: string;
+  /**
+   * Numbered 01, 02… automatically.
+   */
+  promises?:
+    | {
+        title: string;
+        text?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  asideText?: string | null;
+  asideLink?: {
+    label?: string | null;
+    type?: ('page' | 'section' | 'url') | null;
+    page?: (number | null) | Page;
+    /**
+     * The "Section ID" set on a section (e.g. contact). For a page link this is optional and jumps to that section on the page.
+     */
+    section?: string | null;
+    url?: string | null;
+    newTab?: boolean | null;
+  };
+  interestsLabel?: string | null;
+  interestsHint?: string | null;
+  /**
+   * Visitors can tick any number. They are saved with the message.
+   */
+  interests?:
+    | {
+        label: string;
+        showsNote?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  interestNote?: string | null;
+  interestNoteLink?: {
+    label?: string | null;
+    type?: ('page' | 'section' | 'url') | null;
+    page?: (number | null) | Page;
+    /**
+     * The "Section ID" set on a section (e.g. contact). For a page link this is optional and jumps to that section on the page.
+     */
+    section?: string | null;
+    url?: string | null;
+    newTab?: boolean | null;
+  };
+  messageLabel?: string | null;
+  messagePlaceholder?: string | null;
+  consentText?: string | null;
+  successTitle?: string | null;
   note?: string | null;
   /**
    * Optional. Lets buttons jump to this section (e.g. "contact"). Lowercase letters, numbers and dashes.
@@ -1558,6 +1609,55 @@ export interface FormBlock {
   blockType: 'form';
 }
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "OfficesBlock".
+ */
+export interface OfficesBlock {
+  /**
+   * The short orange line above the title.
+   */
+  eyebrow?: string | null;
+  /**
+   * Press Enter to start a new line.
+   */
+  title: string;
+  gradientTitle?: boolean | null;
+  lede?: string | null;
+  /**
+   * Tall photo; set the focal point to choose the crop.
+   */
+  image: number | Media;
+  tag?: string | null;
+  city: string;
+  /**
+   * A live clock with a green dot on the photo.
+   */
+  timeZone?: ('none' | 'Asia/Dubai' | 'Asia/Riyadh' | 'Europe/London') | null;
+  email?: string | null;
+  phone?: string | null;
+  /**
+   * Press Enter for a new line.
+   */
+  address?: string | null;
+  /**
+   * What the “Directions” button searches for on Google Maps. Leave empty to use the address.
+   */
+  directionsQuery?: string | null;
+  hours?: string | null;
+  /**
+   * Optional. Lets buttons jump to this section (e.g. "contact"). Lowercase letters, numbers and dashes.
+   */
+  anchorId?: string | null;
+  /**
+   * Optional. Shown in the page’s section menu, where the page has one.
+   */
+  navLabel?: string | null;
+  hideSection?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'offices';
+}
+/**
  * Messages people sent through the website.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1569,6 +1669,9 @@ export interface FormSubmission {
   name: string;
   email: string;
   phone?: string | null;
+  company?: string | null;
+  consent?: boolean | null;
+  interests?: string | null;
   role?: string | null;
   discipline?: string | null;
   profileLink?: string | null;
@@ -1825,6 +1928,7 @@ export interface PagesSelect<T extends boolean = true> {
         linkTiles?: T | LinkTilesBlockSelect<T>;
         ctaBanner?: T | CtaBannerBlockSelect<T>;
         form?: T | FormBlockSelect<T>;
+        offices?: T | OfficesBlockSelect<T>;
       };
   meta?:
     | T
@@ -2539,7 +2643,73 @@ export interface FormBlockSelect<T extends boolean = true> {
   backgroundImage?: T;
   submitLabel?: T;
   successMessage?: T;
+  promises?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        id?: T;
+      };
+  asideText?: T;
+  asideLink?:
+    | T
+    | {
+        label?: T;
+        type?: T;
+        page?: T;
+        section?: T;
+        url?: T;
+        newTab?: T;
+      };
+  interestsLabel?: T;
+  interestsHint?: T;
+  interests?:
+    | T
+    | {
+        label?: T;
+        showsNote?: T;
+        id?: T;
+      };
+  interestNote?: T;
+  interestNoteLink?:
+    | T
+    | {
+        label?: T;
+        type?: T;
+        page?: T;
+        section?: T;
+        url?: T;
+        newTab?: T;
+      };
+  messageLabel?: T;
+  messagePlaceholder?: T;
+  consentText?: T;
+  successTitle?: T;
   note?: T;
+  anchorId?: T;
+  navLabel?: T;
+  hideSection?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "OfficesBlock_select".
+ */
+export interface OfficesBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  gradientTitle?: T;
+  lede?: T;
+  image?: T;
+  tag?: T;
+  city?: T;
+  timeZone?: T;
+  email?: T;
+  phone?: T;
+  address?: T;
+  directionsQuery?: T;
+  hours?: T;
   anchorId?: T;
   navLabel?: T;
   hideSection?: T;
@@ -2676,6 +2846,9 @@ export interface FormSubmissionsSelect<T extends boolean = true> {
   name?: T;
   email?: T;
   phone?: T;
+  company?: T;
+  consent?: T;
+  interests?: T;
   role?: T;
   discipline?: T;
   profileLink?: T;

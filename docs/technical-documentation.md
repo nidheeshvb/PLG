@@ -1,6 +1,6 @@
 # PLG Acachet Website — Technical Documentation
 
-_Last updated: 16 November 2026 · Status: Phase 1, step 7 (Our Work page) complete_
+_Last updated: 16 November 2026 · Status: Phase 1, step 8 (Contact page) complete_
 
 ---
 
@@ -82,11 +82,12 @@ Each page has:
 | Case study showcase | Large tiles linking to case studies | Choose case studies and order; full-width tiles; optional different photo per tile; button |
 | Case study grid | Every case study as large numbered tiles with a filter bar by service that sticks to the top; each tile opens the full case study over the page at its own address (Our Work) | Filter on/off and labels, tile link text, empty-filter text, "next" label, closing button. Tiles and case studies come from Case studies |
 | Statement | One large sentence | Look: centred over brand marks or left-aligned on a grey band; orange end of sentence; scroll animation or fade-in; brand marks on/off |
-| Form | Website form. Types: *Enquiry* (contact form over a photo) and *Job application* (name, email, role, discipline, LinkedIn/portfolio link, message, on a white band) | Form type, heading, intro, background photo (enquiry), button text, thank-you message, note next to the button (application) |
+| Form | Website form. Types: *Enquiry* (contact form over a photo), *Detailed enquiry* (Contact: name, company, work email, phone, choices, message, consent, with numbered promises beside it) and *Job application* (name, email, role, discipline, LinkedIn/portfolio link, message, on a white band) | Form type, heading, intro, background photo (enquiry), promises, choices and the note they can show, consent wording, button text, thank-you heading and message, note next to the button (application) |
+| Office | Office photo with the city and a live local-time clock, and email, phone (with Copy), address (with Directions) and hours (Contact) | Heading, intro, photo, label, city, time zone, contact details, opening hours |
 
 Every section also has **Section settings**: a Section ID (so buttons can jump to it), a name for section menus, and **hide on website**.
 
-More sections are added as the remaining pages are built (offices, legal documents and others). Existing sections gain new styles where possible rather than duplicating them.
+More sections are added as the remaining pages are built (legal documents). Existing sections gain new styles where possible rather than duplicating them.
 
 ## 5. Editing workflow (for the content team)
 
@@ -180,7 +181,7 @@ Developers can run the full website and CMS on their own computer by following `
 | 5 | **Join Us** (banner, section menu, why join with "one line across lanes" diagram and markets, statement, open roles with filter, application form, more about us) | ✅ Complete — in review. **CV upload logic deferred** (see below) |
 | 6 | **Services** (banner, numbered section menu that stays at the top, four categories, our approach, four service details, call to action) | ✅ Complete — in review |
 | 7 | **Our Work** (video banner with pause button, filter bar, eight case study tiles, full case study view, brand logos, call to action) | ✅ Complete — in review. Extra case study sections from the design kept in the backlog |
-| 8 | Contact (enquiry form, offices) | Planned |
+| 8 | **Contact** (banner, detailed enquiry form with promises and choices, office with live local time, copy and directions) | ✅ Complete — in review |
 | 9 | Legal (Terms, Privacy, Cookies) | Planned |
 | 10 | Go-live on AWS (me-central-1): set up EC2, RDS, S3, CloudFront, SES, domain; analytics and cookie consent | Planned |
 
@@ -192,7 +193,7 @@ The design includes a CV upload (PDF/Word, up to 10 MB). It is **on hold** until
 - Approved copy, figures and case study content where the prototype has placeholders (About: the Mujtamae report card is an illustrative mock-up; confirm its figures or wording).
 - Real social media links (currently placeholders), including each team member's LinkedIn / Instagram / X profile.
 - Team bios (50–70 words each) and confirmation of the org chart reporting lines; photos for Sherif Saed and Emma Valdez.
-- Office addresses, email and phone for the Contact page.
+- Confirmation of the office details on the Contact page (email, phone, address and hours are the ones in the design).
 - Legal wording (Terms, Privacy, Cookies) approved by counsel, and the chosen cookie-consent platform.
 - Where form messages should go besides the CMS inbox (email addresses, CRM, careers system).
 - The real open roles with descriptions (the six on the site come from the design and have no descriptions yet).
