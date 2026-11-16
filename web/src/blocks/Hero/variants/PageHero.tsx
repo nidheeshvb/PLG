@@ -10,6 +10,7 @@ import { RichText } from '@/components/ui/RichText'
 import type { HeroBlock } from '@/payload-types'
 
 import styles from './PageHero.module.css'
+import { VideoControl } from './VideoControl'
 
 /** Breadcrumb trail from the page tree: Home / parent pages / this page. */
 function Breadcrumb({ page }: { page?: BlockContext['page'] }) {
@@ -81,6 +82,7 @@ export function PageHero({
   const posterUrl = isMediaDoc(poster) ? poster.url : null
   const videoUrl = isVideo(video) && isMediaDoc(video) ? video.url : null
   const mobileVideoUrl = isVideo(videoMobile) && isMediaDoc(videoMobile) ? videoMobile.url : null
+  const heroVideoId = `hero-video-${anchorId || 'page'}`
   if (posterUrl && !videoUrl) preload(posterUrl, { as: 'image', fetchPriority: 'high' })
 
   return (
@@ -100,7 +102,9 @@ export function PageHero({
       <Parallax className={styles.media}>
         {videoUrl ? (
           <video
-            className={styles.cover}
+            id={heroVideoId}
+            data-hero-video=""
+            className={`${styles.cover} ${styles.video}`}
             autoPlay
             muted
             loop
@@ -149,6 +153,15 @@ export function PageHero({
           </div>
         )}
       </div>
+      {videoUrl && (
+        <VideoControl
+          videoId={heroVideoId}
+          className={styles.vctl}
+          pausedClassName={styles.paused}
+          iconPause={styles.iPause}
+          iconPlay={styles.iPlay}
+        />
+      )}
     </section>
   )
 }

@@ -3,25 +3,19 @@
 import { useRef } from 'react'
 
 import type { SectionNavItem } from '@/blocks/context'
-import { useDragScroll } from '@/hooks/useDragScroll'
+import { StickyBar, stickyBarStyles as styles } from '@/components/ui/StickyBar/StickyBar'
 import { useRafScroll } from '@/hooks/useRafScroll'
 import { prefersReducedMotion } from '@/hooks/useReducedMotion'
-
-import styles from './Sticky.module.css'
 
 const clamp = (v: number) => Math.min(1, Math.max(0, v))
 
 /**
- * Numbered section bar that sticks to the top (Services). The section crossing 35% of the screen is
- * active, and its underline fills as you read through it. Once stuck, the bar steps aside while the main
- * header is showing (body has no `nav-hidden`), so only one bar shows at a time.
+ * Numbered section menu in the sticky bar (Services). The section crossing 35% of the screen is
+ * active, and its underline fills as you read through it.
  */
 export function StickyNavClient({ items, label }: { items: SectionNavItem[]; label: string }) {
-  const markRef = useRef<HTMLDivElement>(null)
-  const navRef = useRef<HTMLElement>(null)
   const innerRef = useRef<HTMLDivElement>(null)
   const active = useRef<string | null>(null)
-  useDragScroll(innerRef, styles.dragging)
 
   useRafScroll(
     () => {
@@ -35,13 +29,11 @@ export function StickyNavClient({ items, label }: { items: SectionNavItem[]; lab
           p = clamp((line - r.top) / r.height)
         }
       }
-      return { cur, p, stuck: (markRef.current?.getBoundingClientRect().top ?? 1) < 0 }
+      return { cur, p }
     },
-    ({ cur, p, stuck }) => {
-      const nav = navRef.current,
-        inner = innerRef.current
-      if (!nav || !inner) return
-      nav.classList.toggle(styles.stuck, stuck)
+    ({ cur, p }) => {
+      const inner = innerRef.current
+      if (!inner) return
       inner.querySelectorAll<HTMLAnchorElement>('a[data-for]').forEach((a) => {
         const on = a.dataset.for === cur
         a.classList.toggle(styles.active, on)
@@ -60,18 +52,13 @@ export function StickyNavClient({ items, label }: { items: SectionNavItem[]; lab
   )
 
   return (
-    <>
-      <div ref={markRef} aria-hidden="true" />
-      <nav ref={navRef} className={styles.snav} aria-label={label}>
-        <div ref={innerRef} className={styles.inner}>
-          {items.map(({ id, label: l }, i) => (
-            <a key={id} href={`#${id}`} data-for={id}>
-              <small>{String(i + 1).padStart(2, '0')}</small>
-              {l}
-            </a>
-          ))}
-        </div>
-      </nav>
-    </>
+    <StickyBar label={label} innerRef={innerRef}>
+      {items.map(({ id, label: l }, i) => (
+        <a key={id} href={`#${id}`} data-for={id}>
+          <small>{String(i + 1).padStart(2, '0')}</small>
+          {l}
+        </a>
+      ))}
+    </StickyBar>
   )
 }

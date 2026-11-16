@@ -166,6 +166,7 @@ export interface Page {
         | StatsCarouselBlock
         | LogoMarqueeBlock
         | CaseStudyGalleryBlock
+        | CaseStudyGridBlock
         | OwnershipBlock
         | TeamDirectoryBlock
         | GroupScaleBlock
@@ -824,6 +825,10 @@ export interface CaseStudyGalleryBlock {
     | {
         caseStudy: number | CaseStudy;
         fullWidth?: boolean | null;
+        /**
+         * Leave empty to use the case study’s key visual. Use it to show the same photo with a different crop here.
+         */
+        image?: (number | null) | Media;
         id?: string | null;
       }[]
     | null;
@@ -854,6 +859,8 @@ export interface CaseStudyGalleryBlock {
   blockType: 'caseStudyGallery';
 }
 /**
+ * Shown on Our Work in their set order (lower “Order” first) and wherever a section picks them (Home).
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "case-studies".
  */
@@ -861,22 +868,123 @@ export interface CaseStudy {
   id: number;
   title: string;
   /**
+   * Optional. Used on Home tiles, the “Next case study” link and the browser tab; the full title otherwise.
+   */
+  cardTitle?: string | null;
+  /**
+   * Under the title on tiles and in the case study banner. Put anything still to be confirmed in [square brackets]: it shows highlighted in orange until you remove the brackets.
+   */
+  summary: string;
+  client?: string | null;
+  /**
+   * Tags on the tile and the Our Work filter.
+   */
+  services?: ('strategy' | 'events' | 'media' | 'creative')[] | null;
+  /**
+   * Tile picture, case study banner and first gallery photo. Set the focal point to choose the crop.
+   */
+  image: number | Media;
+  /**
+   * Muted MP4. Plays on the Our Work tile on hover and in the case study banner.
+   */
+  video?: (number | null) | Media;
+  /**
+   * Spans the full width; the others sit two per row.
+   */
+  wide?: boolean | null;
+  /**
+   * For case studies still using a library photo.
+   */
+  keyVisualPending?: boolean | null;
+  market?: string | null;
+  year?: string | null;
+  /**
+   * Leave an empty line between paragraphs.
+   */
+  brief?: string | null;
+  /**
+   * Leave an empty line between paragraphs.
+   */
+  approach?: string | null;
+  results?:
+    | {
+        value: string;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  points?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Up to 4, shown after the key visual: two halves, one full width, two halves.
+   */
+  gallery?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  still?: (number | null) | Media;
+  stillCaption?: string | null;
+  /**
+   * MP4 with play controls. Leave empty to use the short clip above (if any).
+   */
+  film?: (number | null) | Media;
+  filmCaption?: string | null;
+  /**
+   * Used as the page description while this case study is open (about 150 characters).
+   */
+  metaDescription?: string | null;
+  /**
    * Used in the web address. Filled in automatically from the title.
    */
   slug?: string | null;
   /**
-   * Optional. A shorter title used on cards; the full title is used otherwise.
+   * Lower numbers appear first on Our Work (and are numbered 01, 02…).
    */
-  cardTitle?: string | null;
-  summary: string;
-  client?: string | null;
-  image: number | Media;
-  /**
-   * A short muted clip that can replace the cover image.
-   */
-  video?: (number | null) | Media;
+  sortOrder?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CaseStudyGridBlock".
+ */
+export interface CaseStudyGridBlock {
+  showFilter?: boolean | null;
+  filterLabel?: string | null;
+  allLabel?: string | null;
+  exploreLabel?: string | null;
+  emptyText?: string | null;
+  nextLabel?: string | null;
+  ctaLink?: {
+    label?: string | null;
+    appearance?: ('primary' | 'ghost' | 'dark') | null;
+    type?: ('page' | 'section' | 'url') | null;
+    page?: (number | null) | Page;
+    /**
+     * The "Section ID" set on a section (e.g. contact). For a page link this is optional and jumps to that section on the page.
+     */
+    section?: string | null;
+    url?: string | null;
+    newTab?: boolean | null;
+  };
+  /**
+   * Optional. Lets buttons jump to this section (e.g. "contact"). Lowercase letters, numbers and dashes.
+   */
+  anchorId?: string | null;
+  /**
+   * Optional. Shown in the page’s section menu, where the page has one.
+   */
+  navLabel?: string | null;
+  hideSection?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'caseStudyGrid';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1707,6 +1815,7 @@ export interface PagesSelect<T extends boolean = true> {
         statsCarousel?: T | StatsCarouselBlockSelect<T>;
         logoMarquee?: T | LogoMarqueeBlockSelect<T>;
         caseStudyGallery?: T | CaseStudyGalleryBlockSelect<T>;
+        caseStudyGrid?: T | CaseStudyGridBlockSelect<T>;
         ownership?: T | OwnershipBlockSelect<T>;
         teamDirectory?: T | TeamDirectoryBlockSelect<T>;
         groupScale?: T | GroupScaleBlockSelect<T>;
@@ -2081,10 +2190,39 @@ export interface CaseStudyGalleryBlockSelect<T extends boolean = true> {
     | {
         caseStudy?: T;
         fullWidth?: T;
+        image?: T;
         id?: T;
       };
   showButton?: T;
   link?:
+    | T
+    | {
+        label?: T;
+        appearance?: T;
+        type?: T;
+        page?: T;
+        section?: T;
+        url?: T;
+        newTab?: T;
+      };
+  anchorId?: T;
+  navLabel?: T;
+  hideSection?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CaseStudyGridBlock_select".
+ */
+export interface CaseStudyGridBlockSelect<T extends boolean = true> {
+  showFilter?: T;
+  filterLabel?: T;
+  allLabel?: T;
+  exploreLabel?: T;
+  emptyText?: T;
+  nextLabel?: T;
+  ctaLink?:
     | T
     | {
         label?: T;
@@ -2414,12 +2552,44 @@ export interface FormBlockSelect<T extends boolean = true> {
  */
 export interface CaseStudiesSelect<T extends boolean = true> {
   title?: T;
-  slug?: T;
   cardTitle?: T;
   summary?: T;
   client?: T;
+  services?: T;
   image?: T;
   video?: T;
+  wide?: T;
+  keyVisualPending?: T;
+  market?: T;
+  year?: T;
+  brief?: T;
+  approach?: T;
+  results?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  points?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  still?: T;
+  stillCaption?: T;
+  film?: T;
+  filmCaption?: T;
+  metaDescription?: T;
+  slug?: T;
+  sortOrder?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -3,7 +3,7 @@
 Next.js 16 (App Router, TypeScript) with Payload CMS 3 in the same app, on PostgreSQL.
 The static HTML prototype in the repository root is the visual reference; this app rebuilds it page by page.
 
-**Status:** step 6: foundation, Home, About, Our Story, The Team, Join Us and Services are built. The other pages exist as empty placeholders so links work.
+**Status:** step 7: foundation, Home, About, Our Story, The Team, Join Us, Services and Our Work are built. The other pages exist as empty placeholders so links work.
 
 More documentation:
 - [`../CLAUDE.md`](../CLAUDE.md) — internal knowledge base: architecture, conventions, decisions log, known gotchas, planned blocks.
@@ -97,7 +97,7 @@ src/
   migrations/            database migrations
 ```
 
-### Block library (steps 1–6)
+### Block library (steps 1–7)
 
 | Block (CMS name) | Variants / options | Used for | Planned reuse |
 |---|---|---|---|
@@ -110,8 +110,9 @@ src/
 | `statements` (Side-by-side statements) | 1–3 items, brand mark | About vision & mission | — |
 | `backgroundText` (Text over image) | parallax image, ticker | About why the UAE | — |
 | `statsCarousel` (Key numbers) | autoplay | Home | — |
-| `logoMarquee` (Logo strip) | optional label | Home | Our Work |
-| `caseStudyGallery` (Case study showcase) | full-width tiles | Home | — |
+| `logoMarquee` (Logo strip) | optional label (→ slim strip, label in the corner) | Home; Our Work | — |
+| `caseStudyGallery` (Case study showcase) | full-width tiles, optional per-tile photo | Home | — |
+| `caseStudyGrid` (Case study grid) | sticky filter by service, numbered tiles (clip on hover), full case study view at `#case-<slug>` | Our Work | — |
 | `ownership` (Group structure) | facts (count-up), closing, nested levels | About ownership | — |
 | `teamDirectory` (Team directory) | intro + orange words, `members` (empty = all from `team-members`), `showOrgChart`, `showFilter`; client grid ↔ org chart, filter with counts, profile drawer (portal) | Team "Leadership" | — |
 | `groupScale` (Group chain) | statement, 1–5 chain names (first highlighted), optional text link | Team "Group scale" | — |
@@ -154,11 +155,11 @@ npm run migrate                          # on the target database
 
 ## Not done yet
 
-- Other pages (Our Work, Contact, Legal) and their blocks.
+- Other pages (Contact, Legal) and their blocks.
 - CV upload logic on the Join Us application form (the field is shown but the file is not sent): on hold, see `docs/backlog-cv-upload.md`.
 - Open role descriptions (the six seeded roles from the prototype have none).
 - Team bios and social profile links (seeded as placeholders: no bios, platform home pages); photos for two people.
-- Full case study content and the case study overlay (Our Work page).
+- Case study key visuals (G42, Pizza Hut, Red Bull) and gallery photos are library placeholders; extra case study sections are on the backlog (`docs/backlog-case-study-extras.md`).
 - Email notifications / CRM for form messages (the SMTP adapter is ready; it needs SES/SMTP details).
 - Provisioning the AWS environment (adapters for S3, CloudFront and email are built and switched on by env vars).
 - Thumbnails for the block picker.

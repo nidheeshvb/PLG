@@ -20,7 +20,7 @@ export async function LogoMarqueeBlock({ label, partners, anchorId }: LogoMarque
       aria-label={label || 'Partners'}
     >
       {label && <p className={styles.label}>{label}</p>}
-      <Marquee setClassName={styles.set}>
+      <Marquee className={styles.track} setClassName={styles.set}>
         {list.map((p) => (
           <span
             key={p.id}

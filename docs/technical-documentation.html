@@ -76,7 +76,7 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
   <header class="top">
     <div class="brand"><i></i>PLG Acachet · Website rebuild</div>
     <h1>Website Technical Documentation</h1>
-    <div class="meta"><span>Last updated 16 November 2026</span><span class="pill">Step 6 complete: Services page</span></div>
+    <div class="meta"><span>Last updated 16 November 2026</span><span class="pill">Step 7 complete: Our Work page</span></div>
   </header>
 
   <nav class="toc" aria-label="Contents">
@@ -151,7 +151,7 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
       <div class="table"><table>
         <thead><tr><th>Collection</th><th>Used for</th></tr></thead>
         <tbody>
-          <tr><td>Case studies</td><td class="wrap">Case study tiles, and the full case studies once the Our Work page is built</td></tr>
+          <tr><td>Case studies</td><td class="wrap">Tiles (Home, Our Work) and the full case study that opens over Our Work: client, services, market, year, brief, approach, 1–4 impact figures, other results, gallery, photo and film, search description, order. Text in [square brackets] shows highlighted as "to be confirmed"</td></tr>
           <tr><td>Partner logos</td><td class="wrap">The scrolling logo strip, with order and display size per logo</td></tr>
           <tr><td>Team members</td><td class="wrap">The Team page: name, job title, photo, filter group, org chart position (and column head), "Senior account owner" label, bio, social links, order</td></tr>
           <tr><td>Open roles</td><td class="wrap">Join Us job listings: title, team, location, type, description, key points, a "show on the website" switch and order. Also fills the application form's role list</td></tr>
@@ -180,14 +180,15 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
           <tr><td>Call to action banner</td><td class="wrap">White "Start a conversation" banner</td><td class="wrap">Site-wide content from Header &amp; footer, or page-specific content</td></tr>
           <tr><td>Stacking panels</td><td class="wrap">Full-screen panels that slide over each other while scrolling</td><td class="wrap">Up to 4 panels with heading, text, image and button</td></tr>
           <tr><td>Key numbers</td><td class="wrap">Large animated numbers over full-screen images</td><td class="wrap">Numbers, suffix such as "+", captions, images, seconds per number</td></tr>
-          <tr><td>Logo strip</td><td class="wrap">Continuously scrolling partner logos</td><td class="wrap">Optional heading; all logos or a chosen set</td></tr>
-          <tr><td>Case study showcase</td><td class="wrap">Large tiles linking to case studies</td><td class="wrap">Choose case studies and their order; full-width tiles; button</td></tr>
+          <tr><td>Logo strip</td><td class="wrap">Continuously scrolling partner logos</td><td class="wrap">Optional label (slimmer strip with the label in the corner); all logos or a chosen set</td></tr>
+          <tr><td>Case study showcase</td><td class="wrap">Large tiles linking to case studies</td><td class="wrap">Choose case studies and their order; full-width tiles; optional different photo per tile; button</td></tr>
+          <tr><td>Case study grid</td><td class="wrap">Every case study as large numbered tiles with a filter bar by service that sticks to the top; each tile opens the full case study over the page at its own address (Our Work)</td><td class="wrap">Filter on or off and its labels, tile link text, empty-filter text, "next" label, closing button. Tiles and case studies come from Case studies</td></tr>
           <tr><td>Statement</td><td class="wrap">One large sentence</td><td class="wrap">Look: centred over brand marks or left-aligned on a grey band; orange end of sentence; scroll animation or fade-in; brand marks on or off</td></tr>
           <tr><td>Form</td><td class="wrap">Website form. Types: <i>Enquiry</i> (contact form over a photo) and <i>Job application</i> (name, email, role, discipline, LinkedIn or portfolio link, message, on a white band)</td><td class="wrap">Form type, heading, intro, background photo (enquiry), button text, thank-you message, note next to the button (application)</td></tr>
         </tbody>
       </table></div>
       <p>Every section also has <b>Section settings</b>: a Section ID so buttons can jump to it, a name for section menus, and <b>Hide this section on the website</b>.</p>
-      <p class="note">More sections arrive with the remaining pages: case study grid, offices and legal documents. Existing sections gain new styles where possible rather than being duplicated.</p>
+      <p class="note">More sections arrive with the remaining pages: offices and legal documents. Existing sections gain new styles where possible rather than being duplicated.</p>
     </section>
 
     <section id="editing">
@@ -222,6 +223,7 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
         <li><b>Performance</b>: static pages, images resized and converted (WebP/AVIF) for each device, self-hosted fonts, the showreel pauses when off screen, and scroll effects run at most once per frame.</li>
         <li><b>SEO</b>: per-page title and description, canonical URLs, share images, and automatic <code>sitemap.xml</code> and <code>robots.txt</code>.</li>
         <li><b>Forms</b>: checked in the browser and on the server, protected by a spam trap, and stored in the CMS inbox. The job application form only accepts roles that are currently open and has keyboard-operable dropdowns.</li>
+        <li><b>Case studies</b>: filter by service with counts; each case study has its own address (<code>/our-work#case-…</code>) that can be shared, closes with Esc, keeps keyboard focus inside while open, and updates the browser tab title and page description.</li>
         <li><b>Careers</b>: open roles filter by team with counts and expand in place; "Apply for this role" jumps to the form with the role and discipline filled in.</li>
       </ul>
     </section>
@@ -293,7 +295,7 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
           <tr><td>4</td><td class="wrap"><b>The Team</b>: banner, section menu, team directory with grid / org chart / filter / profile panel, group scale, more about us, call to action</td><td><span class="pill">Complete, in review</span></td></tr>
           <tr><td>5</td><td class="wrap"><b>Join Us</b>: banner, section menu, why join with the "one line across lanes" diagram and markets, statement, open roles with filter, application form, more about us. <b>CV upload logic deferred</b> (see below)</td><td><span class="pill">Complete, in review</span></td></tr>
           <tr><td>6</td><td class="wrap"><b>Services</b>: banner, numbered section menu that stays at the top, four categories, our approach, four service details, call to action</td><td><span class="pill">Complete, in review</span></td></tr>
-          <tr><td>7</td><td class="wrap">Our Work: case study grid, filters, full case studies</td><td><span class="pill plan">Planned</span></td></tr>
+          <tr><td>7</td><td class="wrap"><b>Our Work</b>: video banner with pause button, filter bar, eight case study tiles, full case study view, brand logos, call to action. Extra case study sections from the design kept in the backlog</td><td><span class="pill">Complete, in review</span></td></tr>
           <tr><td>8</td><td class="wrap">Contact: enquiry form, offices</td><td><span class="pill plan">Planned</span></td></tr>
           <tr><td>9</td><td class="wrap">Legal: Terms, Privacy, Cookies</td><td><span class="pill plan">Planned</span></td></tr>
           <tr><td>10</td><td class="wrap">Go-live on AWS (me-central-1): EC2, RDS, S3, CloudFront, SES and domain; analytics and cookie consent</td><td><span class="pill plan">Planned</span></td></tr>
@@ -313,6 +315,8 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
         <li>Legal wording for Terms, Privacy and Cookies approved by counsel, and the chosen cookie-consent platform.</li>
         <li>Where form messages should go besides the CMS inbox: email addresses, CRM or careers system.</li>
         <li>The real open roles with descriptions (the six on the site come from the design and have no descriptions yet).</li>
+        <li>Case studies: key visuals for G42, Pizza Hut and Red Bull (library photos for now), project photos for each gallery (library shots for now), and confirmation of the facts shown in [square brackets], such as years.</li>
+        <li>Whether the extra case study sections in the design are wanted (Mujtamae link, idea line, operating model).</li>
         <li>CV upload decisions: whether to accept CVs, who may download them, how long they are kept, consent wording, applicant-tracking system, notification email, and access to a private S3 bucket.</li>
         <li>Approval of the proposed AWS hosting setup, expected monthly visitors (to size the server and estimate cost), and the domain.</li>
         <li>Names and email addresses of people who need CMS accounts, and their roles.</li>

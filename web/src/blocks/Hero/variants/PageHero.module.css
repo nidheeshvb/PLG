@@ -262,3 +262,52 @@
     --btn-label: 16px;
   }
 }
+
+/* background video (Our Work showreel): brighter than a photo, no crop shift or tint */
+.media .cover.video {
+  object-position: 50% 50%;
+  filter: none;
+  --to: 0.6;
+}
+/* pause / play for the background video */
+.vctl {
+  position: absolute;
+  right: max(var(--gutter), env(safe-area-inset-right, 0px));
+  bottom: 36px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+  color: #fff;
+  transition:
+    background 0.3s,
+    box-shadow 0.3s,
+    color 0.3s;
+}
+.vctl:hover {
+  background: var(--accent);
+  box-shadow: none;
+  color: var(--ink);
+}
+.vctl svg {
+  width: 12px;
+  height: 12px;
+}
+.iPlay,
+.paused .iPause {
+  display: none;
+}
+.paused .iPlay {
+  display: block;
+}
+@media (max-width: 900px) {
+  .vctl {
+    bottom: 24px;
+  }
+}

@@ -2,6 +2,7 @@ import type { Block } from 'payload'
 
 import { link } from '@/fields/link'
 import { sectionHeader } from '@/fields/sectionHeader'
+import { mediaField } from '@/fields/media'
 import { sectionSettings } from '@/fields/sectionSettings'
 
 /** A curated set of case studies as large image tiles. */
@@ -39,6 +40,11 @@ export const CaseStudyGalleryBlock: Block = {
             },
           ],
         },
+        mediaField({
+          name: 'image',
+          label: 'Different photo for this tile (optional)',
+          description: 'Leave empty to use the case study’s key visual. Use it to show the same photo with a different crop here.',
+        }),
       ],
     },
     { name: 'showButton', type: 'checkbox', label: 'Show a button', defaultValue: true },

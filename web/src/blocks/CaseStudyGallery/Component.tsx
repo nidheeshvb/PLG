@@ -49,7 +49,7 @@ export function CaseStudyGalleryBlock({
               style={delay ? ({ '--d': `${delay}s` } as CSSProperties) : undefined}
             >
               <Media
-                resource={cs.image}
+                resource={it.image || cs.image}
                 fill
                 decorative
                 sizes={it.fullWidth ? '(max-width: 900px) 90vw, 100vw' : '(max-width: 900px) 90vw, 50vw'}

@@ -1,6 +1,6 @@
 # PLG Acachet Website — Technical Documentation
 
-_Last updated: 16 November 2026 · Status: Phase 1, step 6 (Services page) complete_
+_Last updated: 16 November 2026 · Status: Phase 1, step 7 (Our Work page) complete_
 
 ---
 
@@ -51,7 +51,7 @@ Each page has:
 ### 4.2 Shared content
 | Collection | Used for |
 |---|---|
-| Case studies | Case study tiles (and, from the Our Work page, the full case studies) |
+| Case studies | Tiles (Home, Our Work) and the full case study that opens over Our Work: client, services, market, year, brief, approach, 1–4 impact figures, other results, gallery, photo and film, search description, order. Text in [square brackets] shows highlighted as "to be confirmed" |
 | Partner logos | The scrolling logo strip; order and display size per logo |
 | Team members | The Team page: name, job title, photo, filter group, org chart position (and column head), "Senior account owner" label, bio, social links, order |
 | Open roles | Join Us job listings: title, team, location, type, description, key points, "show on the website" switch, order. Also fills the application form's role list |
@@ -78,14 +78,15 @@ Each page has:
 | Call to action banner | White "Start a conversation" banner | Uses the site-wide content from Header & footer, or page-specific content |
 | Stacking panels | Full-screen panels that slide over each other while scrolling | Up to 4 panels with heading, text, image, button |
 | Key numbers | Large animated numbers over full-screen images | Numbers, suffix (e.g. "+"), captions, images, seconds per number |
-| Logo strip | Continuously scrolling partner logos | Optional heading; all logos or a chosen set |
-| Case study showcase | Large tiles linking to case studies | Choose case studies and order; full-width tiles; button |
+| Logo strip | Continuously scrolling partner logos | Optional label (slimmer strip with the label in the corner); all logos or a chosen set |
+| Case study showcase | Large tiles linking to case studies | Choose case studies and order; full-width tiles; optional different photo per tile; button |
+| Case study grid | Every case study as large numbered tiles with a filter bar by service that sticks to the top; each tile opens the full case study over the page at its own address (Our Work) | Filter on/off and labels, tile link text, empty-filter text, "next" label, closing button. Tiles and case studies come from Case studies |
 | Statement | One large sentence | Look: centred over brand marks or left-aligned on a grey band; orange end of sentence; scroll animation or fade-in; brand marks on/off |
 | Form | Website form. Types: *Enquiry* (contact form over a photo) and *Job application* (name, email, role, discipline, LinkedIn/portfolio link, message, on a white band) | Form type, heading, intro, background photo (enquiry), button text, thank-you message, note next to the button (application) |
 
 Every section also has **Section settings**: a Section ID (so buttons can jump to it), a name for section menus, and **hide on website**.
 
-More sections are added as the remaining pages are built (case study grid, offices, legal documents and others). Existing sections gain new styles where possible rather than duplicating them.
+More sections are added as the remaining pages are built (offices, legal documents and others). Existing sections gain new styles where possible rather than duplicating them.
 
 ## 5. Editing workflow (for the content team)
 
@@ -114,6 +115,7 @@ A detailed, plain-language **Content Editor Guide** (every section and option, b
 - **Performance:** static pages, optimised responsive images (WebP/AVIF at the right size for each device), self-hosted fonts, the showreel pauses when off screen, scroll effects batched to once per frame.
 - **SEO:** per-page title and description, canonical URLs, Open Graph/Twitter share images, automatic `sitemap.xml` and `robots.txt`.
 - **Forms:** validated in the browser and on the server, spam honeypot, stored in the CMS inbox. The job application form only accepts roles that are currently open and offers keyboard-operable dropdowns.
+- **Case studies:** filter by service with counts; each case study has its own address (`/our-work#case-…`) that can be shared, closes with Esc, keeps keyboard focus inside while open and updates the browser tab title and page description.
 - **Careers:** open roles filter by team with counts and expand in place; "Apply for this role" jumps to the form with the role and discipline filled in.
 
 ## 7. Security
@@ -177,7 +179,7 @@ Developers can run the full website and CMS on their own computer by following `
 | 4 | **The Team** (banner, section menu, team directory with grid / org chart / filter / profile panel, group scale, more about us, call to action) | ✅ Complete — in review |
 | 5 | **Join Us** (banner, section menu, why join with "one line across lanes" diagram and markets, statement, open roles with filter, application form, more about us) | ✅ Complete — in review. **CV upload logic deferred** (see below) |
 | 6 | **Services** (banner, numbered section menu that stays at the top, four categories, our approach, four service details, call to action) | ✅ Complete — in review |
-| 7 | Our Work (case study grid, filters, full case studies) | Planned |
+| 7 | **Our Work** (video banner with pause button, filter bar, eight case study tiles, full case study view, brand logos, call to action) | ✅ Complete — in review. Extra case study sections from the design kept in the backlog |
 | 8 | Contact (enquiry form, offices) | Planned |
 | 9 | Legal (Terms, Privacy, Cookies) | Planned |
 | 10 | Go-live on AWS (me-central-1): set up EC2, RDS, S3, CloudFront, SES, domain; analytics and cookie consent | Planned |
@@ -194,6 +196,8 @@ The design includes a CV upload (PDF/Word, up to 10 MB). It is **on hold** until
 - Legal wording (Terms, Privacy, Cookies) approved by counsel, and the chosen cookie-consent platform.
 - Where form messages should go besides the CMS inbox (email addresses, CRM, careers system).
 - The real open roles with descriptions (the six on the site come from the design and have no descriptions yet).
+- Case studies: key visuals for G42, Pizza Hut and Red Bull (library photos for now), project photos for each gallery (library shots for now), and confirmation of the facts shown in [square brackets] (e.g. years).
+- Whether the extra case study sections in the design are wanted (Mujtamae link, idea line, operating model): see the backlog.
 - CV upload decisions (`docs/backlog-cv-upload.md`): whether to accept CVs, who may download them, how long they are kept, consent wording, applicant-tracking system, notification email, and access to a private S3 bucket.
 - Approval of the proposed AWS hosting setup, expected monthly visitors (to size the server and estimate cost), and the domain.
 - Names and email addresses of people who need CMS accounts, and their roles.

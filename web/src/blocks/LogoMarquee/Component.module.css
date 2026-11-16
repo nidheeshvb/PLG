@@ -7,19 +7,23 @@
   align-items: center;
 }
 
+/* with a label (Our Work "Brands we’ve worked with"): slimmer strip, label in the top-left corner */
 .withLabel {
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 32px;
+  height: 200px;
+  border-block: 1px solid var(--line);
 }
-
 .label {
-  padding: 0 var(--gutter);
-  font-size: 14px;
-  letter-spacing: 1px;
+  position: absolute;
+  left: max(var(--gutter), env(safe-area-inset-left, 0px));
+  top: 22px;
+  z-index: 3;
+  font-size: 12px;
+  letter-spacing: 1.6px;
   text-transform: uppercase;
-  color: #8a8a8a;
+  color: var(--muted);
+}
+.withLabel .track {
+  padding-top: 18px;
 }
 
 .set {
@@ -69,9 +73,15 @@
     padding: 5px 24px;
   }
   .withLabel {
-    height: auto;
-    padding: 24px 0;
-    gap: 16px;
+    height: 110px;
+    padding: 0;
+  }
+  .label {
+    top: 14px;
+    font-size: 11px;
+  }
+  .withLabel .track {
+    padding-top: 20px;
   }
   .set {
     gap: 36px;

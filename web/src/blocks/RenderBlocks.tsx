@@ -7,6 +7,7 @@ import { type BlockContext, sectionNavItems } from './context'
 import { BackgroundTextBlock } from './BackgroundText/Component'
 import { CardCarouselBlock } from './CardCarousel/Component'
 import { CaseStudyGalleryBlock } from './CaseStudyGallery/Component'
+import { CaseStudyGridBlock } from './CaseStudyGrid/Component'
 import { CtaBannerBlock } from './CtaBanner/Component'
 import { FormBlock } from './Form/Component'
 import { GroupScaleBlock } from './GroupScale/Component'
@@ -37,6 +38,7 @@ const components: { [K in BlockType]: ComponentType<Extract<Block, { blockType: 
   statsCarousel: StatsCarouselBlock,
   logoMarquee: LogoMarqueeBlock as ComponentType<Extract<Block, { blockType: 'logoMarquee' }> & BlockContext>,
   caseStudyGallery: CaseStudyGalleryBlock,
+  caseStudyGrid: CaseStudyGridBlock as ComponentType<Extract<Block, { blockType: 'caseStudyGrid' }> & BlockContext>,
   statement: StatementBlock,
   form: FormBlock as ComponentType<Extract<Block, { blockType: 'form' }> & BlockContext>,
   sectionNav: SectionNavBlock,

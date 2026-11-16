@@ -2,7 +2,7 @@
 
 How to update the website yourself using the content management system (CMS). No technical knowledge needed.
 
-_Last updated: 16 November 2026 · Covers: Home, About, Our Story, The Team, Join Us and Services pages, header and footer. More pages are added to this guide as they are built._
+_Last updated: 16 November 2026 · Covers: Home, About, Our Story, The Team, Join Us, Services and Our Work pages, header and footer. More pages are added to this guide as they are built._
 
 ---
 
@@ -80,6 +80,12 @@ After signing in you see the **Dashboard**. The menu on the left (click ☰ if i
 | Change the numbers (13 years, 100+…) | **Pages → Home → Key numbers** section |
 | Add or remove a partner logo | **Partner logos** ([section 11](#11-partner-logos)) |
 | Show a different case study on Home | **Pages → Home → Case study showcase** ([section 8](#case-study-showcase)) |
+| Add a case study to Our Work | **Content → Case studies → Create New** ([section 10](#10-case-studies)); it appears on Our Work in its **Order** |
+| Change the order of case studies on Our Work | **Case studies** → each → **Order** (lower first; numbered 01, 02… automatically) |
+| Make a case study tile full width on Our Work | The case study → **Wide tile on Our Work** |
+| Edit a full case study (brief, approach, figures, photos) | The case study → **Case study** tab |
+| Mark a fact as still to be confirmed | Put it in [square brackets] in the case study text: it shows highlighted in orange until you remove the brackets |
+| Link to one case study | Use the web address `/our-work#case-` followed by its **URL name** (e.g. `/our-work#case-kfc`) |
 | Change a heading or text on the About page | **Pages → About Us →** open the section → edit → **Publish changes** |
 | Make a word in a page banner orange (or not) | Open the **Banner** → **Show the last word in orange** (the last word of the last headline line) |
 | Add a section to the About page's section menu | Open the section → **Section settings** → fill in both **Section ID** and **Name in section menu** ([Section menu](#section-menu)) |
@@ -198,6 +204,15 @@ On **Pages → Services**:
 09  Call to action banner    Call to action
 ```
 
+On **Pages → Our Work**:
+
+```
+01  Banner (top of page)     Banner
+02  Case study grid          Case studies
+03  Logo strip               Brands we’ve worked with
+04  Call to action banner    Call to action
+```
+
 - The first word is the **kind of section**; the second is its **name** (only you see the name; click it to rename).
 - **Click a section** to open it and see its fields. Click again to close it.
 - **Collapse All / Show All** (above the list) closes or opens every section at once.
@@ -299,7 +314,7 @@ Some fields only appear for one style.
 | **Background photo** | Inner page | *Dimmed* (standard) or *Brighter* (About). To choose which part of the photo stays visible, set the photo's focal point ([section 9](#9-images-and-videos)). |
 | **Intro text** | both | The paragraph beside (inner page) or under (showreel) the headline. On inner pages, make words **bold** to show them in brighter white. |
 | **Buttons** | both | Up to 2 buttons ([section 7](#7-buttons-and-links)). Usually one *Orange*, one *Outline*. |
-| **Background video** | both | Muted, looping video. MP4, ideally under 8 MB ([section 9](#9-images-and-videos)). Optional on inner pages. |
+| **Background video** | both | Muted, looping video. MP4, ideally under 8 MB ([section 9](#9-images-and-videos)). Optional on inner pages (Our Work uses the showreel); a pause button appears automatically in the corner. |
 | **Lighter video for phones** | both | Optional smaller video for phones. Leave empty to use the main video. |
 | **Background image** | both | Shown instantly while a video loads, and instead of the video if there is none. **Required.** |
 | **Show the "scroll down" indicator** | Showreel | The small mouse-shaped icon at the bottom. |
@@ -495,10 +510,23 @@ A continuously scrolling row of partner logos.
 
 | Field | What it does |
 |---|---|
-| **Small heading (optional)** | A label above the logos. |
+| **Small heading (optional)** | A small label in the top-left corner of the strip (Our Work: "Brands we’ve worked with"). With a label the strip is a little slimmer and has thin lines above and below. |
 | **Logos** | Leave **empty to show all** partner logos (in their set order). Or pick specific logos; drag to reorder. |
 
 Logos themselves are managed in **Partner logos** ([section 11](#11-partner-logos)).
+
+### Case study grid
+Our Work's list of every case study: a filter bar that sticks to the top (**All work** and each service, with counts), then large tiles numbered 01, 02… in the case studies' **Order**. Hovering a tile shows its summary and plays its clip; clicking opens the **full case study** over the page (its address ends in `#case-` + the case study's URL name, so it can be shared). **Esc** or **×** closes it; **Next case study** moves on.
+
+| Field | What it does |
+|---|---|
+| **Show the filter bar** | The bar with **Filter · All work · Strategy & Consulting · …** Only services used by at least one case study get a button. |
+| **Filter bar label** / **"All" button** | The small label and the first button's words. |
+| **Tile link text** | The words under the summary on a tile ("Explore Project"). |
+| **Text when a filter has no case studies** | Shown when a service has no case studies. |
+| **Full case study → "Next" label / Button at the end** | The small label above the next case study's name, and the button at the very end (e.g. "Discuss a Similar Challenge" → Contact). |
+
+Everything else (tiles and full case studies) comes from **Content → Case studies** ([section 10](#10-case-studies)).
 
 ### Case study showcase
 Large picture tiles linking to case studies. Hovering shows the summary and "Explore Project".
@@ -506,7 +534,7 @@ Large picture tiles linking to case studies. Hovering shows the summary and "Exp
 | Field | What it does |
 |---|---|
 | **Small heading / Title** | Above the tiles. |
-| **Case studies** | Pick case studies in the order you want. Tick **Full width** to make a tile span the whole row (others sit two per row). |
+| **Case studies** | Pick case studies in the order you want. Tick **Full width** to make a tile span the whole row (others sit two per row). **Different photo for this tile (optional)**: show another photo (or the same photo with a different focal point) here only. |
 | **Show a button / Button** | Button under the tiles (e.g. "See our work"). |
 
 The tile picture, title and summary come from the case study itself ([section 10](#10-case-studies)).
@@ -570,23 +598,41 @@ The website automatically creates smaller versions of every picture for each dev
 
 ## 10. Case studies
 
-**Content → Case studies.** Each case study has:
+**Content → Case studies.** One record per project: its tile (Home, Our Work) and its full case study (opens over Our Work). Two tabs:
+
+**Tile**
 
 | Field | Shown where |
 |---|---|
-| **Title** | Full title (case study page) and tile title if no short title is set |
-| **Short title for cards** | Tile title, when the full title is long |
-| **One-line summary** | Under the title when hovering a tile |
-| **Client** | Case study details |
-| **Cover image** | The tile picture (**required**) |
-| **Cover video** | Optional short clip |
-| **URL name** (right side) | Part of the case study's web address. Filled in automatically from the title. |
+| **Title** | Tile and full case study title |
+| **Short title** | Home tiles, "Next case study", the breadcrumb and the browser tab (the full title otherwise) |
+| **One-line summary** | On tiles when hovering, and under the title in the full case study |
+| **Client** / **Services** | Orange client name on the tile; the services are the tags on tiles and in the case study, and decide which filter buttons show it on Our Work |
+| **Key visual** | Tile photo, case study banner and first gallery photo (**required**). Set its focal point to choose the crop |
+| **Short clip (optional)** | Plays on the Our Work tile on hover and in the case study banner |
+| **Wide tile on Our Work** | Spans the full width (others sit two per row) |
+| **Show "Key visual to come"** | A small label on the tile, for case studies still using a library photo |
+
+**Case study**
+
+| Field | Shown where |
+|---|---|
+| **Market** / **Year** | The details row under the banner |
+| **01 The Brief** / **02 The Approach** | The two text sections. Leave an empty line between paragraphs |
+| **03 The Impact: headline figures** | 1–4 big figures with what they measure (e.g. "15,000" / "Attendees across six days") |
+| **Other results (optional)** | A bullet list under the figures |
+| **Gallery photos** | Up to 4, after the key visual: two halves, one full width, two halves |
+| **Photo after the impact** / **Film after the impact** | A photo and a film side by side, each with a small caption. Without a film, the short clip is used |
+| **Search description** | The page description while the case study is open (about 150 characters) |
+| **URL name**, **Order** (right side) | The address `/our-work#case-<URL name>`, and the position on Our Work (lower first) |
+
+**To be confirmed:** write anything not yet confirmed by PLG in [square brackets], e.g. "Year: [2023–2026]". It shows highlighted in orange on the site until you remove the brackets.
 
 Editing a case study updates it **everywhere** it's shown, after you click **Save** (case studies have no drafts).
 
 To show a case study on Home: **Pages → Home → Case study showcase → Case studies → Add Case study**.
 
-*The full case study pages (brief, approach, results) are added with the Our Work page.*
+> The G42, Pizza Hut and Red Bull case studies use library photos ("Key visual to come"), and the gallery photos are library shots until PLG supplies project photos.
 
 ## 11. Partner logos
 
@@ -675,6 +721,7 @@ Messages can't be edited. Admins can delete them.
 | Edit a page without publishing | Nothing changes for visitors. Your draft is kept. |
 | Publish | The page updates for visitors within seconds. |
 | Change **Header & footer**, a **case study**, a **partner logo**, a **team member** or an **open role** and save | Every page showing it updates. |
+| Change a case study's **URL name** | Its address `/our-work#case-…` changes; Home's tile follows automatically, but shared links to the old address open Our Work without the case study. |
 | Untick **Show on the website** on an open role | The job disappears from Join Us and from the application form's **Applying for** list. |
 | Change a page's **URL name** | Its web address changes. Buttons and menu links inside the CMS follow automatically, but old bookmarks and links from other websites or emails stop working. Avoid changing it once the site is live. |
 | Change a section's **Section ID** | Buttons jumping to the old ID stop working. Update them too. The **Section menu** follows automatically. |
@@ -698,4 +745,4 @@ Messages can't be edited. Admins can delete them.
 ---
 
 ### Coming with the next pages
-Our Work, Contact and Legal, with their sections (full case studies, offices, legal documents). This guide will be updated as each one is added.
+Contact and Legal, with their sections (offices, legal documents). This guide will be updated as each one is added.

@@ -3,6 +3,7 @@ import type { Block } from 'payload'
 import { BackgroundTextBlock } from './BackgroundText/config'
 import { CardCarouselBlock } from './CardCarousel/config'
 import { CaseStudyGalleryBlock } from './CaseStudyGallery/config'
+import { CaseStudyGridBlock } from './CaseStudyGrid/config'
 import { CtaBannerBlock } from './CtaBanner/config'
 import { FormBlock } from './Form/config'
 import { GroupScaleBlock } from './GroupScale/config'
@@ -34,6 +35,7 @@ export const pageBlocks: Block[] = [
   StatsCarouselBlock,
   LogoMarqueeBlock,
   CaseStudyGalleryBlock,
+  CaseStudyGridBlock,
   OwnershipBlock,
   TeamDirectoryBlock,
   GroupScaleBlock,

@@ -134,7 +134,7 @@ npm run seed
 This:
 - creates the admin and editor users from your `SEED_*` settings,
 - uploads the Home, About and Team images (including `assets/team/` portraits), videos and logos from the prototype's `assets/` folder (and fills in alt text added to the seed later, unless an editor already wrote one),
-- creates the partner logos, the five Home case studies, the 11 team members, the 6 open roles, the **Home**, **About**, **Our Story**, **The Team**, **Join Us** and **Services** pages with all their sections, empty placeholder pages (Our Work, Contact, Legal and its three sub-pages), the header/footer links (including the About sub-links in the mobile menu) and the site-wide call to action.
+- creates the partner logos, the eight case studies (with their full content), the 11 team members, the 6 open roles, the **Home**, **About**, **Our Story**, **The Team**, **Join Us**, **Services** and **Our Work** pages with all their sections, empty placeholder pages (Contact, Legal and its three sub-pages), the header/footer links (including the About sub-links in the mobile menu) and the site-wide call to action.
 
 It ends with `Done.` It's safe to run again: it updates existing records instead of duplicating them (it never changes an existing user's password).
 

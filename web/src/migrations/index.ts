@@ -5,6 +5,7 @@ import * as migration_20261114_021140_our_story_options from './20261114_021140_
 import * as migration_20261114_080037_team_page from './20261114_080037_team_page';
 import * as migration_20261116_150707_join_page from './20261116_150707_join_page';
 import * as migration_20261116_154948_services_page from './20261116_154948_services_page';
+import * as migration_20261116_170808_our_work_page from './20261116_170808_our_work_page';
 
 export const migrations = [
   {
@@ -40,6 +41,11 @@ export const migrations = [
   {
     up: migration_20261116_154948_services_page.up,
     down: migration_20261116_154948_services_page.down,
-    name: '20261116_154948_services_page'
+    name: '20261116_154948_services_page',
+  },
+  {
+    up: migration_20261116_170808_our_work_page.up,
+    down: migration_20261116_170808_our_work_page.down,
+    name: '20261116_170808_our_work_page'
   },
 ];

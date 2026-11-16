@@ -1,6 +1,6 @@
 # PLG Acachet Website — Architecture
 
-_Last updated: 16 November 2026 · Covers Phase 1, steps 1–6 (foundation, Home, About, Our Story, The Team, Join Us and Services pages) and the proposed AWS production setup_
+_Last updated: 16 November 2026 · Covers Phase 1, steps 1–7 (foundation, Home, About, Our Story, The Team, Join Us, Services and Our Work pages) and the proposed AWS production setup_
 
 This document describes **how the application is built** (Part A) and **how it is hosted** (Part B).
 It contains no secrets and can be shared with the client. Diagrams use Mermaid (they render on GitHub, GitLab and most Markdown viewers).
@@ -118,7 +118,7 @@ erDiagram
 |---|---|---|
 | Pages | title, slug, parent, path (computed), layout (sections), meta (SEO) | Drafts, autosave, versions, scheduled publish |
 | Section (block) | blockType + its fields + Section settings (anchorId, navLabel, theme, hideSection) | Stored inside the page |
-| Case studies | title, slug, cardTitle, summary, client, image, video | Extended with full case study content in a later step |
+| Case studies | title, slug, cardTitle, summary, client, services[], image, video, wide, keyVisualPending, market, year, brief, approach, results[], points[], gallery[], still, film, captions, metaDescription, sortOrder | Tiles (Home, Our Work) and the full case study at `/our-work#case-<slug>`; `[brackets]` = to be confirmed |
 | Partners | name, logo, height, mobileHeight, sortOrder | |
 | Team members | name, jobTitle, photo, group (management / creative / staff), department (top / commercial / delivery / operations), headOfDepartment, accountOwner, bio, linkedin, instagram, x, sortOrder | The Team page directory; org chart derived from department + head |
 | Open roles | title, team (commercial / delivery / creative / analytics), location, employmentType, summary, points[], isOpen, sortOrder | Join Us "Open roles" list and the application form's role list (only `isOpen`) |
@@ -131,7 +131,7 @@ erDiagram
 
 **Derived, never typed by editors:** breadcrumbs (from the nested-docs page tree), section-menu links (from each section's Section ID + "Name in section menu", or from the main menu's sub-links for the group containing the page, plus a "Back to <parent>" link), card numbers (from order), the Team org chart (from each member's position and column head) and filter options with counts (from member groups), the Join Us role filter buttons with counts (from each role's team), service numbers ("02 / 04") and alternating bands (from the order of Service detail sections), the current-page highlight in the header (from the URL).
 
-**Sections available (step 6):** Banner (`hero`: showreel / page, with headline size, larger/smaller-on-phones + photo style options), Section menu (`sectionNav`: sections / menu; bar / sticky numbered), Lead paragraph (`leadText`: text size, orange words tail / particular words / phrase, diagrams "merge", "weave" and "cross", details row with labelled list, heading, notes, grey band, closing line), Text with image (`mediaText`: fade / card), Cards (`cardCarousel`: service / pillar), Stacking panels, Side-by-side statements (`statements`), Text over image (`backgroundText`), Key numbers, Logo strip, Case study showcase, Group structure (`ownership`), Team directory (`teamDirectory`: reads Team members; grid / org chart, filter, profile panel), Group chain (`groupScale`), Open roles (`openRoles`: reads Open roles; team filter, expandable rows, "Apply" prefills the form), Statement (centered / band), Link tiles (`linkTiles`: standard / tall / numbered), Service detail (`serviceDetail`: nested content pieces photo / highlight / list / collage; number and band from position), Call to action banner (`ctaBanner`, site-wide default in Site settings with per-page override), Form (enquiry / application).
+**Sections available (step 7):** Banner (`hero`: showreel / page, with headline size, larger/smaller-on-phones + photo style options), Section menu (`sectionNav`: sections / menu; bar / sticky numbered), Lead paragraph (`leadText`: text size, orange words tail / particular words / phrase, diagrams "merge", "weave" and "cross", details row with labelled list, heading, notes, grey band, closing line), Text with image (`mediaText`: fade / card), Cards (`cardCarousel`: service / pillar), Stacking panels, Side-by-side statements (`statements`), Text over image (`backgroundText`), Key numbers, Logo strip (optional label → slim look), Case study showcase (optional per-tile photo), Case study grid (`caseStudyGrid`: sticky filter, tiles, full case study view by URL hash), Group structure (`ownership`), Team directory (`teamDirectory`: reads Team members; grid / org chart, filter, profile panel), Group chain (`groupScale`), Open roles (`openRoles`: reads Open roles; team filter, expandable rows, "Apply" prefills the form), Statement (centered / band), Link tiles (`linkTiles`: standard / tall / numbered), Service detail (`serviceDetail`: nested content pieces photo / highlight / list / collage; number and band from position), Call to action banner (`ctaBanner`, site-wide default in Site settings with per-page override), Form (enquiry / application).
 
 ## A6. Request lifecycle (public page)
 
@@ -181,6 +181,23 @@ sequenceDiagram
 
 - Preview opens `/next/preview?path=…&secret=…`, which turns on Next.js **draft mode** for that browser only. Visitors never see drafts.
 - Draft mode can be turned off at `/next/exit-preview`.
+
+## A7b. Case study view (Our Work)
+
+```mermaid
+sequenceDiagram
+  participant V as Visitor
+  participant G as Case study grid (browser)
+  participant W as Case study view
+  V->>G: click a tile (or open /our-work#case-kfc)
+  G->>G: location.hash = case-<slug>
+  G->>W: hash → open case study (all case studies were loaded with the page)
+  W->>W: lock page scroll, set tab title + description, pause banner video, focus ×
+  V->>W: Esc / × / Next
+  W->>G: replace hash with #cases (no jump), restore title, focus the tile
+```
+
+All case study content is part of the statically built Our Work page, so opening one needs no server request.
 
 ## A8. Form submission flow
 

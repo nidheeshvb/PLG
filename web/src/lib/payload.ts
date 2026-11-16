@@ -86,3 +86,16 @@ export const getOpenRoles = cache(async () => {
   })
   return docs
 })
+
+/** All case studies in their set order (Our Work grid and case study view). */
+export const getCaseStudies = cache(async () => {
+  const payload = await getPayloadClient()
+  const { docs } = await payload.find({
+    collection: 'case-studies',
+    sort: 'sortOrder',
+    limit: 200,
+    depth: 1,
+    pagination: false,
+  })
+  return docs
+})

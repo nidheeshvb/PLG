@@ -118,43 +118,239 @@ async function seed() {
   }
   payload.logger.info('  partner logos')
 
-  // ---------- case studies (cards only; full case studies come with the Our Work page) ----------
-  const cs = async (slug: string, data: Record<string, unknown>) =>
-    upsert(payload, 'case-studies', { slug: { equals: slug } }, { slug, ...data })
-  const caseStudies = {
-    uci: await cs('uci-cycling-esports-world-championships', {
+  // ---------- case studies (content from the PLG Acachet Project Book, as in the prototype) ----------
+  // [square brackets] = still to be confirmed by PLG (shown highlighted)
+  const cm = {
+    servicesHero: await upsertMedia(payload, { file: 'services-hero.webp' }),
+    // Our Work crops these differently from Home, so the case studies use their own copies
+    ea: await upsertMedia(payload, { file: 'work-ea.webp', as: 'work-ea-case.webp', alt: 'EA Sports FIFA World Cup launch', focalX: 50, focalY: 30 }),
+    kfc: await upsertMedia(payload, { file: 'work-kfc.webp', as: 'work-kfc-case.webp', alt: 'KFC gaming platform', focalX: 50, focalY: 25 }),
+    g42: await upsertMedia(payload, { file: 'bridge.webp', as: 'bridge-g42.webp', alt: 'Phygital sports programme', focalX: 50, focalY: 35 }),
+  }
+  // gallery and media stills: the prototype picks neutral library shots per case study, never another client's
+  const lib = [cm.servicesHero, m.stat1, m.stat4, m.intro, m.poster, m.contactBg]
+  const shotsFor = (k: number) => [0, 1, 2, 3].map((j) => lib[(k * 4 + j) % lib.length])
+  const stillFor = (k: number) => lib.find((f) => !shotsFor(k).includes(f))
+  type CaseSeed = {
+    slug: string
+    title: string
+    cardTitle?: string
+    summary: string
+    client: string
+    services: string[]
+    image: number
+    video?: number
+    wide?: boolean
+    keyVisualPending?: boolean
+    market: string
+    year: string
+    brief: string[]
+    approach: string[]
+    results: [string, string][]
+    points?: string[]
+    metaDescription: string
+  }
+  const caseSeeds: CaseSeed[] = [
+    {
+      slug: 'uci-cycling-esports-world-championships',
       title: 'UCI Cycling Esports World Championships 2024 & 2025',
       cardTitle: 'UCI Cycling Esports World Championships',
       summary: 'Two editions of cycling’s official virtual world championships, delivered end to end in Abu Dhabi for MyWhoosh.',
       client: 'MyWhoosh',
+      services: ['events', 'media'],
       image: m.workUci,
       video: m.workUciClip,
-    }),
-    gotf: await cs('games-of-the-future-2025', {
-      title: 'Games of the Future 2025',
-      summary: 'Delivering the world’s largest phygital sports event in Abu Dhabi.',
-      client: 'Phygital International, ASPIRE & Ethara',
-      image: m.mujtamae,
-    }),
-    cod: await cs('call-of-duty', {
+      wide: true,
+      market: 'Abu Dhabi, UAE',
+      year: '2024 & 2025',
+      brief: ['MyWhoosh needed one partner to take the World Championships from plan to live broadcast. That meant event strategy, athlete and team logistics, stage design and build, and a broadcast feed distributed worldwide.'],
+      approach: ['We designed and ran a turnkey delivery model for both the 2024 and 2025 editions. Forty of the world’s best male and female virtual cyclists raced live on stage in Abu Dhabi, with the 2025 final at Space42 Arena. Our broadcast team took every race to audiences around the world in English and Arabic.'],
+      results: [
+        ['2', 'Editions delivered: rebooked two years running, 2024 and 2025'],
+        ['40', 'Elite riders from 12 countries, racing live on stage'],
+        ['1,000', 'Spectators in the venue'],
+      ],
+      points: ['Broadcast live worldwide in English and Arabic'],
+      metaDescription: 'PLG Acachet delivered the UCI Cycling Esports World Championships in Abu Dhabi for MyWhoosh in 2024 and 2025: 40 elite riders, 12 nations, live global broadcast.',
+    },
+    {
+      slug: 'call-of-duty',
       title: 'Call of Duty',
       summary: 'A long-standing partnership with Activision, launching multiple Call of Duty titles in the region.',
       client: 'Activision',
+      services: ['events', 'media', 'creative'],
       image: m.workCod,
-    }),
-    ea: await cs('ea-sports-fifa-world-cup', {
+      market: 'Middle East',
+      year: 'Multi-year partnership',
+      brief: ['From events to launch trailer concepts and everything in between, each brief challenged us to build a launch plan that maximised the hype around that year’s new Call of Duty title.'],
+      approach: ['We conceptualised and executed many different ideas: live-action local launch trailers, events, broadcasts, influencer challenges and a rooftop showdown. Our approach was always to stay true to the theme of the year, the story and the modes available at launch, promoting the game to lapsed and new players alike.'],
+      results: [
+        ['4', 'Events delivered'],
+        ['3', 'Live-action launch trailers'],
+        ['34', 'Influencers activated'],
+        ['1st', 'And only local launch trailer featured on the global Call of Duty social pages'],
+      ],
+      metaDescription: 'PLG Acachet delivered multiple projects for Call of Duty, including events, live-action trailers and livestream broadcasts: 2 titles, 4 events, 3 trailers.',
+    },
+    {
+      slug: 'ea-sports-fifa-world-cup',
       title: 'EA Sports',
       summary: 'Delivering the EA Sports FIFA World Cup 2022 in-game DLC launch event.',
       client: 'EA Sports',
-      image: m.workEa,
-    }),
-    kfc: await cs('kfc', {
+      services: ['events', 'media'],
+      image: cm.ea,
+      market: 'Dubai, UAE',
+      year: '2022',
+      brief: ['EA Sports partnered with us to deliver a launch event, coinciding with the 2022 FIFA World Cup in Qatar, to promote the new FIFA World Cup Qatar game mode in FIFA 23. Our scope covered event delivery, influencer management, show management, security, talent management, and content capture and distribution.'],
+      approach: ['We designed, planned and delivered an end-to-end solution to bring the brief to life, partnering with Ballers, a local sports venue in the heart of Downtown Dubai with the Burj Khalifa as a backdrop. Hosted by Kris Fade and featuring EA Sports’ key local partners such as PlayStation and 5Pillars, it became one of EA Sports’ most successful events in the region.'],
+      results: [
+        ['4,000', 'Attendees'],
+        ['4', 'Influencers'],
+        ['4', 'Ex-pro footballers'],
+      ],
+      metaDescription: 'PLG Acachet delivered one of EA Sports’ most successful events in the region, launching the 2022 FIFA World Cup Qatar game mode in FIFA 23.',
+    },
+    {
+      slug: 'games-of-the-future-2025',
+      title: 'Games of the Future 2025',
+      summary: 'Delivering the world’s largest phygital sports event in Abu Dhabi.',
+      client: 'Phygital International, ASPIRE & Ethara',
+      services: ['strategy', 'events', 'media'],
+      image: m.mujtamae,
+      wide: true,
+      market: 'Abu Dhabi, UAE',
+      year: '2025',
+      brief: ['Phygital International, ASPIRE and Ethara brought us in to deliver the Games of the Future Abu Dhabi 2025. Our scope covered event delivery, sponsorship advisory and brokerage, the broadcast solution, and global media strategy and distribution.'],
+      approach: ['We shaped the programme of phygital disciplines, where athletes play each sport digitally and then physically. We also built the live broadcast operation and distributed content to audiences worldwide. Over six days, ADNEC Centre Abu Dhabi became a purpose-built arena for the first Games of the Future held in the Middle East.'],
+      results: [
+        ['15,000', 'Attendees across six days'],
+        ['300', 'Professional teams'],
+        ['9.1B', 'Impressions across 27 broadcast markets'],
+      ],
+      metaDescription: 'How PLG Acachet delivered the Games of the Future Abu Dhabi 2025: six days of phygital sport at ADNEC, 15,000 attendees, 300 teams and a global broadcast.',
+    },
+    {
+      slug: 'g42-phygital-sports-programme',
+      title: 'G42 Phygital Sports Programme',
+      summary: 'A corporate phygital sports programme for 500 G42 employees at 321 Sports, Abu Dhabi.',
+      client: 'G42, with Modon Holdings',
+      services: ['strategy', 'events'],
+      image: cm.g42,
+      keyVisualPending: true,
+      market: 'Abu Dhabi, UAE',
+      year: '[To confirm]',
+      brief: ['G42 wanted a large-scale sports programme for its workforce. Working with Modon Holdings through a joint venture, we designed and delivered it, from strategy through to event day.'],
+      approach: ['We built the full participant journey, starting with a registration platform where employees chose their sports and entered teams. At 321 Sports on Hudayriyat Island, they competed across seven disciplines combining physical and digital play: football, cricket, badminton, padel, HIIT, virtual cycling and sim racing.'],
+      results: [
+        ['500', 'Employees competing'],
+        ['7', 'Phygital sports'],
+        ['1', 'Day of competition at 321 Sports'],
+      ],
+      metaDescription: 'How PLG Acachet and Modon Holdings delivered G42’s phygital sports programme: 500 employees, 7 sports, 1 day of competition at 321 Sports, Hudayriyat Island, Abu Dhabi.',
+    },
+    {
+      slug: 'kfc',
       title: 'KFC',
-      summary:
-        'We built KFC’s gaming platform in Saudi Arabia and brokered its three-year strategic partnership with the Saudi Esports Federation and Esports World Cup.',
+      summary: 'We built KFC’s gaming platform in Saudi Arabia and brokered its three-year strategic partnership with the Saudi Esports Federation and Esports World Cup.',
       client: 'KFC',
-      image: m.workKfc,
-    }),
+      services: ['strategy', 'media'],
+      image: cm.kfc,
+      market: 'Saudi Arabia',
+      year: '[2023–2026]',
+      brief: ['KFC asked us to build a sponsorship programme that would put the brand at the centre of Saudi Arabia’s Gen Z gaming audience.'],
+      approach: [
+        'We developed Play KFC, KFC’s gaming platform in the Kingdom, and brokered a three-way partnership with the Saudi Esports Federation (SEF) and the Esports World Cup (EWC). The deal made KFC a Strategic Partner across SEF’s youth development programmes and the EWC’s esports and music properties, reaching male and female Saudi gamers alike.',
+        'At the heart of the platform is The Original Gamechangers, our programme for Saudi women gamers. It gives female players a dedicated league, a route to register and compete, and a clear pathway from discovery to professional esports.',
+      ],
+      results: [
+        ['5,000+', 'Saudi gamers discovered and given a pathway into competitive esports'],
+        ['3', 'Year strategic partnership [2023–2026]'],
+        ['1', 'Exclusive QSR category partner across SEF and EWC properties'],
+      ],
+      metaDescription: 'How PLG Acachet built Play KFC and The Original Gamechangers, brokering KFC’s exclusive partnership with the Saudi Esports Federation and Esports World Cup.',
+    },
+    {
+      slug: 'pizza-hut',
+      title: 'Pizza Hut',
+      summary: 'We built Pizza Hut’s gaming ecosystem across the Middle East, unlocking a new audience for the brand.',
+      client: 'Pizza Hut',
+      services: ['strategy', 'media', 'creative'],
+      image: m.stat2,
+      keyVisualPending: true,
+      market: 'Middle East',
+      year: '[To confirm]',
+      brief: ['Audience insight showed that Pizza Hut was struggling to reach Gen Z and Gen Alpha through its regular marketing channels, leaving the brand with low equity among younger audiences.'],
+      approach: [
+        'We proposed a gaming-focused marketing strategy targeting Gen Z and Gen Alpha, secured a three-year partnership, and created and launched the Pizza Hut gaming ecosystem.',
+        'The Pizza Hut Gaming initiative brought an almost immediate lift in brand awareness, equity and conversion with the target audience, taking aided brand awareness above McDonald’s in the Middle East. With value at the core, the ecosystem delivered a 441% ROI and a ROAS of $14.5.',
+      ],
+      results: [
+        ['441%', 'ROI'],
+        ['$14.5', 'ROAS'],
+        ['$1.7', 'CPM'],
+        ['200K', 'Followers across dedicated social channels'],
+      ],
+      metaDescription: 'PLG Acachet built the Pizza Hut Gaming ecosystem across social, digital and influencer marketing, delivering a 441% ROI through gaming initiatives designed for Gen Z and Gen Alpha.',
+    },
+    {
+      slug: 'red-bull',
+      title: 'Red Bull',
+      summary: 'A three-day workshop and retreat for Red Bull’s top 100 global e-athletes.',
+      client: 'Red Bull',
+      services: ['events'],
+      image: m.stat3,
+      keyVisualPending: true,
+      market: 'Dubai, UAE',
+      year: '[To confirm]',
+      brief: ['Red Bull tasked us with planning and executing a three-day workshop for its top global esports and gaming talent, balancing work and play in equal measure and delivering a truly local experience with a global feel, in true Dubai fashion.'],
+      approach: [
+        'We planned the three-day itinerary and managed everything: travel and logistics, venue selection, entertainment curation, workshop and talent management, and every technical element.',
+        'Leading Red Bull athletes including Max Verstappen, Seth Quintero and Luke Czepiela joined to talk with the e-athletes, share insights and play a few games. Beyond the workshops, the athletes enjoyed uniquely local experiences: a desert safari, dune bashing in racing buggies, dinner in the desert and a yacht party to close.',
+      ],
+      results: [
+        ['100', 'Red Bull athletes'],
+        ['8', 'Workshops'],
+        ['4', 'Local experiences'],
+        ['1', 'Max Verstappen'],
+      ],
+      metaDescription: 'PLG Acachet planned and delivered a three-day workshop for 100 global Red Bull athletes, with entertainment, workshops and sessions from Max Verstappen, Seth Quintero and Red Bull staff.',
+    },
+  ]
+  const caseIds: Record<string, number> = {}
+  for (const [k, c] of caseSeeds.entries()) {
+    caseIds[c.slug] = await upsert(payload, 'case-studies', { slug: { equals: c.slug } }, {
+      slug: c.slug,
+      title: c.title,
+      cardTitle: c.cardTitle ?? null,
+      summary: c.summary,
+      client: c.client,
+      services: c.services,
+      image: c.image,
+      video: c.video ?? null,
+      wide: Boolean(c.wide),
+      keyVisualPending: Boolean(c.keyVisualPending),
+      market: c.market,
+      year: c.year,
+      brief: c.brief.join('\n\n'),
+      approach: c.approach.join('\n\n'),
+      results: c.results.map(([value, label]) => ({ value, label })),
+      points: (c.points ?? []).map((text) => ({ text })),
+      gallery: shotsFor(k).map((image) => ({ image })),
+      still: stillFor(k),
+      stillCaption: 'On the ground',
+      // the film is the case's own clip, or the showreel
+      film: c.video ?? m.reel,
+      filmCaption: 'Programme film',
+      metaDescription: c.metaDescription,
+      sortOrder: k,
+    })
+  }
+  const caseStudies = {
+    uci: caseIds['uci-cycling-esports-world-championships'],
+    gotf: caseIds['games-of-the-future-2025'],
+    cod: caseIds['call-of-duty'],
+    ea: caseIds['ea-sports-fifa-world-cup'],
+    kfc: caseIds['kfc'],
   }
   payload.logger.info('  case studies')
 
@@ -303,8 +499,9 @@ async function seed() {
         { caseStudy: caseStudies.uci },
         { caseStudy: caseStudies.gotf },
         { caseStudy: caseStudies.cod, fullWidth: true },
-        { caseStudy: caseStudies.ea },
-        { caseStudy: caseStudies.kfc },
+        // Home shows these two with the centre crop (the case studies use Our Work crops)
+        { caseStudy: caseStudies.ea, image: m.workEa },
+        { caseStudy: caseStudies.kfc, image: m.workKfc },
       ],
       showButton: true,
       link: toPage(ourWork, 'See our work'),
@@ -1090,6 +1287,53 @@ async function seed() {
     },
   })
   payload.logger.info('  services page')
+
+  // ---------- Our Work ----------
+  const ourWorkLayout = [
+    {
+      blockType: 'hero',
+      blockName: 'Banner',
+      variant: 'page',
+      title: 'Selected work.',
+      highlightLastWord: true,
+      headlineSize: 'fitted',
+      smallerOnPhones: true,
+      imageStyle: 'dim',
+      intro: richParagraph('Programmes for rights holders and brands, ', {
+        bold: 'each measured against commercial objectives.',
+      }),
+      links: [
+        { label: 'View Case Studies', appearance: 'primary', type: 'section', section: 'cases' },
+        toPage(contact, 'Talk to Us', undefined, 'ghost'),
+      ],
+      poster: m.poster,
+      video: m.reel,
+      showBrandMark: false,
+    },
+    {
+      blockType: 'caseStudyGrid',
+      blockName: 'Case studies',
+      anchorId: 'cases',
+      showFilter: true,
+      filterLabel: 'Filter',
+      allLabel: 'All work',
+      exploreLabel: 'Explore Project',
+      emptyText: 'No case studies under this service yet.',
+      nextLabel: 'Next case study',
+      ctaLink: { label: 'Discuss a Similar Challenge', appearance: 'primary', type: 'page', page: contact },
+    },
+    { blockType: 'logoMarquee', blockName: 'Brands we’ve worked with', label: 'Brands we’ve worked with' },
+    { blockType: 'ctaBanner', blockName: 'Call to action', anchorId: 'contact', useDefault: true },
+  ]
+  await page('our-work', 'Our Work', {
+    layout: ourWorkLayout as Page['layout'],
+    meta: {
+      title: 'Our Work | PLG Acachet',
+      description: 'Selected work: programmes for rights holders and brands, each measured against commercial objectives.',
+      image: m.og,
+    },
+  })
+  payload.logger.info('  our work page')
 
   // ---------- header & footer ----------
   const nav = (p: number, label: string, section?: string) => ({ label, type: 'page', page: p, ...(section ? { section } : {}) })
