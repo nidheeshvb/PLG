@@ -123,7 +123,7 @@ erDiagram
 | Team members | name, jobTitle, photo, group (management / creative / staff), department (top / commercial / delivery / operations), headOfDepartment, accountOwner, bio, linkedin, instagram, x, sortOrder | The Team page directory; org chart derived from department + head |
 | Open roles | title, team (commercial / delivery / creative / analytics), location, employmentType, summary, points[], isOpen, sortOrder | Join Us "Open roles" list and the application form's role list (only `isOpen`) |
 | Media | file, alt, focal point | Images, SVG, MP4/WebM |
-| Form submissions | form (enquiry / application), name, email, phone, role, discipline, profileLink, message, page | Created only by the website. Application fields shown only for job applications. No CV file yet (backlog) |
+| Form submissions | form (enquiry / application), name, email, phone, role, discipline, profileLink, message, page | Created only by the website. Application fields shown only for job applications. No CV file yet: the form shows the CV field, but the file is not sent (backlog) |
 | Users | email, password, name, role (admin / editor) | |
 | Site settings (global) | headerLinks (+ subLinks for the mobile menu), mobileMenuNote, cta (site-wide call to action), footerLinks, legalLinks, social, copyright | |
 
@@ -202,7 +202,7 @@ sequenceDiagram
 
 On Join Us, "Apply for this role" in the Open roles section sends a browser event that the application form listens for; it selects that role and its discipline and the link scrolls to the form.
 
-**CV upload is deferred** (`docs/backlog-cv-upload.md`): when added, CVs go to a private S3 bucket/prefix through an access-controlled Payload upload collection, never the public media bucket or CloudFront.
+**CV upload is deferred** (`docs/backlog-cv-upload.md`): the form already shows the CV field, but the file is not sent. When added, CVs go to a private S3 bucket/prefix through an access-controlled Payload upload collection, never the public media bucket or CloudFront.
 
 Later: notification email and CRM/careers-system hand-off from the same server actions.
 

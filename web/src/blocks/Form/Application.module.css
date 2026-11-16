@@ -78,6 +78,52 @@
   font-size: 13px;
   color: #c4321a;
 }
+/* CV drop zone (UI only for now: see docs/backlog-cv-upload.md) */
+.file {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 18px;
+  border: 1px dashed #c8c8c8;
+  border-radius: 12px;
+  cursor: pointer;
+  transition:
+    border-color 0.3s,
+    background 0.3s;
+}
+.file:hover,
+.file.drag {
+  border-color: var(--accent);
+  background: #fff7f2;
+}
+.file input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.fileIc {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 50%;
+  background: #f1f1f1;
+  color: #222;
+}
+.fileT {
+  font-size: 16px;
+  color: #222;
+}
+.fileT small {
+  display: block;
+  font-size: 13px;
+  color: #6a6d68;
+  margin-top: 2px;
+}
+
 .hp {
   position: absolute;
   left: -9999px;

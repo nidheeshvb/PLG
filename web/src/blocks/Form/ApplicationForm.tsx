@@ -39,6 +39,8 @@ function ApplicationFormInner({ roles, submitLabel, successMessage, note, onRest
   const [clientErrors, setClientErrors] = useState<Errors>({})
   const [role, setRole] = useState('')
   const [discipline, setDiscipline] = useState('')
+  const [cv, setCv] = useState<{ name: string; size: number } | null>(null)
+  const [drag, setDrag] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
   const errors: Errors = { ...state.errors, ...clientErrors }
   const roleOptions = [{ value: '', label: 'General application' }, ...roles.map((r) => ({ value: r.id, label: r.title }))]
@@ -143,6 +145,36 @@ function ApplicationFormInner({ roles, submitLabel, successMessage, note, onRest
         <label htmlFor="f-link">LinkedIn or portfolio link</label>
         <input id="f-link" name="link" type="url" placeholder="https://" onInput={clear('link')} />
         {errors.link && <span className={styles.err}>{errors.link}</span>}
+      </div>
+      <div className={fieldClass(undefined, true)}>
+        <label htmlFor="f-cv">CV</label>
+        {/* UI only: the input has no `name`, so the file is not sent yet (upload on hold: docs/backlog-cv-upload.md) */}
+        <div
+          className={[styles.file, drag && styles.drag].filter(Boolean).join(' ')}
+          onDragEnter={() => setDrag(true)}
+          onDragOver={() => setDrag(true)}
+          onDragLeave={() => setDrag(false)}
+          onDrop={() => setDrag(false)}
+        >
+          <input
+            id="f-cv"
+            type="file"
+            accept=".pdf,.doc,.docx"
+            onChange={(e) => {
+              const f = e.currentTarget.files?.[0]
+              setCv(f ? { name: f.name, size: f.size } : null)
+            }}
+          />
+          <span className={styles.fileIc} aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 16 16">
+              <path fill="none" stroke="currentColor" strokeWidth="1.4" d="M8 11V2M4.5 5.5L8 2l3.5 3.5M2 10v4h12v-4" />
+            </svg>
+          </span>
+          <span className={styles.fileT}>
+            {cv ? cv.name : 'Upload your CV'}
+            <small>{cv ? `${(cv.size / 1048576).toFixed(1)} MB · choose again to replace` : 'PDF or Word, up to 10 MB'}</small>
+          </span>
+        </div>
       </div>
       <div className={fieldClass(undefined, true)}>
         <label htmlFor="f-msg">What should we know?</label>

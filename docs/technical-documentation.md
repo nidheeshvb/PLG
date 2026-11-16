@@ -174,7 +174,7 @@ Developers can run the full website and CMS on their own computer by following `
 | 2 | **About Us** (banner, section menu, overview diagram, pillars, Mujtamae, vision & mission, why the UAE, ownership, more about us, call to action) | ✅ Complete — in review |
 | 3 | **Our Story** (banner, section menu, the combination with "lanes into one" diagram, more about us, call to action) | ✅ Complete — in review |
 | 4 | **The Team** (banner, section menu, team directory with grid / org chart / filter / profile panel, group scale, more about us, call to action) | ✅ Complete — in review |
-| 5 | **Join Us** (banner, section menu, why join with "one line across lanes" diagram and markets, statement, open roles with filter, application form, more about us) | ✅ Complete — in review. **CV upload deferred** (see below) |
+| 5 | **Join Us** (banner, section menu, why join with "one line across lanes" diagram and markets, statement, open roles with filter, application form, more about us) | ✅ Complete — in review. **CV upload logic deferred** (see below) |
 | 6 | Services | Planned |
 | 7 | Our Work (case study grid, filters, full case studies) | Planned |
 | 8 | Contact (enquiry form, offices) | Planned |
@@ -182,7 +182,7 @@ Developers can run the full website and CMS on their own computer by following `
 | 10 | Go-live on AWS (me-central-1): set up EC2, RDS, S3, CloudFront, SES, domain; analytics and cookie consent | Planned |
 
 ### Deferred: CV upload on the Join Us form
-The design includes a CV upload (PDF/Word, up to 10 MB). It is **on hold** until PLG Acachet confirms how CVs are handled and private S3 storage is available, because CVs are personal data and must not be stored with the public website media. The form works without it; applicants can add a LinkedIn or portfolio link. Open questions and the planned implementation are in `docs/backlog-cv-upload.md`.
+The design includes a CV upload (PDF/Word, up to 10 MB). It is **on hold** until PLG Acachet confirms how CVs are handled and private S3 storage is available, because CVs are personal data and must not be stored with the public website media. The CV field is already on the form as designed, but a chosen file is **not sent or stored** yet. Everything else in the form works, and applicants can add a LinkedIn or portfolio link. Open questions and the planned implementation are in `docs/backlog-cv-upload.md`.
 
 ## 10. Items needed from PLG Acachet
 

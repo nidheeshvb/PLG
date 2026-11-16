@@ -490,7 +490,7 @@ A website form: the contact form ("Your next move starts here" on Home) or the j
 
 | Field | What it does |
 |---|---|
-| **Form** | *Enquiry*: name, email, phone and message, over a photo. *Job application*: full name, email, **Applying for** (a list of the open roles, plus "General application"), **Your discipline** (Commercial, Delivery, Creative, Analytics, Something else), LinkedIn or portfolio link and a message, on a white band. Use one job application form per page. |
+| **Form** | *Enquiry*: name, email, phone and message, over a photo. *Job application*: full name, email, **Applying for** (a list of the open roles, plus "General application"), **Your discipline** (Commercial, Delivery, Creative, Analytics, Something else), LinkedIn or portfolio link, CV and a message, on a white band. Use one job application form per page. |
 | **Small heading / Title** | Above the form (on the left for a job application). |
 | **Intro text** | Paragraph under the title. |
 | **Background photo** | *Enquiry* only. Shown to the right of the form (below it on phones). |
@@ -498,7 +498,7 @@ A website form: the contact form ("Your next move starts here" on Home) or the j
 | **Message after sending** | Shown once the message is sent. For a job application it follows "Thanks, *first name*." |
 | **Small note next to the button** | *Job application* only, e.g. "We keep profiles on file and get in touch when a role fits." |
 
-> The CV upload shown in the design is **not on the website yet**. It is waiting for a decision on how CVs are stored and who can see them. Applicants can include a LinkedIn or portfolio link instead.
+> The **CV** field is shown on the form, but a chosen file is **not sent or saved yet**: applications in Form messages have no CV attached. Sending CVs is waiting for a decision on how they are stored and who can see them. Until then, rely on the LinkedIn or portfolio link.
 
 Messages arrive in **Inbox → Form messages** ([section 15](#15-messages-from-the-website)).
 

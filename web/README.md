@@ -118,7 +118,7 @@ src/
 | `statement` (Statement) | `style` centered/band, orange tail `highlight`, scroll reveal / fade in | Home; Join "Who we look for" | — |
 | `linkTiles` (Link tiles) | `tileStyle`: `standard` (grey band) · `tall` (About); 1–4 expanding tiles | About, Our Story, Team, Join "More about us" | Services categories |
 | `ctaBanner` (Call to action banner) | site-wide default (`site-settings.cta`) or page override | About, Our Story, Team | Join, Services, Our Work… |
-| `form` (Form) | `formType`: `enquiry` · `application` (role + discipline dropdowns, link, message; no CV upload yet) | Home; Join | Contact |
+| `form` (Form) | `formType`: `enquiry` · `application` (role + discipline dropdowns, link, CV drop zone (UI only, file not sent yet), message) | Home; Join | Contact |
 
 **Rule for new pages:** reuse a block → otherwise add a variant/option to an existing block → only then create a new block.
 
@@ -153,7 +153,7 @@ npm run migrate                          # on the target database
 ## Not done yet
 
 - Other pages (Services, Our Work, Contact, Legal) and their blocks.
-- CV upload on the Join Us application form: on hold, see `docs/backlog-cv-upload.md`.
+- CV upload logic on the Join Us application form (the field is shown but the file is not sent): on hold, see `docs/backlog-cv-upload.md`.
 - Open role descriptions (the six seeded roles from the prototype have none).
 - Team bios and social profile links (seeded as placeholders: no bios, platform home pages); photos for two people.
 - Full case study content and the case study overlay (Our Work page).

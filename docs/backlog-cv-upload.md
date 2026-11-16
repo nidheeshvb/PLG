@@ -2,9 +2,13 @@
 
 _Status: **on hold**: waiting for client confirmation and AWS S3 access. Last updated: 2026-11-16._
 
-The Join Us page ("Send us your profile" form) is live without the CV upload field. Everything else in the
-form works: name, email, role, discipline, LinkedIn/portfolio link and message are saved to
-**Inbox → Form messages** in the CMS. This document collects what we need to add the CV upload later.
+The Join Us page ("Send us your profile" form) shows the CV field as designed (drop zone, picked file name and
+size, drag highlight), but **the file is not sent or stored**: the `<input type="file">` has no `name`, so it is
+not part of the submitted form. Everything else works: name, email, role, discipline, LinkedIn/portfolio link
+and message are saved to **Inbox → Form messages** in the CMS.
+
+> Risk while on hold: applicants may think their CV was sent. Consider a short note under the field
+> (e.g. "CV uploads are coming soon; add your LinkedIn link above") if the page goes live before this is done. This document collects what we need to add the CV upload later.
 
 ## What the prototype shows
 
@@ -51,7 +55,7 @@ CVs are personal data, so they can't be handled like website images.
    (e.g. `S3_PRIVATE_BUCKET`). It does **not** use `disablePayloadAccessControl`, so downloads go through
    Payload's access checks. With the env var unset, files use local disk (dev only).
 3. **Form**:
-   - Add the drop-zone field to `blocks/Form/ApplicationForm.tsx`, copying the prototype styles (`.file`, `.file__ic`, `.file__t`).
+   - The drop zone already exists in `blocks/Form/ApplicationForm.tsx` (styles `.file`, `.fileIc`, `.fileT` in `Application.module.css`). Give the input `name="cv"`, add client-side type/size checks and an error line.
    - The `submitApplication` server action (`app/(frontend)/actions.ts`) checks size and type on the server and checks the file's magic bytes, not only its extension.
    - It then creates the file doc and links it from the submission.
    - Raise `serverActions.bodySizeLimit` in `next.config` to about 11 MB.
