@@ -5,6 +5,7 @@ import {
   ItalicFeature,
   LinkFeature,
   ParagraphFeature,
+  UnorderedListFeature,
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 import type { RichTextField } from 'payload'
@@ -29,3 +30,16 @@ export const richText = (overrides: Partial<RichTextField> = {}): RichTextField 
     editor: simpleEditor,
     ...overrides,
   }) as RichTextField
+
+/** Editor for long documents (legal pages): paragraphs, bold, italic, links and bullet lists. */
+export const documentEditor = lexicalEditor({
+  features: () => [
+    ParagraphFeature(),
+    BoldFeature(),
+    ItalicFeature(),
+    LinkFeature({ enabledCollections: ['pages'] }),
+    UnorderedListFeature(),
+    FixedToolbarFeature(),
+    InlineToolbarFeature(),
+  ],
+})

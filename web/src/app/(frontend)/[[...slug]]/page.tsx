@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { draftMode } from 'next/headers'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
@@ -44,6 +44,9 @@ export default async function Page({ params }: Props) {
   const { slug } = await params
   const page = await getPageByPath(pathFromSegments(slug))
   if (!page) notFound()
+  // a page can forward visitors to another one (e.g. /legal → /legal/terms)
+  const forward = typeof page.forwardTo === 'object' ? page.forwardTo?.path : null
+  if (forward && forward !== page.path) redirect(forward)
   const { isEnabled: preview } = await draftMode()
 
   return (

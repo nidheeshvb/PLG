@@ -177,6 +177,7 @@ export interface Page {
         | CtaBannerBlock
         | FormBlock
         | OfficesBlock
+        | LegalDocumentBlock
       )[]
     | null;
   meta?: {
@@ -195,6 +196,10 @@ export interface Page {
    * Worked out from the URL name and parent page.
    */
   path?: string | null;
+  /**
+   * Visitors opening this page are sent on to the chosen page (e.g. Legal → Terms & Conditions). Its sections are not shown.
+   */
+  forwardTo?: (number | null) | Page;
   parent?: (number | null) | Page;
   breadcrumbs?:
     | {
@@ -1658,6 +1663,121 @@ export interface OfficesBlock {
   blockType: 'offices';
 }
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LegalDocumentBlock".
+ */
+export interface LegalDocumentBlock {
+  /**
+   * The last word is shown in orange, e.g. “Privacy Policy.”
+   */
+  title: string;
+  subtitle?: string | null;
+  /**
+   * E.g. Last updated, Effective from, Version.
+   */
+  facts?:
+    | {
+        label: string;
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  showBrandMark?: boolean | null;
+  switcherLabel?: string | null;
+  /**
+   * The legal pages in the bar under the header, including this one. The others are also linked at the end of the document.
+   */
+  documents?: (number | Page)[] | null;
+  /**
+   * Optional orange box above the document. Leave empty to hide it.
+   */
+  noticeTitle?: string | null;
+  noticeText?: string | null;
+  noticePoints?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * A short plain-language summary above the first section.
+   */
+  intro?: string | null;
+  /**
+   * Numbered 01, 02… in this order; the contents list beside the document is made from their titles.
+   */
+  sections?:
+    | {
+        title: string;
+        highlight?: boolean | null;
+        mustLabel?: string | null;
+        mustNote?: string | null;
+        body?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        cookieTable?:
+          | {
+              name: string;
+              provider?: string | null;
+              category?: ('necessary' | 'analytics' | 'functional' | 'marketing') | null;
+              duration?: string | null;
+              purpose?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * From Header & footer → Company details.
+         */
+        showContactCard?: boolean | null;
+        /**
+         * Opens the cookie consent panel once a consent platform is chosen (not yet connected).
+         */
+        showPreferencesButton?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * The text under it uses the email and phone from Header & footer → Company details.
+   */
+  askTitle?: string | null;
+  askLink?: {
+    label?: string | null;
+    appearance?: ('primary' | 'ghost' | 'dark') | null;
+    type?: ('page' | 'section' | 'url') | null;
+    page?: (number | null) | Page;
+    /**
+     * The "Section ID" set on a section (e.g. contact). For a page link this is optional and jumps to that section on the page.
+     */
+    section?: string | null;
+    url?: string | null;
+    newTab?: boolean | null;
+  };
+  /**
+   * Optional. Lets buttons jump to this section (e.g. "contact"). Lowercase letters, numbers and dashes.
+   */
+  anchorId?: string | null;
+  /**
+   * Optional. Shown in the page’s section menu, where the page has one.
+   */
+  navLabel?: string | null;
+  hideSection?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'legalDocument';
+}
+/**
  * Messages people sent through the website.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1929,6 +2049,7 @@ export interface PagesSelect<T extends boolean = true> {
         ctaBanner?: T | CtaBannerBlockSelect<T>;
         form?: T | FormBlockSelect<T>;
         offices?: T | OfficesBlockSelect<T>;
+        legalDocument?: T | LegalDocumentBlockSelect<T>;
       };
   meta?:
     | T
@@ -1939,6 +2060,7 @@ export interface PagesSelect<T extends boolean = true> {
       };
   slug?: T;
   path?: T;
+  forwardTo?: T;
   parent?: T;
   breadcrumbs?:
     | T
@@ -2718,6 +2840,72 @@ export interface OfficesBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LegalDocumentBlock_select".
+ */
+export interface LegalDocumentBlockSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  facts?:
+    | T
+    | {
+        label?: T;
+        value?: T;
+        id?: T;
+      };
+  showBrandMark?: T;
+  switcherLabel?: T;
+  documents?: T;
+  noticeTitle?: T;
+  noticeText?: T;
+  noticePoints?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  intro?: T;
+  sections?:
+    | T
+    | {
+        title?: T;
+        highlight?: T;
+        mustLabel?: T;
+        mustNote?: T;
+        body?: T;
+        cookieTable?:
+          | T
+          | {
+              name?: T;
+              provider?: T;
+              category?: T;
+              duration?: T;
+              purpose?: T;
+              id?: T;
+            };
+        showContactCard?: T;
+        showPreferencesButton?: T;
+        id?: T;
+      };
+  askTitle?: T;
+  askLink?:
+    | T
+    | {
+        label?: T;
+        appearance?: T;
+        type?: T;
+        page?: T;
+        section?: T;
+        url?: T;
+        newTab?: T;
+      };
+  anchorId?: T;
+  navLabel?: T;
+  hideSection?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "case-studies_select".
  */
 export interface CaseStudiesSelect<T extends boolean = true> {
@@ -3023,6 +3211,12 @@ export interface SiteSetting {
      */
     image?: (number | null) | Media;
   };
+  company?: {
+    name?: string | null;
+    email?: string | null;
+    address?: string | null;
+    phone?: string | null;
+  };
   footerLinks?:
     | {
         label: string;
@@ -3111,6 +3305,14 @@ export interface SiteSettingsSelect<T extends boolean = true> {
               newTab?: T;
             };
         image?: T;
+      };
+  company?:
+    | T
+    | {
+        name?: T;
+        email?: T;
+        address?: T;
+        phone?: T;
       };
   footerLinks?:
     | T

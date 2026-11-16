@@ -76,7 +76,7 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
   <header class="top">
     <div class="brand"><i></i>PLG Acachet · Website rebuild</div>
     <h1>Website Technical Documentation</h1>
-    <div class="meta"><span>Last updated 16 November 2026</span><span class="pill">Step 8 complete: Contact page</span></div>
+    <div class="meta"><span>Last updated 16 November 2026</span><span class="pill">Step 9 complete: all pages built</span></div>
   </header>
 
   <nav class="toc" aria-label="Contents">
@@ -157,7 +157,7 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
           <tr><td>Open roles</td><td class="wrap">Join Us job listings: title, team, location, type, description, key points, a "show on the website" switch and order. Also fills the application form's role list</td></tr>
           <tr><td>Images &amp; videos</td><td class="wrap">Every uploaded image, logo and video, with alt text and focal point</td></tr>
           <tr><td>Form messages</td><td class="wrap">Enquiries and job applications sent from the website's forms (read-only inbox)</td></tr>
-          <tr><td>Header &amp; footer</td><td class="wrap">Menu links (with optional mobile sub-links), the site-wide "Start a conversation" banner, footer links, legal links, social media links, copyright line</td></tr>
+          <tr><td>Header &amp; footer</td><td class="wrap">Menu links (with optional mobile sub-links), the site-wide "Start a conversation" banner, company details (for the legal documents), footer links, legal links, social media links, copyright line</td></tr>
         </tbody>
       </table></div>
       <h3>Sections available today</h3>
@@ -185,11 +185,12 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
           <tr><td>Case study grid</td><td class="wrap">Every case study as large numbered tiles with a filter bar by service that sticks to the top; each tile opens the full case study over the page at its own address (Our Work)</td><td class="wrap">Filter on or off and its labels, tile link text, empty-filter text, "next" label, closing button. Tiles and case studies come from Case studies</td></tr>
           <tr><td>Statement</td><td class="wrap">One large sentence</td><td class="wrap">Look: centred over brand marks or left-aligned on a grey band; orange end of sentence; scroll animation or fade-in; brand marks on or off</td></tr>
           <tr><td>Form</td><td class="wrap">Website form. Types: <i>Enquiry</i> (contact form over a photo), <i>Detailed enquiry</i> (Contact: name, company, work email, phone, choices, message and consent, with numbered promises beside it) and <i>Job application</i> (name, email, role, discipline, LinkedIn or portfolio link, message, on a white band)</td><td class="wrap">Form type, heading, intro, background photo (enquiry), promises, choices and the note they can show, consent wording, button text, thank-you heading and message, note next to the button (application)</td></tr>
+          <tr><td>Legal document</td><td class="wrap">A legal page (Terms, Privacy Policy, Cookies): dark header with facts, a document switcher that sticks to the top, numbered contents that follow the reader, sections (optional highlighted box, tag, cookie table, contact card, cookie preferences button), a questions box and links to the other documents</td><td class="wrap">Title, facts, documents in the switcher, notice, introduction, sections, questions box. Contact details from Header &amp; footer → Company details</td></tr>
           <tr><td>Office</td><td class="wrap">Office photo with the city and a live local-time clock, and email, phone (with Copy), address (with Directions) and hours (Contact)</td><td class="wrap">Heading, intro, photo, label, city, time zone, contact details, opening hours</td></tr>
         </tbody>
       </table></div>
       <p>Every section also has <b>Section settings</b>: a Section ID so buttons can jump to it, a name for section menus, and <b>Hide this section on the website</b>.</p>
-      <p class="note">More sections arrive with the last page: legal documents. Existing sections gain new styles where possible rather than being duplicated.</p>
+      <p class="note">Every page of the design is built. New sections or styles can be added on request; existing sections gain new styles where possible rather than being duplicated.</p>
     </section>
 
     <section id="editing">
@@ -298,7 +299,7 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
           <tr><td>6</td><td class="wrap"><b>Services</b>: banner, numbered section menu that stays at the top, four categories, our approach, four service details, call to action</td><td><span class="pill">Complete, in review</span></td></tr>
           <tr><td>7</td><td class="wrap"><b>Our Work</b>: video banner with pause button, filter bar, eight case study tiles, full case study view, brand logos, call to action. Extra case study sections from the design kept in the backlog</td><td><span class="pill">Complete, in review</span></td></tr>
           <tr><td>8</td><td class="wrap"><b>Contact</b>: banner, detailed enquiry form with promises and choices, office with live local time, copy and directions</td><td><span class="pill">Complete, in review</span></td></tr>
-          <tr><td>9</td><td class="wrap">Legal: Terms, Privacy, Cookies</td><td><span class="pill plan">Planned</span></td></tr>
+          <tr><td>9</td><td class="wrap"><b>Legal</b>: Terms &amp; Conditions, Privacy Policy and Cookies, with header, document switcher, numbered contents, sections, cookie table and questions box; <code>/legal</code> opens Terms. Wording by counsel still needed; the cookie preferences button waits for the consent platform</td><td><span class="pill">Complete, in review</span></td></tr>
           <tr><td>10</td><td class="wrap">Go-live on AWS (me-central-1): EC2, RDS, S3, CloudFront, SES and domain; analytics and cookie consent</td><td><span class="pill plan">Planned</span></td></tr>
         </tbody>
       </table></div>
@@ -313,7 +314,7 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
         <li>Real social media links (currently placeholders), including each team member's LinkedIn / Instagram / X profile.</li>
         <li>Team bios (50–70 words each), confirmation of the org chart reporting lines, and photos for Sherif Saed and Emma Valdez.</li>
         <li>Confirmation of the office details on the Contact page (email, phone, address and hours are the ones in the design).</li>
-        <li>Legal wording for Terms, Privacy and Cookies approved by counsel, and the chosen cookie-consent platform.</li>
+        <li>Legal wording for Terms, Privacy and Cookies approved by counsel: the pages hold the design's outline and placeholder text, plus the real "last updated" and "effective from" dates and version. And the chosen cookie-consent platform, which connects the "Manage Cookie Preferences" button and the cookie list.</li>
         <li>Where form messages should go besides the CMS inbox: email addresses, CRM or careers system.</li>
         <li>The real open roles with descriptions (the six on the site come from the design and have no descriptions yet).</li>
         <li>Case studies: key visuals for G42, Pizza Hut and Red Bull (library photos for now), project photos for each gallery (library shots for now), and confirmation of the facts shown in [square brackets], such as years.</li>

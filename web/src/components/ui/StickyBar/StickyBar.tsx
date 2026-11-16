@@ -15,6 +15,8 @@ type Props = {
   /** The scrolling row inside the bar (for callers that scroll it or mark its items). */
   innerRef?: RefObject<HTMLDivElement | null>
   innerId?: string
+  /** tabs: links between pages, the current one marked aria-current="page" (Legal document switcher) */
+  variant?: 'links' | 'tabs'
 }
 
 /**
@@ -23,7 +25,7 @@ type Props = {
  * showing (body without `nav-hidden`), so only one bar shows at a time. Drags sideways when it overflows.
  * Renders the marker and the bar as siblings, like the prototype.
  */
-export function StickyBar({ label, children, innerRef, innerId }: Props) {
+export function StickyBar({ label, children, innerRef, innerId, variant = 'links' }: Props) {
   const markRef = useRef<HTMLDivElement>(null)
   const navRef = useRef<HTMLElement>(null)
   const ownRef = useRef<HTMLDivElement>(null)
@@ -38,7 +40,7 @@ export function StickyBar({ label, children, innerRef, innerId }: Props) {
   return (
     <>
       <div ref={markRef} aria-hidden="true" />
-      <nav ref={navRef} className={styles.snav} aria-label={label}>
+      <nav ref={navRef} className={[styles.snav, variant === 'tabs' && styles.tabs].filter(Boolean).join(' ')} aria-label={label}>
         <div ref={inner} id={innerId} className={styles.inner}>
           {children}
         </div>

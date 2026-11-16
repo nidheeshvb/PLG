@@ -2,7 +2,7 @@
 
 How to update the website yourself using the content management system (CMS). No technical knowledge needed.
 
-_Last updated: 16 November 2026 · Covers: Home, About, Our Story, The Team, Join Us, Services, Our Work and Contact pages, header and footer. More pages are added to this guide as they are built._
+_Last updated: 16 November 2026 · Covers: Home, About, Our Story, The Team, Join Us, Services, Our Work, Contact and Legal pages, header and footer. More pages are added to this guide as they are built._
 
 ---
 
@@ -120,6 +120,11 @@ After signing in you see the **Dashboard**. The menu on the left (click ☰ if i
 | Change the links under "About us" in the mobile menu | **Header & footer → Header → Menu links → About us → Sub-links in the mobile menu** |
 | Change a top-menu link | **Header & footer → Header → Menu links** |
 | Change footer or social media links | **Header & footer → Footer** |
+| Edit the Terms, Privacy Policy or Cookies text | **Pages → Legal →** the document → **Legal document** → **Sections** |
+| Add a section to a legal document | That **Legal document** → **Sections** → **Add Section** (numbered and added to "On this page" automatically) |
+| Change the "Last updated" / "Version" facts | That **Legal document** → **Header** → **Facts** |
+| Change the company email, phone or address on the legal pages | **Header & footer → Company details** |
+| Send visitors from one page to another | That page → **Forward visitors to** (right side) |
 | Change how a page appears on Google / when shared | **Pages →** your page → **SEO** tab |
 | Read contact form messages and job applications | **Inbox → Form messages** |
 | Change the office email, phone, address or hours | **Pages → Contact → Office** → **Contact details** |
@@ -224,6 +229,14 @@ On **Pages → Contact**:
 03  Office                   Offices
 ```
 
+On **Pages → Legal → Terms & Conditions** (and the same on **Privacy Policy** and **Cookies**):
+
+```
+01  Legal document           Document
+```
+
+**Pages → Legal** itself has no sections: its **Forward visitors to** is set to *Terms & Conditions*, so `/legal` opens the Terms.
+
 - The first word is the **kind of section**; the second is its **name** (only you see the name; click it to rename).
 - **Click a section** to open it and see its fields. Click again to close it.
 - **Collapse All / Show All** (above the list) closes or opens every section at once.
@@ -233,7 +246,9 @@ On **Pages → Contact**:
 
 Numbers on cards ("01", "02"…), the breadcrumb at the top of inner pages ("Home / About Us") and the links in a **Section menu** are all worked out automatically from the order and the page tree, so moving things never leaves them wrong.
 
-**Pages inside pages.** A page can sit under another page (the **Parent** field on the right of the page editor). *Our Story*, *The Team* and *Join Us* sit under *About Us*, so their addresses are `/about/our-story`, `/about/team` and `/about/join`, and their breadcrumb reads "Home / About Us / Our Story". All three are built.
+**Pages inside pages.** A page can sit under another page (the **Parent** field on the right of the page editor). *Our Story*, *The Team* and *Join Us* sit under *About Us*, so their addresses are `/about/our-story`, `/about/team` and `/about/join`, and their breadcrumb reads "Home / About Us / Our Story". All three are built. *Terms & Conditions*, *Privacy Policy* and *Cookies* sit under *Legal* (`/legal/terms` …).
+
+**Forward visitors to (right side of a page).** Pick another page to send visitors there instead; the page's own sections are not shown and it is left out of the sitemap. *Legal* uses it to open *Terms & Conditions*.
 
 ## 5. Saving, previewing and publishing
 
@@ -516,6 +531,19 @@ Big animated numbers over full-screen pictures, changing automatically.
 
 The number counts up from zero the first time it appears.
 
+### Legal document
+One legal page (Terms & Conditions, Privacy Policy or Cookies): a dark header, a bar that switches between the legal documents and sticks to the top, then the document on white with a numbered **On this page** list beside it that follows your reading.
+
+| Field | What it does |
+|---|---|
+| **Header** | **Title** (the last word is orange, e.g. "Privacy **Policy.**"), **Line under the title**, **Facts** (e.g. *Last updated*, *Effective from*, *Version*), **Show the brand mark**. The breadcrumb is automatic. |
+| **Document switcher** | **Label** ("Legal") and **Documents (in order)**: the legal pages in the bar, including this one. The others are also linked at the end of the document. |
+| **Notice and introduction** | An optional orange **Notice** box (bold line, text, points), then the **Introduction** paragraph. |
+| **Sections** | Each: **Title**; **Show in a highlighted box**; an optional **Orange tag** with **Text after the tag** (e.g. "Must be covered · Counsel to confirm scope."); **Text** (paragraphs, bold, italic, links, bullet lists); an optional **Cookie table** (cookie, provider, category, duration, purpose); **Add the company contact card** (from **Header & footer → Company details**); **Add the "Manage Cookie Preferences" button**. Sections are numbered 01, 02… in order. |
+| **End of the document** | The **"Questions?" box title** and its **button**; the text uses the email and phone from **Company details**. |
+
+> The three documents currently contain the design's suggested outline and placeholder text. All wording must be drafted and approved by qualified counsel before the site goes live. The **Manage Cookie Preferences** button is not connected yet: it opens the cookie consent platform once one is chosen.
+
 ### Office
 The Contact page's office: a tall photo with the city and a live local-time clock, and beside it a heading, intro and the contact details. Empty details are left out.
 
@@ -717,6 +745,7 @@ To show a case study on Home: **Pages → Home → Case study showcase → Case 
 | **Header** | **Menu links** | Top menu and mobile menu (up to 6). Drag to reorder. The link of the page being viewed (or of its parent page, e.g. *About us* on Our Story) is highlighted automatically. |
 | | **Menu links → Sub-links in the mobile menu** | Optional. Shown indented under that link in the phone menu (e.g. *About us* → Overview, Our Story, The Team, Join Us). |
 | | **Small text at the bottom of the mobile menu** | e.g. "© 2026 PLG Acachet" |
+| **Company details** | **Company name, Email, Address, Phone** | Used by the legal documents (contact card and "Questions?" box). |
 | **Call to action** | **Small heading, Title, Text, Button, Background image** | The white "Start a conversation" banner shown by every page's **Call to action banner** section (unless the page uses its own text). |
 | **Footer** | **Footer links** | Links next to the logo in the footer |
 | | **Legal links** | Small links such as Privacy, Terms and Cookies |
@@ -752,6 +781,8 @@ Messages can't be edited. Admins can delete them.
 | Change **Header & footer → Header → Menu links → Sub-links** | The phone menu and every **Section menu** set to *Same links as the main menu* (Our Story, The Team, Join Us) update. |
 | Change **Header & footer → Call to action** | Every page whose Call to action banner uses the site-wide version updates. |
 | Rename a page or move it under another page | Its breadcrumb (and web address) follows automatically. |
+| Set **Forward visitors to** on a page | Visitors to that page land on the chosen page instead. |
+| Change **Header & footer → Company details** | The contact card and "Questions?" box on every legal document update. |
 | **Hide** a section | It disappears from the website; everything is kept. Untick to restore. |
 | **Remove** a section | It's deleted from the page. You can still get it back from **Versions → Restore**. |
 | Delete a **page** | Buttons and menu links pointing to it disappear from the website. |
@@ -766,5 +797,5 @@ Messages can't be edited. Admins can delete them.
 
 ---
 
-### Coming with the next pages
-Legal, with its documents. This guide will be updated as each one is added.
+### All pages are built
+Every page of the design is now in the CMS. This guide is updated whenever a section or option is added or changed.

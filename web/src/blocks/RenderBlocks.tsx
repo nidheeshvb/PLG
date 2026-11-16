@@ -13,6 +13,7 @@ import { FormBlock } from './Form/Component'
 import { GroupScaleBlock } from './GroupScale/Component'
 import { HeroBlock } from './Hero/Component'
 import { LeadTextBlock } from './LeadText/Component'
+import { LegalDocumentBlock } from './LegalDocument/Component'
 import { LinkTilesBlock } from './LinkTiles/Component'
 import { LogoMarqueeBlock } from './LogoMarquee/Component'
 import { MediaTextBlock } from './MediaText/Component'
@@ -50,6 +51,7 @@ const components: { [K in BlockType]: ComponentType<Extract<Block, { blockType: 
   linkTiles: LinkTilesBlock,
   teamDirectory: TeamDirectoryBlock as ComponentType<Extract<Block, { blockType: 'teamDirectory' }> & BlockContext>,
   groupScale: GroupScaleBlock,
+  legalDocument: LegalDocumentBlock as ComponentType<Extract<Block, { blockType: 'legalDocument' }> & BlockContext>,
   offices: OfficesBlock,
   serviceDetail: ServiceDetailBlock,
   openRoles: OpenRolesBlock as ComponentType<Extract<Block, { blockType: 'openRoles' }> & BlockContext>,

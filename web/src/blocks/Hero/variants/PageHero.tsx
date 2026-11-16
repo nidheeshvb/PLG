@@ -13,7 +13,7 @@ import styles from './PageHero.module.css'
 import { VideoControl } from './VideoControl'
 
 /** Breadcrumb trail from the page tree: Home / parent pages / this page. */
-function Breadcrumb({ page }: { page?: BlockContext['page'] }) {
+export function Breadcrumb({ page }: { page?: BlockContext['page'] }) {
   const trail = (page?.breadcrumbs ?? []).filter((c) => c.label)
   const crumbs = trail.length ? trail : page?.title ? [{ label: page.title, url: page.path }] : []
   return (

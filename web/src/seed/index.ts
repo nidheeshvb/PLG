@@ -11,7 +11,7 @@ import { getPayload, type Payload } from 'payload'
 
 import config from '../payload.config'
 import type { Page } from '../payload-types'
-import { paragraphs, richParagraph } from './lexical'
+import { docBody, paragraphs, richParagraph } from './lexical'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 /** The prototype's asset folder (repo root /assets). */
@@ -1425,6 +1425,149 @@ async function seed() {
   })
   payload.logger.info('  contact page')
 
+  // ---------- Legal (Terms, Privacy Policy, Cookies) ----------
+  // The prototype's outline and placeholder text, to be replaced by counsel-approved wording (see the notice box).
+  const P1 = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula, donec lobortis risus a elit etiam tempor ut ullamcorper ligula.'
+  const P2 = 'Curabitur pretium tincidunt lacus, nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh euismod gravida.'
+  const L3 = ['Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Sed do eiusmod tempor incididunt ut labore et dolore', 'Ut enim ad minim veniam, quis nostrud exercitation']
+  type LegalSec = { t: string; list?: boolean; links?: boolean; key?: boolean; must?: string; cats?: boolean; table?: boolean; prefs?: boolean }
+  const legalSections = (doc: 'terms' | 'privacy' | 'cookies', secs: LegalSec[]) =>
+    secs.map((s, i) => {
+      const blocks: Parameters<typeof docBody> = [{ p: [P1] }]
+      if (i % 3 === 1) blocks.push({ p: [P2] })
+      if (s.list) blocks.push({ ul: L3.map((x) => [x]) })
+      if (s.cats)
+        blocks.push({
+          ul: [
+            [{ bold: 'Strictly necessary:' }, ' [what they do; always on]'],
+            [{ bold: 'Analytics:' }, ' [what they measure; consent-based]'],
+            [{ bold: 'Functional:' }, ' [what they remember; consent-based]'],
+            [{ bold: 'Marketing:' }, ' [what they do; consent-based]'],
+          ],
+        })
+      if (s.links)
+        blocks.push({
+          p:
+            doc === 'terms'
+              ? ['How we handle personal data is set out in our ', { link: 'Privacy Policy', page: privacy }, ', and our use of cookies in ', { link: 'Cookies', page: cookies }, '.']
+              : ['Details of the cookies this website uses are set out in ', { link: 'Cookies', page: cookies }, '.'],
+        })
+      return {
+        title: s.t,
+        highlight: Boolean(s.key),
+        mustLabel: s.must ?? null,
+        mustNote: 'Counsel to confirm scope.',
+        body: docBody(...blocks),
+        cookieTable: s.table
+          ? (['necessary', 'analytics', 'functional', 'marketing'] as const).map((category, k) => ({
+              name: '[cookie_name]',
+              provider: '[Provider]',
+              purpose: '[Purpose]',
+              category,
+              duration: k === 0 ? '[Session]' : '[Duration]',
+            }))
+          : [],
+        showContactCard: /^contact/i.test(s.t),
+        showPreferencesButton: Boolean(s.prefs),
+      }
+    })
+  const legalCommon = {
+    facts: [
+      { label: 'Last updated', value: '[DD Month YYYY]' },
+      { label: 'Effective from', value: '[DD Month YYYY]' },
+      { label: 'Version', value: '0.1 draft' },
+    ],
+    showBrandMark: true,
+    switcherLabel: 'Legal',
+    documents: [terms, privacy, cookies],
+    askLink: { label: 'Contact Us', appearance: 'primary', type: 'page', page: contact },
+  }
+  const legalDoc = (data: Record<string, unknown>) => [{ blockType: 'legalDocument', blockName: 'Document', anchorId: 'doc', ...legalCommon, ...data }]
+  await page('terms', 'Terms & Conditions', {
+    parent: legal,
+    layout: legalDoc({
+      title: 'Terms & Conditions.',
+      subtitle: 'The terms that apply when you use the PLG Acachet website.',
+      noticeTitle: 'Full content requires drafting and approval by qualified counsel.',
+      noticeText: 'The headings below are a suggested outline to help counsel and the content team. Replace every placeholder before publishing.',
+      noticePoints: [],
+      intro: '[Short plain-language summary of what these terms cover and who they apply to.]',
+      sections: legalSections('terms', [
+        { t: 'About these terms' },
+        { t: 'Who we are' },
+        { t: 'Using this website', list: true },
+        { t: 'Intellectual property' },
+        { t: 'Accuracy of information' },
+        { t: 'Links to other websites' },
+        { t: 'Limitation of liability' },
+        { t: 'Privacy and cookies', links: true },
+        { t: 'Changes to these terms' },
+        { t: 'Governing law and jurisdiction' },
+        { t: 'Contact us' },
+      ]),
+      askTitle: 'Questions about this document?',
+    }) as Page['layout'],
+    meta: { title: 'Terms & Conditions | PLG Acachet', description: 'The terms that apply when you use the PLG Acachet website.', image: m.og },
+  })
+  await page('privacy-policy', 'Privacy Policy', {
+    parent: legal,
+    layout: legalDoc({
+      title: 'Privacy Policy.',
+      subtitle: 'How PLG Acachet collects, uses and protects personal data, including data processed through Mujtamae.',
+      noticeTitle: 'Full content requires qualified counsel.',
+      noticeText: 'It must address:',
+      noticePoints: [
+        { text: 'UAE data protection requirements' },
+        { text: 'Any GDPR exposure' },
+        { text: 'Participation and engagement data processed by Mujtamae, our proprietary analytics platform' },
+      ],
+      intro: '[Short plain-language summary: who we are, what data we handle, and the rights people have over it.]',
+      sections: legalSections('privacy', [
+        { t: 'Who we are' },
+        { t: 'What this policy covers' },
+        { t: 'Information we collect', list: true },
+        { t: 'Mujtamae: participation and engagement data', key: true, must: 'Must be covered' },
+        { t: 'How we use information', list: true },
+        { t: 'Legal basis for processing' },
+        { t: 'Sharing information' },
+        { t: 'International transfers' },
+        { t: 'How long we keep information' },
+        { t: 'Security' },
+        { t: 'Your rights', must: 'UAE law and GDPR, where applicable' },
+        { t: 'Cookies', links: true },
+        { t: 'Changes to this policy' },
+        { t: 'Contact and data protection enquiries' },
+      ]),
+      askTitle: 'Questions about this policy?',
+    }) as Page['layout'],
+    meta: { title: 'Privacy Policy | PLG Acachet', description: 'How PLG Acachet collects, uses and protects personal data, including data processed through Mujtamae.', image: m.og },
+  })
+  await page('cookies', 'Cookies', {
+    parent: legal,
+    layout: legalDoc({
+      title: 'Cookies.',
+      subtitle: 'Which cookies the PLG Acachet website uses, why, and how to change your choices.',
+      noticeTitle: 'Full content requires qualified counsel and confirmation of the final cookie / consent platform.',
+      noticeText: 'The cookie list and the preferences control depend on the consent platform chosen for launch.',
+      noticePoints: [],
+      intro: '[Short plain-language summary of what cookies are and how this site uses them.]',
+      sections: legalSections('cookies', [
+        { t: 'What cookies are' },
+        { t: 'How we use cookies' },
+        { t: 'Cookie categories', cats: true },
+        { t: 'Cookies on this website', table: true },
+        { t: 'Managing your preferences', prefs: true },
+        { t: 'Changes to this policy' },
+        { t: 'Contact us' },
+      ]),
+      askTitle: 'Questions about this policy?',
+    }) as Page['layout'],
+    meta: { title: 'Cookies | PLG Acachet', description: 'Which cookies the PLG Acachet website uses, why, and how to change your choices.', image: m.og },
+  })
+  // /legal itself forwards to the first document, like the prototype's legal.html
+  await page('legal', 'Legal', { forwardTo: terms })
+  payload.logger.info('  legal pages')
+
   // ---------- header & footer ----------
   const nav = (p: number, label: string, section?: string) => ({ label, type: 'page', page: p, ...(section ? { section } : {}) })
   await payload.updateGlobal({
@@ -1448,6 +1591,12 @@ async function seed() {
         image: m.contactBg,
       },
       mobileMenuNote: '© 2026 PLG Acachet',
+      company: {
+        name: 'PLG Acachet',
+        address: 'Unit B33, Production City\nDubai, UAE',
+        email: 'info@powerleaguegaming.com',
+        phone: '+971 4 876 48133',
+      },
       footerLinks: [nav(about, 'About'), nav(services, 'Service'), nav(ourWork, 'Our work'), nav(contact, 'Contact')],
       legalLinks: [nav(privacy, 'Privacy'), nav(terms, 'Terms & Conditions'), nav(cookies, 'Cookies')],
       social: [

@@ -71,5 +71,15 @@ export const Pages: CollectionConfig = {
       },
       hooks: { beforeChange: [computePath] },
     },
+    {
+      name: 'forwardTo',
+      type: 'relationship',
+      relationTo: 'pages',
+      label: 'Forward visitors to (optional)',
+      admin: {
+        position: 'sidebar',
+        description: 'Visitors opening this page are sent on to the chosen page (e.g. Legal → Terms & Conditions). Its sections are not shown.',
+      },
+    },
   ],
 }

@@ -174,3 +174,25 @@
     pointer-events: none;
   }
 }
+
+/* tabs (Legal document switcher, prototype .ltabs): links to pages, the current one underlined */
+.tabs {
+  background: rgba(1, 2, 2, 0.88);
+}
+.tabs .inner a::after {
+  transform: scaleX(0);
+  transition: transform 0.5s var(--ease-out);
+}
+.tabs .inner a[aria-current='page'] {
+  color: #fff;
+}
+.tabs .inner a[aria-current='page']::after {
+  transform: scaleX(1);
+}
+@media (max-width: 900px) {
+  /* here the prototype's phone size does apply */
+  .tabs .inner a {
+    padding: 18px 0;
+    font-size: 14px;
+  }
+}

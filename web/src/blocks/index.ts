@@ -9,6 +9,7 @@ import { FormBlock } from './Form/config'
 import { GroupScaleBlock } from './GroupScale/config'
 import { HeroBlock } from './Hero/config'
 import { LeadTextBlock } from './LeadText/config'
+import { LegalDocumentBlock } from './LegalDocument/config'
 import { LinkTilesBlock } from './LinkTiles/config'
 import { LogoMarqueeBlock } from './LogoMarquee/config'
 import { MediaTextBlock } from './MediaText/config'
@@ -47,4 +48,5 @@ export const pageBlocks: Block[] = [
   CtaBannerBlock,
   FormBlock,
   OfficesBlock,
+  LegalDocumentBlock,
 ]

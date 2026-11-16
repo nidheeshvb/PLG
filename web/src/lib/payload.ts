@@ -28,6 +28,20 @@ export const getPageByPath = cache(async (path: string): Promise<Page | null> =>
   return docs[0] ?? null
 })
 
+/** Published pages that show their own content (not forwarding to another page), for the sitemap. */
+export const getSitemapPaths = async (): Promise<string[]> => {
+  const payload = await getPayloadClient()
+  const { docs } = await payload.find({
+    collection: 'pages',
+    where: { and: [{ _status: { equals: 'published' } }, { forwardTo: { exists: false } }] },
+    limit: 1000,
+    depth: 0,
+    pagination: false,
+    select: { path: true },
+  })
+  return docs.map((d) => d.path).filter((p): p is string => Boolean(p))
+}
+
 /** Every published page path, for static generation. */
 export const getAllPagePaths = async (): Promise<string[]> => {
   const payload = await getPayloadClient()

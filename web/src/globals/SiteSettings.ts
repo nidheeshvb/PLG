@@ -64,6 +64,33 @@ export const SiteSettings: GlobalConfig = {
           fields: [{ name: 'cta', type: 'group', label: false, fields: ctaFields({ required: false }) }],
         },
         {
+          label: 'Company details',
+          description: 'Used by the legal documents (their contact card and “Questions?” box).',
+          fields: [
+            {
+              name: 'company',
+              type: 'group',
+              label: false,
+              fields: [
+                {
+                  type: 'row',
+                  fields: [
+                    { name: 'name', type: 'text', label: 'Company name', defaultValue: 'PLG Acachet', admin: { width: '50%' } },
+                    { name: 'email', type: 'email', label: 'Email', admin: { width: '50%' } },
+                  ],
+                },
+                {
+                  type: 'row',
+                  fields: [
+                    { name: 'address', type: 'textarea', label: 'Address', admin: { width: '50%', rows: 2 } },
+                    { name: 'phone', type: 'text', label: 'Phone', admin: { width: '50%' } },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
           label: 'Footer',
           fields: [
             linkArray({ name: 'footerLinks', label: 'Footer links', appearance: false, maxRows: 8 }),
