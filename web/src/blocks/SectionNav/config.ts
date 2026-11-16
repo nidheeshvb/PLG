@@ -34,12 +34,27 @@ export const SectionNavBlock: Block = {
       },
     },
     {
+      name: 'barStyle',
+      type: 'radio',
+      label: 'Look',
+      defaultValue: 'bar',
+      options: [
+        { label: 'Bar under the banner (About)', value: 'bar' },
+        { label: 'Numbered, stays at the top while scrolling, with a progress line (Services)', value: 'sticky' },
+      ],
+      admin: {
+        layout: 'vertical',
+        condition: (_, sibling) => sibling?.source !== 'menu',
+        description: 'Numbered: links are numbered 01, 02… in page order. The bar sticks to the top of the screen and steps aside while the main menu shows.',
+      },
+    },
+    {
       name: 'note',
       type: 'text',
       label: 'Small text on the right (optional)',
       admin: {
         description: 'Hidden on phones. E.g. “Also in About: Our Story · The Team · Join Us”.',
-        condition: (_, sibling) => sibling?.source !== 'menu',
+        condition: (_, sibling) => sibling?.source !== 'menu' && sibling?.barStyle !== 'sticky',
       },
     },
     ...sectionSettings(),

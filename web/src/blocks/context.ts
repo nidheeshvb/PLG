@@ -10,6 +10,8 @@ export type SectionNavItem = { id: string; label: string; href?: string }
 export type BlockContext = {
   page?: Pick<Page, 'title' | 'path' | 'breadcrumbs'>
   navItems?: SectionNavItem[]
+  /** This section's place among the visible sections of the same kind on the page (1-based), e.g. 2 of 4. */
+  position?: { index: number; count: number }
 }
 
 type Block = NonNullable<Page['layout']>[number]

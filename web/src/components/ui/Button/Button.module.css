@@ -26,7 +26,8 @@
   height: 20px;
   overflow: hidden;
   font-weight: 600;
-  font-size: 18px;
+  /* --btn-label: inner pages set 16px on phones (see PageHero.module.css); Home keeps 18px */
+  font-size: var(--btn-label, 18px);
   line-height: 20px;
   text-transform: uppercase;
   color: var(--c5);

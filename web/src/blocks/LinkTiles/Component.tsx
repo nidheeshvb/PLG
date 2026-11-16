@@ -10,10 +10,16 @@ import type { LinkTilesBlock as LinkTilesBlockData } from '@/payload-types'
 import styles from './Component.module.css'
 
 /** Heading + expanding image tiles (prototype "More about us"). */
-export function LinkTilesBlock({ eyebrow, title, tileStyle, tiles, anchorId }: LinkTilesBlockData) {
+export function LinkTilesBlock({ eyebrow, title, gradientTitle, tileStyle, tiles, anchorId }: LinkTilesBlockData) {
+  const numbered = tileStyle === 'numbered'
   return (
-    <Section id={anchorId} className={[styles.section, tileStyle === 'tall' && styles.tall].filter(Boolean).join(' ')}>
-      <SectionHeader bare eyebrow={eyebrow} title={title} />
+    <Section
+      id={anchorId}
+      className={[styles.section, tileStyle === 'tall' && styles.tall, numbered && styles.numbered].filter(Boolean).join(' ')}
+    >
+      <div className={styles.head}>
+        <SectionHeader bare eyebrow={eyebrow} title={title} gradient={gradientTitle} />
+      </div>
       <div className={styles.pan}>
         {tiles?.map((t, i) => {
           const href = resolveHref(t.link)
@@ -22,13 +28,23 @@ export function LinkTilesBlock({ eyebrow, title, tileStyle, tiles, anchorId }: L
             <>
               <Media resource={t.image} fill decorative sizes="(max-width: 900px) 100vw, 50vw" />
               <span className={styles.ov}>
+                {numbered && <span className={styles.k}>{String(i + 1).padStart(2, '0')}</span>}
                 <span className={styles.t}>
                   {t.title}
                   <span aria-hidden="true">
                     <i className="arr" />
                   </span>
                 </span>
-                {t.text && <span className={styles.d}>{t.text}</span>}
+                {t.text &&
+                  (numbered ? (
+                    <span className={styles.more}>
+                      <span>
+                        <span className={styles.d}>{t.text}</span>
+                      </span>
+                    </span>
+                  ) : (
+                    <span className={styles.d}>{t.text}</span>
+                  ))}
               </span>
             </>
           )

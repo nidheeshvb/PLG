@@ -14,6 +14,7 @@ import { MediaTextBlock } from './MediaText/config'
 import { OpenRolesBlock } from './OpenRoles/config'
 import { OwnershipBlock } from './Ownership/config'
 import { SectionNavBlock } from './SectionNav/config'
+import { ServiceDetailBlock } from './ServiceDetail/config'
 import { StackedPanelsBlock } from './StackedPanels/config'
 import { StatementBlock } from './Statement/config'
 import { StatementsBlock } from './Statements/config'
@@ -37,6 +38,7 @@ export const pageBlocks: Block[] = [
   TeamDirectoryBlock,
   GroupScaleBlock,
   OpenRolesBlock,
+  ServiceDetailBlock,
   StatementBlock,
   LinkTilesBlock,
   CtaBannerBlock,

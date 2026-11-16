@@ -91,6 +91,8 @@ export function Header({ links, mobileNote }: Props) {
         else if (y > lastY.current + 2) nav.classList.add(styles.hidden)
       }
       lastY.current = y
+      // lets other bars (the sticky services menu) give way while the header is showing
+      document.body.classList.toggle('nav-hidden', nav.classList.contains(styles.hidden))
       nav.classList.toggle(styles.onLight, light)
     },
   )

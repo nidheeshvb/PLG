@@ -1,6 +1,6 @@
 # PLG Acachet Website — Technical Documentation
 
-_Last updated: 16 November 2026 · Status: Phase 1, step 5 (Join Us page) complete_
+_Last updated: 16 November 2026 · Status: Phase 1, step 6 (Services page) complete_
 
 ---
 
@@ -62,9 +62,9 @@ Each page has:
 ### 4.3 Sections available today
 | Section | What it is | Options for editors |
 |---|---|---|
-| Banner (top of page) | Page-top banner. Styles: *Showreel* (Home, full-screen video) and *Inner page* (automatic breadcrumb, headline with orange last word, intro and buttons) | Style, video, background image, headline (size: wrapping, one line, fitted; slightly larger on phones for short headlines), photo dimmed or brighter, intro text, buttons, scroll indicator, brand mark |
-| Section menu | Bar of links under the banner | Links generated either from the page's sections (highlighting the one being read) or from the main menu's sub-links (highlighting this page, with a "Back to…" link); optional note |
-| Lead paragraph | Large paragraph whose words light up while scrolling, optional diagram, details row and closing line | Text size, orange words (end of paragraph, particular names or a phrase), animation on/off, diagrams "Three into one", "Lanes into one" (rows with photos, lines drawn while scrolling) and "One line across lanes" (columns crossed by one line drawn while scrolling), row with heading, text and a labelled list (Join Us markets), closing line with button |
+| Banner (top of page) | Page-top banner. Styles: *Showreel* (Home, full-screen video) and *Inner page* (automatic breadcrumb, headline with orange last word, intro and buttons) | Style, video, background image, headline (size: wrapping, one line, fitted; slightly larger or smaller on phones), photo dimmed or brighter, intro text, buttons, scroll indicator, brand mark |
+| Section menu | Bar of links under the banner | Links generated either from the page's sections (highlighting the one being read) or from the main menu's sub-links (highlighting this page, with a "Back to…" link); optional note; *numbered* look that stays at the top while scrolling with a progress line and gives way to the main menu (Services) |
+| Lead paragraph | Large paragraph whose words light up while scrolling, optional diagram, details row and closing line | Text size, orange words (end of paragraph, particular names or a phrase), animation on/off, diagrams "Three into one", "Lanes into one" (rows with photos, lines drawn while scrolling) and "One line across lanes" (columns crossed by one line drawn while scrolling), row with heading, text and a labelled list (Join Us markets), heading above the paragraph, short notes, grey band background, closing line with button |
 | Text with image | Heading, text and button beside an image. Styles: *fade* (Home) and *rounded image on grey band* (About "Mujtamae") | Image left or right, shaded title, fade edge, button on/off, list, illustrative report card with bars |
 | Cards | Row of image cards (swipeable on mobile). Styles: *numbered* and *pillar* | Card style, cards (title, label, text, image, link), note, white or dark background |
 | Side-by-side statements | Heading plus 2–3 large statements (Vision & Mission) | Statements, brand mark on/off |
@@ -73,7 +73,8 @@ Each page has:
 | Team directory | Team portraits with a grid / org chart switch, a "Show" filter by group with counts, and a profile panel (The Team) | Intro with orange words, all people or a chosen set, org chart view on/off, filter on/off. People come from Team members; the org chart is built from each person's position |
 | Group chain | Statement, a chain of company names and a text link (The Team "Group scale") | 1–5 names (first highlighted), link on/off |
 | Open roles | Job list with team filter buttons (with counts); each role opens to its description and an "Apply for this role" button that fills in the application form (Join Us) | Heading, all open roles or a chosen set, filter on/off, button text, form section, empty-list text, line and button under the list. Roles come from Open roles |
-| Link tiles | Expanding image tiles linking to other pages | Standard or tall style; up to 4 tiles: title, text, image, destination |
+| Link tiles | Expanding image tiles linking to other pages | Standard, tall or numbered style (Services categories: automatic 01–04, text opens on hover); up to 4 tiles: title, text, image, destination |
+| Service detail | One service (Services page): number, name and buttons in a column that stays in view; photos, a highlight (FUZE), sub-services and photo collages on the right | Name, short headline, intro, 2 buttons; content pieces in any order. Numbering ("02 / 04") and the alternating grey band are automatic |
 | Call to action banner | White "Start a conversation" banner | Uses the site-wide content from Header & footer, or page-specific content |
 | Stacking panels | Full-screen panels that slide over each other while scrolling | Up to 4 panels with heading, text, image, button |
 | Key numbers | Large animated numbers over full-screen images | Numbers, suffix (e.g. "+"), captions, images, seconds per number |
@@ -84,7 +85,7 @@ Each page has:
 
 Every section also has **Section settings**: a Section ID (so buttons can jump to it), a name for section menus, and **hide on website**.
 
-More sections are added as the remaining pages are built (service details, case study grid, offices, legal documents and others). Existing sections gain new styles where possible rather than duplicating them.
+More sections are added as the remaining pages are built (case study grid, offices, legal documents and others). Existing sections gain new styles where possible rather than duplicating them.
 
 ## 5. Editing workflow (for the content team)
 
@@ -175,7 +176,7 @@ Developers can run the full website and CMS on their own computer by following `
 | 3 | **Our Story** (banner, section menu, the combination with "lanes into one" diagram, more about us, call to action) | ✅ Complete — in review |
 | 4 | **The Team** (banner, section menu, team directory with grid / org chart / filter / profile panel, group scale, more about us, call to action) | ✅ Complete — in review |
 | 5 | **Join Us** (banner, section menu, why join with "one line across lanes" diagram and markets, statement, open roles with filter, application form, more about us) | ✅ Complete — in review. **CV upload logic deferred** (see below) |
-| 6 | Services | Planned |
+| 6 | **Services** (banner, numbered section menu that stays at the top, four categories, our approach, four service details, call to action) | ✅ Complete — in review |
 | 7 | Our Work (case study grid, filters, full case studies) | Planned |
 | 8 | Contact (enquiry form, offices) | Planned |
 | 9 | Legal (Terms, Privacy, Cookies) | Planned |

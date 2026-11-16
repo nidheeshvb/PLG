@@ -5,6 +5,7 @@ import type { SectionNavBlock as SectionNavBlockData } from '@/payload-types'
 
 import styles from './Component.module.css'
 import { SectionNavClient } from './SectionNavClient'
+import { StickyNavClient } from './StickyNavClient'
 
 /** Links for "menu" mode: the main-menu group that contains this page, plus a back link to the group's page. */
 async function menuLinks(path?: string | null) {
@@ -22,7 +23,11 @@ async function menuLinks(path?: string | null) {
 }
 
 /** Bar of links under the banner: this page's sections (scroll-spy) or its group in the main menu. */
-export async function SectionNavBlock({ source, note, navItems, page, anchorId }: SectionNavBlockData & BlockContext) {
+export async function SectionNavBlock({ source, barStyle, note, navItems, page, anchorId }: SectionNavBlockData & BlockContext) {
+  if (source !== 'menu' && barStyle === 'sticky') {
+    if (!navItems?.length) return null
+    return <StickyNavClient items={navItems} label={page?.title ? `${page.title} sections` : 'Section menu'} />
+  }
   if (source === 'menu') {
     const menu = await menuLinks(page?.path)
     if (!menu?.items.length) return null

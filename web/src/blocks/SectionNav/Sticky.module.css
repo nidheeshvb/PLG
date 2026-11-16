@@ -1,0 +1,111 @@
+/* Sticky numbered section bar (prototype services.html .snav) */
+.snav {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 40;
+  background: rgba(1, 2, 2, 0.86);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  transition:
+    transform 0.45s var(--ease-out),
+    opacity 0.35s var(--ease-out);
+}
+/* once stuck, it gives way to the main header on reverse scroll: only one bar shows at a time */
+:global(body:not(.nav-hidden)) .snav.stuck {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+.inner {
+  display: flex;
+  align-items: center;
+  gap: 8px 36px;
+  padding: 0 var(--gutter);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.inner::-webkit-scrollbar {
+  display: none;
+}
+.inner a {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 22px 0;
+  font-size: 15px;
+  color: #9a9a9a;
+  white-space: nowrap;
+  transition: color 0.25s;
+}
+.inner a small {
+  font-size: 12px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  transition: color 0.25s;
+}
+.inner a:hover {
+  color: #fff;
+}
+.inner a.active {
+  color: #fff;
+}
+.inner a.active small {
+  color: var(--accent);
+}
+.inner a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(var(--p, 0));
+  transform-origin: left;
+}
+.inner a:not(.active)::after {
+  transform: scaleX(0);
+}
+
+@media (max-width: 1280px) {
+  .inner {
+    gap: 8px 28px;
+  }
+}
+@media (max-width: 900px) {
+  .inner {
+    gap: 4px 24px;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y;
+    cursor: grab;
+    scroll-snap-type: x proximity;
+    scroll-padding-inline: 24px;
+    mask-image: linear-gradient(
+      90deg,
+      transparent 0,
+      #000 var(--fl, 0px),
+      #000 calc(100% - var(--fr, 0px)),
+      transparent 100%
+    );
+  }
+  .inner::after {
+    content: '';
+    flex: 0 0 1px;
+  }
+  /* the prototype's phone padding/size (18px, 14px) never applies: its desktop rule `.snav a:not(.btn)` wins */
+  .inner a {
+    scroll-snap-align: start;
+    -webkit-user-drag: none;
+  }
+  .dragging {
+    cursor: grabbing;
+    scroll-snap-type: none;
+  }
+  .dragging a {
+    pointer-events: none;
+  }
+}

@@ -12,15 +12,19 @@ export const LinkTilesBlock: Block = {
   labels: { singular: 'Link tiles', plural: 'Link tiles' },
   imageAltText: 'Image tiles linking to other pages',
   fields: [
-    ...sectionHeader({ gradient: false }),
+    ...sectionHeader(),
     {
       name: 'tileStyle',
       type: 'select',
       label: 'Style',
       defaultValue: 'standard',
+      admin: {
+        description: 'Numbered: tiles are numbered 01, 02… in order, and each tile’s text appears when it is pointed at (always shown on phones).',
+      },
       options: [
         { label: 'Standard (dark grey band)', value: 'standard' },
         { label: 'Tall tiles on black', value: 'tall' },
+        { label: 'Numbered tiles on black, heading beside the title (Services)', value: 'numbered' },
       ],
     },
     {

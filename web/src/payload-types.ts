@@ -170,6 +170,7 @@ export interface Page {
         | TeamDirectoryBlock
         | GroupScaleBlock
         | OpenRolesBlock
+        | ServiceDetailBlock
         | StatementBlock
         | LinkTilesBlock
         | CtaBannerBlock
@@ -217,6 +218,7 @@ export interface HeroBlock {
   title: string;
   highlightLastWord?: boolean | null;
   largerOnPhones?: boolean | null;
+  smallerOnPhones?: boolean | null;
   headlineSize?: ('wrap' | 'oneLine' | 'fitted') | null;
   imageStyle?: ('dim' | 'bright') | null;
   lede?: string | null;
@@ -313,6 +315,10 @@ export interface Media {
 export interface SectionNavBlock {
   source?: ('sections' | 'menu') | null;
   /**
+   * Numbered: links are numbered 01, 02… in page order. The bar sticks to the top of the screen and steps aside while the main menu shows.
+   */
+  barStyle?: ('bar' | 'sticky') | null;
+  /**
    * Hidden on phones. E.g. “Also in About: Our Story · The Team · Join Us”.
    */
   note?: string | null;
@@ -338,9 +344,23 @@ export interface LeadTextBlock {
    * The short orange line on the left.
    */
   eyebrow?: string | null;
+  /**
+   * A large bold heading over the paragraph (Services “Our approach”).
+   */
+  heading?: string | null;
   text: string;
-  textSize?: ('lg' | 'md') | null;
+  textSize?: ('lg' | 'md' | 'sm') | null;
   animation?: ('scrollReveal' | 'none') | null;
+  band?: boolean | null;
+  /**
+   * Optional small capitals with an orange dot each, e.g. “In the UAE”, “In international markets”.
+   */
+  notes?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
   highlightMode?: ('none' | 'tail' | 'words' | 'phrase') | null;
   /**
    * End of the paragraph: copy the end exactly, e.g. “structure a partnership, sell it, deliver it and measure it.” Particular words: separate them with commas, e.g. “Acachet, PLG, Mujtamae” (they turn orange as they light up). A phrase: copy it exactly, e.g. “refuse to stay in a lane:” (it turns orange as it lights up).
@@ -1145,6 +1165,126 @@ export interface Role {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServiceDetailBlock".
+ */
+export interface ServiceDetailBlock {
+  title: string;
+  /**
+   * A bold line under the name, e.g. “Influencer programmes, built around the idea.”
+   */
+  hook?: string | null;
+  lead?: string | null;
+  links?:
+    | {
+        label: string;
+        appearance?: ('primary' | 'ghost' | 'dark') | null;
+        type?: ('page' | 'section' | 'url') | null;
+        page?: (number | null) | Page;
+        /**
+         * The "Section ID" set on a section (e.g. contact). For a page link this is optional and jumps to that section on the page.
+         */
+        section?: string | null;
+        url?: string | null;
+        newTab?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Add pieces in the order they should appear: a photo, a highlight, a list of sub-services, a photo collage.
+   */
+  content?: (ServiceImagePiece | ServiceHighlightPiece | ServiceListPiece | ServiceCollagePiece)[] | null;
+  /**
+   * Optional. Lets buttons jump to this section (e.g. "contact"). Lowercase letters, numbers and dashes.
+   */
+  anchorId?: string | null;
+  /**
+   * Optional. Shown in the page’s section menu, where the page has one.
+   */
+  navLabel?: string | null;
+  hideSection?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'serviceDetail';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServiceImagePiece".
+ */
+export interface ServiceImagePiece {
+  /**
+   * Shown wide (16:9) with rounded corners; it settles from a slight zoom while scrolling. Set the focal point to choose the crop.
+   */
+  image: number | Media;
+  /**
+   * Small capitals over the bottom of the photo.
+   */
+  caption?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'svcImage';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServiceHighlightPiece".
+ */
+export interface ServiceHighlightPiece {
+  label?: string | null;
+  name: string;
+  note?: string | null;
+  text?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'svcHighlight';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServiceListPiece".
+ */
+export interface ServiceListPiece {
+  items?:
+    | {
+        title: string;
+        tag?: string | null;
+        text?: string | null;
+        showLink?: boolean | null;
+        link?: {
+          label?: string | null;
+          type?: ('page' | 'section' | 'url') | null;
+          page?: (number | null) | Page;
+          /**
+           * The "Section ID" set on a section (e.g. contact). For a page link this is optional and jumps to that section on the page.
+           */
+          section?: string | null;
+          url?: string | null;
+          newTab?: boolean | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'svcList';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServiceCollagePiece".
+ */
+export interface ServiceCollagePiece {
+  /**
+   * Exactly 3: the first is tall on the left, the other two are stacked on the right. Set focal points to choose the crops.
+   */
+  images?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'svcCollage';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "StatementBlock".
  */
 export interface StatementBlock {
@@ -1182,7 +1322,11 @@ export interface LinkTilesBlock {
    * Press Enter to start a new line.
    */
   title: string;
-  tileStyle?: ('standard' | 'tall') | null;
+  gradientTitle?: boolean | null;
+  /**
+   * Numbered: tiles are numbered 01, 02… in order, and each tile’s text appears when it is pointed at (always shown on phones).
+   */
+  tileStyle?: ('standard' | 'tall' | 'numbered') | null;
   tiles?:
     | {
         title: string;
@@ -1567,6 +1711,7 @@ export interface PagesSelect<T extends boolean = true> {
         teamDirectory?: T | TeamDirectoryBlockSelect<T>;
         groupScale?: T | GroupScaleBlockSelect<T>;
         openRoles?: T | OpenRolesBlockSelect<T>;
+        serviceDetail?: T | ServiceDetailBlockSelect<T>;
         statement?: T | StatementBlockSelect<T>;
         linkTiles?: T | LinkTilesBlockSelect<T>;
         ctaBanner?: T | CtaBannerBlockSelect<T>;
@@ -1603,6 +1748,7 @@ export interface HeroBlockSelect<T extends boolean = true> {
   title?: T;
   highlightLastWord?: T;
   largerOnPhones?: T;
+  smallerOnPhones?: T;
   headlineSize?: T;
   imageStyle?: T;
   lede?: T;
@@ -1636,6 +1782,7 @@ export interface HeroBlockSelect<T extends boolean = true> {
  */
 export interface SectionNavBlockSelect<T extends boolean = true> {
   source?: T;
+  barStyle?: T;
   note?: T;
   anchorId?: T;
   navLabel?: T;
@@ -1649,9 +1796,17 @@ export interface SectionNavBlockSelect<T extends boolean = true> {
  */
 export interface LeadTextBlockSelect<T extends boolean = true> {
   eyebrow?: T;
+  heading?: T;
   text?: T;
   textSize?: T;
   animation?: T;
+  band?: T;
+  notes?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
   highlightMode?: T;
   highlight?: T;
   diagram?: T;
@@ -2059,6 +2214,103 @@ export interface OpenRolesBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServiceDetailBlock_select".
+ */
+export interface ServiceDetailBlockSelect<T extends boolean = true> {
+  title?: T;
+  hook?: T;
+  lead?: T;
+  links?:
+    | T
+    | {
+        label?: T;
+        appearance?: T;
+        type?: T;
+        page?: T;
+        section?: T;
+        url?: T;
+        newTab?: T;
+        id?: T;
+      };
+  content?:
+    | T
+    | {
+        svcImage?: T | ServiceImagePieceSelect<T>;
+        svcHighlight?: T | ServiceHighlightPieceSelect<T>;
+        svcList?: T | ServiceListPieceSelect<T>;
+        svcCollage?: T | ServiceCollagePieceSelect<T>;
+      };
+  anchorId?: T;
+  navLabel?: T;
+  hideSection?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServiceImagePiece_select".
+ */
+export interface ServiceImagePieceSelect<T extends boolean = true> {
+  image?: T;
+  caption?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServiceHighlightPiece_select".
+ */
+export interface ServiceHighlightPieceSelect<T extends boolean = true> {
+  label?: T;
+  name?: T;
+  note?: T;
+  text?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServiceListPiece_select".
+ */
+export interface ServiceListPieceSelect<T extends boolean = true> {
+  items?:
+    | T
+    | {
+        title?: T;
+        tag?: T;
+        text?: T;
+        showLink?: T;
+        link?:
+          | T
+          | {
+              label?: T;
+              type?: T;
+              page?: T;
+              section?: T;
+              url?: T;
+              newTab?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServiceCollagePiece_select".
+ */
+export interface ServiceCollagePieceSelect<T extends boolean = true> {
+  images?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "StatementBlock_select".
  */
 export interface StatementBlockSelect<T extends boolean = true> {
@@ -2080,6 +2332,7 @@ export interface StatementBlockSelect<T extends boolean = true> {
 export interface LinkTilesBlockSelect<T extends boolean = true> {
   eyebrow?: T;
   title?: T;
+  gradientTitle?: T;
   tileStyle?: T;
   tiles?:
     | T

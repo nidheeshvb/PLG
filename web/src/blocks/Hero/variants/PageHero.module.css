@@ -238,6 +238,10 @@
   .largePhone .title {
     font-size: min(54px, 11vw);
   }
+  /* long one-line headlines (Services) */
+  .smallPhone .title {
+    font-size: min(54px, 7.6vw);
+  }
   .sub {
     font-size: 17px;
   }
@@ -249,5 +253,12 @@
 @media (prefers-reduced-motion: reduce) {
   .media .cover {
     opacity: var(--to);
+  }
+}
+
+/* every inner prototype page sets button labels to 16px on phones (Home, with the showreel, keeps 18px) */
+@media (max-width: 900px) {
+  :global(main):has(.hero) {
+    --btn-label: 16px;
   }
 }

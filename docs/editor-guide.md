@@ -2,7 +2,7 @@
 
 How to update the website yourself using the content management system (CMS). No technical knowledge needed.
 
-_Last updated: 16 November 2026 · Covers: Home, About, Our Story, The Team and Join Us pages, header and footer. More pages are added to this guide as they are built._
+_Last updated: 16 November 2026 · Covers: Home, About, Our Story, The Team, Join Us and Services pages, header and footer. More pages are added to this guide as they are built._
 
 ---
 
@@ -101,6 +101,11 @@ After signing in you see the **Dashboard**. The menu on the left (click ☰ if i
 | Change the "We look for…" sentence | **Pages → Join Us → Statement** |
 | Change the application form's text or button | **Pages → Join Us → Form** (Send us your profile) |
 | Read job applications | **Inbox → Form messages** (Form: *Job application*) |
+| Change a service's text, sub-services or photos | **Pages → Services →** the **Service detail** section (e.g. *Media*) |
+| Add a sub-service (e.g. under Strategy & Consulting) | That **Service detail** → **Content on the right** → the **List of sub-services** → **Add Sub-service** |
+| Reorder the photo, list and highlight inside a service | That **Service detail** → **Content on the right** → drag the pieces |
+| Add a fifth service | **Pages → Services → Add Section → Service detail**; give it a **Section ID** and **Name in section menu** so it appears in the numbered bar. Numbers (01 / 05…) and grey bands update automatically |
+| Change the four category tiles on Services | **Pages → Services → Link tiles** (Four categories) |
 | Change which names are orange in a Lead paragraph | Open the **Lead paragraph** → **Orange words** → *Particular words* → list them, separated by commas |
 | Change the links in the bar under the Our Story / Team / Join Us banner | **Header & footer → Header → Menu links → About us → Sub-links in the mobile menu** (the bar copies them) |
 | Make a page banner's photo brighter, or keep its headline on one line | Open the **Banner** → **Background photo** / **Headline size** |
@@ -177,6 +182,20 @@ On **Pages → Join Us** (under About Us):
 05  Open roles               Open roles
 06  Form                     Send us your profile
 07  Link tiles               More about us
+```
+
+On **Pages → Services**:
+
+```
+01  Banner (top of page)     Banner
+02  Section menu             Services menu
+03  Link tiles               Four categories
+04  Lead paragraph           Our approach
+05  Service detail           Strategy & Consulting
+06  Service detail           Events & Activations
+07  Service detail           Media
+08  Service detail           Creative
+09  Call to action banner    Call to action
 ```
 
 - The first word is the **kind of section**; the second is its **name** (only you see the name; click it to rename).
@@ -275,6 +294,7 @@ Some fields only appear for one style.
 | **Headline** | both | The big text. *Inner page*: press **Enter** for a new line; each line stays on one line. *Showreel*: words appear one by one, then fade so the buttons move to the centre. |
 | **Show the last word in orange** | Inner page | Colours the last word of the headline orange (e.g. "commercialise **sport.**"). |
 | **Slightly larger headline on phones** | Inner page | For short headlines (The Team: "The team.", Join Us: "Join us."): the headline is a little bigger on phones. Leave unticked for longer headlines. |
+| **Smaller headline on phones** | Inner page | For long lines that must stay on one line (Services: "One commercial focus."): the headline is a little smaller on phones. |
 | **Headline size** | Inner page | *Large, lines wrap as needed* (standard). *Large, each line stays on one line* (Our Story). *Fitted, each line stays on one line* (About: slightly smaller text for long lines). |
 | **Background photo** | Inner page | *Dimmed* (standard) or *Brighter* (About). To choose which part of the photo stays visible, set the photo's focal point ([section 9](#9-images-and-videos)). |
 | **Intro text** | both | The paragraph beside (inner page) or under (showreel) the headline. On inner pages, make words **bold** to show them in brighter white. |
@@ -292,23 +312,27 @@ The bar of links under a banner. On phones the bar can be swiped sideways. You n
 
 | Links | Used on | Where the links come from |
 |---|---|---|
-| **The sections of this page** | About (Overview · Three Pillars · Mujtamae · …) | Every section on the same page that has both a **Section ID** and a **Name in section menu** (in its **Section settings**), in page order. The section you're reading is underlined as you scroll. To add, rename or remove a link, change those two settings on the section itself. |
+| **The sections of this page** | About (Overview · Three Pillars · Mujtamae · …), Services (01 Strategy & Consulting · 02 Events & Activations · …) | Every section on the same page that has both a **Section ID** and a **Name in section menu** (in its **Section settings**), in page order. The section you're reading is underlined as you scroll. To add, rename or remove a link, change those two settings on the section itself. |
 | **Same links as the main menu (sub-links)** | Our Story, The Team, Join Us | The **Sub-links** of the main-menu link that includes this page (**Header & footer → Header → Menu links → About us → Sub-links in the mobile menu**). This page's link is underlined, and **Back to About Us** is added on the right (hidden on phones). Edit the sub-links once and every page using this option updates. |
 
 | Field | What it does |
 |---|---|
-| **Small text on the right (optional)** | *Sections of this page* only. Grey text at the right end of the bar (hidden on phones), e.g. "Also in About: Our Story · The Team · Join Us". |
+| **Look** | *Sections of this page* only. *Bar under the banner* (About), or *Numbered, stays at the top while scrolling* (Services): links are numbered 01, 02… in page order; the bar sticks to the top of the screen, the section you're reading is highlighted with a line that fills as you read it, and the bar steps aside whenever the main menu slides back in. |
+| **Small text on the right (optional)** | *Sections of this page* with the *Bar* look only. Grey text at the right end of the bar (hidden on phones), e.g. "Also in About: Our Story · The Team · Join Us". |
 
 If there are no links to show, the bar is hidden. A short explanation of the chosen option is shown inside the section in the CMS.
 
 ### Lead paragraph
-A small heading on the left and one large paragraph whose words light up as you scroll (About "Overview", Our Story "The Combination", Join Us "Why Join"), optionally followed by a diagram, a row with a heading, text and a labelled list, and a closing line with a button.
+A small heading on the left and one large paragraph whose words light up as you scroll (About "Overview", Our Story "The Combination", Join Us "Why Join", Services "Our approach"), optionally with a heading above it and short notes below it, and followed by a diagram, a row with a heading, text and a labelled list, and a closing line with a button.
 
 | Field | What it does |
 |---|---|
 | **Small heading** | The orange label on the left. |
+| **Heading above the paragraph (optional)** | A large bold heading over the paragraph (Services: "Commercial strategy for sports and media IP."). |
 | **Paragraph** | The large text. |
-| **Text size** | *Large* (About) or *Medium* (Our Story: slightly smaller text and a little more space around the section). |
+| **Text size** | *Large* (About), *Medium* (Our Story: slightly smaller text and a little more space around the section) or *Small (under a heading)* (Services). |
+| **Grey band background** | Puts the section on the dark grey band with thin lines above and below (Services "Our approach"). |
+| **Short notes under the paragraph** | Optional small capitals, each with an orange dot (Services: "In the UAE", "In international markets"). |
 | **Animation** | **Words light up while scrolling** or **None**. |
 | **Orange words** | *None*; *The end of the paragraph* (always orange); *Particular words, wherever they appear*; or *A phrase* (the first place that exact phrase appears). Particular words and phrases turn orange as they light up. |
 | **Words to show in orange** | *End of the paragraph*: copy the end exactly (e.g. "structure a partnership, sell it, deliver it and measure it."); everything from there to the end turns orange. *Particular words*: list them separated by commas (e.g. "Acachet, PLG, Mujtamae"). *A phrase*: copy it exactly, including punctuation (e.g. "refuse to stay in a lane:"). Words that don't match the paragraph exactly are simply not coloured. |
@@ -393,7 +417,8 @@ A heading and 2–4 picture tiles that link to other pages; the tile under the m
 | Field | What it does |
 |---|---|
 | **Small heading / Title** | Above the tiles. |
-| **Style** | *Standard*: dark grey band (Our Story, The Team, Join Us and most pages). *Tall tiles on black* (About). |
+| **Style** | *Standard*: dark grey band (Our Story, The Team, Join Us and most pages). *Tall tiles on black* (About). *Numbered tiles on black* (Services "Four categories"): the heading sits beside the title, tiles are numbered 01, 02… in order, and each tile's **Text** opens when it is pointed at (always shown on phones). |
+| **Shaded title** | See [Headings](#headings). |
 | **Tiles** | Up to 4, each with **Title**, **Text**, **Image** (required) and **Goes to** (a page, a section or a web address; [section 7](#7-buttons-and-links)). |
 
 ### Team directory
@@ -419,6 +444,18 @@ A small heading on the left; a statement, a row of company names joined by short
 | **Statement** | The sentence. |
 | **Chain of names** | 1–5 names, shown left to right. The first is highlighted. |
 | **Show a text link / Text link** | An underlined link with an arrow (e.g. "See the full ownership structure" → About Us, section `ownership`). |
+
+### Service detail
+One service on the Services page: the number, name, intro and buttons on the left (they stay in view while you scroll through the service on wide screens), and on the right a stack of **pieces** in the order you choose. The number ("02 / 04") is worked out from the order of the Service detail sections on the page, and every second service sits on the grey band automatically.
+
+| Field | What it does |
+|---|---|
+| **Service name** | The big title (e.g. "Strategy & Consulting"). |
+| **Short headline (optional)** | A bold line under the name (Media: "Influencer programmes, built around the idea."). |
+| **Intro** | The paragraph under the name. |
+| **Buttons** | Up to 2 ([section 7](#7-buttons-and-links)). |
+| **Content on the right** | Add pieces and drag them into order. **Photo**: a wide photo with an optional **Caption**; it settles from a slight zoom as you scroll (set the photo's focal point to choose the crop). **Highlight**: a feature row with a **Small orange label**, a **Big word** (e.g. "FUZE"), a **Small label under the word** and **Text**. **List of sub-services**: each with a **Name**, an optional **Orange tag** (e.g. "Our core service", "Mujtamae") and a **Description**; tick **Add a text link** for an underlined link such as "How Mujtamae fits". **Photo collage**: exactly 3 photos, one tall on the left and two stacked on the right. |
+| **Section settings** | Give each service a **Section ID** (e.g. `media`) and a **Name in section menu** so it appears in the numbered bar and the category tiles can jump to it. |
 
 ### Open roles
 The job list on Join Us: a heading with the number of open roles, filter buttons by team (All, Commercial, Delivery, Creative, Analytics, each with a count), and one row per job. Clicking a row opens its description with an **Apply for this role** button, which jumps to the application form and fills in the job and discipline there. The jobs themselves are managed in **Open roles** ([section 13](#13-open-roles)).
@@ -642,6 +679,7 @@ Messages can't be edited. Admins can delete them.
 | Change a page's **URL name** | Its web address changes. Buttons and menu links inside the CMS follow automatically, but old bookmarks and links from other websites or emails stop working. Avoid changing it once the site is live. |
 | Change a section's **Section ID** | Buttons jumping to the old ID stop working. Update them too. The **Section menu** follows automatically. |
 | Change a section's **Name in section menu** | The Section menu on that page updates automatically. |
+| Add, remove, hide or reorder a **Service detail** | The services renumber themselves (01 / 04…), the grey bands alternate again, and the numbered bar follows. |
 | Change **Header & footer → Header → Menu links → Sub-links** | The phone menu and every **Section menu** set to *Same links as the main menu* (Our Story, The Team, Join Us) update. |
 | Change **Header & footer → Call to action** | Every page whose Call to action banner uses the site-wide version updates. |
 | Rename a page or move it under another page | Its breadcrumb (and web address) follows automatically. |
@@ -660,4 +698,4 @@ Messages can't be edited. Admins can delete them.
 ---
 
 ### Coming with the next pages
-Services, Our Work, Contact and Legal, with their sections (service details, full case studies, offices, legal documents). This guide will be updated as each one is added.
+Our Work, Contact and Legal, with their sections (full case studies, offices, legal documents). This guide will be updated as each one is added.

@@ -66,6 +66,7 @@ export function PageHero({
   highlightLastWord,
   headlineSize,
   largerOnPhones,
+  smallerOnPhones,
   imageStyle,
   intro,
   links,
@@ -90,6 +91,7 @@ export function PageHero({
         imageStyle === 'bright' ? styles.bright : styles.dim,
         headlineSize === 'oneLine' ? styles.oneLine : headlineSize === 'fitted' ? styles.fitted : styles.wrap,
         largerOnPhones && styles.largePhone,
+        smallerOnPhones && styles.smallPhone,
       ]
         .filter(Boolean)
         .join(' ')}

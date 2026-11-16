@@ -27,6 +27,12 @@ export const LeadTextBlock: Block = {
       admin: { description: 'The short orange line on the left.' },
     },
     {
+      name: 'heading',
+      type: 'textarea',
+      label: 'Heading above the paragraph (optional)',
+      admin: { rows: 2, description: 'A large bold heading over the paragraph (Services “Our approach”).' },
+    },
+    {
       name: 'text',
       type: 'textarea',
       label: 'Paragraph',
@@ -44,6 +50,7 @@ export const LeadTextBlock: Block = {
           options: [
             { label: 'Large', value: 'lg' },
             { label: 'Medium (a little more space around)', value: 'md' },
+            { label: 'Small (under a heading)', value: 'sm' },
           ],
           admin: { width: '50%' },
         },
@@ -59,6 +66,31 @@ export const LeadTextBlock: Block = {
           admin: { width: '50%' },
         },
       ],
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'band',
+          type: 'checkbox',
+          label: 'Grey band background',
+          defaultValue: false,
+          admin: { width: '50%' },
+        },
+      ],
+    },
+    {
+      name: 'notes',
+      type: 'array',
+      label: 'Short notes under the paragraph',
+      labels: { singular: 'Note', plural: 'Notes' },
+      maxRows: 6,
+      admin: {
+        initCollapsed: true,
+        description: 'Optional small capitals with an orange dot each, e.g. “In the UAE”, “In international markets”.',
+        components: { RowLabel: '@/fields/LinkRowLabel#ItemRowLabel' },
+      },
+      fields: [{ name: 'text', type: 'text', label: 'Note', required: true }],
     },
     {
       name: 'highlightMode',

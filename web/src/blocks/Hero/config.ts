@@ -56,6 +56,13 @@ export const HeroBlock: Block = {
       admin: { condition: isPage },
     },
     {
+      name: 'smallerOnPhones',
+      type: 'checkbox',
+      label: 'Smaller headline on phones (for long lines that must stay on one line, e.g. Services)',
+      defaultValue: false,
+      admin: { condition: isPage },
+    },
+    {
       type: 'row',
       admin: { condition: isPage },
       fields: [

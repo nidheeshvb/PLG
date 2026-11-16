@@ -18,6 +18,7 @@ import { MediaTextBlock } from './MediaText/Component'
 import { OpenRolesBlock } from './OpenRoles/Component'
 import { OwnershipBlock } from './Ownership/Component'
 import { SectionNavBlock } from './SectionNav/Component'
+import { ServiceDetailBlock } from './ServiceDetail/Component'
 import { StackedPanelsBlock } from './StackedPanels/Component'
 import { StatementBlock } from './Statement/Component'
 import { StatementsBlock } from './Statements/Component'
@@ -46,6 +47,7 @@ const components: { [K in BlockType]: ComponentType<Extract<Block, { blockType: 
   linkTiles: LinkTilesBlock,
   teamDirectory: TeamDirectoryBlock as ComponentType<Extract<Block, { blockType: 'teamDirectory' }> & BlockContext>,
   groupScale: GroupScaleBlock,
+  serviceDetail: ServiceDetailBlock,
   openRoles: OpenRolesBlock as ComponentType<Extract<Block, { blockType: 'openRoles' }> & BlockContext>,
   ctaBanner: CtaBannerBlock as ComponentType<Extract<Block, { blockType: 'ctaBanner' }> & BlockContext>,
 }
@@ -54,13 +56,21 @@ const components: { [K in BlockType]: ComponentType<Extract<Block, { blockType: 
 export function RenderBlocks({ blocks, page }: { blocks?: Page['layout']; page?: BlockContext['page'] }) {
   if (!blocks?.length) return null
   const navItems = sectionNavItems(blocks)
+  // each section's place among visible sections of its kind (e.g. service 2 of 4)
+  const visible = blocks.filter((b) => !b.hideSection)
+  const positions = new Map(
+    visible.map((b) => {
+      const same = visible.filter((v) => v.blockType === b.blockType)
+      return [b, { index: same.indexOf(b) + 1, count: same.length }] as const
+    }),
+  )
   return (
     <>
       {blocks.map((block, i) => {
         if (block.hideSection) return null
         const Component = components[block.blockType] as ComponentType<Block & BlockContext> | undefined
         if (!Component) return null
-        return <Component key={block.id ?? i} {...block} page={page} navItems={navItems} />
+        return <Component key={block.id ?? i} {...block} page={page} navItems={navItems} position={positions.get(block)} />
       })}
     </>
   )

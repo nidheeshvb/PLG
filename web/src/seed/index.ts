@@ -4,6 +4,7 @@
  *
  *   npm run seed
  */
+import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { getPayload, type Payload } from 'payload'
@@ -17,12 +18,13 @@ const dirname = path.dirname(fileURLToPath(import.meta.url))
 const ASSETS = path.resolve(dirname, '../../../assets')
 const context = { disableRevalidate: true }
 
-type MediaSeed = { file: string; alt?: string; focalX?: number; focalY?: number }
+/** `as`: store a copy under another file name (e.g. the same photo with its own focal point for one page). */
+type MediaSeed = { file: string; alt?: string; focalX?: number; focalY?: number; as?: string }
 
-async function upsertMedia(payload: Payload, { file, alt = '', focalX, focalY }: MediaSeed) {
+async function upsertMedia(payload: Payload, { file, alt = '', focalX, focalY, as }: MediaSeed) {
   const existing = await payload.find({
     collection: 'media',
-    where: { filename: { equals: path.basename(file) } },
+    where: { filename: { equals: as ?? path.basename(file) } },
     limit: 1,
     depth: 0,
   })
@@ -35,10 +37,19 @@ async function upsertMedia(payload: Payload, { file, alt = '', focalX, focalY }:
   const doc = await payload.create({
     collection: 'media',
     data: { alt, ...(focalX != null ? { focalX, focalY } : {}) },
-    filePath: path.join(ASSETS, file),
+    ...(as
+      ? {
+          file: {
+            data: fs.readFileSync(path.join(ASSETS, file)),
+            mimetype: file.endsWith('.webp') ? 'image/webp' : 'image/jpeg',
+            name: as,
+            size: fs.statSync(path.join(ASSETS, file)).size,
+          },
+        }
+      : { filePath: path.join(ASSETS, file) }),
     context,
   })
-  payload.logger.info(`  media: ${file}`)
+  payload.logger.info(`  media: ${as ?? file}`)
   return doc.id
 }
 
@@ -911,6 +922,174 @@ async function seed() {
     },
   })
   payload.logger.info('  join us page')
+
+  // ---------- Services ----------
+  const sm = {
+    hero: await upsertMedia(payload, { file: 'services-hero.webp' }),
+    // the prototype crops these three differently on Services, so they get their own copies + focal points
+    uciMedia: await upsertMedia(payload, { file: 'work-uci.webp', as: 'work-uci-services.webp', alt: 'UCI Cycling Esports World Championships', focalX: 50, focalY: 35 }),
+    kfcCollage: await upsertMedia(payload, { file: 'work-kfc.webp', as: 'work-kfc-collage.webp', alt: 'KFC gaming platform', focalX: 50, focalY: 30 }),
+    cardCollage: await upsertMedia(payload, { file: 'service-card.webp', as: 'service-card-collage.webp', focalX: 50, focalY: 25 }),
+  }
+  const sub = (title: string, text: string, extra: Record<string, unknown> = {}) => ({ title, text, ...extra })
+  const servicesLayout = [
+    {
+      blockType: 'hero',
+      blockName: 'Banner',
+      variant: 'page',
+      title: 'Four services.\nOne commercial focus.',
+      highlightLastWord: true,
+      headlineSize: 'fitted',
+      smallerOnPhones: true,
+      imageStyle: 'dim',
+      intro: richParagraph('Every engagement is built around the same goal: ', {
+        bold: 'commercial value for the property, and measurable return for the partner.',
+      }),
+      links: [
+        { label: 'Explore each service below', appearance: 'primary', type: 'section', section: 'categories' },
+        toPage(contact, 'Talk to Us', undefined, 'ghost'),
+      ],
+      poster: sm.hero,
+      showBrandMark: false,
+    },
+    { blockType: 'sectionNav', blockName: 'Services menu', source: 'sections', barStyle: 'sticky' },
+    {
+      blockType: 'linkTiles',
+      blockName: 'Four categories',
+      anchorId: 'categories',
+      tileStyle: 'numbered',
+      eyebrow: 'Four Categories',
+      title: 'From the commercial case to the creative.',
+      gradientTitle: true,
+      tiles: [
+        { title: 'Strategy & Consulting', image: m.stat2, link: { type: 'section', section: 'strategy' } },
+        { title: 'Events & Activations', image: m.mujtamae, link: { type: 'section', section: 'events' } },
+        { title: 'Media', image: m.workUci, link: { type: 'section', section: 'media' } },
+        { title: 'Creative', image: m.stat3, link: { type: 'section', section: 'creative' } },
+      ],
+    },
+    {
+      blockType: 'leadText',
+      blockName: 'Our approach',
+      anchorId: 'approach',
+      eyebrow: 'Our approach',
+      heading: 'Commercial strategy for sports and media IP.',
+      text: 'We commercialise rights holders’ IP through sponsorship sales. For brands entering sport and phygital, we broker the deal and secure the strongest terms — in the UAE and in international markets.',
+      textSize: 'sm',
+      band: true,
+      notes: [{ text: 'In the UAE' }, { text: 'In international markets' }],
+      animation: 'scrollReveal',
+      highlightMode: 'none',
+      diagram: 'none',
+      showDetails: false,
+      showClosing: false,
+    },
+    {
+      blockType: 'serviceDetail',
+      blockName: 'Strategy & Consulting',
+      anchorId: 'strategy',
+      navLabel: 'Strategy & Consulting',
+      title: 'Strategy & Consulting',
+      lead: 'Sponsorship sales, partnerships, media rights, technology, data and IP commercialisation — the commercial foundation of every programme.',
+      links: [toPage(contact, 'Talk Strategy')],
+      content: [
+        { blockType: 'svcImage', image: m.stat2, caption: 'The commercial foundation' },
+        {
+          blockType: 'svcList',
+          items: [
+            sub('Sponsorship', 'We sell sponsorship on behalf of rights holders, events and venues — valuing and packaging inventory, then taking it to brands in the UAE and internationally. Pricing is set against market benchmarks, not aspiration.', { tag: 'Our core service' }),
+            sub('Partnerships', 'Structuring partnerships between brands and rights holders. For brands, we broker the deal for maximum brand value, then activate around the sponsorship. Commercial terms are built to outlast a single season.'),
+            sub('Media rights', 'Valuation, negotiation and distribution strategy for broadcast and digital media rights, across traditional and emerging platforms.'),
+            sub('Technology and innovations', 'Phygital format development — sport that combines physical competition with gaming mechanics, live data and digital interaction — designed with a commercial model from the start.'),
+            sub('Data optimisation', 'Our sports analytics platform, applied at the consulting stage — drawing on sports communities and full-spectrum sports analytics to model audience, engagement and commercial return before a programme is committed.', {
+              tag: 'Mujtamae',
+              showLink: true,
+              link: { label: 'How Mujtamae fits', type: 'page', page: about, section: 'mujtamae' },
+            }),
+            sub('Licensing and IP management', 'Commercialisation of intellectual property through licensing structures, brand protection and long-term value management.'),
+          ],
+        },
+      ],
+    },
+    {
+      blockType: 'serviceDetail',
+      blockName: 'Events & Activations',
+      anchorId: 'events',
+      navLabel: 'Events & Activations',
+      title: 'Events & Activations',
+      lead: 'Partnership and brand activation, event and tournament delivery that gives sponsors visible, measurable value.',
+      links: [toPage(contact, 'Talk Delivery')],
+      content: [
+        { blockType: 'svcImage', image: m.mujtamae, caption: 'Delivering the partnership on the ground' },
+        {
+          blockType: 'svcList',
+          items: [
+            sub('Media production', 'Studio and remote broadcast, content capture and post-production — built for how audiences actually watch.'),
+            sub('Event management', 'End-to-end delivery of live events and tournaments — venue, logistics and on-site operations, at any scale.'),
+            sub('Brand activations', 'Campaigns created and delivered in line with the sponsorship — physical and phygital brand experiences that activate the partner around the commercial deal.'),
+            sub('Data management', 'Live and post-event measurement through our analytics platform, so every activation is reported on against its objectives.', { tag: 'Mujtamae' }),
+          ],
+        },
+      ],
+    },
+    {
+      blockType: 'serviceDetail',
+      blockName: 'Media',
+      anchorId: 'media',
+      navLabel: 'Media',
+      title: 'Media',
+      hook: 'Influencer programmes, built around the idea.',
+      lead: 'Highly creative influencer marketing for sports properties and their partners, planned and delivered through FUZE, our proprietary platform — built to deliver tangible results.',
+      links: [toPage(contact, 'Talk Media')],
+      content: [
+        {
+          blockType: 'svcHighlight',
+          label: 'Our proprietary platform',
+          name: 'FUZE',
+          note: 'Influencer platform',
+          text: 'Every influencer programme we run is planned and delivered through FUZE — from the first brief to the final report.',
+        },
+        {
+          blockType: 'svcList',
+          items: [
+            sub('Social media', 'Channel strategy and content for sports and brand partnerships, built to support sponsor objectives.'),
+            sub('Influencers', 'Creative-led influencer programmes — talent selection, briefing, content and reporting — delivered through FUZE.', { tag: 'FUZE' }),
+            sub('Design and creative strategy', 'The creative thinking behind each programme, developed with our Creative team.', {
+              showLink: true,
+              link: { label: 'Meet Creative', type: 'section', section: 'creative' },
+            }),
+          ],
+        },
+        { blockType: 'svcImage', image: sm.uciMedia, caption: 'Built around the idea' },
+      ],
+    },
+    {
+      blockType: 'serviceDetail',
+      blockName: 'Creative',
+      anchorId: 'creative',
+      navLabel: 'Creative',
+      title: 'Creative',
+      hook: 'Creative that supports the commercial case.',
+      lead: 'Design and creative direction that gives sports properties and their partners a distinct identity and a clear message.',
+      links: [toPage(contact, 'Talk Creative'), toPage(ourWork, 'See Our Work', undefined, 'ghost')],
+      content: [
+        {
+          blockType: 'svcCollage',
+          images: [{ image: m.stat3 }, { image: sm.kfcCollage }, { image: sm.cardCollage }],
+        },
+      ],
+    },
+    { blockType: 'ctaBanner', blockName: 'Call to action', anchorId: 'contact', useDefault: true },
+  ]
+  await page('services', 'Services', {
+    layout: servicesLayout as Page['layout'],
+    meta: {
+      title: 'Services | PLG Acachet',
+      description: 'Four services, one commercial focus: commercial value for the property, and measurable return for the partner.',
+      image: m.og,
+    },
+  })
+  payload.logger.info('  services page')
 
   // ---------- header & footer ----------
   const nav = (p: number, label: string, section?: string) => ({ label, type: 'page', page: p, ...(section ? { section } : {}) })

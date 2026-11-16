@@ -3,7 +3,7 @@
 Next.js 16 (App Router, TypeScript) with Payload CMS 3 in the same app, on PostgreSQL.
 The static HTML prototype in the repository root is the visual reference; this app rebuilds it page by page.
 
-**Status:** step 5: foundation, Home, About, Our Story, The Team and Join Us are built. The other pages exist as empty placeholders so links work.
+**Status:** step 6: foundation, Home, About, Our Story, The Team, Join Us and Services are built. The other pages exist as empty placeholders so links work.
 
 More documentation:
 - [`../CLAUDE.md`](../CLAUDE.md) — internal knowledge base: architecture, conventions, decisions log, known gotchas, planned blocks.
@@ -97,13 +97,13 @@ src/
   migrations/            database migrations
 ```
 
-### Block library (steps 1–5)
+### Block library (steps 1–6)
 
 | Block (CMS name) | Variants / options | Used for | Planned reuse |
 |---|---|---|---|
-| `hero` (Banner) | `variant`: `showreel` · `page` (auto breadcrumb, orange last word, intro rich text, brand mark, `headlineSize` wrap/oneLine/fitted, `largerOnPhones` (11vw), `imageStyle` dim/bright) | Home showreel; About, Our Story, Team, Join banners | every inner page (`page`) |
-| `sectionNav` (Section menu) | `source`: `sections` (from sections' `anchorId` + `navLabel`, scroll-spy, note) · `menu` (main-menu sub-links of the page's group + "Back to …") | About (sections); Our Story, Team, Join (menu) | Services (sticky/numbered variant later) |
-| `leadText` (Lead paragraph) | `textSize` lg/md, `highlightMode` tail/words/phrase, scroll reveal, `diagram`: `none` · `merge` · `weave` (lanes into one) · `cross` (one line across 2–4 lanes), details row (heading + text + labelled list), closing line + button | About overview; Our Story combination; Join "Why join" | Services approach (more diagrams as variants) |
+| `hero` (Banner) | `variant`: `showreel` · `page` (auto breadcrumb, orange last word, intro rich text, brand mark, `headlineSize` wrap/oneLine/fitted, `largerOnPhones` (11vw), `imageStyle` dim/bright) | Home showreel; About, Our Story, Team, Join, Services banners (`smallerOnPhones` for Services) | every inner page (`page`) |
+| `sectionNav` (Section menu) | `source`: `sections` (from sections' `anchorId` + `navLabel`, scroll-spy, note) · `menu` (main-menu sub-links of the page's group + "Back to …") | About (sections); Our Story, Team, Join (menu); Services (sections, `barStyle: sticky`: numbered, sticks, progress line, gives way to the header) | — |
+| `leadText` (Lead paragraph) | `textSize` lg/md, `highlightMode` tail/words/phrase, scroll reveal, `diagram`: `none` · `merge` · `weave` (lanes into one) · `cross` (one line across 2–4 lanes), details row (heading + text + labelled list), `heading`, `textSize` sm, `band`, `notes`, closing line + button | About overview; Our Story combination; Join "Why join"; Services approach | — |
 | `mediaText` (Text with image) | `variant`: `fade` · `card` (list, report card with bars) | Home "Who we are"; About Mujtamae | — |
 | `cardCarousel` (Cards) | `cardStyle`: `service` · `pillar` (card `tag`, note in header) | Home "What we do"; About pillars | — |
 | `stackedPanels` (Stacking panels) | 1–4 panels | Home | — |
@@ -117,7 +117,8 @@ src/
 | `groupScale` (Group chain) | statement, 1–5 chain names (first highlighted), optional text link | Team "Group scale" | — |
 | `openRoles` (Open roles) | header, `roles` (empty = all open from `roles`), team filter with counts, expandable rows, "Apply" prefills the application form (`APPLY_ROLE_EVENT`), empty text, line + button under | Join "Open roles" | — |
 | `statement` (Statement) | `style` centered/band, orange tail `highlight`, scroll reveal / fade in | Home; Join "Who we look for" | — |
-| `linkTiles` (Link tiles) | `tileStyle`: `standard` (grey band) · `tall` (About); 1–4 expanding tiles | About, Our Story, Team, Join "More about us" | Services categories |
+| `linkTiles` (Link tiles) | `tileStyle`: `standard` (grey band) · `tall` (About); 1–4 expanding tiles | About, Our Story, Team, Join "More about us"; Services categories (`numbered`) | — |
+| `serviceDetail` (Service detail) | name, hook, intro, ≤2 buttons; `content` nested pieces: photo (scroll zoom), highlight, list of sub-services, collage; number + band from position | Services ×4 | — |
 | `ctaBanner` (Call to action banner) | site-wide default (`site-settings.cta`) or page override | About, Our Story, Team | Join, Services, Our Work… |
 | `form` (Form) | `formType`: `enquiry` · `application` (role + discipline dropdowns, link, CV drop zone (UI only, file not sent yet), message) | Home; Join | Contact |
 
@@ -153,7 +154,7 @@ npm run migrate                          # on the target database
 
 ## Not done yet
 
-- Other pages (Services, Our Work, Contact, Legal) and their blocks.
+- Other pages (Our Work, Contact, Legal) and their blocks.
 - CV upload logic on the Join Us application form (the field is shown but the file is not sent): on hold, see `docs/backlog-cv-upload.md`.
 - Open role descriptions (the six seeded roles from the prototype have none).
 - Team bios and social profile links (seeded as placeholders: no bios, platform home pages); photos for two people.

@@ -39,7 +39,9 @@ const highlightedWords = (text: string, mode?: string | null, highlight?: string
 export function LeadTextBlock(props: LeadTextBlockData) {
   const { eyebrow, text, textSize, highlightMode, highlight, animation, diagram, mergeItems, weaveItems } = props
   const { crossItems, showDetails, detailsHeading, detailsText, detailsList } = props
+  const { heading, band, notes } = props
   const { showClosing, closingText, closingLink, anchorId } = props
+  const sizeClass = textSize === 'md' ? styles.md : textSize === 'sm' ? styles.sm : styles.lg
   const hl = highlightedWords(text, highlightMode ?? 'tail', highlight)
   // tail: always orange; particular words / a phrase: orange as they light up
   const hlClass = highlightMode === 'words' || highlightMode === 'phrase' ? styles.nm : styles.hl
@@ -49,7 +51,7 @@ export function LeadTextBlock(props: LeadTextBlockData) {
   return (
     <Section
       id={anchorId}
-      className={[styles.section, textSize === 'md' ? styles.md : styles.lg, cross && styles.withCross]
+      className={[styles.section, sizeClass, band && styles.band, cross && styles.withCross]
         .filter(Boolean)
         .join(' ')}
     >
@@ -61,6 +63,12 @@ export function LeadTextBlock(props: LeadTextBlockData) {
             </p>
           )}
         </div>
+        <div className={styles.body}>
+        {heading && (
+          <h2 className={styles.heading} data-reveal="" style={{ ['--d' as string]: '.08s' }}>
+            {heading}
+          </h2>
+        )}
         {animation === 'none' ? (
           <p className={`${styles.lead} ${styles.static}`}>
             {words.map((w, i) => (
@@ -78,10 +86,18 @@ export function LeadTextBlock(props: LeadTextBlockData) {
             onClassName={styles.on}
             highlighted={hl}
             highlightClassName={hlClass}
-            start={textSize === 'md' ? 0.82 : 0.8}
-            span={textSize === 'md' ? 0.25 : 0.3}
+            start={textSize === 'lg' || !textSize ? 0.8 : 0.82}
+            span={textSize === 'lg' || !textSize ? 0.3 : 0.25}
           />
         )}
+        {!!notes?.length && (
+          <p className={styles.notes} data-reveal="">
+            {notes.map((n, i) => (
+              <span key={n.id ?? i}>{n.text}</span>
+            ))}
+          </p>
+        )}
+        </div>
       </div>
       {diagram === 'merge' && !!mergeItems?.length && <MergeDiagram items={mergeItems} />}
       {diagram === 'weave' && !!weaveItems?.length && <WeaveDiagram {...props} />}

@@ -6,7 +6,7 @@
 .tall {
   background: var(--bg);
 }
-.section :global(.h1) {
+.section :global(.h1:not(.grad)) {
   color: #d0d0d0;
 }
 
@@ -109,6 +109,62 @@
   color: #fff;
 }
 
+/* ---------- numbered (Services "Four categories"): black, heading beside the title, 540px tiles ---------- */
+.numbered {
+  padding: 120px var(--gutter) 110px;
+  background: var(--bg);
+  scroll-margin-top: 150px;
+}
+.numbered .head {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 20px 64px;
+  align-items: end;
+}
+.numbered .head :global(.h1) {
+  max-width: 16em;
+}
+.numbered .pan {
+  height: 540px;
+}
+.k {
+  font-size: 13px;
+  letter-spacing: 1.6px;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.numbered .t {
+  font-size: 30px;
+  line-height: 1.1;
+}
+.numbered .d {
+  max-width: 34ch;
+}
+/* the tile text opens on hover (always open on phones) */
+.more {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.7s var(--ease-out);
+}
+.more > span {
+  overflow: hidden;
+  min-height: 0;
+}
+.pn:hover .more,
+.pn:focus-visible .more {
+  grid-template-rows: 1fr;
+}
+
+@media (max-width: 1100px) {
+  .numbered .head {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .numbered .pan {
+    height: 480px;
+  }
+}
+
 @media (max-width: 900px) {
   .section {
     padding: 64px 24px;
@@ -131,5 +187,20 @@
   }
   .t {
     font-size: 26px;
+  }
+  .numbered {
+    scroll-margin-top: 120px;
+  }
+  .numbered .pan {
+    height: auto;
+  }
+  .numbered .pn {
+    height: 280px;
+  }
+  .numbered .t {
+    font-size: 24px;
+  }
+  .more {
+    grid-template-rows: 1fr;
   }
 }
