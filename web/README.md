@@ -9,6 +9,7 @@ More documentation:
 - [`../CLAUDE.md`](../CLAUDE.md) — internal knowledge base: architecture, conventions, decisions log, known gotchas, planned blocks.
 - [`../docs/technical-documentation.md`](../docs/technical-documentation.md) — client-shareable technical documentation.
 - [`../docs/architecture.md`](../docs/architecture.md) — application and server architecture, with diagrams.
+- [`../docs/backlog.md`](../docs/backlog.md): index of deferred features. Their UI is built and the logic is skipped while they wait for a decision.
 - [`../docs/backlog-cv-upload.md`](../docs/backlog-cv-upload.md): on-hold CV upload for the Join Us form (client questions, proposed implementation).
 - [`../docs/hosting-architecture.md`](../docs/hosting-architecture.md) — proposed AWS production hosting (the target this app is built for).
 - [`../docs/local-setup.md`](../docs/local-setup.md) — detailed local installation guide.

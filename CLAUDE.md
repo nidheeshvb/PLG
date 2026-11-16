@@ -14,6 +14,10 @@ Read this before adding a feature. It's meant to replace reading the whole codeb
 | `docs/local-setup.md` | Developers | Requirements, install steps, env vars, commands, seed behaviour, troubleshooting |
 | `web/README.md` | Developers | Scripts, block catalogue, integrations, structure, "not done yet" |
 | `web/.env.example` | Developers | Any new env var (with a comment) |
+| `docs/backlog.md` + `docs/backlog-<feature>.md` | Developers + client | Any feature whose logic is skipped while it waits for a decision (UI stays); remove the row only when it is fully done |
+
+## Pending features rule (user requirement — mandatory)
+**If a section or feature is pending or waiting for a decision (client, access, legal…), build its UI exactly as the prototype shows it, skip only the logic, and add it to the backlog** in the same change: a row in `docs/backlog.md` plus a detail doc `docs/backlog-<feature>.md`. Never drop UI from a page because what's behind it is blocked. Make the inert UI obvious to developers (e.g. a file input with no `name` and a comment linking to the backlog doc). Example: the Join Us CV drop zone.
 
 Also update "Last updated" dates on the docs you touch. In the wrap-up, list which docs were updated.
 
@@ -24,6 +28,7 @@ Also update "Last updated" dates on the docs you touch. In the wrap-up, list whi
 - `/docs/architecture.md` — application architecture (layers, content model, request/editing/form flows, release pipeline) and server architecture (AWS topology, CloudFront behaviours, environments, data, caching, security, monitoring, env vars, EC2 deployment, decisions). Client-shareable. Update it when a flow, collection, environment or hosting decision changes.
 - `/docs/hosting-architecture.md` — local copy of the client-facing Google Doc "PLG Acachet: Proposed Hosting Architecture" (https://docs.google.com/document/d/14CcWwoTUNQkkwt1IuCfE7VIPfJSv9roqHMVf5_4o5S4/edit). **This is the production target; build everything to work on it.** If the Google Doc changes, update the copy + architecture.md Part B.
 - `/docs/editor-guide.md` — plain-language CMS guide for the client's content editors ("I want to…" table, sections field by field, buttons, images, publishing, effects of changes). To be shared with the client at the end of phase 1.
+- `/docs/backlog.md` — **index of deferred features** (UI built, logic skipped, waiting for a decision). Check it before each page and at go-live.
 - `/docs/backlog-cv-upload.md` — **on-hold feature**: CV upload on the Join Us form (needs client answers + private S3 access). Questions for the client, proposed implementation, acceptance criteria. Revisit before adding any file upload.
 - `/docs/local-setup.md` — step-by-step local installation guide (clone, Node version, npm ci, .env, database options, seed, run, troubleshooting). Update it when setup steps, env vars or requirements change.
 - `/docs/technical-documentation.md` — client-shareable technical doc (no secrets). Source of truth.
@@ -204,6 +209,7 @@ Dev uses Payload's automatic schema push. Before handing over/deploying a schema
 | 2026-11-14 | Our Story/Team/Join section menu copies the main menu's About sub-links (`source: menu`) | One place to edit; matches prototype (Overview · Our Story · The Team · Join Us + Back to About Us) |
 | 2026-11-16 | CV upload on the Join Us form deferred to a backlog doc (`docs/backlog-cv-upload.md`) | Needs client confirmation (retention, access, consent, ATS) and private S3 access; personal data must not go in the public media bucket |
 | 2026-11-16 | Keep the CV field visible on the form (UI only, file not sent) | User request: the design stays complete while the upload logic waits |
+| 2026-11-16 | General rule: blocked features keep their UI, logic skipped, tracked in `docs/backlog.md` | User instruction: pages stay complete and deferred work is never forgotten |
 | 2026-11-16 | Open roles are a collection (`roles`) with a "Show on the website" switch; the application form's role list and the roles block both read it | One place to post/close a job; closed jobs can be reopened |
 | 2026-11-16 | Join "Why join" markets list is a `leadText` details row, not a separate `tagList` block | It sits inside the same prototype section (shared padding); keeps section tops identical |
 | 2026-11-16 | "Apply for this role" → form prefill via a window CustomEvent (`APPLY_ROLE_EVENT`) | Blocks stay independent; works with any application form on the page |
