@@ -71,6 +71,7 @@ export interface Config {
     'case-studies': CaseStudy;
     partners: Partner;
     'team-members': TeamMember;
+    roles: Role;
     media: Media;
     'form-submissions': FormSubmission;
     users: User;
@@ -86,6 +87,7 @@ export interface Config {
     'case-studies': CaseStudiesSelect<false> | CaseStudiesSelect<true>;
     partners: PartnersSelect<false> | PartnersSelect<true>;
     'team-members': TeamMembersSelect<false> | TeamMembersSelect<true>;
+    roles: RolesSelect<false> | RolesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -167,6 +169,7 @@ export interface Page {
         | OwnershipBlock
         | TeamDirectoryBlock
         | GroupScaleBlock
+        | OpenRolesBlock
         | StatementBlock
         | LinkTilesBlock
         | CtaBannerBlock
@@ -338,12 +341,12 @@ export interface LeadTextBlock {
   text: string;
   textSize?: ('lg' | 'md') | null;
   animation?: ('scrollReveal' | 'none') | null;
-  highlightMode?: ('none' | 'tail' | 'words') | null;
+  highlightMode?: ('none' | 'tail' | 'words' | 'phrase') | null;
   /**
-   * End of the paragraph: copy the end exactly, e.g. “structure a partnership, sell it, deliver it and measure it.” Particular words: separate them with commas, e.g. “Acachet, PLG, Mujtamae” (they turn orange as they light up).
+   * End of the paragraph: copy the end exactly, e.g. “structure a partnership, sell it, deliver it and measure it.” Particular words: separate them with commas, e.g. “Acachet, PLG, Mujtamae” (they turn orange as they light up). A phrase: copy it exactly, e.g. “refuse to stay in a lane:” (it turns orange as it lights up).
    */
   highlight?: string | null;
-  diagram?: ('none' | 'merge' | 'weave') | null;
+  diagram?: ('none' | 'merge' | 'weave' | 'cross') | null;
   mergeItems?:
     | {
         label?: string | null;
@@ -374,6 +377,31 @@ export interface LeadTextBlock {
    * Small line under the name (hidden on tablets and phones).
    */
   weaveNote?: string | null;
+  /**
+   * Two to four columns side by side (two by two on phones).
+   */
+  crossItems?:
+    | {
+        label?: string | null;
+        name: string;
+        text?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * E.g. Join Us “Where the work goes”: markets with a label each.
+   */
+  showDetails?: boolean | null;
+  detailsHeading?: string | null;
+  detailsText?: string | null;
+  detailsList?:
+    | {
+        name: string;
+        tag?: string | null;
+        highlight?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
   showClosing?: boolean | null;
   closingText?: string | null;
   closingLink?: {
@@ -1030,10 +1058,102 @@ export interface GroupScaleBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "OpenRolesBlock".
+ */
+export interface OpenRolesBlock {
+  /**
+   * The short orange line above the title.
+   */
+  eyebrow?: string | null;
+  /**
+   * Press Enter to start a new line.
+   */
+  title: string;
+  gradientTitle?: boolean | null;
+  /**
+   * Leave empty to show every role ticked “Show on the website”, in their set order (recommended). Pick roles only to show a fixed selection.
+   */
+  roles?: (number | Role)[] | null;
+  showFilter?: boolean | null;
+  applyLabel: string;
+  /**
+   * The Section ID of the application form on this page (without #). The button also fills in the role and discipline there.
+   */
+  applySection?: string | null;
+  emptyText?: string | null;
+  footerText?: string | null;
+  footerLink?: {
+    label?: string | null;
+    appearance?: ('primary' | 'ghost' | 'dark') | null;
+    type?: ('page' | 'section' | 'url') | null;
+    page?: (number | null) | Page;
+    /**
+     * The "Section ID" set on a section (e.g. contact). For a page link this is optional and jumps to that section on the page.
+     */
+    section?: string | null;
+    url?: string | null;
+    newTab?: boolean | null;
+  };
+  /**
+   * Optional. Lets buttons jump to this section (e.g. "contact"). Lowercase letters, numbers and dashes.
+   */
+  anchorId?: string | null;
+  /**
+   * Optional. Shown in the page’s section menu, where the page has one.
+   */
+  navLabel?: string | null;
+  hideSection?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'openRoles';
+}
+/**
+ * Jobs shown on the Join Us page. Untick “Show on the website” to take a role down without deleting it. Lower “Order” numbers appear first.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "roles".
+ */
+export interface Role {
+  id: number;
+  title: string;
+  /**
+   * Used for the filter buttons.
+   */
+  team: 'commercial' | 'delivery' | 'creative' | 'analytics';
+  location: string;
+  employmentType: 'fullTime' | 'partTime' | 'contract' | 'internship';
+  /**
+   * Shown when someone opens the role. A short paragraph about the job.
+   */
+  summary?: string | null;
+  /**
+   * Optional bullet list under the description (responsibilities or requirements).
+   */
+  points?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  isOpen?: boolean | null;
+  /**
+   * Lower numbers appear first.
+   */
+  sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "StatementBlock".
  */
 export interface StatementBlock {
   text: string;
+  style?: ('centered' | 'band') | null;
+  /**
+   * Optional. Copy the end of the sentence exactly, e.g. “evidence to assertion.”
+   */
+  highlight?: string | null;
   animation?: ('scrollReveal' | 'none') | null;
   showBrandMarks?: boolean | null;
   /**
@@ -1152,7 +1272,10 @@ export interface CtaBannerBlock {
  * via the `definition` "FormBlock".
  */
 export interface FormBlock {
-  formType: 'enquiry';
+  /**
+   * Job application: the “Applying for” list shows the roles in Content → Open roles. Use one per page; the “Apply for this role” buttons fill it in.
+   */
+  formType: 'enquiry' | 'application';
   /**
    * The short orange line above the title.
    */
@@ -1168,6 +1291,7 @@ export interface FormBlock {
   backgroundImage?: (number | null) | Media;
   submitLabel: string;
   successMessage: string;
+  note?: string | null;
   /**
    * Optional. Lets buttons jump to this section (e.g. "contact"). Lowercase letters, numbers and dashes.
    */
@@ -1193,6 +1317,9 @@ export interface FormSubmission {
   name: string;
   email: string;
   phone?: string | null;
+  role?: string | null;
+  discipline?: string | null;
+  profileLink?: string | null;
   message?: string | null;
   page?: string | null;
   updatedAt: string;
@@ -1359,6 +1486,10 @@ export interface PayloadLockedDocument {
         value: number | TeamMember;
       } | null)
     | ({
+        relationTo: 'roles';
+        value: number | Role;
+      } | null)
+    | ({
         relationTo: 'media';
         value: number | Media;
       } | null)
@@ -1435,6 +1566,7 @@ export interface PagesSelect<T extends boolean = true> {
         ownership?: T | OwnershipBlockSelect<T>;
         teamDirectory?: T | TeamDirectoryBlockSelect<T>;
         groupScale?: T | GroupScaleBlockSelect<T>;
+        openRoles?: T | OpenRolesBlockSelect<T>;
         statement?: T | StatementBlockSelect<T>;
         linkTiles?: T | LinkTilesBlockSelect<T>;
         ctaBanner?: T | CtaBannerBlockSelect<T>;
@@ -1544,6 +1676,25 @@ export interface LeadTextBlockSelect<T extends boolean = true> {
       };
   weaveResult?: T;
   weaveNote?: T;
+  crossItems?:
+    | T
+    | {
+        label?: T;
+        name?: T;
+        text?: T;
+        id?: T;
+      };
+  showDetails?: T;
+  detailsHeading?: T;
+  detailsText?: T;
+  detailsList?:
+    | T
+    | {
+        name?: T;
+        tag?: T;
+        highlight?: T;
+        id?: T;
+      };
   showClosing?: T;
   closingText?: T;
   closingLink?:
@@ -1877,10 +2028,43 @@ export interface GroupScaleBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "OpenRolesBlock_select".
+ */
+export interface OpenRolesBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  gradientTitle?: T;
+  roles?: T;
+  showFilter?: T;
+  applyLabel?: T;
+  applySection?: T;
+  emptyText?: T;
+  footerText?: T;
+  footerLink?:
+    | T
+    | {
+        label?: T;
+        appearance?: T;
+        type?: T;
+        page?: T;
+        section?: T;
+        url?: T;
+        newTab?: T;
+      };
+  anchorId?: T;
+  navLabel?: T;
+  hideSection?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "StatementBlock_select".
  */
 export interface StatementBlockSelect<T extends boolean = true> {
   text?: T;
+  style?: T;
+  highlight?: T;
   animation?: T;
   showBrandMarks?: T;
   anchorId?: T;
@@ -1964,6 +2148,7 @@ export interface FormBlockSelect<T extends boolean = true> {
   backgroundImage?: T;
   submitLabel?: T;
   successMessage?: T;
+  note?: T;
   anchorId?: T;
   navLabel?: T;
   hideSection?: T;
@@ -2020,6 +2205,27 @@ export interface TeamMembersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "roles_select".
+ */
+export interface RolesSelect<T extends boolean = true> {
+  title?: T;
+  team?: T;
+  location?: T;
+  employmentType?: T;
+  summary?: T;
+  points?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  isOpen?: T;
+  sortOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
@@ -2047,6 +2253,9 @@ export interface FormSubmissionsSelect<T extends boolean = true> {
   name?: T;
   email?: T;
   phone?: T;
+  role?: T;
+  discipline?: T;
+  profileLink?: T;
   message?: T;
   page?: T;
   updatedAt?: T;

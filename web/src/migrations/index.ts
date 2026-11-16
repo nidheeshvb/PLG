@@ -3,6 +3,7 @@ import * as migration_20261113_154236_media_storage_and_mobile_video from './202
 import * as migration_20261113_194317_about_page_blocks from './20261113_194317_about_page_blocks';
 import * as migration_20261114_021140_our_story_options from './20261114_021140_our_story_options';
 import * as migration_20261114_080037_team_page from './20261114_080037_team_page';
+import * as migration_20261116_150707_join_page from './20261116_150707_join_page';
 
 export const migrations = [
   {
@@ -28,6 +29,11 @@ export const migrations = [
   {
     up: migration_20261114_080037_team_page.up,
     down: migration_20261114_080037_team_page.down,
-    name: '20261114_080037_team_page'
+    name: '20261114_080037_team_page',
+  },
+  {
+    up: migration_20261116_150707_join_page.up,
+    down: migration_20261116_150707_join_page.down,
+    name: '20261116_150707_join_page'
   },
 ];

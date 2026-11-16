@@ -2,7 +2,7 @@
 
 How to update the website yourself using the content management system (CMS). No technical knowledge needed.
 
-_Last updated: 14 November 2026 · Covers: Home, About, Our Story and The Team pages, header and footer. More pages are added to this guide as they are built._
+_Last updated: 16 November 2026 · Covers: Home, About, Our Story, The Team and Join Us pages, header and footer. More pages are added to this guide as they are built._
 
 ---
 
@@ -20,11 +20,12 @@ _Last updated: 14 November 2026 · Covers: Home, About, Our Story and The Team p
 10. [Case studies](#10-case-studies)
 11. [Partner logos](#11-partner-logos)
 12. [Team members](#12-team-members)
-13. [Header and footer](#13-header-and-footer)
-14. [Messages from the website](#14-messages-from-the-website)
-15. [Users and passwords](#15-users-and-passwords)
-16. [Good to know: what affects what](#16-good-to-know-what-affects-what)
-17. [Getting help](#17-getting-help)
+13. [Open roles](#13-open-roles)
+14. [Header and footer](#14-header-and-footer)
+15. [Messages from the website](#15-messages-from-the-website)
+16. [Users and passwords](#16-users-and-passwords)
+17. [Good to know: what affects what](#17-good-to-know-what-affects-what)
+18. [Getting help](#18-getting-help)
 
 ---
 
@@ -51,8 +52,9 @@ After signing in you see the **Dashboard**. The menu on the left (click ☰ if i
 | | **Case studies** | The projects shown in the case study tiles |
 | | **Partner logos** | The scrolling strip of brand logos |
 | | **Team members** | The people shown on The Team page |
+| | **Open roles** | The jobs listed on the Join Us page |
 | | **Images & videos** | Every picture, logo and video you've uploaded |
-| **Inbox** | **Form messages** | Messages people sent through the website's contact form |
+| **Inbox** | **Form messages** | Messages and job applications people sent through the website's forms |
 | **Settings** | **Header & footer** | The top menu, the site-wide "Start a conversation" banner, footer links and social media links |
 | | **Users** *(admins only)* | Who can sign in |
 
@@ -90,6 +92,15 @@ After signing in you see the **Dashboard**. The menu on the left (click ☰ if i
 | Change the order of people on The Team page | **Team members** → each person → **Order** (lower first) |
 | Change who heads a column in the org chart | **Team members** → the person → **Org chart position** + **Heads this org chart column** |
 | Change the "Group scale" names (PLG Acachet → M&P → Getz) | **Pages → The Team → Group chain → Chain of names** |
+| Add a job opening to Join Us | **Content → Open roles → Create New** ([section 13](#13-open-roles)) |
+| Take a job off the website (keep it for later) | **Open roles** → the role → untick **Show on the website** → **Save** |
+| Change a job's description or bullet points | **Open roles** → the role → **Description** / **Key points** |
+| Change the order of jobs on Join Us | **Open roles** → each role → **Order** (lower first) |
+| Change the four lanes on Join Us ("Commercial thinking"…) | **Pages → Join Us → Lead paragraph → Lanes** |
+| Change the markets list (UAE, Asia, Europe…) | **Pages → Join Us → Lead paragraph → Heading, text and list → List** |
+| Change the "We look for…" sentence | **Pages → Join Us → Statement** |
+| Change the application form's text or button | **Pages → Join Us → Form** (Send us your profile) |
+| Read job applications | **Inbox → Form messages** (Form: *Job application*) |
 | Change which names are orange in a Lead paragraph | Open the **Lead paragraph** → **Orange words** → *Particular words* → list them, separated by commas |
 | Change the links in the bar under the Our Story / Team / Join Us banner | **Header & footer → Header → Menu links → About us → Sub-links in the mobile menu** (the bar copies them) |
 | Make a page banner's photo brighter, or keep its headline on one line | Open the **Banner** → **Background photo** / **Headline size** |
@@ -99,7 +110,7 @@ After signing in you see the **Dashboard**. The menu on the left (click ☰ if i
 | Change a top-menu link | **Header & footer → Header → Menu links** |
 | Change footer or social media links | **Header & footer → Footer** |
 | Change how a page appears on Google / when shared | **Pages →** your page → **SEO** tab |
-| Read contact form messages | **Inbox → Form messages** |
+| Read contact form messages and job applications | **Inbox → Form messages** |
 | Add a colleague | **Users → Create New** *(admins only)* |
 
 ## 4. How a page is built: sections
@@ -156,6 +167,18 @@ On **Pages → The Team** (under About Us):
 06  Call to action banner    Call to action
 ```
 
+On **Pages → Join Us** (under About Us):
+
+```
+01  Banner (top of page)     Banner
+02  Section menu             Section menu
+03  Lead paragraph           Why join
+04  Statement                Who we look for
+05  Open roles               Open roles
+06  Form                     Send us your profile
+07  Link tiles               More about us
+```
+
 - The first word is the **kind of section**; the second is its **name** (only you see the name; click it to rename).
 - **Click a section** to open it and see its fields. Click again to close it.
 - **Collapse All / Show All** (above the list) closes or opens every section at once.
@@ -165,7 +188,7 @@ On **Pages → The Team** (under About Us):
 
 Numbers on cards ("01", "02"…), the breadcrumb at the top of inner pages ("Home / About Us") and the links in a **Section menu** are all worked out automatically from the order and the page tree, so moving things never leaves them wrong.
 
-**Pages inside pages.** A page can sit under another page (the **Parent** field on the right of the page editor). *Our Story*, *The Team* and *Join Us* sit under *About Us*, so their addresses are `/about/our-story`, `/about/team` and `/about/join`, and their breadcrumb reads "Home / About Us / Our Story". Our Story and The Team are built; Join Us is empty for now and is built in the next step.
+**Pages inside pages.** A page can sit under another page (the **Parent** field on the right of the page editor). *Our Story*, *The Team* and *Join Us* sit under *About Us*, so their addresses are `/about/our-story`, `/about/team` and `/about/join`, and their breadcrumb reads "Home / About Us / Our Story". All three are built.
 
 ## 5. Saving, previewing and publishing
 
@@ -251,7 +274,7 @@ Some fields only appear for one style.
 | **Style** | both | *Inner page* or *Showreel*. |
 | **Headline** | both | The big text. *Inner page*: press **Enter** for a new line; each line stays on one line. *Showreel*: words appear one by one, then fade so the buttons move to the centre. |
 | **Show the last word in orange** | Inner page | Colours the last word of the headline orange (e.g. "commercialise **sport.**"). |
-| **Slightly larger headline on phones** | Inner page | For short headlines (The Team: "The team."): the headline is a little bigger on phones. Leave unticked for longer headlines. |
+| **Slightly larger headline on phones** | Inner page | For short headlines (The Team: "The team.", Join Us: "Join us."): the headline is a little bigger on phones. Leave unticked for longer headlines. |
 | **Headline size** | Inner page | *Large, lines wrap as needed* (standard). *Large, each line stays on one line* (Our Story). *Fitted, each line stays on one line* (About: slightly smaller text for long lines). |
 | **Background photo** | Inner page | *Dimmed* (standard) or *Brighter* (About). To choose which part of the photo stays visible, set the photo's focal point ([section 9](#9-images-and-videos)). |
 | **Intro text** | both | The paragraph beside (inner page) or under (showreel) the headline. On inner pages, make words **bold** to show them in brighter white. |
@@ -270,7 +293,7 @@ The bar of links under a banner. On phones the bar can be swiped sideways. You n
 | Links | Used on | Where the links come from |
 |---|---|---|
 | **The sections of this page** | About (Overview · Three Pillars · Mujtamae · …) | Every section on the same page that has both a **Section ID** and a **Name in section menu** (in its **Section settings**), in page order. The section you're reading is underlined as you scroll. To add, rename or remove a link, change those two settings on the section itself. |
-| **Same links as the main menu (sub-links)** | Our Story, The Team (and later Join Us) | The **Sub-links** of the main-menu link that includes this page (**Header & footer → Header → Menu links → About us → Sub-links in the mobile menu**). This page's link is underlined, and **Back to About Us** is added on the right (hidden on phones). Edit the sub-links once and every page using this option updates. |
+| **Same links as the main menu (sub-links)** | Our Story, The Team, Join Us | The **Sub-links** of the main-menu link that includes this page (**Header & footer → Header → Menu links → About us → Sub-links in the mobile menu**). This page's link is underlined, and **Back to About Us** is added on the right (hidden on phones). Edit the sub-links once and every page using this option updates. |
 
 | Field | What it does |
 |---|---|
@@ -279,7 +302,7 @@ The bar of links under a banner. On phones the bar can be swiped sideways. You n
 If there are no links to show, the bar is hidden. A short explanation of the chosen option is shown inside the section in the CMS.
 
 ### Lead paragraph
-A small heading on the left and one large paragraph whose words light up as you scroll (About "Overview", Our Story "The Combination"), optionally followed by a diagram and a closing line with a button.
+A small heading on the left and one large paragraph whose words light up as you scroll (About "Overview", Our Story "The Combination", Join Us "Why Join"), optionally followed by a diagram, a row with a heading, text and a labelled list, and a closing line with a button.
 
 | Field | What it does |
 |---|---|
@@ -287,11 +310,13 @@ A small heading on the left and one large paragraph whose words light up as you 
 | **Paragraph** | The large text. |
 | **Text size** | *Large* (About) or *Medium* (Our Story: slightly smaller text and a little more space around the section). |
 | **Animation** | **Words light up while scrolling** or **None**. |
-| **Orange words** | *None*; *The end of the paragraph* (always orange); or *Particular words, wherever they appear* (they turn orange as they light up). |
-| **Words to show in orange** | *End of the paragraph*: copy the end exactly (e.g. "structure a partnership, sell it, deliver it and measure it."); everything from there to the end turns orange. *Particular words*: list them separated by commas (e.g. "Acachet, PLG, Mujtamae"). Words that don't match the paragraph exactly are simply not coloured. |
-| **Diagram below the paragraph** | *None*; *Three into one*: three columns whose lines join into the PLG Acachet logo (About); or *Lanes into one*: rows with round photos whose lines curve into one and run to the result, drawn as you scroll (Our Story). The lines and logo are fixed design. |
+| **Orange words** | *None*; *The end of the paragraph* (always orange); *Particular words, wherever they appear*; or *A phrase* (the first place that exact phrase appears). Particular words and phrases turn orange as they light up. |
+| **Words to show in orange** | *End of the paragraph*: copy the end exactly (e.g. "structure a partnership, sell it, deliver it and measure it."); everything from there to the end turns orange. *Particular words*: list them separated by commas (e.g. "Acachet, PLG, Mujtamae"). *A phrase*: copy it exactly, including punctuation (e.g. "refuse to stay in a lane:"). Words that don't match the paragraph exactly are simply not coloured. |
+| **Diagram below the paragraph** | *None*; *Three into one*: three columns whose lines join into the PLG Acachet logo (About); or *Lanes into one*: rows with round photos whose lines curve into one and run to the result, drawn as you scroll (Our Story); or *One line across lanes*: columns side by side crossed by one orange line that draws as you scroll, lighting a dot in each column (Join Us). The lines and logo are fixed design. |
 | **Diagram columns** | *Three into one* only: exactly 3 columns, each with **Small label**, **Name** and **Text**. |
 | **Lanes into one** | *Lanes into one* only: **Label above the rows** / **Label above the result** (e.g. "Previously separate" / "Now one business"); **Rows** (2–4, each with **Name**, **Small label**, **Text** and a **Round photo**, shown in black and white until hovered); **Result name** (next to the logo) and **Result note** (small line under it, hidden on tablets and phones). On phones the rows stack and one line fills down to the result. |
+| **Lanes** | *One line across lanes* only: 2–4 columns, each with **Small label** (e.g. "The deal"), **Name** and **Text**. On phones they become a 2 × 2 board and each column lights a short orange marker instead of the line. |
+| **Add a row with a heading, text and a labelled list** | Tick to add a row under the diagram: **Small heading** (orange, left), **Text** (middle) and a **List** (right) of items, each with a **Name**, a small **Label** in a pill (e.g. "Opening") and **Orange label** to highlight one (Join Us "Where the work goes": the UAE is *Home base*). |
 | **Add a closing line with a button** | Tick to add a line of text and a **Closing button** under everything, separated by a thin line (Our Story: "See our work"). |
 
 ### Text with image
@@ -363,12 +388,12 @@ White section with text and key facts on the left and the company structure on t
 | **Group structure (outermost first)** | 1–4 levels, from the parent group down to PLG Acachet. Each: **Company name**, **Small label**, **Detail**, **Description**, **Figure** + **Figure label**. Each level is drawn inside the one above it. The last level is highlighted in navy; pointing at another level highlights that one instead. |
 
 ### Link tiles
-A heading and 2–4 picture tiles that link to other pages; the tile under the mouse widens ("More about us" on About, Our Story and The Team).
+A heading and 2–4 picture tiles that link to other pages; the tile under the mouse widens ("More about us" on About, Our Story, The Team and Join Us).
 
 | Field | What it does |
 |---|---|
 | **Small heading / Title** | Above the tiles. |
-| **Style** | *Standard*: dark grey band (Our Story, The Team and most pages). *Tall tiles on black* (About). |
+| **Style** | *Standard*: dark grey band (Our Story, The Team, Join Us and most pages). *Tall tiles on black* (About). |
 | **Tiles** | Up to 4, each with **Title**, **Text**, **Image** (required) and **Goes to** (a page, a section or a web address; [section 7](#7-buttons-and-links)). |
 
 ### Team directory
@@ -394,6 +419,19 @@ A small heading on the left; a statement, a row of company names joined by short
 | **Statement** | The sentence. |
 | **Chain of names** | 1–5 names, shown left to right. The first is highlighted. |
 | **Show a text link / Text link** | An underlined link with an arrow (e.g. "See the full ownership structure" → About Us, section `ownership`). |
+
+### Open roles
+The job list on Join Us: a heading with the number of open roles, filter buttons by team (All, Commercial, Delivery, Creative, Analytics, each with a count), and one row per job. Clicking a row opens its description with an **Apply for this role** button, which jumps to the application form and fills in the job and discipline there. The jobs themselves are managed in **Open roles** ([section 13](#13-open-roles)).
+
+| Field | What it does |
+|---|---|
+| **Small heading / Title / Shaded title** | See [Headings](#headings). |
+| **Roles to show** | Leave **empty to show every role** ticked *Show on the website*, in their set order (recommended). Or pick roles to show only those. |
+| **Show the team filter buttons** | Only teams that have open roles get a button. |
+| **"Apply" button text** | The words on the button inside each opened role. |
+| **"Apply" button goes to section** | The **Section ID** of the application form on the page (`apply` on Join Us). |
+| **Text when there are no open roles** | Shown instead of the list when no role is open. |
+| **Line under the list / Button under the list** | E.g. "Don't see your role? We still want to hear from you." with a *Send Us Your Profile* button to section `apply`. |
 
 ### Call to action banner
 The white "Start a conversation" banner near the bottom of a page.
@@ -442,22 +480,27 @@ One large sentence across the page.
 | Field | What it does |
 |---|---|
 | **Sentence** | The text. |
-| **Animation** | **Words light up while scrolling** or **None**. |
-| **Show the brand marks behind the text** | The large PLG shapes in the background. |
+| **Look** | *Centred, large, over the brand marks* (Home) or *Left-aligned on a grey band* (Join Us "Who we look for"). |
+| **End of the sentence in orange** | Optional. Copy the end of the sentence exactly (e.g. "evidence to assertion."). |
+| **Animation** | **Words light up while scrolling** or **Fade in**. |
+| **Show the brand marks behind the text** | *Centred* look only: the large PLG shapes in the background. |
 
 ### Form
-The contact form ("Your next move starts here").
+A website form: the contact form ("Your next move starts here" on Home) or the job application form ("Tell us where you fit" on Join Us).
 
 | Field | What it does |
 |---|---|
-| **Form** | *Enquiry*: name, email, phone and message. (A job application form comes with the Join Us page.) |
-| **Small heading / Title** | Above the form. |
+| **Form** | *Enquiry*: name, email, phone and message, over a photo. *Job application*: full name, email, **Applying for** (a list of the open roles, plus "General application"), **Your discipline** (Commercial, Delivery, Creative, Analytics, Something else), LinkedIn or portfolio link and a message, on a white band. Use one job application form per page. |
+| **Small heading / Title** | Above the form (on the left for a job application). |
 | **Intro text** | Paragraph under the title. |
-| **Background photo** | Shown to the right of the form (below it on phones). |
+| **Background photo** | *Enquiry* only. Shown to the right of the form (below it on phones). |
 | **Button text** | The send button's words. |
-| **Message after sending** | Shown once the message is sent. |
+| **Message after sending** | Shown once the message is sent. For a job application it follows "Thanks, *first name*." |
+| **Small note next to the button** | *Job application* only, e.g. "We keep profiles on file and get in touch when a role fits." |
 
-Messages arrive in **Inbox → Form messages** ([section 14](#14-messages-from-the-website)).
+> The CV upload shown in the design is **not on the website yet**. It is waiting for a decision on how CVs are stored and who can see them. Applicants can include a LinkedIn or portfolio link instead.
+
+Messages arrive in **Inbox → Form messages** ([section 15](#15-messages-from-the-website)).
 
 ## 9. Images and videos
 
@@ -542,7 +585,25 @@ To show a case study on Home: **Pages → Home → Case study showcase → Case 
 
 > The social links currently point to the platforms' home pages as placeholders, and the bios are empty, until PLG supplies the real profiles and copy.
 
-## 13. Header and footer
+## 13. Open roles
+
+**Content → Open roles.** The jobs on the Join Us page and in its application form's **Applying for** list. Changes show on the website after **Save** (open roles have no drafts).
+
+| Field | What it does |
+|---|---|
+| **Job title** | The row title and the name in the **Applying for** list. |
+| **Team** | *Commercial*, *Delivery*, *Creative* or *Analytics*. Sets the filter button the job appears under and the discipline filled in when someone clicks **Apply for this role**. |
+| **Location** / **Type** | E.g. "Dubai, UAE" and *Full-time* (also *Part-time*, *Contract*, *Internship*). Shown on the row (wide screens) and inside the opened role. |
+| **Description** | A short paragraph shown when the role is opened. |
+| **Key points** | Optional bullet list under the description (responsibilities or requirements). |
+| **Show on the website** (right side) | Untick to take the job down without deleting it; tick again to bring it back. |
+| **Order** (right side) | Lower numbers appear first. |
+
+**Add a job:** **Create New** → fill in → **Save**. It appears on Join Us and in the application form straight away.
+
+> The six jobs on the site come from the design and have no descriptions yet; PLG supplies the real openings and texts.
+
+## 14. Header and footer
 
 **Settings → Header & footer** (changes apply to every page after **Save**).
 
@@ -557,30 +618,31 @@ To show a case study on Home: **Pages → Home → Case study showcase → Case 
 | | **Social media** | Pick a platform (Instagram, LinkedIn, X, YouTube, Facebook, TikTok) and paste the profile address. The icon appears automatically. |
 | | **Copyright line** | The small copyright text |
 
-## 14. Messages from the website
+## 15. Messages from the website
 
-**Inbox → Form messages** lists every message sent through the contact form, newest first: name, email, phone, message, and which page it was sent from. Click one to read it.
+**Inbox → Form messages** lists every message sent through the website's forms, newest first. The **Form** column says whether it is an *Enquiry* (name, email, phone, message) or a *Job application* (name, email, **Applying for**, **Discipline**, **LinkedIn or portfolio link**, message). Each also shows which page it was sent from. Click one to read it.
 
 Messages can't be edited. Admins can delete them.
 
-## 15. Users and passwords
+## 16. Users and passwords
 
 *Admins only.* **Settings → Users**:
 - **Add a person:** **Create New** → email, name, password, **Role** (*Editor* for content, *Admin* for everything) → **Save**. Give them the password securely and ask them to change it.
 - **Remove a person:** open the user → **⋯ → Delete**.
 - **Change your own password:** click your profile picture (top right) → **Account** → new password → **Save**.
 
-## 16. Good to know: what affects what
+## 17. Good to know: what affects what
 
 | If you… | Then… |
 |---|---|
 | Edit a page without publishing | Nothing changes for visitors. Your draft is kept. |
 | Publish | The page updates for visitors within seconds. |
-| Change **Header & footer**, a **case study**, a **partner logo** or a **team member** and save | Every page showing it updates. |
+| Change **Header & footer**, a **case study**, a **partner logo**, a **team member** or an **open role** and save | Every page showing it updates. |
+| Untick **Show on the website** on an open role | The job disappears from Join Us and from the application form's **Applying for** list. |
 | Change a page's **URL name** | Its web address changes. Buttons and menu links inside the CMS follow automatically, but old bookmarks and links from other websites or emails stop working. Avoid changing it once the site is live. |
 | Change a section's **Section ID** | Buttons jumping to the old ID stop working. Update them too. The **Section menu** follows automatically. |
 | Change a section's **Name in section menu** | The Section menu on that page updates automatically. |
-| Change **Header & footer → Header → Menu links → Sub-links** | The phone menu and every **Section menu** set to *Same links as the main menu* (Our Story, The Team, later Join Us) update. |
+| Change **Header & footer → Header → Menu links → Sub-links** | The phone menu and every **Section menu** set to *Same links as the main menu* (Our Story, The Team, Join Us) update. |
 | Change **Header & footer → Call to action** | Every page whose Call to action banner uses the site-wide version updates. |
 | Rename a page or move it under another page | Its breadcrumb (and web address) follows automatically. |
 | **Hide** a section | It disappears from the website; everything is kept. Untick to restore. |
@@ -590,7 +652,7 @@ Messages can't be edited. Admins can delete them.
 | Leave a required field (*) empty | The CMS won't publish and highlights the field in red. |
 | Upload a very large video | The page loads slowly, especially on phones. Keep to the sizes in [section 9](#9-images-and-videos). |
 
-## 17. Getting help
+## 18. Getting help
 
 - Something looks wrong after publishing? Open **Versions** and **Restore** the previous version, then contact your developer.
 - Need a new kind of section, a new button style or a new option? Ask your developer; once added, it appears in the CMS for everyone.
@@ -598,4 +660,4 @@ Messages can't be edited. Admins can delete them.
 ---
 
 ### Coming with the next pages
-Join Us, Services, Our Work, Contact and Legal, with their sections (open roles, service details, full case studies, offices, legal documents). This guide will be updated as each one is added.
+Services, Our Work, Contact and Legal, with their sections (service details, full case studies, offices, legal documents). This guide will be updated as each one is added.

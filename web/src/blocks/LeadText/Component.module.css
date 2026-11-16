@@ -561,3 +561,201 @@
     stroke-dashoffset: 0;
   }
 }
+
+/* ---------- "One line across lanes" diagram (Join Us) ---------- */
+.cross {
+  position: relative;
+  margin-top: 100px;
+  display: grid;
+  grid-template-columns: repeat(var(--lanes, 4), minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+}
+.lane2 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 28px 28px 190px;
+  border-left: 1px dashed rgba(255, 255, 255, 0.24);
+}
+/* (the prototype's last-lane right border never applies: its :last-child is a dot) */
+.lane2K {
+  font-size: 12px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: #8a8d88;
+}
+.lane2T {
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 1.15;
+  color: #fff;
+  text-wrap: balance;
+}
+.lane2D {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #bdbdbd;
+  max-width: 26ch;
+}
+.crossSvg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 24px;
+  width: 100%;
+  height: 140px;
+  overflow: visible;
+  pointer-events: none;
+}
+.crossSvg path {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+}
+.crossBase {
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 1.2;
+}
+.crossHot {
+  stroke: var(--accent);
+  stroke-width: 2.4;
+  opacity: 0;
+}
+.crossHot.ready {
+  opacity: 1;
+}
+.crossDot {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  margin-left: -6px;
+  transform: translateY(50%);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: var(--bg);
+  transition:
+    background 0.4s,
+    border-color 0.4s,
+    box-shadow 0.4s;
+  pointer-events: none;
+}
+.crossDot.on {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 6px rgba(255, 116, 51, 0.14);
+}
+
+/* ---------- heading + text + labelled list row (Join Us "Where the work goes") ---------- */
+.details {
+  margin-top: 96px;
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr) minmax(0, 1fr);
+  gap: 40px 64px;
+  align-items: start;
+}
+.detailsText {
+  font-size: 20px;
+  line-height: 1.5;
+  color: #d6d6d6;
+  max-width: 36ch;
+}
+.detailsList {
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+.detailsList li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 20px;
+  color: #fff;
+}
+.detailsList li span {
+  font-size: 12px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  padding: 6px 11px;
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  color: #8a8d88;
+  white-space: nowrap;
+}
+.detailsList li.home span {
+  border-color: rgba(255, 116, 51, 0.5);
+  color: var(--accent);
+}
+
+@media (max-width: 1100px) {
+  .withCross .grid {
+    gap: 16px;
+  }
+  .lane2 {
+    padding: 24px 20px 170px;
+  }
+  .lane2T {
+    font-size: 24px;
+  }
+  .details {
+    grid-template-columns: 1fr 1fr;
+  }
+  .details > :first-child {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 900px) {
+  /* lanes become a 2 x 2 board; the crossing line becomes a lit marker per lane */
+  .cross {
+    margin-top: 48px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .lane2 {
+    padding: 22px 16px 26px;
+    border-left: 0;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.24);
+  }
+  .lane2:nth-child(odd) {
+    border-right: 1px dashed rgba(255, 255, 255, 0.24);
+  }
+  .lane2::before {
+    content: '';
+    position: absolute;
+    left: 16px;
+    top: -1px;
+    width: 28px;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.7s var(--ease-out);
+  }
+  .lane2.lit::before {
+    transform: none;
+  }
+  .lane2T {
+    font-size: 20px;
+  }
+  .lane2D {
+    font-size: 14px;
+  }
+  .crossSvg,
+  .crossDot {
+    display: none;
+  }
+  .details {
+    margin-top: 48px;
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .detailsText {
+    font-size: 17px;
+  }
+  .detailsList li {
+    font-size: 17px;
+    padding: 14px 0;
+  }
+}

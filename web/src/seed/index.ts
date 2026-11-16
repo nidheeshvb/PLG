@@ -42,7 +42,7 @@ async function upsertMedia(payload: Payload, { file, alt = '', focalX, focalY }:
   return doc.id
 }
 
-async function upsert<C extends 'partners' | 'case-studies' | 'pages' | 'team-members'>(
+async function upsert<C extends 'partners' | 'case-studies' | 'pages' | 'team-members' | 'roles'>(
   payload: Payload,
   collection: C,
   where: Record<string, { equals: unknown }>,
@@ -769,6 +769,148 @@ async function seed() {
     },
   })
   payload.logger.info('  team page')
+
+  // ---------- open roles (titles, teams and locations from the prototype; descriptions to follow from PLG) ----------
+  type RoleSeed = [title: string, team: string, location: string]
+  const openRoles: RoleSeed[] = [
+    ['Partnerships Manager', 'commercial', 'Dubai, UAE'],
+    ['Senior Producer, Live Events', 'delivery', 'Dubai, UAE'],
+    ['Tournament Operations Lead', 'delivery', 'Dubai, UAE'],
+    ['Motion Designer', 'creative', 'Dubai, UAE'],
+    ['Data Analyst, Mujtamae', 'analytics', 'Dubai, UAE'],
+    ['Business Development Manager, Europe', 'commercial', 'London, UK'],
+  ]
+  for (const [i, [title, team, location]] of openRoles.entries()) {
+    await upsert(payload, 'roles', { title: { equals: title } }, {
+      title,
+      team,
+      location,
+      employmentType: 'fullTime',
+      isOpen: true,
+      sortOrder: i,
+    })
+  }
+  payload.logger.info('  open roles')
+
+  // ---------- Join Us ----------
+  const joinLayout = [
+    {
+      blockType: 'hero',
+      blockName: 'Banner',
+      variant: 'page',
+      title: 'Join us.',
+      highlightLastWord: true,
+      largerOnPhones: true,
+      headlineSize: 'wrap',
+      imageStyle: 'dim',
+      intro: richParagraph('Work across markets, disciplines and formats — ', {
+        bold: 'from strategy to live delivery, and from the physical arena to the digital world.',
+      }),
+      links: [
+        { label: 'Explore Opportunities', appearance: 'primary', type: 'section', section: 'roles' },
+        { label: 'Send Us Your Profile', appearance: 'ghost', type: 'section', section: 'apply' },
+      ],
+      poster: m.serviceCard,
+      showBrandMark: false,
+    },
+    { blockType: 'sectionNav', blockName: 'Section menu', source: 'menu' },
+    {
+      blockType: 'leadText',
+      blockName: 'Why join',
+      anchorId: 'why',
+      eyebrow: 'Why Join',
+      text: 'We are building an agency for people who refuse to stay in a lane: commercial thinking, cultural instinct, production discipline and a habit of measuring what actually happened.',
+      textSize: 'md',
+      animation: 'scrollReveal',
+      highlightMode: 'phrase',
+      highlight: 'refuse to stay in a lane:',
+      diagram: 'cross',
+      crossItems: [
+        { label: 'The deal', name: 'Commercial thinking', text: 'Sponsorship sales, partnerships and strategy.' },
+        { label: 'The audience', name: 'Cultural instinct', text: 'Sport, esports and the fans around them.' },
+        { label: 'The event', name: 'Production discipline', text: 'Live production, broadcast and media.' },
+        { label: 'The report', name: 'Measuring what happened', text: 'Evidence for the client, not assertion.' },
+      ],
+      showDetails: true,
+      detailsHeading: 'Where the work goes',
+      detailsText:
+        'The work is ambitious, international and visible — in the UAE and in the markets we are opening across Asia, Europe and North America.',
+      detailsList: [
+        { name: 'United Arab Emirates', tag: 'Home base', highlight: true },
+        { name: 'Asia', tag: 'Opening' },
+        { name: 'Europe', tag: 'Opening' },
+        { name: 'North America', tag: 'Opening' },
+      ],
+      showClosing: false,
+    },
+    {
+      blockType: 'statement',
+      blockName: 'Who we look for',
+      style: 'band',
+      text: 'We look for commercial judgement and delivery discipline — people who prefer evidence to assertion.',
+      highlight: 'evidence to assertion.',
+      animation: 'none',
+      showBrandMarks: false,
+    },
+    {
+      blockType: 'openRoles',
+      blockName: 'Open roles',
+      anchorId: 'roles',
+      eyebrow: 'Open Roles',
+      title: 'Current openings.',
+      gradientTitle: true,
+      showFilter: true,
+      applyLabel: 'Apply for this role',
+      applySection: 'apply',
+      emptyText: 'No open roles in this team right now. Send us your profile and we’ll keep it on file.',
+      footerText: 'Don’t see your role? We still want to hear from you.',
+      footerLink: { label: 'Send Us Your Profile', appearance: 'ghost', type: 'section', section: 'apply' },
+    },
+    {
+      blockType: 'form',
+      blockName: 'Send us your profile',
+      anchorId: 'apply',
+      formType: 'application',
+      eyebrow: 'Send Us Your Profile',
+      title: 'Tell us where you fit.',
+      lede: 'PLG Acachet works across sponsorship sales, strategy, live production and media. The people who do best here are comfortable moving between a commercial negotiation, a live event and a client report.',
+      submitLabel: 'Send Profile',
+      successMessage: 'We keep profiles on file and get in touch when a role fits.',
+      note: 'We keep profiles on file and get in touch when a role fits.',
+    },
+    {
+      blockType: 'linkTiles',
+      blockName: 'More about us',
+      anchorId: 'more',
+      tileStyle: 'standard',
+      eyebrow: 'More about us',
+      title: 'The story, the people.',
+      tiles: [
+        {
+          title: 'Our Story',
+          text: 'Three businesses. One commercial focus.',
+          image: m.mujtamae,
+          link: { type: 'page', page: ourStory },
+        },
+        {
+          title: 'The Team',
+          text: 'The people behind PLG Acachet’s commercial, delivery and analytics work — based in the UAE, working internationally.',
+          image: m.stat1,
+          link: { type: 'page', page: team },
+        },
+      ],
+    },
+  ]
+  await page('join', 'Join Us', {
+    parent: about,
+    layout: joinLayout as Page['layout'],
+    meta: {
+      title: 'Join Us | PLG Acachet',
+      description: 'Careers at PLG Acachet: work across markets, disciplines and formats, from strategy to live delivery.',
+      image: m.og,
+    },
+  })
+  payload.logger.info('  join us page')
 
   // ---------- header & footer ----------
   const nav = (p: number, label: string, section?: string) => ({ label, type: 'page', page: p, ...(section ? { section } : {}) })

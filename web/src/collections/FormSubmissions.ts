@@ -31,7 +31,21 @@ export const FormSubmissions: CollectionConfig = {
     },
     { name: 'name', type: 'text', required: true },
     { name: 'email', type: 'email', required: true },
-    { name: 'phone', type: 'text' },
+    { name: 'phone', type: 'text', admin: { condition: (data) => data?.form !== 'application' } },
+    {
+      type: 'row',
+      admin: { condition: (data) => data?.form === 'application' },
+      fields: [
+        { name: 'role', type: 'text', label: 'Applying for', admin: { width: '50%' } },
+        { name: 'discipline', type: 'text', label: 'Discipline', admin: { width: '50%' } },
+      ],
+    },
+    {
+      name: 'profileLink',
+      type: 'text',
+      label: 'LinkedIn or portfolio link',
+      admin: { condition: (data) => data?.form === 'application' },
+    },
     { name: 'message', type: 'textarea' },
     { name: 'page', type: 'text', label: 'Sent from page' },
   ],

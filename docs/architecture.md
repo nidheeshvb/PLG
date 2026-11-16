@@ -1,6 +1,6 @@
 # PLG Acachet Website — Architecture
 
-_Last updated: 14 November 2026 · Covers Phase 1, steps 1–4 (foundation, Home, About, Our Story and The Team pages) and the proposed AWS production setup_
+_Last updated: 16 November 2026 · Covers Phase 1, steps 1–5 (foundation, Home, About, Our Story, The Team and Join Us pages) and the proposed AWS production setup_
 
 This document describes **how the application is built** (Part A) and **how it is hosted** (Part B).
 It contains no secrets and can be shared with the client. Diagrams use Mermaid (they render on GitHub, GitLab and most Markdown viewers).
@@ -57,7 +57,7 @@ flowchart TB
   end
   subgraph Content
     F["Reusable CMS field groups: link, section header,<br/>section settings, rich text, media, slug, call to action"]
-    COL["Collections & globals: Pages, Case studies, Partners,<br/>Team members, Media, Form messages, Users · Header & footer"]
+    COL["Collections & globals: Pages, Case studies, Partners,<br/>Team members, Open roles, Media, Form messages, Users · Header & footer"]
   end
   subgraph Data
     L["lib/payload.ts: the only data-access module"]
@@ -121,16 +121,17 @@ erDiagram
 | Case studies | title, slug, cardTitle, summary, client, image, video | Extended with full case study content in a later step |
 | Partners | name, logo, height, mobileHeight, sortOrder | |
 | Team members | name, jobTitle, photo, group (management / creative / staff), department (top / commercial / delivery / operations), headOfDepartment, accountOwner, bio, linkedin, instagram, x, sortOrder | The Team page directory; org chart derived from department + head |
+| Open roles | title, team (commercial / delivery / creative / analytics), location, employmentType, summary, points[], isOpen, sortOrder | Join Us "Open roles" list and the application form's role list (only `isOpen`) |
 | Media | file, alt, focal point | Images, SVG, MP4/WebM |
-| Form submissions | form, name, email, phone, message, page | Created only by the website |
+| Form submissions | form (enquiry / application), name, email, phone, role, discipline, profileLink, message, page | Created only by the website. Application fields shown only for job applications. No CV file yet (backlog) |
 | Users | email, password, name, role (admin / editor) | |
 | Site settings (global) | headerLinks (+ subLinks for the mobile menu), mobileMenuNote, cta (site-wide call to action), footerLinks, legalLinks, social, copyright | |
 
 **Page addresses** are computed, not typed: `home` → `/`; other pages → their nested path (e.g. `/about/our-story`, `/legal/terms`), stored in `path` and used for lookups. Our Story, The Team and Join Us are children of About.
 
-**Derived, never typed by editors:** breadcrumbs (from the nested-docs page tree), section-menu links (from each section's Section ID + "Name in section menu", or from the main menu's sub-links for the group containing the page, plus a "Back to <parent>" link), card numbers (from order), the Team org chart (from each member's position and column head) and filter options with counts (from member groups), the current-page highlight in the header (from the URL).
+**Derived, never typed by editors:** breadcrumbs (from the nested-docs page tree), section-menu links (from each section's Section ID + "Name in section menu", or from the main menu's sub-links for the group containing the page, plus a "Back to <parent>" link), card numbers (from order), the Team org chart (from each member's position and column head) and filter options with counts (from member groups), the Join Us role filter buttons with counts (from each role's team), the current-page highlight in the header (from the URL).
 
-**Sections available (step 4):** Banner (`hero`: showreel / page, with headline size, larger-on-phones + photo style options), Section menu (`sectionNav`: sections / menu), Lead paragraph (`leadText`: text size, orange words tail / particular words, diagrams "merge" and "weave", closing line), Text with image (`mediaText`: fade / card), Cards (`cardCarousel`: service / pillar), Stacking panels, Side-by-side statements (`statements`), Text over image (`backgroundText`), Key numbers, Logo strip, Case study showcase, Group structure (`ownership`), Team directory (`teamDirectory`: reads Team members; grid / org chart, filter, profile panel), Group chain (`groupScale`), Statement, Link tiles (`linkTiles`: standard / tall), Call to action banner (`ctaBanner`, site-wide default in Site settings with per-page override), Form.
+**Sections available (step 5):** Banner (`hero`: showreel / page, with headline size, larger-on-phones + photo style options), Section menu (`sectionNav`: sections / menu), Lead paragraph (`leadText`: text size, orange words tail / particular words / phrase, diagrams "merge", "weave" and "cross", details row with labelled list, closing line), Text with image (`mediaText`: fade / card), Cards (`cardCarousel`: service / pillar), Stacking panels, Side-by-side statements (`statements`), Text over image (`backgroundText`), Key numbers, Logo strip, Case study showcase, Group structure (`ownership`), Team directory (`teamDirectory`: reads Team members; grid / org chart, filter, profile panel), Group chain (`groupScale`), Open roles (`openRoles`: reads Open roles; team filter, expandable rows, "Apply" prefills the form), Statement (centered / band), Link tiles (`linkTiles`: standard / tall), Call to action banner (`ctaBanner`, site-wide default in Site settings with per-page override), Form (enquiry / application).
 
 ## A6. Request lifecycle (public page)
 
@@ -187,18 +188,23 @@ sequenceDiagram
 sequenceDiagram
   participant V as Visitor
   participant F as Form (browser)
-  participant SA as Server action submitEnquiry
+  participant SA as Server action submitEnquiry / submitApplication
   participant DB as PostgreSQL
   V->>F: fill in + submit
-  F->>F: check name and email
+  F->>F: check name, email (application: discipline)
   F->>SA: POST form data
   SA->>SA: honeypot check, validate again, trim lengths
+  SA->>DB: application only: look up the posted role, keep it only if open
   SA->>DB: create Form message (server-only permission)
   SA-->>F: ok / field errors
   F-->>V: "Sent" + thank-you message
 ```
 
-Later: notification email and CRM/careers-system hand-off from the same server action.
+On Join Us, "Apply for this role" in the Open roles section sends a browser event that the application form listens for; it selects that role and its discipline and the link scrolls to the form.
+
+**CV upload is deferred** (`docs/backlog-cv-upload.md`): when added, CVs go to a private S3 bucket/prefix through an access-controlled Payload upload collection, never the public media bucket or CloudFront.
+
+Later: notification email and CRM/careers-system hand-off from the same server actions.
 
 ## A9. Rendering model
 
@@ -397,6 +403,8 @@ A CI pipeline (e.g. GitHub Actions) can run lint, typecheck and build, then depl
 | Inner-page look | The look shared by every inner prototype page is the default; About's differences (brighter banner photo, fitted headline, tall tiles on black) are options | Decided (step 3) |
 | Section menu on About sub-pages | Copies the main menu's About sub-links (one place to edit) | Decided (step 3) |
 | Team members | A shared collection (not fields inside the page), so people are edited once and the org chart / filter are derived from each person's group and position | Decided (step 4) |
+| Open roles | A shared collection with a "show on the website" switch, read by the Open roles section and the application form | Decided (step 5) |
+| CV upload | Deferred until the client confirms retention, access, consent and ATS, and a private S3 bucket is available | **Client decision needed** (step 5) |
 | Cloud & region | AWS, Middle East (UAE) `me-central-1` | **Proposed, development proceeds on it** |
 | Server | EC2 running Next.js + Payload | Proposed |
 | Database service | RDS for PostgreSQL | Proposed |

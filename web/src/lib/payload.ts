@@ -72,3 +72,17 @@ export const getTeamMembers = cache(async () => {
   })
   return docs
 })
+
+/** Roles shown on the website (Join Us), in their set order. */
+export const getOpenRoles = cache(async () => {
+  const payload = await getPayloadClient()
+  const { docs } = await payload.find({
+    collection: 'roles',
+    where: { isOpen: { equals: true } },
+    sort: 'sortOrder',
+    limit: 200,
+    depth: 0,
+    pagination: false,
+  })
+  return docs
+})

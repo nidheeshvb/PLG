@@ -3,12 +3,13 @@
 Next.js 16 (App Router, TypeScript) with Payload CMS 3 in the same app, on PostgreSQL.
 The static HTML prototype in the repository root is the visual reference; this app rebuilds it page by page.
 
-**Status:** step 1 — foundation + Home page. Other pages exist as empty placeholders so links work.
+**Status:** step 5: foundation, Home, About, Our Story, The Team and Join Us are built. The other pages exist as empty placeholders so links work.
 
 More documentation:
 - [`../CLAUDE.md`](../CLAUDE.md) — internal knowledge base: architecture, conventions, decisions log, known gotchas, planned blocks.
 - [`../docs/technical-documentation.md`](../docs/technical-documentation.md) — client-shareable technical documentation.
 - [`../docs/architecture.md`](../docs/architecture.md) — application and server architecture, with diagrams.
+- [`../docs/backlog-cv-upload.md`](../docs/backlog-cv-upload.md): on-hold CV upload for the Join Us form (client questions, proposed implementation).
 - [`../docs/hosting-architecture.md`](../docs/hosting-architecture.md) — proposed AWS production hosting (the target this app is built for).
 - [`../docs/local-setup.md`](../docs/local-setup.md) — detailed local installation guide.
 - [`../docs/editor-guide.md`](../docs/editor-guide.md) — plain-language CMS guide for content editors.
@@ -95,13 +96,13 @@ src/
   migrations/            database migrations
 ```
 
-### Block library (steps 1–4)
+### Block library (steps 1–5)
 
 | Block (CMS name) | Variants / options | Used for | Planned reuse |
 |---|---|---|---|
-| `hero` (Banner) | `variant`: `showreel` · `page` (auto breadcrumb, orange last word, intro rich text, brand mark, `headlineSize` wrap/oneLine/fitted, `largerOnPhones` (11vw), `imageStyle` dim/bright) | Home showreel; About, Our Story, Team banners | every inner page (`page`) |
-| `sectionNav` (Section menu) | `source`: `sections` (from sections' `anchorId` + `navLabel`, scroll-spy, note) · `menu` (main-menu sub-links of the page's group + "Back to …") | About (sections); Our Story, Team (menu) | Join (menu); Services (sticky/numbered variant later) |
-| `leadText` (Lead paragraph) | `textSize` lg/md, `highlightMode` tail/words, scroll reveal, `diagram`: `none` · `merge` · `weave` (lanes into one), closing line + button | About overview; Our Story combination | Join, Services approach (more diagrams as variants) |
+| `hero` (Banner) | `variant`: `showreel` · `page` (auto breadcrumb, orange last word, intro rich text, brand mark, `headlineSize` wrap/oneLine/fitted, `largerOnPhones` (11vw), `imageStyle` dim/bright) | Home showreel; About, Our Story, Team, Join banners | every inner page (`page`) |
+| `sectionNav` (Section menu) | `source`: `sections` (from sections' `anchorId` + `navLabel`, scroll-spy, note) · `menu` (main-menu sub-links of the page's group + "Back to …") | About (sections); Our Story, Team, Join (menu) | Services (sticky/numbered variant later) |
+| `leadText` (Lead paragraph) | `textSize` lg/md, `highlightMode` tail/words/phrase, scroll reveal, `diagram`: `none` · `merge` · `weave` (lanes into one) · `cross` (one line across 2–4 lanes), details row (heading + text + labelled list), closing line + button | About overview; Our Story combination; Join "Why join" | Services approach (more diagrams as variants) |
 | `mediaText` (Text with image) | `variant`: `fade` · `card` (list, report card with bars) | Home "Who we are"; About Mujtamae | — |
 | `cardCarousel` (Cards) | `cardStyle`: `service` · `pillar` (card `tag`, note in header) | Home "What we do"; About pillars | — |
 | `stackedPanels` (Stacking panels) | 1–4 panels | Home | — |
@@ -113,10 +114,11 @@ src/
 | `ownership` (Group structure) | facts (count-up), closing, nested levels | About ownership | — |
 | `teamDirectory` (Team directory) | intro + orange words, `members` (empty = all from `team-members`), `showOrgChart`, `showFilter`; client grid ↔ org chart, filter with counts, profile drawer (portal) | Team "Leadership" | — |
 | `groupScale` (Group chain) | statement, 1–5 chain names (first highlighted), optional text link | Team "Group scale" | — |
-| `statement` (Statement) | scroll reveal / none | Home | Join Us |
-| `linkTiles` (Link tiles) | `tileStyle`: `standard` (grey band) · `tall` (About); 1–4 expanding tiles | About, Our Story, Team "More about us" | Join; Services categories |
+| `openRoles` (Open roles) | header, `roles` (empty = all open from `roles`), team filter with counts, expandable rows, "Apply" prefills the application form (`APPLY_ROLE_EVENT`), empty text, line + button under | Join "Open roles" | — |
+| `statement` (Statement) | `style` centered/band, orange tail `highlight`, scroll reveal / fade in | Home; Join "Who we look for" | — |
+| `linkTiles` (Link tiles) | `tileStyle`: `standard` (grey band) · `tall` (About); 1–4 expanding tiles | About, Our Story, Team, Join "More about us" | Services categories |
 | `ctaBanner` (Call to action banner) | site-wide default (`site-settings.cta`) or page override | About, Our Story, Team | Join, Services, Our Work… |
-| `form` (Form) | `formType`: `enquiry` | Home | Contact; Join (`application`) |
+| `form` (Form) | `formType`: `enquiry` · `application` (role + discipline dropdowns, link, message; no CV upload yet) | Home; Join | Contact |
 
 **Rule for new pages:** reuse a block → otherwise add a variant/option to an existing block → only then create a new block.
 
@@ -150,7 +152,9 @@ npm run migrate                          # on the target database
 
 ## Not done yet
 
-- Other pages (Join Us, Services, Our Work, Contact, Legal) and their blocks. Join Us exists as an empty child page of About.
+- Other pages (Services, Our Work, Contact, Legal) and their blocks.
+- CV upload on the Join Us application form: on hold, see `docs/backlog-cv-upload.md`.
+- Open role descriptions (the six seeded roles from the prototype have none).
 - Team bios and social profile links (seeded as placeholders: no bios, platform home pages); photos for two people.
 - Full case study content and the case study overlay (Our Work page).
 - Email notifications / CRM for form messages (the SMTP adapter is ready; it needs SES/SMTP details).

@@ -15,6 +15,7 @@ import { LeadTextBlock } from './LeadText/Component'
 import { LinkTilesBlock } from './LinkTiles/Component'
 import { LogoMarqueeBlock } from './LogoMarquee/Component'
 import { MediaTextBlock } from './MediaText/Component'
+import { OpenRolesBlock } from './OpenRoles/Component'
 import { OwnershipBlock } from './Ownership/Component'
 import { SectionNavBlock } from './SectionNav/Component'
 import { StackedPanelsBlock } from './StackedPanels/Component'
@@ -36,7 +37,7 @@ const components: { [K in BlockType]: ComponentType<Extract<Block, { blockType: 
   logoMarquee: LogoMarqueeBlock as ComponentType<Extract<Block, { blockType: 'logoMarquee' }> & BlockContext>,
   caseStudyGallery: CaseStudyGalleryBlock,
   statement: StatementBlock,
-  form: FormBlock,
+  form: FormBlock as ComponentType<Extract<Block, { blockType: 'form' }> & BlockContext>,
   sectionNav: SectionNavBlock,
   leadText: LeadTextBlock,
   statements: StatementsBlock,
@@ -45,6 +46,7 @@ const components: { [K in BlockType]: ComponentType<Extract<Block, { blockType: 
   linkTiles: LinkTilesBlock,
   teamDirectory: TeamDirectoryBlock as ComponentType<Extract<Block, { blockType: 'teamDirectory' }> & BlockContext>,
   groupScale: GroupScaleBlock,
+  openRoles: OpenRolesBlock as ComponentType<Extract<Block, { blockType: 'openRoles' }> & BlockContext>,
   ctaBanner: CtaBannerBlock as ComponentType<Extract<Block, { blockType: 'ctaBanner' }> & BlockContext>,
 }
 

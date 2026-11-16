@@ -4,6 +4,7 @@ import { WordReveal } from '@/components/ui/WordReveal'
 import type { LeadTextBlock as LeadTextBlockData } from '@/payload-types'
 
 import styles from './Component.module.css'
+import { CrossDiagram } from './CrossDiagram'
 import { MergeDiagram } from './MergeDiagram'
 import { WeaveDiagram } from './WeaveDiagram'
 
@@ -13,6 +14,7 @@ const bare = (w: string) => w.replace(/[.,;:!?“”"'’)(]+$/g, '').replace(/^
  * Indexes of the words to show in orange.
  * - tail: from the last place `highlight` occurs (word for word) to the end
  * - words: every word equal to one of the comma-separated `highlight` words (ignoring punctuation)
+ * - phrase: the first place `highlight` occurs (word for word)
  */
 const highlightedWords = (text: string, mode?: string | null, highlight?: string | null): number[] => {
   const words = text.trim().split(/\s+/)
@@ -22,6 +24,12 @@ const highlightedWords = (text: string, mode?: string | null, highlight?: string
     return words.flatMap((w, i) => (wanted.has(w) || wanted.has(bare(w)) ? [i] : []))
   }
   const hl = highlight.trim().split(/\s+/)
+  if (mode === 'phrase') {
+    for (let i = 0; i + hl.length <= words.length; i++) {
+      if (hl.every((w, k) => words[i + k] === w)) return hl.map((_, k) => i + k)
+    }
+    return []
+  }
   for (let i = words.length - hl.length; i >= 0; i--) {
     if (hl.every((w, k) => words[i + k] === w)) return words.slice(i).map((_, k) => i + k)
   }
@@ -30,14 +38,21 @@ const highlightedWords = (text: string, mode?: string | null, highlight?: string
 
 export function LeadTextBlock(props: LeadTextBlockData) {
   const { eyebrow, text, textSize, highlightMode, highlight, animation, diagram, mergeItems, weaveItems } = props
+  const { crossItems, showDetails, detailsHeading, detailsText, detailsList } = props
   const { showClosing, closingText, closingLink, anchorId } = props
   const hl = highlightedWords(text, highlightMode ?? 'tail', highlight)
-  // tail: always orange; particular words: orange as they light up
-  const hlClass = highlightMode === 'words' ? styles.nm : styles.hl
+  // tail: always orange; particular words / a phrase: orange as they light up
+  const hlClass = highlightMode === 'words' || highlightMode === 'phrase' ? styles.nm : styles.hl
+  const cross = diagram === 'cross' && !!crossItems?.length
   const words = text.trim().split(/\s+/)
 
   return (
-    <Section id={anchorId} className={[styles.section, textSize === 'md' ? styles.md : styles.lg].join(' ')}>
+    <Section
+      id={anchorId}
+      className={[styles.section, textSize === 'md' ? styles.md : styles.lg, cross && styles.withCross]
+        .filter(Boolean)
+        .join(' ')}
+    >
       <div className={styles.grid}>
         <div className={styles.head}>
           {eyebrow && (
@@ -70,6 +85,31 @@ export function LeadTextBlock(props: LeadTextBlockData) {
       </div>
       {diagram === 'merge' && !!mergeItems?.length && <MergeDiagram items={mergeItems} />}
       {diagram === 'weave' && !!weaveItems?.length && <WeaveDiagram {...props} />}
+      {cross && <CrossDiagram items={crossItems} />}
+      {showDetails && (detailsHeading || detailsText || !!detailsList?.length) && (
+        <div className={styles.details}>
+          {detailsHeading ? (
+            <p className="eyebrow" data-reveal="">
+              {detailsHeading}
+            </p>
+          ) : (
+            <span />
+          )}
+          <div data-reveal="" style={{ ['--d' as string]: '.08s' }}>
+            {detailsText && <p className={styles.detailsText}>{detailsText}</p>}
+          </div>
+          {!!detailsList?.length && (
+            <ul className={styles.detailsList} aria-label={detailsHeading ?? undefined} data-reveal="" style={{ ['--d' as string]: '.16s' }}>
+              {detailsList.map((it, i) => (
+                <li key={it.id ?? i} className={it.highlight ? styles.home : undefined}>
+                  {it.name}
+                  {it.tag && <span>{it.tag}</span>}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
       {showClosing && (closingText || closingLink) && (
         <div className={styles.closing} data-reveal="">
           {closingText && <p>{closingText}</p>}

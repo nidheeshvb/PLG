@@ -2,7 +2,7 @@
 
 How to get the PLG Acachet website (Next.js + Payload CMS) running on your own computer, from a fresh machine to a working site and CMS.
 
-_Last updated: 14 November 2026_
+_Last updated: 16 November 2026_
 
 **Time needed:** about 15–20 minutes (most of it is downloading packages).
 **Result:** the website at <http://localhost:3000> and the CMS at <http://localhost:3000/admin>, filled with the Home page content.
@@ -134,7 +134,7 @@ npm run seed
 This:
 - creates the admin and editor users from your `SEED_*` settings,
 - uploads the Home, About and Team images (including `assets/team/` portraits), videos and logos from the prototype's `assets/` folder (and fills in alt text added to the seed later, unless an editor already wrote one),
-- creates the partner logos, the five Home case studies, the 11 team members, the **Home**, **About**, **Our Story** and **The Team** pages with all their sections, empty placeholder pages (Join Us under About; Services, Our Work, Contact, Legal and its three sub-pages), the header/footer links (including the About sub-links in the mobile menu) and the site-wide call to action.
+- creates the partner logos, the five Home case studies, the 11 team members, the 6 open roles, the **Home**, **About**, **Our Story**, **The Team** and **Join Us** pages with all their sections, empty placeholder pages (Services, Our Work, Contact, Legal and its three sub-pages), the header/footer links (including the About sub-links in the mobile menu) and the site-wide call to action.
 
 It ends with `Done.` It's safe to run again: it updates existing records instead of duplicating them (it never changes an existing user's password).
 

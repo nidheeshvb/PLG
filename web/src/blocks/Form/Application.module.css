@@ -1,0 +1,287 @@
+/* Join Us "Send us your profile": white band, copy left / form right (prototype .apply) */
+.apply {
+  background: #fff;
+  color: #222;
+}
+.inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 48px 96px;
+  padding: 120px var(--gutter);
+}
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.copy :global(.eyebrow) {
+  color: #222;
+}
+.copy :global(.h1) {
+  color: #000;
+}
+.lede {
+  font-size: 20px;
+  line-height: 1.5;
+  color: #3a3d3b;
+  max-width: 36ch;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px 24px;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+.full {
+  grid-column: 1 / -1;
+}
+.field label {
+  font-size: 13px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #6a6d68;
+}
+.field input,
+.field textarea {
+  width: 100%;
+  font: inherit;
+  font-size: 18px;
+  color: #000;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #cfcfcf;
+  border-radius: 0;
+  padding: 10px 0 12px;
+  transition: border-color 0.3s;
+  color-scheme: light;
+}
+.field textarea {
+  resize: vertical;
+  min-height: 96px;
+}
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.bad input,
+.bad .selBtn {
+  border-color: #c4321a;
+}
+.err {
+  font-size: 13px;
+  color: #c4321a;
+}
+.hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.foot {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 24px;
+  margin-top: 8px;
+}
+.foot p {
+  font-size: 14px;
+  color: #6a6d68;
+  max-width: 40ch;
+}
+.foot p.failed {
+  color: #c4321a;
+}
+
+.done {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 32px;
+  border-radius: 16px;
+  background: #f6f6f4;
+  border: 1px solid #ececec;
+}
+.done h3 {
+  font-size: 28px;
+  color: #000;
+}
+.done p {
+  font-size: 17px;
+  line-height: 1.5;
+  color: #3a3d3b;
+  max-width: 48ch;
+}
+.done button {
+  align-self: flex-start;
+  margin-top: 8px;
+  font-size: 15px;
+  color: #000;
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 3px;
+}
+
+/* ---------- custom select ---------- */
+.sel {
+  position: relative;
+}
+.selBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font: inherit;
+  font-size: 18px;
+  text-align: left;
+  color: #000;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #cfcfcf;
+  padding: 10px 0 12px;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+.selBtn span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.isPh span {
+  color: #8a8d88;
+}
+.selBtn i {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #f2f2ef;
+  transition:
+    background 0.3s,
+    transform 0.45s var(--ease-out);
+}
+.selBtn i svg {
+  width: 10px;
+  height: 10px;
+}
+.selBtn:hover i {
+  background: #e9e9e5;
+}
+.selOpen .selBtn,
+.selBtn:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+}
+.selOpen .selBtn i {
+  background: var(--accent);
+  transform: rotate(180deg);
+}
+.selList {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 20;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  max-height: 300px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #e6e6e2;
+  border-radius: 14px;
+  box-shadow: 0 24px 50px -18px rgba(0, 13, 29, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px) scale(0.98);
+  transform-origin: top;
+  transition:
+    opacity 0.25s var(--ease-out),
+    transform 0.35s var(--ease-out),
+    visibility 0s 0.35s;
+}
+.selOpen .selList {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition:
+    opacity 0.25s var(--ease-out),
+    transform 0.35s var(--ease-out),
+    visibility 0s;
+}
+.selOpt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 16px;
+  line-height: 1.3;
+  color: #222;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+.selOpt:hover,
+.isHl {
+  background: #fff3ec;
+  color: #000;
+}
+.selOpt[aria-selected='true'] {
+  color: #e55a1c;
+  font-weight: 500;
+}
+.selOpt[aria-selected='true']::after {
+  content: '';
+  flex: none;
+  width: 12px;
+  height: 12px;
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath fill='none' stroke='%23000' stroke-width='1.8' d='M2 6.3l2.6 2.6L10 3.4'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+}
+
+@media (max-width: 1100px) {
+  .inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+}
+@media (max-width: 900px) {
+  .inner {
+    padding-block: 64px;
+  }
+  .lede {
+    font-size: 17px;
+  }
+  .form {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  .field input,
+  .field textarea,
+  .selBtn {
+    font-size: 16px;
+  }
+  .selOpt {
+    font-size: 15px;
+    padding: 13px 14px;
+  }
+}

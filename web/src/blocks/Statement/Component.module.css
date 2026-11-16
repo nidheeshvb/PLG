@@ -73,3 +73,40 @@
     letter-spacing: 0;
   }
 }
+
+/* orange end of the sentence */
+.hl,
+.text em,
+.bandText em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+/* ---------- "band": left-aligned on a grey band (Join Us "Who we look for") ---------- */
+.band {
+  padding: 110px var(--gutter);
+  background: var(--bg-2);
+  border-block: 1px solid var(--line);
+}
+.bandText {
+  font-weight: 600;
+  font-size: 52px;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  color: #eaeaea;
+  max-width: 20em;
+  text-wrap: balance;
+}
+@media (max-width: 1100px) {
+  .bandText {
+    font-size: 42px;
+  }
+}
+@media (max-width: 900px) {
+  .band {
+    padding-block: 64px;
+  }
+  .bandText {
+    font-size: 28px;
+  }
+}

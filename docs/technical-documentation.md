@@ -1,6 +1,6 @@
 # PLG Acachet Website — Technical Documentation
 
-_Last updated: 14 November 2026 · Status: Phase 1, step 4 (The Team page) complete_
+_Last updated: 16 November 2026 · Status: Phase 1, step 5 (Join Us page) complete_
 
 ---
 
@@ -54,8 +54,9 @@ Each page has:
 | Case studies | Case study tiles (and, from the Our Work page, the full case studies) |
 | Partner logos | The scrolling logo strip; order and display size per logo |
 | Team members | The Team page: name, job title, photo, filter group, org chart position (and column head), "Senior account owner" label, bio, social links, order |
+| Open roles | Join Us job listings: title, team, location, type, description, key points, "show on the website" switch, order. Also fills the application form's role list |
 | Images & videos | Every uploaded image, logo and video, with alt text and focal point |
-| Form messages | Messages sent from the website's forms (read-only inbox) |
+| Form messages | Enquiries and job applications sent from the website's forms (read-only inbox) |
 | Header & footer | Menu links (with optional mobile sub-links), the site-wide "Start a conversation" banner, footer links, legal links, social media links, copyright line |
 
 ### 4.3 Sections available today
@@ -63,7 +64,7 @@ Each page has:
 |---|---|---|
 | Banner (top of page) | Page-top banner. Styles: *Showreel* (Home, full-screen video) and *Inner page* (automatic breadcrumb, headline with orange last word, intro and buttons) | Style, video, background image, headline (size: wrapping, one line, fitted; slightly larger on phones for short headlines), photo dimmed or brighter, intro text, buttons, scroll indicator, brand mark |
 | Section menu | Bar of links under the banner | Links generated either from the page's sections (highlighting the one being read) or from the main menu's sub-links (highlighting this page, with a "Back to…" link); optional note |
-| Lead paragraph | Large paragraph whose words light up while scrolling, optional diagram and closing line | Text size, orange words (end of paragraph or particular names), animation on/off, diagrams "Three into one" and "Lanes into one" (rows with photos, lines drawn while scrolling), closing line with button |
+| Lead paragraph | Large paragraph whose words light up while scrolling, optional diagram, details row and closing line | Text size, orange words (end of paragraph, particular names or a phrase), animation on/off, diagrams "Three into one", "Lanes into one" (rows with photos, lines drawn while scrolling) and "One line across lanes" (columns crossed by one line drawn while scrolling), row with heading, text and a labelled list (Join Us markets), closing line with button |
 | Text with image | Heading, text and button beside an image. Styles: *fade* (Home) and *rounded image on grey band* (About "Mujtamae") | Image left or right, shaded title, fade edge, button on/off, list, illustrative report card with bars |
 | Cards | Row of image cards (swipeable on mobile). Styles: *numbered* and *pillar* | Card style, cards (title, label, text, image, link), note, white or dark background |
 | Side-by-side statements | Heading plus 2–3 large statements (Vision & Mission) | Statements, brand mark on/off |
@@ -71,18 +72,19 @@ Each page has:
 | Group structure | Text, counting key facts and nested company frames (Our Ownership) | Facts, closing line, 1–4 levels with label, detail, description, figure |
 | Team directory | Team portraits with a grid / org chart switch, a "Show" filter by group with counts, and a profile panel (The Team) | Intro with orange words, all people or a chosen set, org chart view on/off, filter on/off. People come from Team members; the org chart is built from each person's position |
 | Group chain | Statement, a chain of company names and a text link (The Team "Group scale") | 1–5 names (first highlighted), link on/off |
+| Open roles | Job list with team filter buttons (with counts); each role opens to its description and an "Apply for this role" button that fills in the application form (Join Us) | Heading, all open roles or a chosen set, filter on/off, button text, form section, empty-list text, line and button under the list. Roles come from Open roles |
 | Link tiles | Expanding image tiles linking to other pages | Standard or tall style; up to 4 tiles: title, text, image, destination |
 | Call to action banner | White "Start a conversation" banner | Uses the site-wide content from Header & footer, or page-specific content |
 | Stacking panels | Full-screen panels that slide over each other while scrolling | Up to 4 panels with heading, text, image, button |
 | Key numbers | Large animated numbers over full-screen images | Numbers, suffix (e.g. "+"), captions, images, seconds per number |
 | Logo strip | Continuously scrolling partner logos | Optional heading; all logos or a chosen set |
 | Case study showcase | Large tiles linking to case studies | Choose case studies and order; full-width tiles; button |
-| Statement | One large sentence | Scroll animation on/off; brand marks on/off |
-| Form | Contact form with heading and photo | Heading, intro, background photo, button text, thank-you message |
+| Statement | One large sentence | Look: centred over brand marks or left-aligned on a grey band; orange end of sentence; scroll animation or fade-in; brand marks on/off |
+| Form | Website form. Types: *Enquiry* (contact form over a photo) and *Job application* (name, email, role, discipline, LinkedIn/portfolio link, message, on a white band) | Form type, heading, intro, background photo (enquiry), button text, thank-you message, note next to the button (application) |
 
 Every section also has **Section settings**: a Section ID (so buttons can jump to it), a name for section menus, and **hide on website**.
 
-More sections are added as the remaining pages are built (open roles, service details, case study grid, offices, legal documents and others). Existing sections gain new styles where possible rather than duplicating them.
+More sections are added as the remaining pages are built (service details, case study grid, offices, legal documents and others). Existing sections gain new styles where possible rather than duplicating them.
 
 ## 5. Editing workflow (for the content team)
 
@@ -100,7 +102,7 @@ A detailed, plain-language **Content Editor Guide** (every section and option, b
 | Role | Can do |
 |---|---|
 | Admin | Everything, including managing user accounts |
-| Editor | All website content (pages, sections, images, case studies, logos, team members, header & footer) and read form messages; cannot manage users |
+| Editor | All website content (pages, sections, images, case studies, logos, team members, open roles, header & footer) and read form messages and job applications; cannot manage users |
 
 ## 6. Website features
 
@@ -110,7 +112,8 @@ A detailed, plain-language **Content Editor Guide** (every section and option, b
 - **Accessibility:** skip-to-content link, keyboard-operable menu (Escape closes), labelled controls, video pause button, alt text managed in the CMS.
 - **Performance:** static pages, optimised responsive images (WebP/AVIF at the right size for each device), self-hosted fonts, the showreel pauses when off screen, scroll effects batched to once per frame.
 - **SEO:** per-page title and description, canonical URLs, Open Graph/Twitter share images, automatic `sitemap.xml` and `robots.txt`.
-- **Forms:** validated in the browser and on the server, spam honeypot, stored in the CMS inbox.
+- **Forms:** validated in the browser and on the server, spam honeypot, stored in the CMS inbox. The job application form only accepts roles that are currently open and offers keyboard-operable dropdowns.
+- **Careers:** open roles filter by team with counts and expand in place; "Apply for this role" jumps to the form with the role and discipline filled in.
 
 ## 7. Security
 
@@ -171,12 +174,15 @@ Developers can run the full website and CMS on their own computer by following `
 | 2 | **About Us** (banner, section menu, overview diagram, pillars, Mujtamae, vision & mission, why the UAE, ownership, more about us, call to action) | ✅ Complete — in review |
 | 3 | **Our Story** (banner, section menu, the combination with "lanes into one" diagram, more about us, call to action) | ✅ Complete — in review |
 | 4 | **The Team** (banner, section menu, team directory with grid / org chart / filter / profile panel, group scale, more about us, call to action) | ✅ Complete — in review |
-| 5 | Join Us (open roles, application form with CV upload) | Planned |
+| 5 | **Join Us** (banner, section menu, why join with "one line across lanes" diagram and markets, statement, open roles with filter, application form, more about us) | ✅ Complete — in review. **CV upload deferred** (see below) |
 | 6 | Services | Planned |
 | 7 | Our Work (case study grid, filters, full case studies) | Planned |
 | 8 | Contact (enquiry form, offices) | Planned |
 | 9 | Legal (Terms, Privacy, Cookies) | Planned |
 | 10 | Go-live on AWS (me-central-1): set up EC2, RDS, S3, CloudFront, SES, domain; analytics and cookie consent | Planned |
+
+### Deferred: CV upload on the Join Us form
+The design includes a CV upload (PDF/Word, up to 10 MB). It is **on hold** until PLG Acachet confirms how CVs are handled and private S3 storage is available, because CVs are personal data and must not be stored with the public website media. The form works without it; applicants can add a LinkedIn or portfolio link. Open questions and the planned implementation are in `docs/backlog-cv-upload.md`.
 
 ## 10. Items needed from PLG Acachet
 
@@ -186,5 +192,7 @@ Developers can run the full website and CMS on their own computer by following `
 - Office addresses, email and phone for the Contact page.
 - Legal wording (Terms, Privacy, Cookies) approved by counsel, and the chosen cookie-consent platform.
 - Where form messages should go besides the CMS inbox (email addresses, CRM, careers system).
+- The real open roles with descriptions (the six on the site come from the design and have no descriptions yet).
+- CV upload decisions (`docs/backlog-cv-upload.md`): whether to accept CVs, who may download them, how long they are kept, consent wording, applicant-tracking system, notification email, and access to a private S3 bucket.
 - Approval of the proposed AWS hosting setup, expected monthly visitors (to size the server and estimate cost), and the domain.
 - Names and email addresses of people who need CMS accounts, and their roles.

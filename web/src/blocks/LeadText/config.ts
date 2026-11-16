@@ -6,6 +6,8 @@ import { sectionSettings } from '@/fields/sectionSettings'
 
 const isMerge: Condition = (_, sibling) => sibling?.diagram === 'merge'
 const isWeave: Condition = (_, sibling) => sibling?.diagram === 'weave'
+const isCross: Condition = (_, sibling) => sibling?.diagram === 'cross'
+const hasDetails: Condition = (_, sibling) => Boolean(sibling?.showDetails)
 
 /**
  * Small heading on the left, one large paragraph on the right whose words light up while
@@ -67,6 +69,7 @@ export const LeadTextBlock: Block = {
         { label: 'None', value: 'none' },
         { label: 'The end of the paragraph', value: 'tail' },
         { label: 'Particular words, wherever they appear', value: 'words' },
+        { label: 'A phrase', value: 'phrase' },
       ],
       admin: { layout: 'horizontal' },
     },
@@ -77,7 +80,7 @@ export const LeadTextBlock: Block = {
       admin: {
         condition: (_, sibling) => sibling?.highlightMode !== 'none',
         description:
-          'End of the paragraph: copy the end exactly, e.g. “structure a partnership, sell it, deliver it and measure it.” Particular words: separate them with commas, e.g. “Acachet, PLG, Mujtamae” (they turn orange as they light up).',
+          'End of the paragraph: copy the end exactly, e.g. “structure a partnership, sell it, deliver it and measure it.” Particular words: separate them with commas, e.g. “Acachet, PLG, Mujtamae” (they turn orange as they light up). A phrase: copy it exactly, e.g. “refuse to stay in a lane:” (it turns orange as it lights up).',
       },
     },
     {
@@ -89,6 +92,7 @@ export const LeadTextBlock: Block = {
         { label: 'None', value: 'none' },
         { label: 'Three into one (three columns that join into the PLG Acachet logo)', value: 'merge' },
         { label: 'Lanes into one (rows with photos whose lines join into one, drawn while scrolling)', value: 'weave' },
+        { label: 'One line across lanes (columns crossed by one orange line, drawn while scrolling)', value: 'cross' },
       ],
     },
     {
@@ -178,6 +182,74 @@ export const LeadTextBlock: Block = {
               type: 'text',
               label: 'Result note',
               admin: { width: '50%', description: 'Small line under the name (hidden on tablets and phones).' },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'crossItems',
+      type: 'array',
+      label: 'Lanes',
+      minRows: 2,
+      maxRows: 4,
+      labels: { singular: 'Lane', plural: 'Lanes' },
+      admin: {
+        initCollapsed: true,
+        condition: isCross,
+        description: 'Two to four columns side by side (two by two on phones).',
+        components: { RowLabel: '@/fields/LinkRowLabel#ItemRowLabel' },
+      },
+      fields: [
+        {
+          type: 'row',
+          fields: [
+            { name: 'label', type: 'text', label: 'Small label', admin: { width: '50%', placeholder: 'The deal' } },
+            { name: 'name', type: 'text', label: 'Name', required: true, admin: { width: '50%' } },
+          ],
+        },
+        { name: 'text', type: 'textarea', label: 'Text', admin: { rows: 2 } },
+      ],
+    },
+    {
+      name: 'showDetails',
+      type: 'checkbox',
+      label: 'Add a row with a heading, text and a labelled list',
+      defaultValue: false,
+      admin: { description: 'E.g. Join Us “Where the work goes”: markets with a label each.' },
+    },
+    {
+      type: 'collapsible',
+      label: 'Heading, text and list',
+      admin: { condition: hasDetails },
+      fields: [
+        {
+          type: 'row',
+          fields: [
+            { name: 'detailsHeading', type: 'text', label: 'Small heading', admin: { width: '50%' } },
+          ],
+        },
+        { name: 'detailsText', type: 'textarea', label: 'Text', admin: { rows: 3 } },
+        {
+          name: 'detailsList',
+          type: 'array',
+          label: 'List',
+          labels: { singular: 'Item', plural: 'Items' },
+          admin: { initCollapsed: true, components: { RowLabel: '@/fields/LinkRowLabel#ItemRowLabel' } },
+          fields: [
+            {
+              type: 'row',
+              fields: [
+                { name: 'name', type: 'text', label: 'Name', required: true, admin: { width: '40%' } },
+                { name: 'tag', type: 'text', label: 'Label', admin: { width: '30%', placeholder: 'Opening' } },
+                {
+                  name: 'highlight',
+                  type: 'checkbox',
+                  label: 'Orange label',
+                  defaultValue: false,
+                  admin: { width: '30%', style: { alignSelf: 'center' } },
+                },
+              ],
             },
           ],
         },
