@@ -1,6 +1,6 @@
 # PLG Acachet Website — Technical Documentation
 
-_Last updated: 16 November 2026 · Status: Phase 1, step 9 (Legal pages) complete: every page is built_
+_Last updated: 17 November 2026 · Status: Phase 1, step 9 (Legal pages) complete: every page is built_
 
 ---
 
@@ -200,6 +200,7 @@ The design includes a CV upload (PDF/Word, up to 10 MB). It is **on hold** until
 - The real open roles with descriptions (the six on the site come from the design and have no descriptions yet).
 - Case studies: key visuals for G42, Pizza Hut and Red Bull (library photos for now), project photos for each gallery (library shots for now), and confirmation of the facts shown in [square brackets] (e.g. years).
 - Whether the extra case study sections in the design are wanted (Mujtamae link, idea line, operating model): see the backlog.
+- The wording of the footer legal links: "Privacy · Terms & Conditions · Cookies" (as now) or "Privacy Policy · Terms and Conditions · Cookies" (most of the design's pages). See `docs/backlog-footer-legal-wording.md`.
 - CV upload decisions (`docs/backlog-cv-upload.md`): whether to accept CVs, who may download them, how long they are kept, consent wording, applicant-tracking system, notification email, and access to a private S3 bucket.
 - Approval of the proposed AWS hosting setup, expected monthly visitors (to size the server and estimate cost), and the domain.
 - Names and email addresses of people who need CMS accounts, and their roles.

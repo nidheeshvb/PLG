@@ -40,7 +40,7 @@ This report compares every page of the static prototype (the visual source of tr
 | ID | Status | Pages | Widths | Summary |
 |---|---|---|---|---|
 | [FOOT-1](#foot-1) | ✅ **Fixed** (re-measured) | All inner pages (every page except Home) | all | Footer uses Home's compact style; inner prototype pages have a larger footer with a top border |
-| [FOOT-2](#foot-2) | Open (to decide) | All inner pages | all | Legal link wording differs between prototype pages |
+| [FOOT-2](#foot-2) | Open (to decide, in [backlog](backlog.md) #5) | All inner pages | all | Legal link wording differs between prototype pages |
 | [CONTACT-1](#contact-1) | ✅ **Fixed** (re-measured) | Contact | 1440 | Interest chips wrap into one row fewer: the enquiry section is 52px shorter |
 | [GLOB-1](#glob-1) | ✅ **Fixed** (re-measured) | All (pseudo-elements) | all | Reset makes `::before`/`::after` border-box; the prototype leaves them content-box (cause of CONTACT-1) |
 | [LEGAL-1](#legal-1) | ✅ **Fixed** (re-measured) | Terms, Privacy Policy, Cookies | ≤900 (visible at 768) | Button labels are 18px on phones/tablets; the prototype uses 16px like every other inner page |
@@ -100,7 +100,7 @@ This report compares every page of the static prototype (the visual source of tr
 <a id="foot-2"></a>
 ### FOOT-2: legal link wording in the footer
 
-- **Status**: Open, needs a decision (content, not layout)
+- **Status**: Open, needs a decision (content, not layout). Tracked in the backlog as item 5: [backlog-footer-legal-wording.md](backlog-footer-legal-wording.md).
 - **What's different**:
   - `index.html` and `about.html` say "Privacy · Terms & Conditions · Cookies".
   - `team.html` (and the other later inner pages) say "Privacy Policy · Terms and Conditions · Cookies".

@@ -1,6 +1,6 @@
 # Backlog: features waiting for a decision
 
-_Last updated: 16 November 2026_
+_Last updated: 17 November 2026_
 
 **Rule:** when a section or feature is pending or waiting for a decision, we still build its **UI exactly as designed**, skip only the logic behind it, and list it here. Nothing blocked is dropped from a page, and nothing deferred is forgotten.
 
@@ -12,6 +12,7 @@ Each item links to a detail doc. That doc covers what is built, what is skipped,
 | 2 | Form notifications / CRM hand-off | All forms (Home enquiry, Contact detailed enquiry, job application) | ✅ Forms work; messages saved to Inbox → Form messages | No email to PLG, no CRM or careers-system hand-off | Client: recipient addresses, CRM/ATS; SES/SMTP details | Detail doc to write when picked up (SMTP adapter is already env-gated: `integrations/email.ts`) |
 | 3 | Cookie consent and analytics | Whole site; Legal → Cookies | ✅ "Manage Cookie Preferences" button and cookie table on the Cookies page (button shows a "not connected yet" note); no consent banner (not in the prototype) | Consent banner, opening the preferences panel, analytics tags, the real cookie list | Client: consent platform and analytics tool (go-live step) | Detail doc to write when picked up |
 | 4 | Extra case study sections (Mujtamae link, idea line, operating model, intro, at a glance) | Our Work → full case study | ➖ Not shown (the prototype hides them too) | The fields and their parts of the view | Client: are they wanted, and with which content | [backlog-case-study-extras.md](backlog-case-study-extras.md) |
+| 5 | Footer legal link wording | Footer on every page (Site settings → Footer → Legal links) | ✅ Links shown as "Privacy · Terms & Conditions · Cookies" (Home/About prototype wording) | Nothing in code: content choice only. The later inner prototype pages say "Privacy Policy · Terms and Conditions · Cookies"; at ≥1536px the longer wording wraps the footer onto two lines | Client: which wording | [backlog-footer-legal-wording.md](backlog-footer-legal-wording.md) |
 
 ## Adding an item
 
