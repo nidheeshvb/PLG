@@ -1,7 +1,15 @@
+/*
+ * Default = the footer of every inner prototype page (about.html, team.html …): 16px links on 30px lines,
+ * 30px social icons, top border, page gutter at the sides.
+ * Home (index.html) has its own smaller one-row footer ("smaller type so logo, links, social, copyright and
+ * legal links sit on one row"): applied below when the page starts with the showreel banner
+ * (`main:has([data-hero='showreel'])`, set by ShowreelHero).
+ */
 .footer {
   background: #fff;
   color: #000;
-  padding: 14px 84px 13px 85px;
+  padding: 14px var(--gutter) 13px;
+  border-top: 1px solid #eee;
 }
 
 .row {
@@ -9,7 +17,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 12px 20px;
+  gap: 16px 24px;
 }
 
 .word {
@@ -23,9 +31,9 @@
 
 .nav {
   display: flex;
-  gap: 28px;
-  font-size: 14px;
-  line-height: 24px;
+  gap: 40px;
+  font-size: 16px;
+  line-height: 30px;
 }
 
 .nav a::after,
@@ -49,11 +57,11 @@
 
 .social {
   display: flex;
-  gap: 12px;
+  gap: 16px;
 }
 .social a {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   transition: transform 0.3s var(--ease-out);
 }
 .social a:hover {
@@ -61,20 +69,20 @@
 }
 .social img,
 .social svg {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
 }
 
 .copy,
 .legal a {
-  font-size: 13px;
-  line-height: 24px;
-  color: #888;
+  font-size: 16px;
+  line-height: 30px;
+  color: #6a6d68;
 }
 
 .legal {
   display: flex;
-  gap: 18px;
+  gap: 24px;
 }
 .legal a:hover {
   color: #000;
@@ -82,18 +90,17 @@
 
 @media (max-width: 900px) {
   .footer {
-    padding: 24px 24px 28px;
+    padding: 24px var(--gutter) 28px;
   }
   .row {
     display: grid;
     grid-template-columns: 1fr auto;
-    gap: 12px 20px;
+    gap: 24px;
   }
   .nav {
     grid-column: 1 / -1;
     justify-content: space-between;
     gap: 0;
-    font-size: 14px;
   }
   .social {
     grid-row: 1;
@@ -101,13 +108,55 @@
   }
   .copy {
     grid-column: 1 / -1;
-    font-size: 12px;
+    font-size: 14px;
     margin-bottom: -16px;
   }
   .legal {
     grid-column: 1 / -1;
   }
-  .legal a {
+}
+
+/* ---------- Home: compact one-row footer (index.html) ---------- */
+:global(main:has([data-hero='showreel'])) ~ .footer {
+  padding: 14px 84px 13px 85px;
+  border-top: 0;
+}
+:global(main:has([data-hero='showreel'])) ~ .footer .row {
+  gap: 12px 20px;
+}
+:global(main:has([data-hero='showreel'])) ~ .footer .nav {
+  gap: 28px;
+  font-size: 14px;
+  line-height: 24px;
+}
+:global(main:has([data-hero='showreel'])) ~ .footer .social {
+  gap: 12px;
+}
+:global(main:has([data-hero='showreel'])) ~ .footer .social a,
+:global(main:has([data-hero='showreel'])) ~ .footer .social img,
+:global(main:has([data-hero='showreel'])) ~ .footer .social svg {
+  width: 24px;
+  height: 24px;
+}
+:global(main:has([data-hero='showreel'])) ~ .footer .copy,
+:global(main:has([data-hero='showreel'])) ~ .footer .legal a {
+  font-size: 13px;
+  line-height: 24px;
+  color: #888;
+}
+:global(main:has([data-hero='showreel'])) ~ .footer .legal {
+  gap: 18px;
+}
+
+@media (max-width: 900px) {
+  :global(main:has([data-hero='showreel'])) ~ .footer {
+    padding: 24px 24px 28px;
+  }
+  :global(main:has([data-hero='showreel'])) ~ .footer .row {
+    gap: 12px 20px;
+  }
+  :global(main:has([data-hero='showreel'])) ~ .footer .copy,
+  :global(main:has([data-hero='showreel'])) ~ .footer .legal a {
     font-size: 12px;
   }
 }

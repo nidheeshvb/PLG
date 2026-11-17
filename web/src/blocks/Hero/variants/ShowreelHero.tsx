@@ -113,7 +113,13 @@ export function ShowreelHero({
   const words = title.trim().split(/\s+/)
 
   return (
-    <section ref={heroRef} id={anchorId || undefined} className={styles.hero} aria-label="Introduction">
+    <section
+      ref={heroRef}
+      id={anchorId || undefined}
+      className={styles.hero}
+      aria-label="Introduction"
+      data-hero="showreel" /* Footer.module.css switches to Home's compact footer when this is on the page */
+    >
       <div ref={mediaRef} className={styles.media}>
         {videoUrl ? (
           <video

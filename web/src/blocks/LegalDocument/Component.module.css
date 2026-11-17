@@ -574,3 +574,10 @@
 .ask > a {
   align-self: start;
 }
+
+/* like every inner prototype page (legal.html included), button labels are 16px on phones; PageHero does this for the other pages */
+@media (max-width: 900px) {
+  :global(main):has(.lhero) {
+    --btn-label: 16px;
+  }
+}

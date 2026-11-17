@@ -1,7 +1,7 @@
-/* Reset and page-wide base styles */
-*,
-*::before,
-*::after {
+/* Reset and page-wide base styles.
+   Like the prototype (`*{box-sizing:border-box;margin:0;padding:0}`), pseudo-elements are left out: ::before/::after
+   stay content-box, so a 14px circle with a 1px border is 16px wide, as designed (Contact chips, Lead paragraph lane dots). */
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -71,23 +71,37 @@ main:focus {
     center / contain no-repeat;
 }
 
-/* Reveal on scroll: the RevealObserver adds .in when the element enters the viewport */
+/* Reveal on scroll: the RevealObserver adds .in when the element enters the viewport.
+   Hidden until then:
+   - Home (page with the showreel banner, like index.html): every [data-reveal] element;
+   - inner pages (like about.html, team.html …): only elements that were below the fold at load; RevealObserver marks
+     them .pre. Anything already on screen shows straight away, with no animation.
+   :where() keeps both selectors at the specificity of a plain [data-reveal], so block overrides still win. */
 [data-reveal] {
-  opacity: 0;
-  transform: translateY(32px);
   transition:
     opacity 0.9s var(--ease-out),
     transform 1.1s var(--ease-out);
   transition-delay: var(--d, 0s);
 }
+:where(main:has([data-hero='showreel'])) [data-reveal],
+[data-reveal]:where(.pre) {
+  opacity: 0;
+  transform: translateY(32px);
+}
+/* hide at once (the prototype adds .pre before the first paint); the reveal itself still animates */
+[data-reveal].pre {
+  transition: none;
+}
 [data-reveal].in {
   opacity: 1;
   transform: none;
 }
-[data-reveal='fade'] {
+:where(main:has([data-hero='showreel'])) [data-reveal='fade'],
+[data-reveal='fade']:where(.pre) {
   transform: none;
 }
-[data-reveal='scale'] {
+:where(main:has([data-hero='showreel'])) [data-reveal='scale'],
+[data-reveal='scale']:where(.pre) {
   transform: scale(0.94);
 }
 [data-reveal='scale'].in {
