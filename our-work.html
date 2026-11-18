@@ -671,6 +671,13 @@ body.cs-open{overflow:hidden}
   .res[data-n="4"] div:nth-child(n+3){border-top:1px solid var(--line)}
   .res b{font-size:48px}
 }
+
+/* client logo carousel: 40 logos, sized by optical area */
+.marquee{animation-duration:150s}
+.marquee__set{gap:96px;padding:0 48px}
+.marquee__set img.logo{height:var(--h);width:auto}
+@media (max-width:900px){.marquee{animation-duration:130s}.marquee__set{gap:36px;padding:0 18px}.marquee__set img.logo{height:var(--hm)}}
+@media (prefers-reduced-motion:reduce){.marquee{animation:none}}
 </style>
 </head>
 <body>
@@ -745,12 +752,46 @@ body.cs-open{overflow:hidden}
   <p class="logos__k">Brands we’ve worked with</p>
   <div class="marquee" id="marquee">
     <div class="marquee__set">
-      <img class="l-intel" src="assets/logo-intel.svg" alt="Intel" loading="lazy" decoding="async">
-      <img class="l-sony" src="assets/logo-sony.svg" alt="Sony" loading="lazy" decoding="async">
-      <img class="l-dell" src="assets/logo-dell.svg" alt="Dell" loading="lazy" decoding="async">
-      <img class="l-ea" src="assets/logo-ea.svg" alt="EA Sports" loading="lazy" decoding="async">
-      <img class="l-logi" src="assets/logo-logitech.svg" alt="Logitech" loading="lazy" decoding="async">
-      <img class="l-kfc" src="assets/logo-kfc.svg" alt="KFC" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/activision-blizzard.webp" alt="Activision Blizzard" style="--h:52px;--hm:28px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/aspire.webp" alt="Aspire" style="--h:31.0px;--hm:15.5px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/bandai-namco.webp" alt="Bandai Namco" style="--h:52px;--hm:26.3px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/bethesda.webp" alt="Bethesda Game Studios" style="--h:49.4px;--hm:24.7px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/cadillac.webp" alt="Cadillac" style="--h:46.0px;--hm:23.0px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/call-of-duty.webp" alt="Call of Duty" style="--h:30.1px;--hm:15.1px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/clear.webp" alt="Clear" style="--h:40.3px;--hm:20.2px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/def.webp" alt="DEF" style="--h:39.7px;--hm:19.9px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/dell.webp" alt="Dell" style="--h:52px;--hm:28px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/dominos.webp" alt="Domino&#x27;s" style="--h:52px;--hm:28px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/dubai-economy-tourism.webp" alt="Dubai Economy and Tourism" style="--h:52px;--hm:28px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/ea.webp" alt="EA" style="--h:52px;--hm:28px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/epic-games.webp" alt="Epic Games" style="--h:52px;--hm:28px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/gamers8.webp" alt="Gamers8" style="--h:26.1px;--hm:13.0px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/garena.webp" alt="Garena" style="--h:35.1px;--hm:17.6px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/hp.webp" alt="HP" style="--h:52px;--hm:28px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/huawei.webp" alt="Huawei" style="--h:52px;--hm:28px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/kfc.webp" alt="KFC" style="--h:40.3px;--hm:20.1px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/logitech.webp" alt="Logitech" style="--h:39.4px;--hm:19.7px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/loreal.webp" alt="L&#x27;Oréal" style="--h:30.7px;--hm:15.3px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/michelin.webp" alt="Michelin" style="--h:48.2px;--hm:24.1px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/microsoft.webp" alt="Microsoft" style="--h:33.3px;--hm:16.7px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/microsoft-studios.webp" alt="Microsoft Studios" style="--h:52px;--hm:28.0px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/mywhoosh.webp" alt="MyWhoosh" style="--h:46.1px;--hm:23.1px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/nivea.webp" alt="NIVEA" style="--h:52px;--hm:28px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/nvidia.webp" alt="NVIDIA" style="--h:52px;--hm:28px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/pizza-hut.webp" alt="Pizza Hut" style="--h:52px;--hm:28px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/playstation.webp" alt="PlayStation" style="--h:29.3px;--hm:14.7px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/razer.webp" alt="Razer" style="--h:34.1px;--hm:17.1px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/red-bull.webp" alt="Red Bull" style="--h:52px;--hm:28px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/riot-games.webp" alt="Riot Games" style="--h:40.7px;--hm:20.3px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/sadia.webp" alt="Sadia" style="--h:51.1px;--hm:25.6px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/samsung.webp" alt="Samsung" style="--h:27.6px;--hm:13.8px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/saudi.webp" alt="Saudi" style="--h:52px;--hm:26.7px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/sony.webp" alt="Sony" style="--h:30.1px;--hm:15.1px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/stc.webp" alt="stc" style="--h:51.0px;--hm:25.5px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/subway.webp" alt="Subway" style="--h:31.7px;--hm:15.8px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/take-two.webp" alt="Take-Two" style="--h:52px;--hm:28px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/tencent.webp" alt="Tencent" style="--h:29.7px;--hm:14.8px" loading="lazy" decoding="async">
+      <img class="logo" src="assets/clients/games-of-the-future.webp" alt="Games of the Future" style="--h:45.6px;--hm:22.8px" loading="lazy" decoding="async">
     </div>
   </div>
 </section>
@@ -851,26 +892,26 @@ if(reduce)setVideo(false);
    Text in [square brackets] is still to be confirmed by PLG and shows highlighted in the case study. */
 const SV={strategy:'Strategy & Consulting',events:'Events & Activations',media:'Media',creative:'Creative'};
 const cases=[
-  {id:'uci-cycling-esports-world-championships',t:'UCI Cycling Esports World Championships 2024 & 2025',short:'UCI Cycling Esports World Championships',img:'work-uci.webp',video:'work-uci-clip.mp4',sv:['events','media'],client:'MyWhoosh',market:'Abu Dhabi, UAE',year:'2024 & 2025',full:true,
+  {id:'uci-cycling-esports-world-championships',t:'UCI Cycling Esports World Championships 2024 & 2025',short:'UCI Cycling Esports World Championships',img:'uci-thumb-poster.webp',video:'uci-thumb.mp4',autoplay:true,hero:'case-uci-hero.webp',heroPos:'50% 50%',gallery:['case-uci-g1.webp','case-uci-g2.webp','case-uci-wide.webp','case-uci-g3.webp','case-uci-g4.webp'],sv:['events','media'],client:'MyWhoosh',market:'Abu Dhabi, UAE',year:'2024 & 2025',full:true,
    line:'Two editions of cycling’s official virtual world championships, delivered end to end in Abu Dhabi for MyWhoosh.',
    brief:['MyWhoosh needed one partner to take the World Championships from plan to live broadcast. That meant event strategy, athlete and team logistics, stage design and build, and a broadcast feed distributed worldwide.'],
    approach:['We designed and ran a turnkey delivery model for both the 2024 and 2025 editions. Forty of the world’s best male and female virtual cyclists raced live on stage in Abu Dhabi, with the 2025 final at Space42 Arena. Our broadcast team took every race to audiences around the world in English and Arabic.'],
    stats:[['2','Editions delivered: rebooked two years running, 2024 and 2025'],['40','Elite riders from 12 countries, racing live on stage'],['1,000','Spectators in the venue']],
    points:['Broadcast live worldwide in English and Arabic'],
    meta:'PLG Acachet delivered the UCI Cycling Esports World Championships in Abu Dhabi for MyWhoosh in 2024 and 2025: 40 elite riders, 12 nations, live global broadcast.'},
-  {id:'call-of-duty',t:'Call of Duty',img:'work-cod.webp',sv:['events','media','creative'],client:'Activision',market:'Middle East',year:'Multi-year partnership',
+  {id:'call-of-duty',t:'Call of Duty',img:'home-work-cod.webp',hero:'case-cod-hero.webp',heroPos:'50% 60%',gallery:['case-cod-g2.webp','case-cod-g3.webp','case-cod-wide.webp','case-cod-g1.webp','case-cod-g4.webp'],sv:['events','media','creative'],client:'Activision',market:'Middle East',year:'Multi-year partnership',
    line:'A long-standing partnership with Activision, launching multiple Call of Duty titles in the region.',
    brief:['From events to launch trailer concepts and everything in between, each brief challenged us to build a launch plan that maximised the hype around that year’s new Call of Duty title.'],
    approach:['We conceptualised and executed many different ideas: live-action local launch trailers, events, broadcasts, influencer challenges and a rooftop showdown. Our approach was always to stay true to the theme of the year, the story and the modes available at launch, promoting the game to lapsed and new players alike.'],
    stats:[['4','Events delivered'],['3','Live-action launch trailers'],['34','Influencers activated'],['1st','And only local launch trailer featured on the global Call of Duty social pages']],
    meta:'PLG Acachet delivered multiple projects for Call of Duty, including events, live-action trailers and livestream broadcasts: 2 titles, 4 events, 3 trailers.'},
-  {id:'ea-sports-fifa-world-cup',t:'EA Sports',img:'work-ea.webp',sv:['events','media'],client:'EA Sports',market:'Dubai, UAE',year:'2022',pos:'50% 30%',
+  {id:'ea-sports-fifa-world-cup',t:'EA Sports',img:'case-ea-card.webp',hero:'case-ea-hero.webp',heroPos:'50% 40%',gallery:['case-ea-g4.webp','case-ea-g2.webp','case-ea-wide.webp','case-ea-g1.webp',{f:'case-ea-g3.webp',pos:'38% 50%'}],still:'case-ea-still.webp',sv:['events','media'],client:'EA Sports',market:'Dubai, UAE',year:'2022',pos:'50% 30%',
    line:'Delivering the EA Sports FIFA World Cup 2022 in-game DLC launch event.',
    brief:['EA Sports partnered with us to deliver a launch event, coinciding with the 2022 FIFA World Cup in Qatar, to promote the new FIFA World Cup Qatar game mode in FIFA 23. Our scope covered event delivery, influencer management, show management, security, talent management, and content capture and distribution.'],
    approach:['We designed, planned and delivered an end-to-end solution to bring the brief to life, partnering with Ballers, a local sports venue in the heart of Downtown Dubai with the Burj Khalifa as a backdrop. Hosted by Kris Fade and featuring EA Sports’ key local partners such as PlayStation and 5Pillars, it became one of EA Sports’ most successful events in the region.'],
    stats:[['4,000','Attendees'],['4','Influencers'],['4','Ex-pro footballers']],
    meta:'PLG Acachet delivered one of EA Sports’ most successful events in the region, launching the 2022 FIFA World Cup Qatar game mode in FIFA 23.'},
-  {id:'games-of-the-future-2025',t:'Games of the Future 2025',img:'mujtamae.webp',sv:['strategy','events','media'],client:'Phygital International, ASPIRE & Ethara',market:'Abu Dhabi, UAE',year:'2025',full:true,
+  {id:'games-of-the-future-2025',t:'Games of the Future 2025',img:'case-gotf-hero2.webp',pos:'68% 50%',hero:'case-gotf-hero2.webp',heroPos:'68% 55%',gallery:['case-gotf-g1.webp','case-gotf-g2.webp','case-gotf-wide.webp','case-gotf-g3.webp','case-gotf-g4.webp'],still:'case-gotf-still.webp',sv:['strategy','events','media'],client:'Phygital International, ASPIRE & Ethara',market:'Abu Dhabi, UAE',year:'2025',full:true,
    line:'Delivering the world’s largest phygital sports event in Abu Dhabi.',
    brief:['Phygital International, ASPIRE and Ethara brought us in to deliver the Games of the Future Abu Dhabi 2025. Our scope covered event delivery, sponsorship advisory and brokerage, the broadcast solution, and global media strategy and distribution.'],
    approach:['We shaped the programme of phygital disciplines, where athletes play each sport digitally and then physically. We also built the live broadcast operation and distributed content to audiences worldwide. Over six days, ADNEC Centre Abu Dhabi became a purpose-built arena for the first Games of the Future held in the Middle East.'],
@@ -882,19 +923,19 @@ const cases=[
    approach:['We built the full participant journey, starting with a registration platform where employees chose their sports and entered teams. At 321 Sports on Hudayriyat Island, they competed across seven disciplines combining physical and digital play: football, cricket, badminton, padel, HIIT, virtual cycling and sim racing.'],
    stats:[['500','Employees competing'],['7','Phygital sports'],['1','Day of competition at 321 Sports']],
    meta:'How PLG Acachet and Modon Holdings delivered G42’s phygital sports programme: 500 employees, 7 sports, 1 day of competition at 321 Sports, Hudayriyat Island, Abu Dhabi.'},
-  {id:'kfc',t:'KFC',img:'work-kfc.webp',sv:['strategy','media'],client:'KFC',market:'Saudi Arabia',year:'[2023–2026]',pos:'50% 25%',
+  {id:'kfc',t:'KFC',img:'case-kfc-card.webp',hero:'case-kfc-hero.webp',heroPos:'62% 50%',gallery:['case-kfc-g2.webp','case-kfc-g1.webp',{f:'case-kfc-wide.webp',pos:'0% 50%'},'case-kfc-g3.webp','case-kfc-g4.webp'],still:'case-kfc-still.webp',sv:['strategy','media'],client:'KFC',market:'Saudi Arabia',year:'[2023–2026]',
    line:'We built KFC’s gaming platform in Saudi Arabia and brokered its three-year strategic partnership with the Saudi Esports Federation and Esports World Cup.',
    brief:['KFC asked us to build a sponsorship programme that would put the brand at the centre of Saudi Arabia’s Gen Z gaming audience.'],
    approach:['We developed Play KFC, KFC’s gaming platform in the Kingdom, and brokered a three-way partnership with the Saudi Esports Federation (SEF) and the Esports World Cup (EWC). The deal made KFC a Strategic Partner across SEF’s youth development programmes and the EWC’s esports and music properties, reaching male and female Saudi gamers alike.','At the heart of the platform is The Original Gamechangers, our programme for Saudi women gamers. It gives female players a dedicated league, a route to register and compete, and a clear pathway from discovery to professional esports.'],
    stats:[['5,000+','Saudi gamers discovered and given a pathway into competitive esports'],['3','Year strategic partnership [2023–2026]'],['1','Exclusive QSR category partner across SEF and EWC properties']],
    meta:'How PLG Acachet built Play KFC and The Original Gamechangers, brokering KFC’s exclusive partnership with the Saudi Esports Federation and Esports World Cup.'},
-  {id:'pizza-hut',t:'Pizza Hut',img:'stat-2.webp',tbc:true,sv:['strategy','media','creative'],client:'Pizza Hut',market:'Middle East',year:'[To confirm]',
+  {id:'pizza-hut',t:'Pizza Hut',img:'case-pizzahut-card.webp',hero:'case-pizzahut-hero.webp',heroPos:'78% 50%',gallery:['case-pizzahut-g1.webp','case-pizzahut-g2.webp','case-pizzahut-wide.webp','case-pizzahut-g3.webp','case-pizzahut-g4.webp'],still:'case-pizzahut-still.webp',sv:['strategy','media','creative'],client:'Pizza Hut',market:'Middle East',year:'[To confirm]',
    line:'We built Pizza Hut’s gaming ecosystem across the Middle East, unlocking a new audience for the brand.',
    brief:['Audience insight showed that Pizza Hut was struggling to reach Gen Z and Gen Alpha through its regular marketing channels, leaving the brand with low equity among younger audiences.'],
    approach:['We proposed a gaming-focused marketing strategy targeting Gen Z and Gen Alpha, secured a three-year partnership, and created and launched the Pizza Hut gaming ecosystem.','The Pizza Hut Gaming initiative brought an almost immediate lift in brand awareness, equity and conversion with the target audience, taking aided brand awareness above McDonald’s in the Middle East. With value at the core, the ecosystem delivered a 441% ROI and a ROAS of $14.5.'],
    stats:[['441%','ROI'],['$14.5','ROAS'],['$1.7','CPM'],['200K','Followers across dedicated social channels']],
    meta:'PLG Acachet built the Pizza Hut Gaming ecosystem across social, digital and influencer marketing, delivering a 441% ROI through gaming initiatives designed for Gen Z and Gen Alpha.'},
-  {id:'red-bull',t:'Red Bull',img:'stat-3.webp',tbc:true,sv:['events'],client:'Red Bull',market:'Dubai, UAE',year:'[To confirm]',
+  {id:'red-bull',t:'Red Bull',img:'case-redbull-card.webp',hero:'case-redbull-hero.webp',heroPos:'62% 50%',gallery:['case-redbull-g1.webp','case-redbull-g2.webp','case-redbull-wide.webp','case-redbull-g3.webp','case-redbull-g4.webp'],still:'case-redbull-still.webp',sv:['events'],client:'Red Bull',market:'Dubai, UAE',year:'[To confirm]',
    line:'A three-day workshop and retreat for Red Bull’s top 100 global e-athletes.',
    brief:['Red Bull tasked us with planning and executing a three-day workshop for its top global esports and gaming talent, balancing work and play in equal measure and delivering a truly local experience with a global feel, in true Dubai fashion.'],
    approach:['We planned the three-day itinerary and managed everything: travel and logistics, venue selection, entertainment curation, workshop and talent management, and every technical element.','Leading Red Bull athletes including Max Verstappen, Seth Quintero and Luke Czepiela joined to talk with the e-athletes, share insights and play a few games. Beyond the workshops, the athletes enjoyed uniquely local experiences: a desert safari, dune bashing in racing buggies, dinner in the desert and a yacht party to close.'],
@@ -909,7 +950,7 @@ cases.forEach((c,i)=>{c.n=String(i+1).padStart(2,'0');c.d=c.line;c.short=c.short
 const grid=document.getElementById('cgrid');
 grid.innerHTML=cases.map((c,i)=>`
   <button type="button" class="case${c.full?' case--full':''}" id="tile-${c.id}" data-id="${c.id}" data-sv="${c.sv.join(' ')}" data-reveal${i%2&&!c.full?' style="--d:.1s"':''} aria-label="${esc(c.t)}: view case study">
-    <span class="case__media"><img src="assets/${c.img}" alt="" loading="${i<2?'eager':'lazy'}"${c.pos?` style="object-position:${c.pos}"`:''}>${c.video?`<video muted loop playsinline preload="none" aria-hidden="true"><source src="assets/${c.video}" type="video/mp4"></video>`:''}</span>
+    <span class="case__media"><img src="assets/${c.img}" alt="" loading="${i<2?'eager':'lazy'}"${c.pos?` style="object-position:${c.pos}"`:''}>${c.video?`<video muted loop playsinline preload="none" aria-hidden="true"${c.autoplay?' data-auto':''}><source src="assets/${c.video}" type="video/mp4"></video>`:''}</span>
     <span class="case__ov">
       <span class="case__top"><span class="case__n">${c.n}</span><span class="tags">${c.sv.map(s=>`<span class="tag">${SV[s]}</span>`).join('')}</span></span>
       <span class="case__bot">
@@ -927,8 +968,9 @@ tiles.forEach(t=>{
   const v=t.querySelector('video');if(!v||reduce)return;
   const play=()=>{v.play().then(()=>t.classList.add('playing')).catch(()=>{})};
   const stop=()=>{v.pause();t.classList.remove('playing')};
-  if(fine){t.addEventListener('mouseenter',play);t.addEventListener('mouseleave',stop)}
-  else new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting?play():stop()),{threshold:.6}).observe(t);
+  /* data-auto: the clip is the tile's thumbnail, so it plays whenever the tile is on screen */
+  if(fine&&!v.hasAttribute('data-auto')){t.addEventListener('mouseenter',play);t.addEventListener('mouseleave',stop)}
+  else new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting?play():stop()),{threshold:v.hasAttribute('data-auto')?.25:.6}).observe(t);
 });
 
 /* filter bar */
@@ -981,9 +1023,9 @@ function fill(c){
   $('csTags').innerHTML=c.sv.map(s=>`<span class="tag">${SV[s]}</span>`).join('');
   const hero=$('csHero');
   hero.querySelectorAll('img,video').forEach(e=>e.remove());
-  hero.insertAdjacentHTML('afterbegin',c.video&&!reduce
+  hero.insertAdjacentHTML('afterbegin',c.video&&!c.hero&&!reduce
     ?`<video autoplay muted loop playsinline poster="assets/${c.img}" aria-hidden="true"><source src="assets/${c.video}" type="video/mp4"></video>`
-    :`<img src="assets/${c.img}" alt=""${c.pos?` style="object-position:${c.pos}"`:''} loading="lazy" decoding="async">`);
+    :`<img src="assets/${c.hero||c.img}" alt=""${(c.hero?c.heroPos:c.pos)?` style="object-position:${c.hero?c.heroPos:c.pos}"`:''} loading="lazy" decoding="async">`);
   $('csMeta').innerHTML=[['Client',c.client],['Services',c.sv.map(s=>SV[s]).join(', ')],['Market',c.market],['Year',c.year]].map(([k,v])=>`<div><dt>${k}</dt><dd>${mk(v)}</dd></div>`).join('');
   const paras=a=>a.map(p=>`<p>${mk(p)}</p>`).join('');
   $('csAmb').innerHTML=paras(c.brief);
@@ -994,14 +1036,16 @@ function fill(c){
   /* gallery stills: the case's own key visual plus neutral library shots (never another client's key visual) */
   const lib=['services-hero.webp','stat-1.webp','stat-4.webp','intro-media.webp','hero-poster.webp','contact-bg.webp'];
   const k=cases.indexOf(c),shots=[0,1,2,3].map(j=>lib[(k*4+j)%lib.length]);
-  $('csVisual').innerHTML=[`<figure><img src="assets/${c.img}" alt=""${c.pos?` style="object-position:${c.pos}"`:''} loading="lazy" decoding="async"></figure>`,...shots.map(f=>`<figure><img src="assets/${f}" alt="" loading="lazy"></figure>`)].join('');
+  /* a case's own gallery shots (c.gallery) open the grid; the key visual and library shots fill the rest */
+  const gal=[...(c.gallery||[]).map(f=>typeof f==='string'?{f}:f),{f:c.img,pos:c.pos},...shots.map(f=>({f}))].slice(0,5);
+  $('csVisual').innerHTML=gal.map(g=>`<figure><img src="assets/${g.f}" alt=""${g.pos?` style="object-position:${g.pos}"`:''} loading="lazy" decoding="async"></figure>`).join('');
   $('csRes').dataset.n=c.stats.length;
   $('csRes').innerHTML=c.stats.map(([b,t])=>`<div><b>${esc(b)}</b><span>${mk(t)}</span></div>`).join('');
   $('csImpact').innerHTML=c.points?`<ul class="pts">${c.points.map(p=>`<li>${mk(p)}</li>`).join('')}</ul>`:'';
   $('csMuj').hidden=true;
   /* image + video pair: a still from the programme library, then the case film (falls back to the showreel) */
   const pool=lib.filter(f=>!shots.includes(f));
-  const still=pool[0], film=c.video||'hero-reel-960.mp4';
+  const still=c.still||pool[0], film=c.video||'hero-reel-960.mp4';
   $('csMedia').innerHTML=`<figure class="m-img"><img src="assets/${still}" alt="" loading="lazy"><figcaption>On the ground</figcaption></figure>`+
     `<figure class="m-vid"><video controls muted loop playsinline preload="metadata" poster="assets/${c.img}"><source src="assets/${film}" type="video/mp4"></video><figcaption>Programme film</figcaption></figure>`;
   /* meta title and description patterns from the framework */
@@ -1084,6 +1128,9 @@ route();
     const b=e.target.closest('button');if(b&&sn.scrollWidth>sn.clientWidth)sn.scrollTo({left:Math.max(0,b.offsetLeft-sn.clientWidth/2+b.offsetWidth/2),behavior:reduce?'auto':'smooth'})},true);
   sn.addEventListener('dragstart',e=>e.preventDefault());
 })();
+
+/* logo marquee: duplicate the set so the scroll loops seamlessly */
+{const mq=document.getElementById('marquee');if(mq){const c=mq.firstElementChild.cloneNode(true);c.setAttribute('aria-hidden','true');c.querySelectorAll('img').forEach(i=>i.alt='');mq.appendChild(c);}}
 </script>
 </body>
 </html>
