@@ -1,6 +1,6 @@
 # PLG Acachet Website — Technical Documentation
 
-_Last updated: 17 November 2026 · Status: Phase 1, step 9 (Legal pages) complete: every page is built_
+_Last updated: 18 November 2026 · Status: Phase 1, step 9 (Legal pages) complete: every page is built_
 
 ---
 
@@ -191,12 +191,15 @@ The design includes a CV upload (PDF/Word, up to 10 MB). It is **on hold** until
 
 ## 10. Items needed from PLG Acachet
 
+The full list, with the questions to answer for each item and the priority for launch, is in the separate document **"Decisions and content we need from you"** (`docs/client-action-items.md`). In short:
+
 - Approved copy, figures and case study content where the prototype has placeholders (About: the Mujtamae report card is an illustrative mock-up; confirm its figures or wording).
 - Real social media links (currently placeholders), including each team member's LinkedIn / Instagram / X profile.
 - Team bios (50–70 words each) and confirmation of the org chart reporting lines; photos for Sherif Saed and Emma Valdez.
 - Confirmation of the office details on the Contact page (email, phone, address and hours are the ones in the design).
 - Legal wording (Terms, Privacy, Cookies) approved by counsel: the pages contain the design's outline and placeholder text, plus the real "last updated" / "effective from" dates and version. And the chosen cookie-consent platform (connects the "Manage Cookie Preferences" button and the cookie list).
-- Where form messages should go besides the CMS inbox (email addresses, CRM, careers system).
+- Where form messages should go besides the CMS inbox: HubSpot (account access, which forms, field mapping, consent settings), notification email addresses, careers system.
+- Whether scheduled publishing is needed, whether editors may delete pages, whether an Arabic version is planned, and the list of old website addresses to redirect (if a site exists today).
 - The real open roles with descriptions (the six on the site come from the design and have no descriptions yet).
 - Case studies: key visuals for G42, Pizza Hut and Red Bull (library photos for now), project photos for each gallery (library shots for now), and confirmation of the facts shown in [square brackets] (e.g. years).
 - Whether the extra case study sections in the design are wanted (Mujtamae link, idea line, operating model): see the backlog.

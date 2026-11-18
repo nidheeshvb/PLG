@@ -2,7 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { anyone, isLoggedIn } from '@/access'
 import { mediaField } from '@/fields/media'
-import { revalidateSiteAfterChange } from '@/lib/revalidate'
+import { revalidateSiteAfterChange, revalidateSiteAfterDelete } from '@/lib/revalidate'
 
 export const Partners: CollectionConfig = {
   slug: 'partners',
@@ -15,7 +15,7 @@ export const Partners: CollectionConfig = {
   },
   defaultSort: 'sortOrder',
   access: { read: anyone, create: isLoggedIn, update: isLoggedIn, delete: isLoggedIn },
-  hooks: { afterChange: [revalidateSiteAfterChange] },
+  hooks: { afterChange: [revalidateSiteAfterChange], afterDelete: [revalidateSiteAfterDelete] },
   fields: [
     { name: 'name', type: 'text', required: true },
     mediaField({

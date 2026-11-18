@@ -1,5 +1,5 @@
 import { revalidatePath } from 'next/cache'
-import type { CollectionAfterChangeHook, Payload } from 'payload'
+import type { CollectionAfterChangeHook, CollectionAfterDeleteHook, Payload } from 'payload'
 
 import { invalidateCdn } from '@/integrations/cdn'
 
@@ -20,8 +20,14 @@ export const safeRevalidate = (path: string, logger?: Payload['logger'], type?: 
 /** Header, footer and shared content (logos, case studies) appear on every page. */
 export const revalidateEverything = (logger?: Payload['logger']) => safeRevalidate('/', logger, 'layout')
 
-/** afterChange hook for shared collections (partner logos, case studies). */
+/** afterChange hook for shared collections (partner logos, case studies, team members, open roles). */
 export const revalidateSiteAfterChange: CollectionAfterChangeHook = ({ doc, req }) => {
+  if (!req.context?.disableRevalidate) revalidateEverything(req.payload.logger)
+  return doc
+}
+
+/** afterDelete hook for the same shared collections: a deleted item must disappear from every page. */
+export const revalidateSiteAfterDelete: CollectionAfterDeleteHook = ({ doc, req }) => {
   if (!req.context?.disableRevalidate) revalidateEverything(req.payload.logger)
   return doc
 }

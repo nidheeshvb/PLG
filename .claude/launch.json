@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "plg-site",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["C:/Users/rijos/AppData/Local/Temp/claude/3919f1b6175e7d10/6ffccd12-3e14-452c-9f97-376f84cb09e0/scratchpad/serve.js", "C:/Users/rijos/OneDrive/Work/plg", "8000"],
+      "port": 8000
+    },
+    {
+      "name": "web",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "C:/Users/rijos/OneDrive/Work/plg/web", "run", "dev"],
+      "port": 3000
+    }
+  ]
+}

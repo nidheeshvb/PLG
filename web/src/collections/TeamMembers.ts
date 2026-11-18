@@ -2,7 +2,7 @@ import type { CollectionConfig, Condition } from 'payload'
 
 import { anyone, isLoggedIn } from '@/access'
 import { mediaField } from '@/fields/media'
-import { revalidateSiteAfterChange } from '@/lib/revalidate'
+import { revalidateSiteAfterChange, revalidateSiteAfterDelete } from '@/lib/revalidate'
 
 import { TEAM_DEPARTMENTS, TEAM_GROUPS } from './teamOptions'
 
@@ -20,7 +20,7 @@ export const TeamMembers: CollectionConfig = {
   },
   defaultSort: 'sortOrder',
   access: { read: anyone, create: isLoggedIn, update: isLoggedIn, delete: isLoggedIn },
-  hooks: { afterChange: [revalidateSiteAfterChange] },
+  hooks: { afterChange: [revalidateSiteAfterChange], afterDelete: [revalidateSiteAfterDelete] },
   fields: [
     {
       type: 'row',

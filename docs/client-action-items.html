@@ -1,0 +1,281 @@
+<title>PLG Acachet Client Action Items</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a reference manual — sticky contents rail on wide screens, one readable column of sections */
+:root{
+  --bg:#f7f6f4; --surface:#ffffff; --fg:#14171c; --muted:#5d6168; --line:#e3e0db;
+  --accent:#e2611f; --accent-soft:#fdebe1; --ink:#000d1d; --ok:#1d7d3a; --ok-soft:#e3f3e7;
+  --font:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0c0d0f; --surface:#15171a; --fg:#ececec; --muted:#a2a6ad; --line:#2a2d32;
+  --accent:#ff7433; --accent-soft:#2b1a11; --ink:#ececec; --ok:#6fd08a; --ok-soft:#14261a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0c0d0f; --surface:#15171a; --fg:#ececec; --muted:#a2a6ad; --line:#2a2d32;
+  --accent:#ff7433; --accent-soft:#2b1a11; --ink:#ececec; --ok:#6fd08a; --ok-soft:#14261a; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:15px/1.6 var(--font);margin:0;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding-block:40px 80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;grid-template-columns:220px minmax(0,1fr);gap:56px}
+header.top{grid-column:1/-1;display:flex;flex-direction:column;gap:12px;padding-bottom:28px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.06em;font-size:13px;text-transform:uppercase;color:var(--muted)}
+.brand i{width:10px;height:10px;background:var(--accent);border-radius:2px;transform:skewX(-18deg)}
+h1{font-size:clamp(28px,4vw,40px);line-height:1.15;margin:0;letter-spacing:-.01em;text-wrap:balance;color:var(--ink)}
+.meta{display:flex;flex-wrap:wrap;gap:8px 16px;color:var(--muted);font-size:13px}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:600;background:var(--ok-soft);color:var(--ok)}
+.pill.plan{background:var(--accent-soft);color:var(--accent)}
+
+nav.toc{position:sticky;top:calc(24px + env(safe-area-inset-top,0px));align-self:start;font-size:13px}
+nav.toc p{margin:0 0 10px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+nav.toc ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;counter-reset:t}
+nav.toc a{display:flex;gap:10px;padding:5px 8px;border-radius:6px;color:var(--fg);text-decoration:none}
+nav.toc a::before{counter-increment:t;content:counter(t);color:var(--muted);font-variant-numeric:tabular-nums;width:16px}
+nav.toc a:hover{background:var(--surface)}
+nav.toc a:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+main{min-width:0;display:flex;flex-direction:column;gap:56px}
+section{display:flex;flex-direction:column;gap:14px;scroll-margin-top:24px}
+h2{font-size:22px;line-height:1.25;margin:0;color:var(--ink);display:flex;gap:12px;align-items:baseline;text-wrap:balance}
+h2 span{font-size:13px;color:var(--accent);font-weight:600;font-variant-numeric:tabular-nums}
+h3{font-size:15px;margin:10px 0 0;color:var(--ink)}
+p,li{max-width:70ch}
+p{margin:0}
+ul,ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+code{font-family:var(--mono);font-size:.86em;background:var(--surface);border:1px solid var(--line);padding:1px 5px;border-radius:4px}
+.lead{font-size:17px;color:var(--fg)}
+.table{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:10px 14px;vertical-align:top;border-bottom:1px solid var(--line)}
+th{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);font-weight:600;background:color-mix(in srgb,var(--surface) 70%,var(--bg))}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600;white-space:nowrap}
+td.wrap{white-space:normal}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;align-items:stretch}
+.node{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:4px}
+.node b{color:var(--ink)}
+.node small{color:var(--muted);font-size:12.5px;line-height:1.45}
+.node.hl{border-color:var(--accent)}
+.note{border-left:3px solid var(--accent);background:var(--accent-soft);padding:12px 16px;border-radius:0 8px 8px 0;font-size:14px}
+.checks{list-style:none;padding:0}
+.checks li{padding-left:26px;position:relative}
+.checks li::before{content:"";position:absolute;left:4px;top:.5em;width:10px;height:10px;border:2px solid var(--accent);border-radius:3px}
+footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:var(--muted);font-size:13px}
+
+@media (max-width:900px){
+  .wrap{grid-template-columns:minmax(0,1fr);gap:32px}
+  nav.toc{position:static}
+  nav.toc ol{flex-direction:row;flex-wrap:wrap}
+  td:first-child{white-space:normal}
+}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+<style>
+.p{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.p.r{background:#fde4e1;color:#b3261e}.p.o{background:var(--accent-soft);color:var(--accent)}.p.g{background:var(--ok-soft);color:var(--ok)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .p.r{background:#3a1512;color:#ff8a80}}
+:root[data-theme="dark"] .p.r{background:#3a1512;color:#ff8a80}
+.card{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:18px 20px;display:flex;flex-direction:column;gap:10px}
+.card h3{margin:0;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
+.card .k{color:var(--accent);font-variant-numeric:tabular-nums}
+.lbl{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13px;color:var(--muted)}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><i></i>PLG Acachet · Website rebuild</div>
+    <h1>Decisions and content we need from you</h1>
+    <div class="meta"><span>Last updated 18 November 2026</span><span class="pill plan">11 decisions · 9 content items · 2 small choices</span></div>
+  </header>
+
+  <nav class="toc" aria-label="Contents">
+    <p>Contents</p>
+    <ol>
+      <li><a href="#summary">Summary</a></li>
+      <li><a href="#decisions">Integrations &amp; decisions</a></li>
+      <li><a href="#content">Content to supply</a></li>
+      <li><a href="#choices">Small design choices</a></li>
+      <li><a href="#next">What happens next</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <section id="intro">
+      <p class="lead">All pages from the approved design are built and editable in the CMS. A few parts are <b>built and visible, but waiting on a decision, an account or content from you</b> before they can work fully.</p>
+      <p>Nothing has been removed from the design while we wait: where the logic is pending, the part is shown as designed and simply does not do its final job yet. Below is every such item, what we need from you, and what happens if there is no answer before launch.</p>
+      <div class="legend"><span><span class="p r">Before launch</span> the site should not go live without it</span><span><span class="p o">Recommended</span> works without it, but something expected is missing</span><span><span class="p g">After launch</span> can follow later</span></div>
+    </section>
+
+    <section id="summary">
+      <h2><span>01</span>Summary</h2>
+      <div class="table"><table>
+        <thead><tr><th>#</th><th>Item</th><th>Where</th><th>Priority</th><th>What we need</th></tr></thead>
+        <tbody>
+          <tr><td>A1</td><td class="wrap">Send enquiries to <b>HubSpot</b></td><td class="wrap">Home and Contact forms</td><td><span class="p r">Before launch</span></td><td class="wrap">HubSpot access, which forms, field mapping, consent settings</td></tr>
+          <tr><td>A2</td><td class="wrap"><b>Email alerts</b> for new messages</td><td class="wrap">All forms</td><td><span class="p r">Before launch</span></td><td class="wrap">Recipients, sender address, auto-reply?</td></tr>
+          <tr><td>A3</td><td class="wrap"><b>CV upload</b></td><td class="wrap">Join Us form</td><td><span class="p o">Recommended</span></td><td class="wrap">Accept CVs? Access, retention, consent, ATS</td></tr>
+          <tr><td>A4</td><td class="wrap"><b>Cookie consent &amp; analytics</b></td><td class="wrap">Whole site; Cookies page</td><td><span class="p r">Before launch</span></td><td class="wrap">Consent platform, analytics tool, cookie list (if any tracking is used)</td></tr>
+          <tr><td>A5</td><td class="wrap"><b>Legal wording</b></td><td class="wrap">Terms, Privacy, Cookies</td><td><span class="p r">Before launch</span></td><td class="wrap">Counsel-approved text, dates, version</td></tr>
+          <tr><td>A6</td><td class="wrap">Scheduled publishing</td><td class="wrap">CMS</td><td><span class="p g">After launch</span></td><td class="wrap">Needed at launch?</td></tr>
+          <tr><td>A7</td><td class="wrap">Who may delete content</td><td class="wrap">CMS</td><td><span class="p o">Recommended</span></td><td class="wrap">Editors, or admins only?</td></tr>
+          <tr><td>A8</td><td class="wrap">Arabic version</td><td class="wrap">Whole site</td><td><span class="p g">After launch</span></td><td class="wrap">Planned? When?</td></tr>
+          <tr><td>A9</td><td class="wrap">Old website addresses</td><td class="wrap">Domain</td><td><span class="p r">Before launch</span></td><td class="wrap">List of current URLs (if a site exists today)</td></tr>
+          <tr><td>A10</td><td class="wrap">Hosting approval</td><td class="wrap">AWS</td><td><span class="p r">Before launch</span></td><td class="wrap">Approval, AWS account, domain, traffic</td></tr>
+          <tr><td>A11</td><td class="wrap">CMS accounts</td><td class="wrap">CMS</td><td><span class="p r">Before launch</span></td><td class="wrap">Names, emails, roles</td></tr>
+          <tr><td>B1–B9</td><td class="wrap">Content to supply or confirm</td><td class="wrap">Most pages</td><td><span class="p r">Before launch</span></td><td class="wrap">See section 03</td></tr>
+          <tr><td>C1</td><td class="wrap">Footer legal link wording</td><td class="wrap">Footer</td><td><span class="p g">After launch</span></td><td class="wrap">Pick one of two</td></tr>
+          <tr><td>C2</td><td class="wrap">Extra case study sections</td><td class="wrap">Our Work</td><td><span class="p g">After launch</span></td><td class="wrap">Wanted or not</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="decisions">
+      <h2><span>02</span>Integrations and decisions</h2>
+
+      <div class="card" id="a1">
+        <h3><span class="k">A1</span>HubSpot: send enquiries to your CRM <span class="p r">Before launch</span></h3>
+        <p><span class="lbl">Today</span><br>The Home enquiry form and the Contact page form work: they check the visitor's details and save every message in the CMS (<b>Inbox → Form messages</b>). Nothing is sent to HubSpot yet.</p>
+        <p><span class="lbl">What we will build</span><br>Each enquiry is sent to HubSpot the moment it arrives. A copy stays in the CMS so nothing is lost if HubSpot is briefly unavailable.</p>
+        <div class="table"><table>
+          <thead><tr><th>#</th><th>Question / item</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td class="wrap">Your <b>HubSpot account</b> (portal ID) and someone who can create access for us</td><td class="wrap">We need a <i>private app</i> access token that can submit forms / create contacts. Share it through a password manager or your IT team, <b>never by email</b>.</td></tr>
+            <tr><td>2</td><td class="wrap">Which forms go to HubSpot?</td><td class="wrap">Home enquiry · Contact detailed enquiry · job applications (or elsewhere, see A3)?</td></tr>
+            <tr><td>3</td><td class="wrap">Use <b>HubSpot forms</b>, or create contacts directly?</td><td class="wrap">HubSpot forms recommended: your team sees submissions in HubSpot's reports and can add workflows without us.</td></tr>
+            <tr><td>4</td><td class="wrap"><b>Field mapping</b>: where each field lands</td><td class="wrap">Name, email, phone, company, message, the "What are you looking to unlock?" choices (likely a custom HubSpot property), page sent from.</td></tr>
+            <tr><td>5</td><td class="wrap"><b>Consent</b>: subscription types / legal basis</td><td class="wrap">The Contact form has a consent tick box ("use my details to reply"). Add an optional "send me news" tick box for marketing?</td></tr>
+            <tr><td>6</td><td class="wrap">After a submission: lead owner, status, lifecycle stage, internal alert?</td><td class="wrap">Usually set up as HubSpot workflows on your side.</td></tr>
+            <tr><td>7</td><td class="wrap">HubSpot <b>tracking code</b> on the site?</td><td class="wrap">It sets cookies, so it must wait for visitor consent (A4).</td></tr>
+          </tbody>
+        </table></div>
+        <p class="note"><b>If no answer by launch:</b> messages stay in the CMS inbox only, and someone must check it regularly (see A2).</p>
+      </div>
+
+      <div class="card" id="a2">
+        <h3><span class="k">A2</span>Email alerts for new form messages <span class="p r">Before launch</span></h3>
+        <p><span class="lbl">Today</span><br>Messages are saved in the CMS, but <b>nobody is notified</b>. A new enquiry or application is only seen if someone opens the CMS.</p>
+        <ol class="steps">
+          <li>Who receives an email for <b>enquiries</b> (Home, Contact) and for <b>job applications</b>? One address each, or a shared inbox (e.g. hello@ / careers@)?</li>
+          <li>The <b>sender</b> address (e.g. no-reply@ your domain). Your IT team adds a few DNS records (SPF, DKIM, DMARC) so emails don't land in spam; we will send the exact records.</li>
+          <li>Should visitors get an <b>automatic confirmation email</b>? If yes, approve the wording.</li>
+        </ol>
+        <p>If HubSpot (A1) sends these notifications for you, we only need the job-application recipient here.</p>
+      </div>
+
+      <div class="card" id="a3">
+        <h3><span class="k">A3</span>CV upload on job applications <span class="p o">Recommended</span></h3>
+        <p><span class="lbl">Today</span><br>The Join Us form shows the CV drop zone as designed (visitors can pick a file and see its name), but <b>the file is not sent or stored</b>. The rest of the form works, including the LinkedIn / portfolio link.</p>
+        <p class="note"><b>Risk if we launch first:</b> applicants may think their CV was sent. We can add a short note under the field, e.g. "CV uploads are coming soon: add your LinkedIn link above".</p>
+        <p>CVs are personal data: they must be stored privately (not with the public website images) and handled under UAE data protection law (and GDPR for EU applicants).</p>
+        <ol class="steps">
+          <li>CV uploads at launch, or is the LinkedIn / portfolio link enough for now?</li>
+          <li>Who may download CVs: CMS admins only, or editors too?</li>
+          <li>How long are CVs kept? Deleted automatically after that?</li>
+          <li>Consent wording on the form (e.g. "I agree that PLG Acachet keeps my profile on file for [x] months").</li>
+          <li>Should applications go to an applicant-tracking system (ATS) or HR mailbox, instead of or as well as the CMS? Which one?</li>
+          <li>File rules as designed: PDF or Word, up to 10 MB?</li>
+          <li>Virus scanning of uploads (small extra AWS cost)?</li>
+          <li>A private storage location on your AWS account (we will specify it; part of A10).</li>
+        </ol>
+      </div>
+
+      <div class="card" id="a4">
+        <h3><span class="k">A4</span>Cookie consent and analytics <span class="p r">Before launch, if any tracking is used</span></h3>
+        <p><span class="lbl">Today</span><br>The Cookies page shows the <b>Manage Cookie Preferences</b> button and a cookie table as designed; the button shows a "not connected yet" note. There is <b>no analytics</b> and <b>no consent banner</b> (the design has none). The site sets no tracking cookies, so it is compliant as it stands.</p>
+        <ol class="steps">
+          <li><b>Analytics</b> wanted? Which tool (e.g. Google Analytics 4, HubSpot analytics, a cookie-free tool such as Plausible)?</li>
+          <li>Which <b>consent platform</b> (e.g. Cookiebot, OneTrust, HubSpot's cookie banner)? It provides the banner and the panel the button opens. A banner is required as soon as any non-essential cookie (analytics, HubSpot tracking, ads) is added.</li>
+          <li>Any <b>marketing tags</b> (LinkedIn Insight, Meta Pixel…)?</li>
+          <li>The final <b>cookie list</b> for the Cookies page (the consent platform usually produces it from a scan).</li>
+        </ol>
+      </div>
+
+      <div class="card" id="a5">
+        <h3><span class="k">A5</span>Legal wording <span class="p r">Before launch</span></h3>
+        <p><span class="lbl">Today</span><br>Terms &amp; Conditions, Privacy Policy and Cookies are built with the design's outline and <b>placeholder text</b>, plus a notice box saying counsel must write them.</p>
+        <p><span class="lbl">We need</span><br>Counsel-approved wording for the three documents, the "last updated" / "effective from" dates and version number. The Privacy Policy should also cover HubSpot (A1), CVs (A3) and analytics (A4) once decided. Your team can paste the text into the CMS; we can help with formatting.</p>
+      </div>
+
+      <div class="card" id="a6">
+        <h3><span class="k">A6</span>Scheduled publishing <span class="p g">After launch</span></h3>
+        <p>The CMS shows a <b>Schedule Publish</b> option (publish a change at a set date and time). It is not switched on yet, so a scheduled change never goes live. Do you need it at launch? If yes we switch it on; if not we hide the option so nobody relies on it.</p>
+      </div>
+
+      <div class="card" id="a7">
+        <h3><span class="k">A7</span>Who may delete content <span class="p o">Recommended</span></h3>
+        <p>Today <b>editors can delete pages</b>, case studies, team members and open roles, the same as admins. Editors can always hide sections or unpublish a page instead. Should deleting be <b>admin-only</b>? (We recommend yes, at least for pages.)</p>
+      </div>
+
+      <div class="card" id="a8">
+        <h3><span class="k">A8</span>Arabic version <span class="p g">After launch</span></h3>
+        <p>The site is English only. Is an Arabic version planned? It affects layout (right-to-left), fonts, the CMS (each field in two languages) and web addresses, so it is best to know early even if it comes later.</p>
+      </div>
+
+      <div class="card" id="a9">
+        <h3><span class="k">A9</span>Old website addresses <span class="p r">Before launch, if you have a current site</span></h3>
+        <p>If your domain has a website today, please send the list of its main addresses (or access to it). We redirect each one to the matching new page so links and Google rankings are kept.</p>
+      </div>
+
+      <div class="card" id="a10">
+        <h3><span class="k">A10</span>Hosting approval <span class="p r">Before launch</span></h3>
+        <ul>
+          <li>Approval of the proposed AWS setup (Middle East – UAE region).</li>
+          <li>An AWS account (or access to yours) and who owns billing.</li>
+          <li>The <b>domain</b> and access to its DNS.</li>
+          <li>Expected monthly visitors, to size the server and confirm cost.</li>
+          <li>Confirmation that <b>one server</b> is enough at launch (several need an extra shared cache; we recommend one, with automatic recovery).</li>
+        </ul>
+      </div>
+
+      <div class="card" id="a11">
+        <h3><span class="k">A11</span>CMS accounts <span class="p r">Before launch</span></h3>
+        <p>Names and email addresses of the people who will edit the site, and whether each is an <b>Admin</b> (everything, including users) or an <b>Editor</b> (content only).</p>
+      </div>
+    </section>
+
+    <section id="content">
+      <h2><span>03</span>Content to supply or confirm</h2>
+      <p>The site was filled with the design's content so every page looks finished. These parts are <b>placeholders or need your confirmation</b>. Your team can update all of them in the CMS, or send them and we load them.</p>
+      <div class="table"><table>
+        <thead><tr><th>#</th><th>Page / section</th><th>What is there now</th><th>What we need</th></tr></thead>
+        <tbody>
+          <tr><td>B1</td><td class="wrap"><b>Contact</b> → office details</td><td class="wrap">Email, phone, address and hours from the design</td><td class="wrap">Confirm or correct</td></tr>
+          <tr><td>B2</td><td class="wrap"><b>Footer</b> and <b>team members</b> → social links</td><td class="wrap">Placeholder links to the Instagram / LinkedIn / X home pages</td><td class="wrap">Your real company profiles and each team member's profiles (or tell us to hide them)</td></tr>
+          <tr><td>B3</td><td class="wrap"><b>The Team</b> → people</td><td class="wrap">Names and titles from the design; no bios; <b>no photos for Sherif Saed and Emma Valdez</b> (silhouette shown)</td><td class="wrap">Bios (50–70 words each), the two missing photos, confirmation of the org chart (reporting lines, heads of department)</td></tr>
+          <tr><td>B4</td><td class="wrap"><b>Join Us</b> → open roles</td><td class="wrap">The design's six roles, no descriptions</td><td class="wrap">The real roles: title, team, location, contract type, summary, key points</td></tr>
+          <tr><td>B5</td><td class="wrap"><b>Our Work</b> → case studies</td><td class="wrap">Key visuals for <b>G42, Pizza Hut and Red Bull</b> are library photos ("Key visual to come"); galleries use library shots; some facts in <b>[square brackets]</b> (e.g. years) marked "to confirm"</td><td class="wrap">Key visuals, project photos per gallery, confirmation of every bracketed fact, approval of figures and quotes</td></tr>
+          <tr><td>B6</td><td class="wrap"><b>About</b> → Mujtamae report card</td><td class="wrap">An illustrative mock-up (figures and wording)</td><td class="wrap">Confirm or send real figures</td></tr>
+          <tr><td>B7</td><td class="wrap"><b>Home / About / Services</b> → figures and copy</td><td class="wrap">Figures and text from the design</td><td class="wrap">A final read-through and sign-off of all copy and numbers</td></tr>
+          <tr><td>B8</td><td class="wrap"><b>Legal</b> pages</td><td class="wrap">Placeholder text</td><td class="wrap">See A5</td></tr>
+          <tr><td>B9</td><td class="wrap"><b>Home</b> showreel and banner videos</td><td class="wrap">The videos supplied with the design</td><td class="wrap">Confirm they are final (and a lighter phone version if you have one)</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="choices">
+      <h2><span>04</span>Small design choices</h2>
+      <div class="card">
+        <h3><span class="k">C1</span>Footer legal link wording <span class="p g">After launch</span></h3>
+        <p>The design uses two wordings: &ldquo;Privacy &middot; Terms &amp; Conditions &middot; Cookies&rdquo; (current) or &ldquo;Privacy Policy &middot; Terms and Conditions &middot; Cookies&rdquo; (most design pages; matches the page titles; <b>our recommendation</b>). Please pick one. A CMS change, no development.</p>
+      </div>
+      <div class="card">
+        <h3><span class="k">C2</span>Extra case study sections <span class="p g">After launch</span></h3>
+        <p>The design contains case study parts it keeps switched off: a "Measured through Mujtamae" link, an "idea" one-liner, a 5-step operating model, an intro paragraph and an "at a glance" list. Do you want any of them? If yes: which case studies were measured through Mujtamae, and what are the five operating-model steps?</p>
+      </div>
+    </section>
+
+    <section id="next">
+      <h2><span>05</span>What happens next</h2>
+      <ol class="steps">
+        <li>Reply to the items in sections 02–04. A short answer per number is enough (e.g. "A1-2: Home and Contact only").</li>
+        <li>Send content (section 03) by email or a shared folder; photos and videos through a shared drive.</li>
+        <li>Send credentials (HubSpot token, AWS access, DNS) <b>only through a password manager or your IT team</b>, never by email or chat.</li>
+        <li>We build each item as its answer arrives, test it on a staging site, and you review before launch.</li>
+      </ol>
+    </section>
+  </main>
+
+  <footer>PLG Acachet website · Decisions and content needed · Updated as items are answered.</footer>
+</div>

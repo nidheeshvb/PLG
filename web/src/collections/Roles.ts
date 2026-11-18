@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { anyone, isLoggedIn } from '@/access'
-import { revalidateSiteAfterChange } from '@/lib/revalidate'
+import { revalidateSiteAfterChange, revalidateSiteAfterDelete } from '@/lib/revalidate'
 
 import { EMPLOYMENT_TYPES, ROLE_TEAMS } from './roleOptions'
 
@@ -18,7 +18,7 @@ export const Roles: CollectionConfig = {
   },
   defaultSort: 'sortOrder',
   access: { read: anyone, create: isLoggedIn, update: isLoggedIn, delete: isLoggedIn },
-  hooks: { afterChange: [revalidateSiteAfterChange] },
+  hooks: { afterChange: [revalidateSiteAfterChange], afterDelete: [revalidateSiteAfterDelete] },
   fields: [
     { name: 'title', type: 'text', label: 'Job title', required: true },
     {

@@ -329,7 +329,7 @@ flowchart LR
 | Media path (e.g. `media.<domain>/*` or `/media/*`) | S3 (Origin Access Control) | Cache long |
 | Default (`/*`, pages) | EC2 | Cache using the origin's headers; forward the draft-mode cookie so previews bypass the cache |
 
-When an editor publishes, the application clears the changed page from both Next.js's cache and CloudFront (`CreateInvalidation`; whole site for header/footer, logo or case-study changes, and when a page is moved, renamed, unpublished or deleted, because other pages link to it).
+When an editor publishes, the application clears the changed page from both Next.js's cache and CloudFront (`CreateInvalidation`; whole site for header/footer changes, and when a logo, case study, team member or open role is changed or deleted, and when a page is moved, renamed, unpublished or deleted, because other pages link to it).
 
 ## B4. How images and videos are delivered
 
@@ -432,5 +432,5 @@ A CI pipeline (e.g. GitHub Actions) can run lint, typecheck and build, then depl
 | Monitoring | CloudWatch, health check `/next/health` | Proposed; endpoint ready |
 | Email | Amazon SES (SMTP adapter built in, switched on by `SMTP_HOST`) | Client decision needed; code ready |
 | Server sizing & cost | Depends on expected monthly visitors | **Client input needed** |
-| Form destinations | CMS inbox now; email/CRM later | Client decision needed |
+| Form destinations | CMS inbox now; notification email and HubSpot (enquiries) later, as an env-gated integration | Client decision needed (`docs/client-action-items.md` A1–A2) |
 | Cookie consent & analytics | Platform to be chosen | Client decision needed |

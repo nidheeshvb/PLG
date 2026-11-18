@@ -3,7 +3,7 @@ import type { CollectionConfig } from 'payload'
 import { anyone, isLoggedIn } from '@/access'
 import { mediaField } from '@/fields/media'
 import { slugField } from '@/fields/slug'
-import { revalidateSiteAfterChange } from '@/lib/revalidate'
+import { revalidateSiteAfterChange, revalidateSiteAfterDelete } from '@/lib/revalidate'
 
 import { SERVICES } from './serviceOptions'
 
@@ -24,7 +24,7 @@ export const CaseStudies: CollectionConfig = {
   },
   defaultSort: 'sortOrder',
   access: { read: anyone, create: isLoggedIn, update: isLoggedIn, delete: isLoggedIn },
-  hooks: { afterChange: [revalidateSiteAfterChange] },
+  hooks: { afterChange: [revalidateSiteAfterChange], afterDelete: [revalidateSiteAfterDelete] },
   fields: [
     {
       type: 'tabs',

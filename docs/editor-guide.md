@@ -788,6 +788,7 @@ Messages can't be edited. Admins can delete them.
 | **Remove** a section | It's deleted from the page. You can still get it back from **Versions → Restore**. |
 | Delete a **page** | Buttons and menu links pointing to it disappear from the website. |
 | Delete an **image or video** that's in use | An empty space appears where it was. |
+| Delete a **case study**, **partner logo**, **team member** or **open role** | It disappears from every page showing it as soon as you delete it. To take a job down for a while, untick **Show on the website** instead. |
 | Leave a required field (*) empty | The CMS won't publish and highlights the field in red. |
 | Upload a very large video | The page loads slowly, especially on phones. Keep to the sizes in [section 9](#9-images-and-videos). |
 

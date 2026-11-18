@@ -45,7 +45,7 @@ Fix the issues one at a time; when one is fixed, set its **Status** to Fixed, re
 | Versions → Restore | ✅ Live within about 1.5 s; content identical to the restored version |
 | Header & footer (27 fields) | ✅ Whole site updates on the first request (about 1 s for 8 pages) |
 | Case studies, partner logos, team members, open roles: edit, create, reorder, show/hide | ✅ First request (0.2–0.5 s) |
-| Deleting a partner logo, team member, open role or case study | ❌ Stays on the website (REVAL-2) |
+| Deleting a partner logo, team member, open role or case study | ✅ Fixed 2026-11-18: gone on the first request (REVAL-2) |
 | Images & videos: alt text, focal point | ❌ Pages keep the old version (REVAL-1) |
 | Changing a page's URL name (slug) | ✅ Fixed 2026-11-18: the page moves and links on every page follow at once (REVAL-3) |
 | Unpublishing a page | ✅ Fixed 2026-11-18: 404 and out of the sitemap at once (REVAL-4) |
@@ -60,7 +60,7 @@ Fix the issues one at a time; when one is fixed, set its **Status** to Fixed, re
 | ID | Status | Severity | Summary |
 |---|---|---|---|
 | [REVAL-1](#reval-1) | Open | High | Image changes (alt text, focal point, replaced file) don't refresh the pages that use the image |
-| [REVAL-2](#reval-2) | Open | High | Deleting a partner logo, team member, open role or case study doesn't refresh the website |
+| [REVAL-2](#reval-2) | ✅ Fixed | High | Deleting a partner logo, team member, open role or case study doesn't refresh the website |
 | [REVAL-3](#reval-3) | ✅ Fixed | High | After a page's URL name changes, menus and buttons on other pages still link to the old URL (404) |
 | [REVAL-4](#reval-4) | ✅ Fixed | High | Unpublishing a page leaves it live |
 | [REVAL-5](#reval-5) | ✅ Fixed | Medium | Renaming a page doesn't update other pages that show its title (Legal document switcher) |
@@ -97,7 +97,7 @@ Fix the issues one at a time; when one is fixed, set its **Status** to Fixed, re
 <a id="reval-2"></a>
 ### REVAL-2: deleting shared items doesn't refresh the website
 
-- **Status**: Open
+- **Status**: ✅ Fixed 2026-11-18 (fix log #3). Re-tested on a production build with warm caches: see "Re-test after fix #3" below.
 - **Steps**: create a partner logo, team member, open role or case study (it appears at once), then delete it.
 - **Expected**: it disappears from Home / The Team / Join Us / Our Work.
 - **Actual**: it stays (checked 20 s for each of the four). It only goes away when some other change happens to refresh the whole site.
@@ -1721,12 +1721,31 @@ Production build, every page warmed to a cache HIT before each change, API chang
 
 The draft and content-only checks confirm the fix keeps caching tight: autosaves refresh nothing, and publishing ordinary content refreshes only that page.
 
+### Re-test after fix #3 (REVAL-2)
+
+Production build. For each kind of item: create a test item, check it shows, load the pages until they are cached (HIT), delete it through the API (what the admin **Delete** does), and time until it is gone. The database was restored from a backup afterwards.
+
+| Check | Result | Time / detail |
+|---|---|---|
+| Partner logo: create shows on / | ✅ | 0.9s, 1 request(s), cache MISS |
+| Partner logo: create shows on /our-work | ✅ | 0.2s, 1 request(s), cache MISS |
+| Partner logo: delete removes it from / (warm cache: / HIT, /our-work HIT) | ✅ | 0.2s, 1 request(s), cache MISS |
+| Partner logo: delete removes it from /our-work (warm cache: / HIT, /our-work HIT) | ✅ | 0.1s, 1 request(s), cache MISS |
+| Team member: create shows on /about/team | ✅ | 0.2s, 1 request(s), cache MISS |
+| Team member: delete removes it from /about/team (warm cache: /about/team HIT) | ✅ | 0.2s, 1 request(s), cache MISS |
+| Open role: create shows on /about/join | ✅ | 0.2s, 1 request(s), cache MISS |
+| Open role: delete removes it from /about/join (warm cache: /about/join HIT) | ✅ | 0.2s, 1 request(s), cache MISS |
+| Case study: create shows on /our-work | ✅ | 0.2s, 1 request(s), cache MISS |
+| Case study: delete removes it from /our-work (warm cache: /our-work HIT) | ✅ | 0.1s, 1 request(s), cache MISS |
+| Item counts back to before | ✅ | {"partners":6,"team-members":11,"roles":6,"case-studies":8} |
+
 ## Fix log
 
 | # | Date | Issue | Change | Files | Re-tested |
 |---|---|---|---|---|---|
 | 1 | 2026-11-17 | — | Test run and report created. No code changes | `docs/cms-revalidation-test.md` | — |
 | 2 | 2026-11-18 | REVAL-3, REVAL-4, REVAL-5 | Pages compare the page's live (main) record before and after each save. A first publish, unpublish, URL/parent change, rename or new forwarding refreshes the whole site; a content-only publish refreshes that page; draft saves refresh nothing. Deleting a published page also refreshes the whole site | `web/src/collections/Pages/revalidate.ts`, `web/src/collections/Pages/index.ts` | ✅ 20/20 checks, 0.1–0.6 s |
+| 3 | 2026-11-18 | REVAL-2 | New `revalidateSiteAfterDelete` hook refreshes the whole site, registered as `afterDelete` on Partners, Team members, Open roles and Case studies | `web/src/lib/revalidate.ts`, `web/src/collections/{Partners,TeamMembers,Roles,CaseStudies}.ts` | ✅ 11/11 checks, 0.1–0.2 s |
 
 ## Restore (what was put back after testing)
 
