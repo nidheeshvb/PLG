@@ -2,7 +2,7 @@
 
 How to update the website yourself using the content management system (CMS). No technical knowledge needed.
 
-_Last updated: 16 November 2026 · Covers: Home, About, Our Story, The Team, Join Us, Services, Our Work, Contact and Legal pages, header and footer. More pages are added to this guide as they are built._
+_Last updated: 18 November 2026 · Covers: Home, About, Our Story, The Team, Join Us, Services, Our Work, Contact and Legal pages, header and footer. More pages are added to this guide as they are built._
 
 ---
 
@@ -774,13 +774,14 @@ Messages can't be edited. Admins can delete them.
 | Change **Header & footer**, a **case study**, a **partner logo**, a **team member** or an **open role** and save | Every page showing it updates. |
 | Change a case study's **URL name** | Its address `/our-work#case-…` changes; Home's tile follows automatically, but shared links to the old address open Our Work without the case study. |
 | Untick **Show on the website** on an open role | The job disappears from Join Us and from the application form's **Applying for** list. |
-| Change a page's **URL name** | Its web address changes. Buttons and menu links inside the CMS follow automatically, but old bookmarks and links from other websites or emails stop working. Avoid changing it once the site is live. |
+| Change a page's **URL name** | Its web address changes. Buttons and menu links on every page follow automatically as soon as you publish, but old bookmarks and links from other websites or emails stop working. Avoid changing it once the site is live. |
 | Change a section's **Section ID** | Buttons jumping to the old ID stop working. Update them too. The **Section menu** follows automatically. |
 | Change a section's **Name in section menu** | The Section menu on that page updates automatically. |
 | Add, remove, hide or reorder a **Service detail** | The services renumber themselves (01 / 04…), the grey bands alternate again, and the numbered bar follows. |
 | Change **Header & footer → Header → Menu links → Sub-links** | The phone menu and every **Section menu** set to *Same links as the main menu* (Our Story, The Team, Join Us) update. |
 | Change **Header & footer → Call to action** | Every page whose Call to action banner uses the site-wide version updates. |
-| Rename a page or move it under another page | Its breadcrumb (and web address) follows automatically. |
+| Rename a page or move it under another page | Its breadcrumb (and web address) follows automatically, and every other page showing its name or linking to it (menus, buttons, the legal document switcher) updates as soon as you publish. |
+| **Unpublish** a page (**Publish changes ▾ → Unpublish**) | It disappears from the website and the sitemap at once; links to it on other pages refresh. Your content is kept as a draft: **Publish changes** brings it back. |
 | Set **Forward visitors to** on a page | Visitors to that page land on the chosen page instead. |
 | Change **Header & footer → Company details** | The contact card and "Questions?" box on every legal document update. |
 | **Hide** a section | It disappears from the website; everything is kept. Untick to restore. |

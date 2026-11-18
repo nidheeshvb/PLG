@@ -67,7 +67,7 @@ CMS page.layout ─► RenderBlocks ─► one React component per blockType
 - One route renders every page: `src/app/(frontend)/[[...slug]]/page.tsx` (`/`, `/about`, `/legal/terms`, …).
 - The page address comes from the page's URL name and parent page (nested pages via the nested-docs plugin); Home has the URL name `home`.
 - Drafts + autosave + live preview: the admin preview opens `/next/preview`, which turns on Next.js draft mode.
-- Publishing revalidates the page; changing header/footer, logos, case studies or team members revalidates the whole site.
+- Publishing revalidates the page; changing header/footer, logos, case studies or team members, or publishing a page whose address, name, forwarding or published state changed (incl. unpublish and delete), revalidates the whole site. Draft saves revalidate nothing.
 - Every block also receives the **page context** (`blocks/context.ts`): the page's title, path and breadcrumbs, and the section-menu items derived from the sections' `anchorId` + `navLabel`. The Banner breadcrumb and the Section menu use it, so editors never type them.
 - Our Story, The Team and Join Us are child pages of About (`/about/our-story`, …).
 

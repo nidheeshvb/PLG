@@ -6,7 +6,7 @@ import { slugField } from '@/fields/slug'
 import { previewUrl } from '@/lib/preview'
 
 import { computePath } from './computePath'
-import { revalidatePage, revalidatePageDelete } from './revalidate'
+import { rememberLivePage, revalidatePage, revalidatePageDelete } from './revalidate'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -30,6 +30,7 @@ export const Pages: CollectionConfig = {
     delete: isLoggedIn,
   },
   hooks: {
+    beforeChange: [rememberLivePage],
     afterChange: [revalidatePage],
     afterDelete: [revalidatePageDelete],
   },

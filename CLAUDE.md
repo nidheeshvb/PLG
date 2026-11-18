@@ -36,6 +36,11 @@ Also update "Last updated" dates on the docs you touch. In the wrap-up, list whi
   - full per-section numbers, matches included.
 
   When fixing an issue, set its Status to Fixed and re-measure the page.
+- `/docs/cms-revalidation-test.md` — **CMS → website test report** (2026-11-17, production build). Covers:
+  - every text field (683) and option (452) on all pages, shared content, and admin-UI edits on every page;
+  - drafts, preview, versions, scheduling, and revalidation edge cases.
+
+  Fixed: REVAL-3, REVAL-4, REVAL-5 (2026-11-18). Open issues: REVAL-1 (media changes not revalidated), REVAL-2 (deletes not revalidated), REVAL-6 (scheduled publish never runs: no `jobs` config), CMS-1…6. Fix one at a time, then update its status and the fix log.
 - `/docs/local-setup.md` — step-by-step local installation guide (clone, Node version, npm ci, .env, database options, seed, run, troubleshooting). Update it when setup steps, env vars or requirements change.
 - `/docs/technical-documentation.md` — client-shareable technical doc (no secrets). Source of truth.
 - `/docs/technical-documentation.html` — the same content as a page, published as a private artifact for sharing: https://claude.ai/artifact/KbSfFWQBra4jU5UoRLDUQM . When the .md changes, update the .html too and republish it **to that URL** (pass `url` from a new conversation) so the shared link stays the same.
@@ -92,7 +97,7 @@ SiteSettings global ──► (frontend)/layout.tsx ─► Header / Footer
 - **`path` field** (`collections/Pages/computePath.ts`, field-level beforeChange): `/` for slug `home` without parent, else last nested-docs breadcrumb URL. Nested pages via `@payloadcms/plugin-nested-docs` (`parent`, `breadcrumbs`). `forwardTo` (sidebar relationship): the page route `redirect()`s to that page's path (e.g. `/legal` → `/legal/terms`); forwarding pages are excluded from the sitemap (`getSitemapPaths`).
 - **SEO:** `@payloadcms/plugin-seo` with `tabbedUI` — it requires the Pages collection's **first field to be a `tabs` field** (it appends an "SEO" tab). `title` + `layout` live in the "Page sections" tab; `slug`, `path` are sidebar fields after the tabs.
 - **Drafts/live preview:** Pages have drafts + autosave (600ms) + schedulePublish. Admin preview URL = `/next/preview?path=…&secret=PREVIEW_SECRET` (route in `(frontend)/next/preview`, can't live under `/api` because Payload owns `/api/*`), enables Next draftMode → `getPageByPath` fetches `draft: true`; `LivePreviewListener` (RefreshRouteOnSave) refreshes on save. Exit: `/next/exit-preview`.
-- **Revalidation:** Pages afterChange → `revalidatePath(doc.path)` when published (and old path if moved). SiteSettings, Partners, CaseStudies, TeamMembers, Roles afterChange → revalidate whole layout. `lib/revalidate.ts` `safeRevalidate` swallows errors because scripts (seed) run outside Next. Seed passes `context: { disableRevalidate: true }`.
+- **Revalidation:** Pages (`collections/Pages/revalidate.ts`): beforeChange `rememberLivePage` reads the page's **main record** (`payload.db.findOne`), afterChange reads it again and compares. Draft saves (autosave/Save draft) never touch the main record and return a draft doc → nothing revalidated. Content-only publish → that page's path. First publish, unpublish (admin sends PATCH without `draft` + `_status: draft`), path, title or `forwardTo` change → whole layout (menus, buttons, Legal switcher, sitemap on other pages). Don't compare `previousDoc`: it's the latest *version* (often the draft that already had the new title/slug), so renames done through the admin would be missed. afterDelete of a published page → whole layout. SiteSettings, Partners, CaseStudies, TeamMembers, Roles afterChange → revalidate whole layout. `lib/revalidate.ts` `safeRevalidate` swallows errors because scripts (seed) run outside Next. Seed passes `context: { disableRevalidate: true }`.
 - **Data access:** only `src/lib/payload.ts` (server-only): `getPageByPath`, `getAllPagePaths`, `getSiteSettings`, `getPartners`, `getTeamMembers`, `getOpenRoles` (roles with `isOpen`), `getCaseStudies` (sortOrder, depth 1), `getSitemapPaths` (published, not forwarding). Add new getters there. Components take props; data-driven blocks (e.g. LogoMarquee) may be async server components that call getters.
 - **Types:** `src/payload-types.ts` generated. Every block config sets `interfaceName: '<Name>Block'` so components import `XBlock` types. Link fields have **no** interfaceName (shapes differ per options → would collide); use `LinkData` from `lib/links.ts`.
 
@@ -204,6 +209,9 @@ Dev uses Payload's automatic schema push. Before handing over/deploying a schema
    `[...document.querySelectorAll('main > *')].map(e => Math.round(e.getBoundingClientRect().top+scrollY)+'/'+e.offsetHeight)` — section tops/heights should match exactly; then screenshot key sections.
    Also compare the footer height and `document.documentElement.scrollHeight`: the footer sits outside `main`, so section checks miss it (that's how FOOT-1 went unnoticed). Measuring several widths in one browser tab: load the page in a hidden same-origin iframe of exact width W; media queries follow the iframe width. Claude in Chrome truncates long JS results (~1000 chars) and blocks output containing URLs with query strings, so return compact strings.
 3. Exercise interactions; check console + server logs.
+   - **Revalidation tests** need a production build (`npm run build` + `npm run start`); dev renders every request fresh.
+   - **Warm cache first**: request the page until `x-nextjs-cache: HIT` *before* the change. A page not requested since the last site-wide revalidation renders fresh anyway, which gives false passes.
+   - **Admin publish**: wait until autosave finishes before clicking Publish (the button is disabled meanwhile and the click is lost).
 4. In `/admin` as editor: edit, reorder, hide, live preview, publish.
 
 ## Decisions log

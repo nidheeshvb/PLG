@@ -1,6 +1,6 @@
 # PLG Acachet Website — Architecture
 
-_Last updated: 16 November 2026 · Covers Phase 1, steps 1–9 (foundation and every page: Home, About, Our Story, The Team, Join Us, Services, Our Work, Contact and Legal) and the proposed AWS production setup_
+_Last updated: 18 November 2026 · Covers Phase 1, steps 1–9 (foundation and every page: Home, About, Our Story, The Team, Join Us, Services, Our Work, Contact and Legal) and the proposed AWS production setup_
 
 This document describes **how the application is built** (Part A) and **how it is hosted** (Part B).
 It contains no secrets and can be shared with the client. Diagrams use Mermaid (they render on GitHub, GitLab and most Markdown viewers).
@@ -175,7 +175,7 @@ sequenceDiagram
   PV->>DB: re-render page with draft content
   E->>A: Publish changes
   A->>DB: save published version
-  A->>S: revalidate that page's path (header/footer/logos/case studies: whole site)
+  A->>S: revalidate that page's path (header/footer/logos/case studies, or the page's address, name, forwarding or published state changed: whole site)
   S-->>S: next request rebuilds the page
 ```
 
@@ -329,7 +329,7 @@ flowchart LR
 | Media path (e.g. `media.<domain>/*` or `/media/*`) | S3 (Origin Access Control) | Cache long |
 | Default (`/*`, pages) | EC2 | Cache using the origin's headers; forward the draft-mode cookie so previews bypass the cache |
 
-When an editor publishes, the application clears the changed page from both Next.js's cache and CloudFront (`CreateInvalidation`; whole site for header/footer, logo or case-study changes).
+When an editor publishes, the application clears the changed page from both Next.js's cache and CloudFront (`CreateInvalidation`; whole site for header/footer, logo or case-study changes, and when a page is moved, renamed, unpublished or deleted, because other pages link to it).
 
 ## B4. How images and videos are delivered
 
