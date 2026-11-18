@@ -344,7 +344,7 @@ When an editor publishes, the application clears the changed page from both Next
 
 | Concern | Approach |
 |---|---|
-| Schema changes | Versioned migrations in `web/src/migrations`, applied with `npm run migrate` before each release |
+| Schema changes | Versioned migrations in `web/src/migrations`, applied with `npm run migrate` before each release. One `initial` migration creates the full schema on an empty database (tested 2026-11-18: identical to the development schema). Each new migration is tested on an empty UTF-8 database before release. The database must be created as UTF-8 |
 | Database access | RDS in a private subnet, reachable only from the EC2 security group; TLS connections (`?sslmode=require` in `DATABASE_URL`) |
 | Backups | RDS automated daily backups with point-in-time recovery (7–35 days); snapshot before each release |
 | Media | S3 versioning on; bucket private, read through CloudFront Origin Access Control |

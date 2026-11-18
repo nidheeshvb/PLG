@@ -50,4 +50,4 @@ node_modules/
 /playwright/.cache/
 
 # local database (embedded Postgres)
-/.postgres
+/.postgres*

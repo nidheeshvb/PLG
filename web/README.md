@@ -47,7 +47,8 @@ For staging/production, point `DATABASE_URL` at a normal Postgres and run `npm r
 
 | Script | What it does |
 |---|---|
-| `npm run db` | Start the local database |
+| `npm run db` | Start the local database (UTF-8; warns if an older local database isn't) |
+| `npm run db:utf8` | One-off: convert an older WIN1252 local database to UTF-8, keeping the content |
 | `npm run seed` | Load prototype content into the CMS (safe to re-run; updates instead of duplicating) |
 | `npm run dev` / `build` / `start` | Next.js |
 | `npm run lint` / `typecheck` | Checks |
@@ -149,6 +150,13 @@ In development Payload syncs the schema automatically. Before deploying a schema
 npm run migrate:create -- <short-name>   # commit the generated files in src/migrations
 npm run migrate                          # on the target database
 ```
+
+There is one migration so far (`20261118_161446_initial`, the full schema). Test every new migration on an **empty** database before deploying:
+1. Start a second embedded PostgreSQL (UTF-8, another port).
+2. Run `DATABASE_URL=<that db> NODE_ENV=production npm run migrate`.
+3. Seed it.
+
+Never add an enum value and use it in the same migration: PostgreSQL refuses that inside one transaction.
 
 ## Accounts
 

@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "db": "node scripts/db.mjs",
+    "db:utf8": "node scripts/db-to-utf8.mjs",
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
     "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",

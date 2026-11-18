@@ -2,7 +2,7 @@
 
 How to get the PLG Acachet website (Next.js + Payload CMS) running on your own computer, from a fresh machine to a working site and CMS.
 
-_Last updated: 16 November 2026_
+_Last updated: 18 November 2026_
 
 **Time needed:** about 15–20 minutes (most of it is downloading packages).
 **Result:** the website at <http://localhost:3000> and the CMS at <http://localhost:3000/admin>, filled with the Home page content.
@@ -94,7 +94,8 @@ Open a **second terminal**, go to `web/` and run:
 npm run db
 ```
 
-- The first run creates the database cluster in `web/.postgres` and a database called `plg`.
+- The first run creates the database cluster in `web/.postgres` (UTF-8, so Arabic text and emoji work) and a database called `plg`.
+- A database created before 18 November 2026 may use the Windows text encoding. `npm run db` then prints a warning. Convert it once with `npm run db:utf8` (see Troubleshooting); your content is kept.
 - Wait for: `PostgreSQL ready: postgres://postgres:postgres@127.0.0.1:5433/plg`.
 - **Keep this terminal open** while you work. Stop it with `Ctrl+C`.
 - Change the port with `PG_PORT=5434 npm run db` (and update `DATABASE_URL` to match).
@@ -104,8 +105,10 @@ npm run db
 If you already run PostgreSQL 14+ (installed locally or a cloud database):
 
 ```sql
-CREATE DATABASE plg;
+CREATE DATABASE plg ENCODING 'UTF8' TEMPLATE template0;
 ```
+
+The database must be UTF-8 (the default on most installs and on AWS RDS), or Arabic text and emoji can't be saved.
 
 Then set `DATABASE_URL` in `.env`, for example `postgres://USER:PASSWORD@localhost:5432/plg`. For cloud databases that require TLS add `?sslmode=require`. Skip `npm run db`.
 
@@ -187,6 +190,7 @@ If the new changes include new pages or content in the seed, run `npm run seed` 
 | Command | What it does |
 |---|---|
 | `npm run db` | Start the local PostgreSQL |
+| `npm run db:utf8` | One-off: convert an older local database to UTF-8, keeping its content (database and dev server stopped) |
 | `npm run dev` | Start the website + CMS in development mode |
 | `npm run seed` | Load/refresh prototype content and create local users |
 | `npm run lint` | Check code style and React rules |
@@ -240,6 +244,7 @@ Restart `npm run dev` after changing `.env`. Files uploaded while S3 is on live 
 | `npm run db`: "port 5433 already in use" | Another PostgreSQL is running. Use `PG_PORT=5434 npm run db` and change `DATABASE_URL` to `:5434` |
 | `npm run db` fails on Windows | Install the latest "Microsoft Visual C++ Redistributable (x64)" and try again; or use option B/C in step 5 |
 | `npm run dev`: port 3000 in use | `npx next dev -p 3001` and set `NEXT_PUBLIC_SITE_URL=http://localhost:3001` |
+| `npm run db` warns "uses WIN1252, not UTF-8", or saving Arabic text or emoji fails with "Sorry, something went wrong" / `has no equivalent in encoding "WIN1252"` | Your local database predates UTF-8. Stop `npm run db` and `npm run dev`, run `npm run db:utf8` (copies everything into a new UTF-8 database and checks the row counts; the old one is kept as `web/.postgres-old-<date>`), then start both again. Delete the old folder once the site looks right |
 | `ECONNREFUSED 127.0.0.1:5433` | The database isn't running: start `npm run db` (or check your `DATABASE_URL`) |
 | Seed fails with "file not found" | Run it inside `web/` from a full clone; it reads images from the repository's `assets/` folder |
 | Can't sign in to `/admin` | Use the `SEED_*` email/password from `.env`. The seed doesn't change existing passwords: to reset, delete the user in the CMS as admin, or use "Forgot password" (the reset email appears in the `npm run dev` terminal) |
