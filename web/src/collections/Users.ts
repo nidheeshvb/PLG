@@ -7,7 +7,7 @@ export const Users: CollectionConfig = {
   labels: { singular: 'User', plural: 'Users' },
   admin: {
     useAsTitle: 'email',
-    defaultColumns: ['name', 'email', 'role'],
+    defaultColumns: ['name', 'email'],
     group: 'Settings',
     hidden: ({ user }) => (user as { role?: string } | null)?.role !== 'admin',
   },
@@ -24,11 +24,14 @@ export const Users: CollectionConfig = {
   fields: [
     { name: 'name', type: 'text' },
     {
+      // Decision 2026-11-19: everyone PLG adds gets full access, so new users are admins and the choice is
+      // hidden. The editor role stays in the code (access helpers, seed test account) in case it's needed later.
       name: 'role',
       type: 'select',
       required: true,
-      defaultValue: 'editor',
+      defaultValue: 'admin',
       saveToJWT: true,
+      admin: { hidden: true },
       options: [
         { label: 'Admin (everything, including users)', value: 'admin' },
         { label: 'Editor (website content)', value: 'editor' },

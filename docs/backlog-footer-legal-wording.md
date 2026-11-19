@@ -1,6 +1,6 @@
 # Backlog: footer legal link wording
 
-_Status: **waiting for a client decision** (content only, no code). Last updated: 2026-11-17._
+_Status: **closed 2026-11-19**: keep "Privacy · Terms & Conditions · Cookies" (Home/About design wording). The site matches the approved design, so PLG is not asked; they can change the labels in the CMS. Last updated: 2026-11-19._
 
 The footer's small legal links at the bottom of every page currently read **"Privacy · Terms & Conditions · Cookies"**. The prototype pages don't agree on the wording, so PLG Acachet needs to choose one. Found in the UI comparison as **FOOT-2** (`docs/ui-comparison-issues.md`).
 

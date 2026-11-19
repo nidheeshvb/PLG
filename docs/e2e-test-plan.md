@@ -1,6 +1,6 @@
 # PLG Acachet website: end-to-end test plan (before go-live)
 
-Last updated: 2026-11-18 (local test round finished; fixes #1 E2E-13-1, #2 E2E-3-1)
+Last updated: 2026-11-19 (local test round finished; fixes #1 E2E-13-1, #2 E2E-3-1; REVAL-6 and CMS-6 closed)
 
 Every kind of test the site should pass before it goes live, in one list so we can work through it and track progress. Each test has:
 - **Priority**: **Must** before launch, **Should** before launch, **Later** (nice to have, or after launch).
@@ -123,7 +123,7 @@ Three forms: Home enquiry, Contact, Join Us application.
 |---|---|---|---|---|
 | 4.1 | Every text field and option on every page reaches the website (683 + 452) | Must | Local prod build | ✅ [report](cms-revalidation-test.md) |
 | 4.2 | Shared content: Header & footer, case studies, logos, team, roles | Must | Local prod build | ✅ |
-| 4.3 | Revalidation issues fixed and re-tested: REVAL-1 (images), REVAL-6 (scheduling), CMS-1…6 | Must | Local prod build | 🟡 REVAL-2…5 fixed; REVAL-1, REVAL-6, CMS-1…6 open |
+| 4.3 | Revalidation issues fixed and re-tested: REVAL-1 (images), REVAL-6 (scheduling), CMS-1…6 | Must | Local prod build | 🟡 REVAL-2…5 fixed; REVAL-6 and CMS-6 closed 2026-11-19 (scheduling off, everyone admin); REVAL-1, CMS-1…5 open |
 | 4.4 | Full text/option sweep re-run after all fixes (regression) | Must | Local prod build | ⏸️ waits for the remaining CMS fixes (4.3) |
 | 4.5 | Page actions not yet re-tested on the new code: move a page under another parent, change **Forward visitors to**, **Restore this version**, the real **Unpublish** button | Must | Local prod build | ✅ move, forward, restore version, real Unpublish button |
 | 4.6 | Lists beyond the first row: change, add, remove, reorder rows 2+ in every list | Should | Local | ✅ 34 lists on 8 pages: reorder, remove last, minimum enforced |
@@ -359,7 +359,7 @@ Decisions needed from PLG or you before some tests can run:
 - analytics and cookie consent (12.2, 15.4);
 - one server or several (13.13);
 - editors deleting pages (CMS-6);
-- scheduled publishing (REVAL-6).
+- ~~scheduled publishing (REVAL-6)~~: decided 2026-11-19, not used (switched off).
 
 <!-- issues:start -->
 ## Issues found

@@ -2,7 +2,7 @@
 
 How to update the website yourself using the content management system (CMS). No technical knowledge needed.
 
-_Last updated: 18 November 2026 · Covers: Home, About, Our Story, The Team, Join Us, Services, Our Work, Contact and Legal pages, header and footer. More pages are added to this guide as they are built._
+_Last updated: 19 November 2026 · Covers: Home, About, Our Story, The Team, Join Us, Services, Our Work, Contact and Legal pages, header and footer. More pages are added to this guide as they are built._
 
 ---
 
@@ -35,12 +35,7 @@ _Last updated: 18 November 2026 · Covers: Home, About, Our Story, The Team, Joi
 2. Enter your **email** and **password**, then click **Login**.
 3. Forgot your password? Click **Forgot password?** on the sign-in page and follow the email.
 
-There are two kinds of account:
-
-| Account | Can do |
-|---|---|
-| **Editor** | Change everything on the website: pages, images, case studies, logos, menus. Read website messages. |
-| **Admin** | Everything an editor can do, plus add or remove user accounts. |
+Every account has full access: change, add and remove anything on the website, read website messages, and add or remove other people's accounts.
 
 ## 2. Finding your way around
 
@@ -75,7 +70,6 @@ After signing in you see the **Dashboard**. The menu on the left (click ☰ if i
 | Switch a section between white and dark background | Open the section → **Section settings → Background** (only where offered) |
 | See my changes before they go live | Click the **eye icon** at the top of the page editor |
 | Make my changes live | **Publish changes** (top right) |
-| Publish at a later date | Click the small arrow next to **Publish changes → Schedule Publish** |
 | Undo a change I already published | **Versions** tab at the top of the page → pick an earlier version → **Restore** |
 | Change the numbers (13 years, 100+…) | **Pages → Home → Key numbers** section |
 | Add or remove a partner logo | **Partner logos** ([section 11](#11-partner-logos)) |
@@ -257,7 +251,6 @@ Numbers on cards ("01", "02"…), the breadcrumb at the top of inner pages ("Hom
 | Type in a field | **Saved automatically as a draft** after a moment. Visitors **don't** see it yet. |
 | Click the **eye icon** | A **live preview** opens beside the editor and updates as you type. Use the size menu at its top to check **Mobile**, **Tablet** and **Desktop**. |
 | Click **Publish changes** | Changes go **live within a few seconds**. |
-| **Publish changes ▾ → Schedule Publish** | Pick a date and time; changes go live automatically then. |
 | Leave without publishing | Your draft stays saved. Visitors keep seeing the last published version. |
 | **Versions** tab | Every published and saved version. Open one to compare, then **Restore** to bring it back. |
 
@@ -760,8 +753,8 @@ Messages can't be edited. Admins can delete them.
 
 ## 16. Users and passwords
 
-*Admins only.* **Settings → Users**:
-- **Add a person:** **Create New** → email, name, password, **Role** (*Editor* for content, *Admin* for everything) → **Save**. Give them the password securely and ask them to change it.
+**Settings → Users**:
+- **Add a person:** **Create New** → email, name, password → **Save**. Everyone you add has full access. Give them the password privately (not by email) and ask them to change it.
 - **Remove a person:** open the user → **⋯ → Delete**.
 - **Change your own password:** click your profile picture (top right) → **Account** → new password → **Save**.
 

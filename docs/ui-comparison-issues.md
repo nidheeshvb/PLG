@@ -100,7 +100,7 @@ This report compares every page of the static prototype (the visual source of tr
 <a id="foot-2"></a>
 ### FOOT-2: legal link wording in the footer
 
-- **Status**: Open, needs a decision (content, not layout). Tracked in the backlog as item 5: [backlog-footer-legal-wording.md](backlog-footer-legal-wording.md).
+- **Status**: Closed 2026-11-19: keep the Home/About wording (matches the approved design; PLG can change it in the CMS). Was backlog item 5: [backlog-footer-legal-wording.md](backlog-footer-legal-wording.md).
 - **What's different**:
   - `index.html` and `about.html` say "Privacy · Terms & Conditions · Cookies".
   - `team.html` (and the other later inner pages) say "Privacy Policy · Terms and Conditions · Cookies".

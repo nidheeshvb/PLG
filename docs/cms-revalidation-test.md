@@ -64,13 +64,13 @@ Fix the issues one at a time; when one is fixed, set its **Status** to Fixed, re
 | [REVAL-3](#reval-3) | ✅ Fixed | High | After a page's URL name changes, menus and buttons on other pages still link to the old URL (404) |
 | [REVAL-4](#reval-4) | ✅ Fixed | High | Unpublishing a page leaves it live |
 | [REVAL-5](#reval-5) | ✅ Fixed | Medium | Renaming a page doesn't update other pages that show its title (Legal document switcher) |
-| [REVAL-6](#reval-6) | Open | Medium | Scheduled publishing never happens: the queued job is never run (no jobs runner configured) |
+| [REVAL-6](#reval-6) | ✅ Closed 2026-11-19 (scheduling switched off) | Medium | Scheduled publishing never happens: the queued job is never run (no jobs runner configured) |
 | [CMS-1](#cms-1) | Open | Low | Legal "Text after the tag" can be filled in without a tag, but is then never shown |
 | [CMS-2](#cms-2) | Open | Medium | "Open in a new tab" is ignored on cards, link tiles (page links), the case study button, the Contact careers note and section menu links |
 | [CMS-3](#cms-3) | Open | Medium | Pages are fetched with depth 2, so every page embeds the full content of every page it links to (Home: 231 KB HTML, 40 KB visible) |
 | [CMS-4](#cms-4) | Open | Low | "Publish changes" is disabled for a moment after typing (autosave); a click then does nothing, without a message |
 | [CMS-5](#cms-5) | Open | Low | Breadcrumbs (URL, label) appear as editable fields on every page, but are overwritten on save |
-| [CMS-6](#cms-6) | Open (question) | — | Editors can delete pages (and other content). Intended? |
+| [CMS-6](#cms-6) | ✅ Closed 2026-11-19 (everyone is an admin) | — | Editors can delete pages (and other content). Intended? |
 
 **Suggested order:**
 1. REVAL-1 to REVAL-5: small hook changes, with a big effect for editors.
@@ -148,7 +148,7 @@ Fix the issues one at a time; when one is fixed, set its **Status** to Fixed, re
 <a id="reval-6"></a>
 ### REVAL-6: scheduled publishing
 
-- **Status**: Open (confirmed: scheduled publishing does not run)
+- **Status**: ✅ Closed 2026-11-19 (fix log #4). **Decision: scheduling is not used**, so `schedulePublish` was removed from Pages instead of adding a jobs runner. "Publish changes" has no Schedule Publish option any more
 - **Steps**:
   1. Our Story: change the headline (autosaved draft).
   2. **Publish changes ▾ → Schedule Publish → Publish**, 17 Nov 2026 11:45 PM, then Save.
@@ -209,7 +209,7 @@ Fix the issues one at a time; when one is fixed, set its **Status** to Fixed, re
 <a id="cms-6"></a>
 ### CMS-6 (question): editors can delete pages
 
-- **Status**: Open, needs a decision
+- **Status**: ✅ Closed 2026-11-19 (fix log #4). **Decision: no separate editor role**: everyone PLG adds gets full (admin) access, deleting included. New users default to Admin and the role choice is hidden
 - **What happens**: the seed editor can delete a page through the API (`Pages` `access.delete: isLoggedIn`, `collections/Pages/index.ts:30`). It's the same for the other content collections. The test deleted the Contact page in the local test database this way; it was restored from the backup.
 - **Question**: should deleting pages (and perhaps case studies, roles…) be admin-only? Editors could still hide sections or unpublish (once REVAL-4 is fixed).
 
@@ -1745,6 +1745,7 @@ Production build. For each kind of item: create a test item, check it shows, loa
 |---|---|---|---|---|---|
 | 1 | 2026-11-17 | — | Test run and report created. No code changes | `docs/cms-revalidation-test.md` | — |
 | 2 | 2026-11-18 | REVAL-3, REVAL-4, REVAL-5 | Pages compare the page's live (main) record before and after each save. A first publish, unpublish, URL/parent change, rename or new forwarding refreshes the whole site; a content-only publish refreshes that page; draft saves refresh nothing. Deleting a published page also refreshes the whole site | `web/src/collections/Pages/revalidate.ts`, `web/src/collections/Pages/index.ts` | ✅ 20/20 checks, 0.1–0.6 s |
+| 4 | 2026-11-19 | REVAL-6, CMS-6 | Pages: `schedulePublish` removed. Users: `role` defaults to `admin` and is hidden in the admin UI. Migration `20261119_174010_users_admin_default_no_scheduling` drops the unused `payload_jobs` tables and changes the default | `web/src/collections/Pages/index.ts`, `web/src/collections/Users.ts`, `web/src/migrations/` | ✅ user created without a role → admin; user form shows Email, Password, Name only; page "Publish changes" has no schedule option (headless Chrome, dev) |
 | 3 | 2026-11-18 | REVAL-2 | New `revalidateSiteAfterDelete` hook refreshes the whole site, registered as `afterDelete` on Partners, Team members, Open roles and Case studies | `web/src/lib/revalidate.ts`, `web/src/collections/{Partners,TeamMembers,Roles,CaseStudies}.ts` | ✅ 11/11 checks, 0.1–0.2 s |
 
 ## Restore (what was put back after testing)

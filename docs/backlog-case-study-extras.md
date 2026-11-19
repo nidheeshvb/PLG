@@ -1,6 +1,6 @@
 # Backlog: extra case study sections (switched off in the design)
 
-_Status: **waiting for a decision**: are these wanted? Last updated: 2026-11-16._
+_Status: **closed 2026-11-19**: not built. The approved design keeps these parts switched off and the site matches it, so PLG is not asked. Kept for reference in case PLG asks for them later. Last updated: 2026-11-19._
 
 The Our Work prototype (`our-work.html`) includes styles for several extra parts of the full case study view.
 Its own script keeps them hidden or never fills them in. The built site matches what the prototype actually

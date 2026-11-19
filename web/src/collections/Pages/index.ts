@@ -20,7 +20,8 @@ export const Pages: CollectionConfig = {
     preview: (doc) => previewUrl(doc),
   },
   versions: {
-    drafts: { autosave: { interval: 600 }, schedulePublish: true },
+    // No scheduled publishing (decision 2026-11-19, REVAL-6): changes go live when Publish is clicked.
+    drafts: { autosave: { interval: 600 } },
     maxPerDoc: 30,
   },
   access: {

@@ -76,7 +76,7 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
   <header class="top">
     <div class="brand"><i></i>PLG Acachet · Website rebuild</div>
     <h1>Website Technical Documentation</h1>
-    <div class="meta"><span>Last updated 18 November 2026</span><span class="pill">Step 9 complete: all pages built</span></div>
+    <div class="meta"><span>Last updated 19 November 2026</span><span class="pill">Step 9 complete: all pages built</span></div>
   </header>
 
   <nav class="toc" aria-label="Contents">
@@ -145,7 +145,7 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
         <li><b>Page name</b> and <b>URL name</b>. The web address is worked out automatically, including nested pages such as <code>/about/our-story</code> or <code>/legal/terms</code>. The breadcrumb at the top of inner pages is built from this page tree automatically.</li>
         <li><b>Sections</b>: the ordered list of content blocks.</li>
         <li><b>SEO</b>: page title, description and share image for search engines and social media.</li>
-        <li><b>Drafts, versions and scheduling</b>: changes save as drafts automatically, can be previewed live, published when ready or scheduled, and earlier versions can be restored.</li>
+        <li><b>Drafts and versions</b>: changes save as drafts automatically, can be previewed live, go live when published, and earlier versions can be restored.</li>
       </ul>
       <h3>Shared content</h3>
       <div class="table"><table>
@@ -200,19 +200,13 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
         <li>Open <b>Pages</b> and choose a page.</li>
         <li>Edit text and images inside a section. Drag sections to reorder, use <b>Add Section</b> to insert one, or use <b>Section settings → Hide this section</b> to take one off the page without deleting it.</li>
         <li>Click the <b>eye icon</b> for a <b>live preview</b> beside the editor, at desktop, tablet and mobile sizes. Changes save as a draft and are not public yet.</li>
-        <li>Click <b>Publish changes</b> to put them live, or schedule them.</li>
+        <li>Click <b>Publish changes</b> to put them live.</li>
         <li><b>Header &amp; footer</b> (under Settings) controls menus, footer links and the site-wide "Start a conversation" banner on every page.</li>
         <li>Messages from the website appear under <b>Inbox → Form messages</b>.</li>
       </ol>
       <p class="note">A detailed, plain-language <b>Content Editor Guide</b> (every section and option, buttons, images, publishing, and what each change affects) is provided separately for the content team.</p>
-      <h3>User roles</h3>
-      <div class="table"><table>
-        <thead><tr><th>Role</th><th>Can do</th></tr></thead>
-        <tbody>
-          <tr><td>Admin</td><td class="wrap">Everything, including managing user accounts</td></tr>
-          <tr><td>Editor</td><td class="wrap">All website content (pages, sections, images, case studies, logos, team members, open roles, header and footer) and reading form messages and job applications; cannot manage users</td></tr>
-        </tbody>
-      </table></div>
+      <h3>User accounts</h3>
+      <p>Every account has full access: all website content, form messages and job applications, and adding or removing other accounts. PLG receives one account and adds the rest.</p>
     </section>
 
     <section id="features">
@@ -234,7 +228,7 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
       <h2><span>07</span>Security</h2>
       <ul>
         <li>The CMS requires sign-in. Passwords are hashed and sessions are signed with a secret key.</li>
-        <li>Role-based permissions (Admin and Editor). Form messages can only be created by the website's form, never through the CMS API.</li>
+        <li>Only signed-in users can change content; everyone PLG adds has full access. Form messages can only be created by the website's form, never through the CMS API.</li>
         <li>Draft content is visible only to signed-in users through preview; the public site shows published content only.</li>
         <li>Secrets such as the database connection and signing keys live in environment variables, never in the code.</li>
         <li><code>/admin</code>, <code>/api</code> and the preview routes are excluded from search engines.</li>
@@ -309,23 +303,15 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
 
     <section id="needed">
       <h2><span>10</span>Needed from PLG Acachet</h2>
-      <p>The full list, with the questions to answer for each item and the priority for launch, is in the separate document &ldquo;Decisions and content we need from you&rdquo;. In short:</p>
+      <p>The full list is in the separate document &ldquo;What we need from you&rdquo;. In short:</p>
       <ul class="checks">
-        <li>Approved copy, figures and case study content where the prototype has placeholders (About: the Mujtamae report card is an illustrative mock-up; please confirm its figures or wording).</li>
-        <li>Real social media links (currently placeholders), including each team member's LinkedIn / Instagram / X profile.</li>
-        <li>Team bios (50–70 words each), confirmation of the org chart reporting lines, and photos for Sherif Saed and Emma Valdez.</li>
-        <li>Confirmation of the office details on the Contact page (email, phone, address and hours are the ones in the design).</li>
-        <li>Legal wording for Terms, Privacy and Cookies approved by counsel: the pages hold the design's outline and placeholder text, plus the real "last updated" and "effective from" dates and version. And the chosen cookie-consent platform, which connects the "Manage Cookie Preferences" button and the cookie list.</li>
-        <li>Where form messages should go besides the CMS inbox: HubSpot (account access, which forms, field mapping, consent settings), notification email addresses, careers system.</li>
-        <li>Whether scheduled publishing is needed, whether editors may delete pages, whether an Arabic version is planned, and the list of old website addresses to redirect (if a site exists today).</li>
-        <li>The real open roles with descriptions (the six on the site come from the design and have no descriptions yet).</li>
-        <li>Case studies: key visuals for G42, Pizza Hut and Red Bull (library photos for now), project photos for each gallery (library shots for now), and confirmation of the facts shown in [square brackets], such as years.</li>
-        <li>Whether the extra case study sections in the design are wanted (Mujtamae link, idea line, operating model).</li>
-        <li>The wording of the footer legal links: &ldquo;Privacy &middot; Terms &amp; Conditions &middot; Cookies&rdquo; (as now) or &ldquo;Privacy Policy &middot; Terms and Conditions &middot; Cookies&rdquo; (most of the design&rsquo;s pages).</li>
-        <li>CV upload decisions: whether to accept CVs, who may download them, how long they are kept, consent wording, applicant-tracking system, notification email, and access to a private S3 bucket.</li>
-        <li>Approval of the proposed AWS hosting setup, expected monthly visitors (to size the server and estimate cost), and the domain.</li>
-        <li>Names and email addresses of people who need CMS accounts, and their roles.</li>
+        <li><b>Forms:</b> what should happen when each form is sent (Home enquiry, Contact page, job application), for example add to HubSpot, email an address, or send to a recruiting system. Then the access or addresses that need.</li>
+        <li><b>CV box</b> on the job application form: whether CVs should be received, who may open them, how long they are kept, and the file rules.</li>
+        <li><b>Visitor statistics and cookies:</b> a Google Analytics account and a free Cookiebot account in PLG&rsquo;s name, with access for us, and any other tracking tools PLG uses.</li>
+        <li><b>Footer social icons:</b> the links to PLG&rsquo;s real Instagram and LinkedIn pages.</li>
+        <li><b>CMS:</b> the name and email for the first account.</li>
       </ul>
+      <p class="note">Already decided: no scheduled publishing, no Arabic version, legal wording written by PLG&rsquo;s counsel, and everyone PLG adds to the CMS has full access. Hosting is handled separately. Placeholder content that the design itself marks (team bios and social links, job descriptions, three case study key visuals, gallery photos, &ldquo;[to confirm]&rdquo; facts, legal text) is entered by PLG directly in the CMS.</p>
     </section>
   </main>
 

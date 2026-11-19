@@ -1,6 +1,6 @@
 # PLG Acachet Website — Technical Documentation
 
-_Last updated: 18 November 2026 · Status: Phase 1, step 9 (Legal pages) complete: every page is built_
+_Last updated: 19 November 2026 · Status: Phase 1, step 9 (Legal pages) complete: every page is built_
 
 ---
 
@@ -46,7 +46,7 @@ Each page has:
 - **Page name** and **URL name** (the web address is worked out automatically, including nested pages such as `/about/our-story` or `/legal/terms`). Pages can sit under a parent page; the breadcrumb at the top of inner pages is built from this page tree automatically.
 - **Sections** — the ordered list of content blocks.
 - **SEO** — page title, description and share image for search engines and social media.
-- **Drafts, versions and scheduling** — changes are saved as drafts automatically, can be previewed live, published when ready, scheduled for later, and earlier versions can be restored.
+- **Drafts and versions** — changes are saved as drafts automatically, can be previewed live, go live when published, and earlier versions can be restored.
 
 ### 4.2 Shared content
 | Collection | Used for |
@@ -96,17 +96,14 @@ Every page of the design is built. New sections or styles can be added on reques
 2. Open **Pages** and choose a page.
 3. Edit text and images inside a section; drag sections to reorder; use **Add Section** to insert a new one; use **Section settings → Hide this section** to take one off the page without deleting it.
 4. Click the **eye icon** to see a **live preview** next to the editor (desktop, tablet and mobile sizes). Changes are saved as a draft automatically and are **not public** yet.
-5. Click **Publish changes** to put the changes live (or schedule them).
+5. Click **Publish changes** to put the changes live.
 6. **Header & footer** (under Settings) controls menus, footer links and the site-wide "Start a conversation" banner on every page.
 7. Messages sent through the website appear under **Inbox → Form messages**.
 
 A detailed, plain-language **Content Editor Guide** (every section and option, buttons, images, publishing, and what each change affects) is provided separately for the content team (`docs/editor-guide.md`).
 
-### User roles
-| Role | Can do |
-|---|---|
-| Admin | Everything, including managing user accounts |
-| Editor | All website content (pages, sections, images, case studies, logos, team members, open roles, header & footer) and read form messages and job applications; cannot manage users |
+### User accounts
+Every account has full access: all website content, form messages and job applications, and adding or removing other accounts. PLG receives one account and adds the rest.
 
 ## 6. Website features
 
@@ -123,7 +120,7 @@ A detailed, plain-language **Content Editor Guide** (every section and option, b
 ## 7. Security
 
 - CMS access requires sign-in; passwords are hashed; sessions are signed with a secret key.
-- Role-based permissions (Admin / Editor). Form messages cannot be created or edited through the CMS API, only by the website's form.
+- Only signed-in users can change content; everyone PLG adds has full access. Form messages cannot be created or edited through the CMS API, only by the website's form.
 - Draft content is visible only to signed-in users (via preview); the public site shows published content only.
 - Secrets (database connection, signing keys) are kept in environment variables, never in the code.
 - `/admin`, `/api` and preview routes are excluded from search engines.
@@ -191,19 +188,12 @@ The design includes a CV upload (PDF/Word, up to 10 MB). It is **on hold** until
 
 ## 10. Items needed from PLG Acachet
 
-The full list, with the questions to answer for each item and the priority for launch, is in the separate document **"Decisions and content we need from you"** (`docs/client-action-items.md`). In short:
+The full list is in the separate document **"What we need from you"** (`docs/client-action-items.md`, also shared as a Google Doc). In short:
 
-- Approved copy, figures and case study content where the prototype has placeholders (About: the Mujtamae report card is an illustrative mock-up; confirm its figures or wording).
-- Real social media links (currently placeholders), including each team member's LinkedIn / Instagram / X profile.
-- Team bios (50–70 words each) and confirmation of the org chart reporting lines; photos for Sherif Saed and Emma Valdez.
-- Confirmation of the office details on the Contact page (email, phone, address and hours are the ones in the design).
-- Legal wording (Terms, Privacy, Cookies) approved by counsel: the pages contain the design's outline and placeholder text, plus the real "last updated" / "effective from" dates and version. And the chosen cookie-consent platform (connects the "Manage Cookie Preferences" button and the cookie list).
-- Where form messages should go besides the CMS inbox: HubSpot (account access, which forms, field mapping, consent settings), notification email addresses, careers system.
-- Whether scheduled publishing is needed, whether editors may delete pages, whether an Arabic version is planned, and the list of old website addresses to redirect (if a site exists today).
-- The real open roles with descriptions (the six on the site come from the design and have no descriptions yet).
-- Case studies: key visuals for G42, Pizza Hut and Red Bull (library photos for now), project photos for each gallery (library shots for now), and confirmation of the facts shown in [square brackets] (e.g. years).
-- Whether the extra case study sections in the design are wanted (Mujtamae link, idea line, operating model): see the backlog.
-- The wording of the footer legal links: "Privacy · Terms & Conditions · Cookies" (as now) or "Privacy Policy · Terms and Conditions · Cookies" (most of the design's pages). See `docs/backlog-footer-legal-wording.md`.
-- CV upload decisions (`docs/backlog-cv-upload.md`): whether to accept CVs, who may download them, how long they are kept, consent wording, applicant-tracking system, notification email, and access to a private S3 bucket.
-- Approval of the proposed AWS hosting setup, expected monthly visitors (to size the server and estimate cost), and the domain.
-- Names and email addresses of people who need CMS accounts, and their roles.
+- **Forms:** what should happen when each form is sent (Home enquiry, Contact page, job application), for example add to HubSpot, email an address, or send to a recruiting system. Then the access or addresses that need.
+- **CV box** on the job application form: whether CVs should be received, who may open them, how long they are kept, and the file rules.
+- **Visitor statistics and cookies:** a Google Analytics account and a free Cookiebot account in PLG's name, with access for us, and any other tracking tools PLG uses.
+- **Footer social icons:** the links to PLG's real Instagram and LinkedIn pages.
+- **CMS:** the name and email for the first account.
+
+Already decided: no scheduled publishing, no Arabic version, legal wording written by PLG's counsel, and everyone PLG adds to the CMS has full access. Hosting is handled separately. Placeholder content that the design itself marks (team bios and social links, job descriptions, three case study key visuals, gallery photos, "[to confirm]" facts, legal text) is entered by PLG directly in the CMS.

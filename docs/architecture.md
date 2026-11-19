@@ -1,6 +1,6 @@
 # PLG Acachet Website — Architecture
 
-_Last updated: 18 November 2026 · Covers Phase 1, steps 1–9 (foundation and every page: Home, About, Our Story, The Team, Join Us, Services, Our Work, Contact and Legal) and the proposed AWS production setup_
+_Last updated: 19 November 2026 · Covers Phase 1, steps 1–9 (foundation and every page: Home, About, Our Story, The Team, Join Us, Services, Our Work, Contact and Legal) and the proposed AWS production setup_
 
 This document describes **how the application is built** (Part A) and **how it is hosted** (Part B).
 It contains no secrets and can be shared with the client. Diagrams use Mermaid (they render on GitHub, GitLab and most Markdown viewers).
@@ -116,7 +116,7 @@ erDiagram
 
 | Entity | Key fields | Notes |
 |---|---|---|
-| Pages | title, slug, parent, path (computed), layout (sections), meta (SEO) | Drafts, autosave, versions, scheduled publish |
+| Pages | title, slug, parent, path (computed), layout (sections), meta (SEO) | Drafts, autosave, versions (no scheduled publish) |
 | Section (block) | blockType + its fields + Section settings (anchorId, navLabel, theme, hideSection) | Stored inside the page |
 | Case studies | title, slug, cardTitle, summary, client, services[], image, video, wide, keyVisualPending, market, year, brief, approach, results[], points[], gallery[], still, film, captions, metaDescription, sortOrder | Tiles (Home, Our Work) and the full case study at `/our-work#case-<slug>`; `[brackets]` = to be confirmed |
 | Partners | name, logo, height, mobileHeight, sortOrder | |
@@ -124,7 +124,7 @@ erDiagram
 | Open roles | title, team (commercial / delivery / creative / analytics), location, employmentType, summary, points[], isOpen, sortOrder | Join Us "Open roles" list and the application form's role list (only `isOpen`) |
 | Media | file, alt, focal point | Images, SVG, MP4/WebM |
 | Form submissions | form (enquiry / application), name, email, phone, company, interests, consent, role, discipline, profileLink, message, page | Created only by the website. Application fields shown only for job applications. No CV file yet: the form shows the CV field, but the file is not sent (backlog) |
-| Users | email, password, name, role (admin / editor) | |
+| Users | email, password, name, role (admin / editor; defaults to admin and is hidden: everyone PLG adds has full access) | |
 | Site settings (global) | headerLinks (+ subLinks for the mobile menu), mobileMenuNote, cta (site-wide call to action), company (name, email, address, phone), footerLinks, legalLinks, social, copyright | |
 
 **Page addresses** are computed, not typed: `home` → `/`; other pages → their nested path (e.g. `/about/our-story`, `/legal/terms`), stored in `path` and used for lookups. Our Story, The Team and Join Us are children of About.
@@ -240,7 +240,7 @@ Later: notification email and CRM/careers-system hand-off from the same server a
 | Area | Measure |
 |---|---|
 | Authentication | Payload auth (hashed passwords, signed sessions via `PAYLOAD_SECRET`) |
-| Authorisation | Admin: everything. Editor: content only. Public: published pages and media only |
+| Authorisation | Admin (every account PLG creates): everything. Editor role kept in code, unused. Public: published pages and media only |
 | Drafts | Readable only by signed-in users; preview route protected by `PREVIEW_SECRET` |
 | Form messages | API create/update disabled; only the server action can create them |
 | Secrets | Environment variables only; `.env` never committed |
