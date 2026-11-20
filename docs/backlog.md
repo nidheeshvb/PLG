@@ -1,6 +1,6 @@
 # Backlog: features waiting for a decision
 
-_Last updated: 19 November 2026_
+_Last updated: 20 November 2026_
 
 **Client-facing version:** [client-action-items.md](client-action-items.md) is the plain-language list PLG answers (reviewed with the user on 2026-11-19): what each form should do, the CV box, Cookiebot + Google Analytics accounts, footer social links, and the first CMS account.
 
@@ -13,6 +13,7 @@ Each item links to a detail doc. That doc covers what is built, what is skipped,
 | 1 | CV upload | Join Us → "Send us your profile" form | ✅ Drop zone shown (file name and size after picking) | The file is not sent, stored or shown in Form messages | Client: retention, access, consent, ATS; AWS: private S3 bucket | [backlog-cv-upload.md](backlog-cv-upload.md) |
 | 2 | Form notifications / CRM hand-off | All forms (Home enquiry, Contact detailed enquiry, job application) | ✅ Forms work; messages saved to Inbox → Form messages | No email to PLG, no HubSpot (CRM) or careers-system hand-off | Client: what each form should do (HubSpot, an email address, a recruiting system), then access / addresses / SES details | Asked in [client-action-items.md](client-action-items.md) section 1 (one row per form); detail doc to write when picked up (SMTP adapter is already env-gated: `integrations/email.ts`; HubSpot goes in `integrations/hubspot.ts` behind an env var) |
 | 3 | Cookie consent and analytics | Whole site; Legal → Cookies | ✅ "Manage Cookie Preferences" button and cookie table on the Cookies page (button shows a "not connected yet" note); no consent banner (not in the prototype) | Consent banner, opening the preferences panel, analytics tags, the real cookie list | **Decided 2026-11-19:** Google Analytics 4 + Cookiebot (free plan), no ad tags. Waiting for PLG to create both accounts and add us (and to name any other tracking tools) | Detail doc to write when picked up (Cookiebot free: 1 domain, ≤50 pages, consent renewed monthly, manual blocking; GA4 through Google Consent Mode) |
+| 6 | Case study tile labels (accessibility, WCAG 2.5.3) | Our Work → case study tiles | ✅ Tiles exactly as the prototype (nothing visible would change) | The hidden screen-reader label doesn't contain the tile's visible text ("Explore Project", client); voice-control commands may not work. Raised by the dev team from the 20 Nov axe scan (E2E-8-5) | **Decided 2026-11-20 by the project lead: keep the prototype markup.** Revisit if PLG asks for an accessibility audit/certification | [backlog-case-tile-labels.md](backlog-case-tile-labels.md) |
 
 ## Closed
 

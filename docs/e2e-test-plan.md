@@ -22,7 +22,7 @@ Every kind of test the site should pass before it goes live, in one list so we c
 |---|---|---|---|---|---|
 | 73 | 13 | 26 | 39 | 16 | 10 |
 
-**Now:** Fixing issues one by one (see the Fix log). Done: E2E-13-1, E2E-3-1 (18 Nov); on 20 Nov (fix #3) E2E-10-1, E2E-13-2, E2E-11-1, E2E-11-3, E2E-11-4, E2E-11-5, E2E-3-2, E2E-3-3, E2E-3-4, E2E-5-1, E2E-6-1, E2E-8-2, E2E-8-3, E2E-8-4. E2E-11-2 (Node + Payload upgrade) fixed the same day (fix #4). Still open in code: E2E-8-5 (tile labels), E2E-9-1 (phone video + first-screen fade, needs a decision), E2E-1-1 (Next.js 404 shell, investigated). Waiting for hosting: E2E-9-2, E2E-10-2. Waiting for a decision: E2E-8-1, E2E-5-2, E2E-10-3. The counts above are from the 18 Nov round.
+**Now:** Fixing issues one by one (see the Fix log). Done: E2E-13-1, E2E-3-1 (18 Nov); on 20 Nov (fix #3) E2E-10-1, E2E-13-2, E2E-11-1, E2E-11-3, E2E-11-4, E2E-11-5, E2E-3-2, E2E-3-3, E2E-3-4, E2E-5-1, E2E-6-1, E2E-8-2, E2E-8-3, E2E-8-4. E2E-11-2 (Node + Payload upgrade) fixed the same day (fix #4). E2E-8-5 (tile labels) kept as the prototype by decision. Still open in code: E2E-9-1 (phone video + first-screen fade, needs a decision), E2E-1-1 (Next.js 404 shell, investigated). Waiting for hosting: E2E-9-2, E2E-10-2. Waiting for a decision: E2E-8-1, E2E-5-2, E2E-10-3. The counts above are from the 18 Nov round.
 
 This round runs on this machine (production build, Chrome only). Tests that need AWS stay ⬜ "needs staging". Failures are recorded, not fixed, in [Issues found](#issues-found). The [Run log](#run-log) shows the order of work.
 <!-- progress:end -->
@@ -370,7 +370,7 @@ Decisions needed from PLG or you before some tests can run:
 3. ~~**E2E-11-2**~~ ✅ fixed 20 Nov (fix #4): Node 22.23.5, Payload 3.94.0, sharp 0.35.5; suite re-run.
 4. **Visible to visitors**: ~~E2E-3-2, E2E-5-1, E2E-6-1, E2E-8-2, E2E-8-3~~ ✅ fixed 20 Nov. Left: E2E-9-1 (phone LCP): needs a phone version of the showreel (no video tool on this machine) and a decision on the first-screen fade-in, which is part of the approved design.
 5. **Design decision with PLG**: E2E-8-1 (contrast), E2E-5-2 (upload limit), E2E-10-3 (case study share links).
-6. **The low ones**: ~~E2E-3-3, E2E-3-4, E2E-8-4, E2E-11-4, E2E-11-5~~ ✅ fixed 20 Nov. Left: E2E-8-5 (found 20 Nov), E2E-1-1 (investigated), E2E-4-1 (no fix needed), E2E-9-2 and E2E-10-2 (hosting). Then E2E-4-2 after the manual check.
+6. **The low ones**: ~~E2E-3-3, E2E-3-4, E2E-8-4, E2E-11-4, E2E-11-5~~ ✅ fixed 20 Nov. Left: E2E-1-1 (investigated), E2E-4-1 (no fix needed), E2E-9-2 and E2E-10-2 (hosting). Then E2E-4-2 after the manual check.
 
 | ID | Test | Status | Severity | Summary |
 |---|---|---|---|---|
@@ -390,7 +390,7 @@ Decisions needed from PLG or you before some tests can run:
 | [E2E-8-2](#e2e-8-2) | 8.7 | ✅ Fixed 20 Nov | Medium | Form errors aren't announced to screen readers (Home and Join Us mark nothing; no form links errors to fields) |
 | [E2E-8-3](#e2e-8-3) | 8.2 | ✅ Fixed 20 Nov | Low | Home banner "Scroll to content" and "Pause background video" can be focused with the keyboard but stay invisible |
 | [E2E-8-4](#e2e-8-4) | 8.1 | ✅ Fixed 20 Nov | Low | Smaller axe findings: 2 scroll areas not keyboard-reachable, heading level skips (Team, Join Us), Contact details list structure |
-| [E2E-8-5](#e2e-8-5) | 8.1 | Open | Low | Our Work case study tiles: the name read by screen readers doesn't contain the text shown on the tile (WCAG 2.5.3 Label in Name) |
+| [E2E-8-5](#e2e-8-5) | 8.1 | Decided: keep as designed | Low | Our Work case study tiles: the name read by screen readers doesn't contain the text shown on the tile (WCAG 2.5.3 Label in Name) |
 | [E2E-9-1](#e2e-9-1) | 9.2 | Open | Medium | Phone LCP 2.8–4.0 s in Lighthouse (target 2.5 s): the main text fades in, and Home downloads the 4.5 MB desktop video |
 | [E2E-9-2](#e2e-9-2) | 9.6 | Open | Medium | Uploaded files (/api/media/file/…) are sent with no cache headers, and 404 pages are cached for a year |
 | [E2E-10-1](#e2e-10-1) | 10.9 | ✅ Fixed 20 Nov | **High** (before staging) | Nothing keeps a staging site out of search engines: robots.txt allows everything and pages have no noindex |
@@ -777,7 +777,7 @@ Decisions needed from PLG or you before some tests can run:
 <a id="e2e-8-5"></a>
 ### E2E-8-5: case study tile names don't contain their visible text
 
-- **Status**: Open (low). Found 20 Nov by the full axe scan (rule `label-content-name-mismatch`, not in the 18 Nov rule set). Not changed by the 20 Nov fixes.
+- **Status**: **Decided 20 Nov: keep as the prototype** (user decision, won't fix). The prototype builds the tile the same way (`our-work.html` line 911: `aria-label="${esc(c.t)}: view case study"`), and the site copies the approved source exactly. Found 20 Nov by the full axe scan (rule `label-content-name-mismatch`, not in the 18 Nov rule set). Expect this finding in future axe runs on Our Work. Kept in the backlog as item 6 with the proposed fix: [backlog-case-tile-labels.md](backlog-case-tile-labels.md).
 - **What happens**: each Our Work tile is a `<button>` with `aria-label="<title>: view case study"`, but it also shows the number, client, tags, "Key visual to come" and the summary. People who use voice control say what they see ("click Explore Project", "click UCI"), which may not match the name.
 - **Where**: `blocks/CaseStudyGrid/CaseStudyGridClient.tsx` (tile button). Flagged on 1 tile at 1440 and 2 at 375 (the ones axe checked fully).
 - **Suggested fix**: drop the `aria-label` and let the visible text name the button (or start the label with the visible title and client), then re-run axe on Our Work.
