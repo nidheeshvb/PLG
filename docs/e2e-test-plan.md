@@ -22,7 +22,7 @@ Every kind of test the site should pass before it goes live, in one list so we c
 |---|---|---|---|---|---|
 | 73 | 13 | 26 | 39 | 16 | 10 |
 
-**Now:** Fixing issues one by one (see the Fix log). Done: E2E-13-1, E2E-3-1 (18 Nov); on 20 Nov (fix #3) E2E-10-1, E2E-13-2, E2E-11-1, E2E-11-3, E2E-11-4, E2E-11-5, E2E-3-2, E2E-3-3, E2E-3-4, E2E-5-1, E2E-6-1, E2E-8-2, E2E-8-3, E2E-8-4. Still open in code: E2E-11-2 (Node + Payload upgrade), E2E-9-1 (phone video + first-screen fade, needs a decision), E2E-1-1 (Next.js 404 shell, investigated). Waiting for hosting: E2E-9-2, E2E-10-2. Waiting for a decision: E2E-8-1, E2E-5-2, E2E-10-3. The counts above are from the 18 Nov round.
+**Now:** Fixing issues one by one (see the Fix log). Done: E2E-13-1, E2E-3-1 (18 Nov); on 20 Nov (fix #3) E2E-10-1, E2E-13-2, E2E-11-1, E2E-11-3, E2E-11-4, E2E-11-5, E2E-3-2, E2E-3-3, E2E-3-4, E2E-5-1, E2E-6-1, E2E-8-2, E2E-8-3, E2E-8-4. E2E-11-2 (Node + Payload upgrade) fixed the same day (fix #4). Still open in code: E2E-8-5 (tile labels), E2E-9-1 (phone video + first-screen fade, needs a decision), E2E-1-1 (Next.js 404 shell, investigated). Waiting for hosting: E2E-9-2, E2E-10-2. Waiting for a decision: E2E-8-1, E2E-5-2, E2E-10-3. The counts above are from the 18 Nov round.
 
 This round runs on this machine (production build, Chrome only). Tests that need AWS stay ⬜ "needs staging". Failures are recorded, not fixed, in [Issues found](#issues-found). The [Run log](#run-log) shows the order of work.
 <!-- progress:end -->
@@ -247,7 +247,7 @@ Target: WCAG 2.2 AA.
 | 11.9 | Forms: no injection, size limits, honeypot, rate limit (3.3, 3.4, 3.11) | Must | Local, Staging | ✅ forms: server checks, honeypot, length caps (3.3–3.4); rate limit on staging (3.11) |
 | 11.10 | Secrets: none in the repo, the browser bundle or error pages; production `.env` values are new (not the local ones) | Must | Staging | ✅ only .env.example in git; no secret value in the browser bundle (5 checked) |
 | 11.11 | Error pages show no stack traces or server details | Must | Prod | ✅ no stack traces; depth=999 is capped at 3 and answers normally (E2E-11-5 fixed 20 Nov, fix log #3) |
-| 11.12 | `npm audit` / dependency check; plan for Payload + Node upgrade (pinned 3.91, Node 22.17) | Must | Local | ❌ 24 vulnerabilities (19 high) in production packages (E2E-11-2) |
+| 11.12 | `npm audit` / dependency check; plan for Payload + Node upgrade (pinned 3.91, Node 22.17) | Must | Local | ✅ fixed 20 Nov (fix log #4): Node 22.23.5, Payload 3.94.0, sharp 0.35.5 + happy-dom override → production packages 0 high, 5 moderate (all packages: 0 high, 12 moderate) (E2E-11-2) |
 | 11.13 | S3 bucket: no public listing; only media is public; CloudFront origin access | Must | Staging | ⬜ needs staging |
 | 11.14 | Database (RDS) not reachable from the internet; EC2 security groups minimal; SSH closed or limited | Must | Staging | ⬜ needs staging |
 | 11.15 | WAF rules (if used): admin login, forms, bad bots | Should | Staging | ⬜ needs staging |
@@ -367,7 +367,7 @@ Decisions needed from PLG or you before some tests can run:
 **Suggested fix order**:
 1. ~~**E2E-13-1** (blocker)~~ and ~~**E2E-3-1**~~ ✅ fixed 18 Nov.
 2. ~~**Before staging goes up**: E2E-10-1, E2E-13-2, E2E-11-1, E2E-11-3~~ ✅ fixed 20 Nov (fix #3). On staging: set `SITE_INDEXING=off`, then switch the CSP from report-only to enforced once it shows no reports.
-3. **E2E-11-2**: upgrade Node, then Payload and sharp (also unlocks newer Payload fixes). Rerun the suite after.
+3. ~~**E2E-11-2**~~ ✅ fixed 20 Nov (fix #4): Node 22.23.5, Payload 3.94.0, sharp 0.35.5; suite re-run.
 4. **Visible to visitors**: ~~E2E-3-2, E2E-5-1, E2E-6-1, E2E-8-2, E2E-8-3~~ ✅ fixed 20 Nov. Left: E2E-9-1 (phone LCP): needs a phone version of the showreel (no video tool on this machine) and a decision on the first-screen fade-in, which is part of the approved design.
 5. **Design decision with PLG**: E2E-8-1 (contrast), E2E-5-2 (upload limit), E2E-10-3 (case study share links).
 6. **The low ones**: ~~E2E-3-3, E2E-3-4, E2E-8-4, E2E-11-4, E2E-11-5~~ ✅ fixed 20 Nov. Left: E2E-8-5 (found 20 Nov), E2E-1-1 (investigated), E2E-4-1 (no fix needed), E2E-9-2 and E2E-10-2 (hosting). Then E2E-4-2 after the manual check.
@@ -398,7 +398,7 @@ Decisions needed from PLG or you before some tests can run:
 | [E2E-10-3](#e2e-10-3) | 10.4 | Decision | Low | A shared case study link previews as the Our Work page (the case is in the #part of the URL) |
 | [E2E-13-2](#e2e-13-2) | 13.3 | ✅ Fixed 20 Nov | Medium | No start-up check of required settings: without NEXT_PUBLIC_SITE_URL the canonical links, sitemap, robots.txt and share images silently use localhost |
 | [E2E-11-1](#e2e-11-1) | 11.1 | ✅ Fixed 20 Nov | **High** | No security headers on any response (HSTS, CSP, frame protection…), and the server advertises "Next.js, Payload" |
-| [E2E-11-2](#e2e-11-2) | 11.12 | Open | **High** | npm audit: 24 known vulnerabilities in production packages (19 high), mostly fixed by the Node + Payload upgrade |
+| [E2E-11-2](#e2e-11-2) | 11.12 | ✅ Fixed 20 Nov | **High** | npm audit: 24 known vulnerabilities in production packages (19 high), mostly fixed by the Node + Payload upgrade |
 | [E2E-11-3](#e2e-11-3) | 11.4 | ✅ Fixed 20 Nov | Medium | The CMS has no CORS/CSRF allow-list: Payload warns "Request origin … is not in the CORS/CSRF allowlist" |
 | [E2E-11-4](#e2e-11-4) | 11.8 | ✅ Fixed 20 Nov | Low | Button links and rich-text links accept `javascript:` addresses (React neutralises them on the page) |
 | [E2E-11-5](#e2e-11-5) | 11.11 | ✅ Fixed 20 Nov | Low | `/api/pages?depth=999` answers 500 instead of a clear 400 |
@@ -406,7 +406,7 @@ Decisions needed from PLG or you before some tests can run:
 <a id="e2e-1-1"></a>
 ### E2E-1-1: 404 page is blank without JavaScript
 
-- **Status**: Open (low). **Investigated 20 Nov**: even a minimal page that only calls `notFound()`, with a minimal `not-found.tsx` (a single paragraph) placed at the root of `(frontend)` or next to the page, gives the same empty `__next_error__` shell (status 404, the "Page not found." tree is in the page data and drawn by the browser). So it isn't our page or layout code but how Next.js 16.4 renders not-found for a root layout inside a route group (this app has two root layouts: site and CMS). Next step: retry after the Next.js upgrade (E2E-11-2), or try `global-not-found.js` (experimental) for unmatched addresses
+- **Status**: Open (low). **Investigated 20 Nov**: even a minimal page that only calls `notFound()`, with a minimal `not-found.tsx` (a single paragraph) placed at the root of `(frontend)` or next to the page, gives the same empty `__next_error__` shell (status 404, the "Page not found." tree is in the page data and drawn by the browser). So it isn't our page or layout code but how Next.js 16.4 renders not-found for a root layout inside a route group (this app has two root layouts: site and CMS). Re-checked after the Payload 3.94 upgrade (fix #4): unchanged. Next step: try `global-not-found.js` (experimental) for unmatched addresses, or a newer Next.js
 - **Steps**: request any unknown address, e.g. `/qz-does-not-exist`, and read the HTML the server sends.
 - **Expected**: the custom "404 · Page not found." page with header and footer in the HTML, status 404.
 - **Actual**:
@@ -728,7 +728,7 @@ Decisions needed from PLG or you before some tests can run:
 <a id="e2e-11-2"></a>
 ### E2E-11-2: known vulnerabilities in dependencies
 
-- **Status**: Open (high)
+- **Status**: ✅ Fixed 20 Nov (fix log #4). Node 22.23.5 installed (winget, official nodejs.org installer), all `@payloadcms/*` + `payload` 3.94.0, sharp 0.35.5. That left 3 high advisories, all `happy-dom` 20.14.6 inside `@lexical/headless` (Payload's pinned Lexical 0.50 asks for 20.x); `package.json` `overrides` pins it to the patched 21.0.4. Now `npm audit --omit=dev`: **0 high, 5 moderate** (build/CLI tooling, no fix yet); all packages: 0 high, 12 moderate. Remove the override once Payload ships a Lexical that requires happy-dom ≥ 21.0.4
 - **What happens**: `npm audit --omit=dev` reports 24 vulnerabilities: 19 high, 5 moderate, 0 critical.
 - **Fixes available**:
   - **Payload 3.94** fixes `payload` (undici, json-schema-to-typescript, tinyglobby) and the `happy-dom` advisories in `@payloadcms/richtext-lexical`. Payload is pinned at 3.91 because 3.92+ needs Node ≥ 22.23.4 (this machine has 22.17), so this needs the **Node upgrade** first.
@@ -858,6 +858,25 @@ This machine's database was converted with it | `web/scripts/db.mjs`, new `web/s
 | Temporary page deleted | ✅ 404 on the site; 12 pages, no test messages left |
 | Full axe scan (WCAG 2.0/2.1/2.2 A + AA + best practice), 11 pages × 1440 + 375 | 🟡 only colour contrast (E2E-8-1, design decision) and one new finding on Our Work tiles (**E2E-8-5**, existed before) |
 | Security headers on `/`, `/about`, `/admin`; depth=999; robots.txt; CSRF; link validation; CSP reports | ✅ all six headers, no X-Powered-By; 200; `Allow: /`; cookie ignored from another origin; `javascript:` refused; 0 reports |
+| 4 | 2026-11-20 | E2E-11-2 | Node 22.17.1 → **22.23.5** (winget `OpenJS.NodeJS.22`); `payload` + all `@payloadcms/*` 3.91.0 → **3.94.0**; sharp 0.35.4 → **0.35.5**; `overrides`: `@lexical/headless` → `happy-dom` 21.0.4; `engines.node` = Payload's range | `web/package.json`, `web/package-lock.json` | ✅ details below |
+
+**Re-test of fix #4** (production build unless noted):
+
+| Check | Result |
+|---|---|
+| `npm audit --omit=dev` | ✅ 0 high (was 19), 5 moderate; all packages 0 high, 12 moderate |
+| `npm run typecheck`, `lint`, `build`, `generate:types` (no change), `generate:importmap` (no change) | ✅ |
+| `migrate:create --skip-empty` against the migrations | ✅ no schema change |
+| Empty UTF-8 database → `payload migrate` with 3.94 → schema vs the local database | ✅ both migrations ran; 1564 columns, 303 enum values, 589 indexes, 368 constraints, 0 differences |
+| Security, forms, CMS script (CSRF, link validation, CSP, page weight, 3 forms, Contact choices, REVAL-1, breadcrumbs) | ✅ all pass |
+| Join Us form | ✅ all pass (the very first run failed 5 checks because the click landed before the page had loaded its JavaScript on a cold server; passed on both re-runs) |
+| "Open in a new tab" in 6 places, content put back | ✅ 6/6 |
+| Admin: edit + autosave + publish, live preview, tag field, LinkedIn error | ✅ all pass |
+| Rich-text `javascript:` link and link Web address (exercise the happy-dom override) | ✅ refused, nothing saved |
+| Full axe scan, 11 pages × 2 widths | ✅ same as before the upgrade: colour contrast (E2E-8-1) + Our Work tiles (E2E-8-5) only |
+| Layout: 11 pages × 1440, 1000, 375, 320 vs the measurements before the upgrade | ✅ 0 differences |
+| 404 without JavaScript (E2E-1-1) | ❌ unchanged (still open) |
+| Dev server (`npm run dev`): Home, The Team, `/admin/login` | ✅ 200, no errors, no schema prompts |
 <!-- fixlog:end -->
 
 <!-- runlog:start -->

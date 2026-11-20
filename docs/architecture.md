@@ -32,18 +32,18 @@ The website and the CMS are **one application** (Next.js with Payload CMS embedd
 
 | Layer | Choice | Version |
 |---|---|---|
-| Runtime | Node.js | 20.18+ (22 LTS recommended) |
+| Runtime | Node.js | 22.23.5+ (22 line; or 24.22.3+ / 26.13.1+) |
 | Web framework | Next.js, App Router, React Server Components | 16.4 |
 | UI | React, TypeScript (strict), CSS Modules | React 19.2 |
-| CMS | Payload CMS (admin UI, REST/GraphQL API, Local API) | 3.91 |
+| CMS | Payload CMS (admin UI, REST/GraphQL API, Local API) | 3.94 |
 | Rich text | Lexical editor (restricted toolbar for editors) | via Payload |
 | Database | PostgreSQL via `@payloadcms/db-postgres` (Drizzle) | PG 14+ |
-| CMS plugins | Nested docs (page tree + breadcrumbs), SEO (meta tab) | 3.91 |
+| CMS plugins | Nested docs (page tree + breadcrumbs), SEO (meta tab) | 3.94 |
 | Images | `next/image` + `sharp` (responsive WebP/AVIF) | |
 | Live preview | `@payloadcms/live-preview-react` + Next.js draft mode | |
-| Media storage | `@payloadcms/storage-s3` (Amazon S3), local disk when not configured | 3.91 |
+| Media storage | `@payloadcms/storage-s3` (Amazon S3), local disk when not configured | 3.94 |
 | CDN refresh | `@aws-sdk/client-cloudfront` (invalidation on publish) | |
-| Email | `@payloadcms/email-nodemailer` (SMTP, e.g. Amazon SES) | 3.91 |
+| Email | `@payloadcms/email-nodemailer` (SMTP, e.g. Amazon SES) | 3.94 |
 
 ## A3. Layered structure
 
@@ -284,7 +284,7 @@ The application is a **long-running Node.js server** (not a static export): the 
 
 | Component | Requirement |
 |---|---|
-| Application | Node.js 20.18+ (22 LTS), 2 GB RAM recommended (image resizing and the CMS admin build), 2 vCPU |
+| Application | Node.js 22.23.5+, 2 GB RAM recommended (image resizing and the CMS admin build), 2 vCPU |
 | Database | PostgreSQL 14+, managed (Amazon RDS), automated backups and point-in-time recovery |
 | Media storage | Amazon S3 bucket (application uses it when `S3_BUCKET` is set) |
 | CDN | Amazon CloudFront in front of the site and the media bucket |
@@ -408,7 +408,7 @@ Code locations: `web/src/integrations/storage.ts` (S3), `cdn.ts` (CloudFront), `
 ## B10. Deployment on EC2 (outline)
 
 1. Provision RDS, the S3 bucket, CloudFront distribution (behaviours as in B3), ACM certificate, Route 53 records and the EC2 instance with its IAM role.
-2. On the instance: install Node.js 22 LTS; check out the release; `npm ci`.
+2. On the instance: install Node.js 22.23.5 or newer (the version Payload 3.94 requires); check out the release; `npm ci`.
 3. Provide environment variables (Secrets Manager / Parameter Store → environment). `NEXT_PUBLIC_SITE_URL` and `SITE_INDEXING` are fixed into the build, so they must be set before step 5; the app refuses to start if a required one is missing.
 4. `npm run migrate` (applies pending database migrations).
 5. `npm run build`, then run `npm run start` under systemd or PM2 (port 3000, behind CloudFront).

@@ -2,7 +2,7 @@
 
 How to get the PLG Acachet website (Next.js + Payload CMS) running on your own computer, from a fresh machine to a working site and CMS.
 
-_Last updated: 20 November 2026_
+_Last updated: 20 November 2026 (Node 22.23.5, Payload 3.94)_
 
 **Time needed:** about 15–20 minutes (most of it is downloading packages).
 **Result:** the website at <http://localhost:3000> and the CMS at <http://localhost:3000/admin>, filled with the Home page content.
@@ -14,7 +14,7 @@ _Last updated: 20 November 2026_
 | Tool | Version | Check with | Notes |
 |---|---|---|---|
 | Git | any recent | `git --version` | <https://git-scm.com/downloads> |
-| Node.js | **20.18 or newer** (22 LTS recommended) | `node -v` | <https://nodejs.org> (LTS). The project uses Payload 3.91, the newest release that supports Node 22.17; newer Payload versions need Node ≥ 22.23 |
+| Node.js | **22.23.5 or newer on the 22 line (or 24.22.3+ / 26.13.1+)** | `node -v` | <https://nodejs.org>. Payload 3.94 refuses older versions. Windows: `winget install --id OpenJS.NodeJS.22` (asks for administrator rights); stop `npm run db` first |
 | npm | 10 or newer (comes with Node) | `npm -v` | Use npm, not pnpm/yarn: the lock file is `package-lock.json` |
 | PostgreSQL | **not required** | — | A local PostgreSQL server is downloaded with the packages and started with one command. You can use your own PostgreSQL 14+ instead (step 5, option B) |
 | Disk space | ~2 GB | | packages, local database, uploaded media |
@@ -243,7 +243,7 @@ Restart `npm run dev` after changing `.env`. Files uploaded while S3 is on live 
 
 | Problem | Fix |
 |---|---|
-| `EBADENGINE` error or Payload refuses to start | Check `node -v` is 20.18+ (22 LTS recommended) |
+| `EBADENGINE` error or Payload refuses to start | Check `node -v` is 22.23.5 or newer on the 22 line (or 24.22.3+ / 26.13.1+) |
 | `npm run db`: "port 5433 already in use" | Another PostgreSQL is running. Use `PG_PORT=5434 npm run db` and change `DATABASE_URL` to `:5434` |
 | `npm run db` fails on Windows | Install the latest "Microsoft Visual C++ Redistributable (x64)" and try again; or use option B/C in step 5 |
 | `npm run dev`: port 3000 in use | `npx next dev -p 3001` and set `NEXT_PUBLIC_SITE_URL=http://localhost:3001` |

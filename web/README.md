@@ -42,11 +42,12 @@ Site settings that are not integrations (`src/lib/siteEnv.ts`, both fixed into t
 - Response headers for every route are set in `next.config.ts` (HSTS, `X-Frame-Options: SAMEORIGIN`, nosniff, Referrer-Policy, Permissions-Policy, CSP in report-only mode); `poweredByHeader: false`. Add new third-party hosts (analytics, cookie banner) to the CSP there.
 - Payload `csrf` / `cors` = the site address; `maxDepth: 3`.
 - Link fields validate addresses with `fields/safeUrl.ts` (`validateSafeUrl`; rich-text links via `withSafeUrl`): only https, http, mailto, tel, `/…`, `#…`.
+- Dependencies: Payload 3.94.0 (all `@payloadcms/*` the same), sharp 0.35.5; `overrides` pins `happy-dom` 21.0.4 under `@lexical/headless` for two advisories: remove it when Payload's Lexical requires ≥21.0.4.
 - Forms: use `useLockedActionState` from `blocks/Form/formHelpers.tsx` and send with `lock.send(e)` (no double sends; the form isn't emptied when the server refuses it) and `fieldA11y` + `ErrorSummary` for accessible errors.
 
 ## Run it locally
 
-Full step-by-step guide (requirements, database options, troubleshooting): [`../docs/local-setup.md`](../docs/local-setup.md). Short version, with Node 20.18+ (22 recommended):
+Full step-by-step guide (requirements, database options, troubleshooting): [`../docs/local-setup.md`](../docs/local-setup.md). Short version, with Node 22.23.5+ (required by Payload 3.94):
 
 ```bash
 npm install
@@ -188,6 +189,5 @@ Never add an enum value and use it in the same migration: PostgreSQL refuses tha
 - Provisioning the AWS environment (adapters for S3, CloudFront and email are built and switched on by env vars).
 - Thumbnails for the block picker.
 - Enforcing the Content Security Policy (report-only until staging shows no reports).
-- Upgrading Node to 22.23+ and then Payload 3.94+ / sharp 0.35.5 (`npm audit`: 19 high, E2E-11-2).
 - A lighter phone version of the Home showreel, and the 404 page without JavaScript (E2E-9-1, E2E-1-1 in `docs/e2e-test-plan.md`).
 - Social links in the footer are placeholders (instagram.com / linkedin.com).
