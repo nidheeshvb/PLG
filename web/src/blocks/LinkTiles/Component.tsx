@@ -4,7 +4,7 @@ import type { CSSProperties, ReactNode } from 'react'
 import { Media } from '@/components/ui/Media'
 import { Section } from '@/components/ui/Section'
 import { SectionHeader } from '@/components/ui/SectionHeader'
-import { isExternal, resolveHref } from '@/lib/links'
+import { isExternal, newTabProps, resolveHref } from '@/lib/links'
 import type { LinkTilesBlock as LinkTilesBlockData } from '@/payload-types'
 
 import styles from './Component.module.css'
@@ -62,12 +62,12 @@ export function LinkTilesBlock({ eyebrow, title, gradientTitle, tileStyle, tiles
             )
           if (isExternal(href) || href.startsWith('#'))
             return (
-              <a key={t.id ?? i} href={href} {...props} {...(t.link?.newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
+              <a key={t.id ?? i} href={href} {...props} {...newTabProps(t.link?.newTab)}>
                 {inner}
               </a>
             )
           return (
-            <Link key={t.id ?? i} href={href} {...props}>
+            <Link key={t.id ?? i} href={href} {...props} {...newTabProps(t.link?.newTab)}>
               {inner}
             </Link>
           )

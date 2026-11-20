@@ -1,6 +1,6 @@
 # CMS → website test: content, options and revalidation
 
-Last updated: 2026-11-18
+Last updated: 2026-11-20 (fix log #5: REVAL-1, CMS-1, CMS-2, CMS-3, CMS-5 fixed; CMS-4 covered by an editor-guide tip)
 
 This report checks that every change made in the CMS (Payload admin or REST API) reaches the website correctly and how quickly. It covers:
 
@@ -38,38 +38,38 @@ Fix the issues one at a time; when one is fixed, set its **Status** to Fixed, re
 
 | Area | Result |
 |---|---|
-| Page content: every text, rich-text and SEO field on all 11 pages (683 fields) | ✅ All reach the page on the **first request after publishing** (0.12–0.19 s). The exception is the legal "Text after the tag" note when the section has no tag (CMS-1) |
-| Page options: every select, radio and checkbox on all 11 pages (452 changes) | ✅ Every option that applies to the section changes the page at once. Invalid link combinations are refused by the CMS. "Open in a new tab" is ignored in 6 places (CMS-2) |
-| Admin UI editing on every page: edit, options, reorder, remove, hide, publish | ✅ Live on the first request (0.4–0.6 s). A Publish click during autosave is silently ignored (CMS-4) |
+| Page content: every text, rich-text and SEO field on all 11 pages (683 fields) | ✅ All reach the page on the **first request after publishing** (0.12–0.19 s). The legal "Text after the tag" note is now only offered when the section has a tag (CMS-1, fixed 2026-11-20) |
+| Page options: every select, radio and checkbox on all 11 pages (452 changes) | ✅ Every option that applies to the section changes the page at once. Invalid link combinations are refused by the CMS. "Open in a new tab" now works everywhere it is offered (CMS-2, fixed 2026-11-20) |
+| Admin UI editing on every page: edit, options, reorder, remove, hide, publish | ✅ Live on the first request (0.4–0.6 s). A Publish click during autosave is silently ignored (CMS-4: tip added to the editor guide, 2026-11-20) |
 | Drafts and autosave | ✅ Never reach the live site. Live preview follows typing within about 3 s |
 | Versions → Restore | ✅ Live within about 1.5 s; content identical to the restored version |
 | Header & footer (27 fields) | ✅ Whole site updates on the first request (about 1 s for 8 pages) |
 | Case studies, partner logos, team members, open roles: edit, create, reorder, show/hide | ✅ First request (0.2–0.5 s) |
 | Deleting a partner logo, team member, open role or case study | ✅ Fixed 2026-11-18: gone on the first request (REVAL-2) |
-| Images & videos: alt text, focal point | ❌ Pages keep the old version (REVAL-1) |
+| Images & videos: alt text, focal point | ✅ Fixed 2026-11-20: the new alt text is on the page on the first request after saving (REVAL-1) |
 | Changing a page's URL name (slug) | ✅ Fixed 2026-11-18: the page moves and links on every page follow at once (REVAL-3) |
 | Unpublishing a page | ✅ Fixed 2026-11-18: 404 and out of the sitemap at once (REVAL-4) |
 | Renaming a page | ✅ Fixed 2026-11-18: other pages showing its name (Legal switcher) update at once (REVAL-5) |
 | New page, delete page, forward-to, sitemap | ✅ First request |
 | Scheduled publish | ❌ Never published (REVAL-6) |
 | Access: editors vs admins, preview secret, form messages | ✅ As designed: editors can't see or create users; nobody can create form messages through the API; a wrong preview secret is refused (403). Question: editors can delete pages (CMS-6) |
-| Page weight | ⚠️ Each page carries the full content of the pages it links to (CMS-3) |
+| Page weight | ✅ Fixed 2026-11-20: linked pages only bring their name and address (Home 231 → 111 KB, About 125 → 75 KB, Terms 94 → 44 KB of HTML) (CMS-3) |
 
 ## Issues to fix
 
 | ID | Status | Severity | Summary |
 |---|---|---|---|
-| [REVAL-1](#reval-1) | Open | High | Image changes (alt text, focal point, replaced file) don't refresh the pages that use the image |
+| [REVAL-1](#reval-1) | ✅ Fixed | High | Image changes (alt text, focal point, replaced file) don't refresh the pages that use the image |
 | [REVAL-2](#reval-2) | ✅ Fixed | High | Deleting a partner logo, team member, open role or case study doesn't refresh the website |
 | [REVAL-3](#reval-3) | ✅ Fixed | High | After a page's URL name changes, menus and buttons on other pages still link to the old URL (404) |
 | [REVAL-4](#reval-4) | ✅ Fixed | High | Unpublishing a page leaves it live |
 | [REVAL-5](#reval-5) | ✅ Fixed | Medium | Renaming a page doesn't update other pages that show its title (Legal document switcher) |
 | [REVAL-6](#reval-6) | ✅ Closed 2026-11-19 (scheduling switched off) | Medium | Scheduled publishing never happens: the queued job is never run (no jobs runner configured) |
-| [CMS-1](#cms-1) | Open | Low | Legal "Text after the tag" can be filled in without a tag, but is then never shown |
-| [CMS-2](#cms-2) | Open | Medium | "Open in a new tab" is ignored on cards, link tiles (page links), the case study button, the Contact careers note and section menu links |
-| [CMS-3](#cms-3) | Open | Medium | Pages are fetched with depth 2, so every page embeds the full content of every page it links to (Home: 231 KB HTML, 40 KB visible) |
-| [CMS-4](#cms-4) | Open | Low | "Publish changes" is disabled for a moment after typing (autosave); a click then does nothing, without a message |
-| [CMS-5](#cms-5) | Open | Low | Breadcrumbs (URL, label) appear as editable fields on every page, but are overwritten on save |
+| [CMS-1](#cms-1) | ✅ Fixed | Low | Legal "Text after the tag" can be filled in without a tag, but is then never shown |
+| [CMS-2](#cms-2) | ✅ Fixed | Medium | "Open in a new tab" is ignored on cards, link tiles (page links), the case study button, the Contact careers note and section menu links |
+| [CMS-3](#cms-3) | ✅ Fixed | Medium | Pages are fetched with depth 2, so every page embeds the full content of every page it links to (Home: 231 KB HTML, 40 KB visible) |
+| [CMS-4](#cms-4) | ✅ Editor-guide tip | Low | "Publish changes" is disabled for a moment after typing (autosave); a click then does nothing, without a message |
+| [CMS-5](#cms-5) | ✅ Fixed | Low | Breadcrumbs (URL, label) appear as editable fields on every page, but are overwritten on save |
 | [CMS-6](#cms-6) | ✅ Closed 2026-11-19 (everyone is an admin) | — | Editors can delete pages (and other content). Intended? |
 
 **Suggested order:**
@@ -81,7 +81,7 @@ Fix the issues one at a time; when one is fixed, set its **Status** to Fixed, re
 <a id="reval-1"></a>
 ### REVAL-1: image changes don't reach the pages
 
-- **Status**: Open
+- **Status**: ✅ Fixed 2026-11-20 (fix log #5). Media has `afterChange: revalidateSiteAfterUpdate` (edits only: a new upload isn't on any page yet) and `afterDelete: revalidateSiteAfterDelete`, so the whole site (and CloudFront, when connected) is refreshed. Re-tested on a production build with a warm cache (`HIT`): `bridge.webp` alt text changed → new text on `/about` on the first request after 1.2 s; alt text put back
 - **Steps**:
   1. Load `/about` (it's now cached).
   2. In **Images & videos**, open `bridge.webp` (shown on About), change **Description (alt text)** and Save.
@@ -161,7 +161,7 @@ Fix the issues one at a time; when one is fixed, set its **Status** to Fixed, re
 <a id="cms-1"></a>
 ### CMS-1: legal "Text after the tag" is shown only with a tag
 
-- **Status**: Open (low)
+- **Status**: ✅ Fixed 2026-11-20 (fix log #5). "Text after the tag" only appears in the admin once **Orange tag** is filled in. Re-tested in the admin on a temporary page: hidden for a section without a tag, shown with one, appears as soon as a tag is typed; the tag and its text publish
 - **What happens**: every legal section has **Text after the tag** (prefilled "Counsel to confirm scope."). It's only shown when **Tag** (`mustLabel`) is filled in, as in the prototype. 30 of the 33 sections have no tag, so editing that text there changes nothing.
 - **Where**: `web/src/blocks/LegalDocument/config.ts:112` (field) and `Component.tsx:118` (rendered only with a tag).
 - **Suggested fix**: in the admin, show the field only when a tag is set: `admin: { condition: (_, s) => Boolean(s?.mustLabel) }`.
@@ -169,7 +169,7 @@ Fix the issues one at a time; when one is fixed, set its **Status** to Fixed, re
 <a id="cms-2"></a>
 ### CMS-2: "Open in a new tab" is ignored in six places
 
-- **Status**: Open
+- **Status**: ✅ Fixed 2026-11-20 (fix log #5). One helper (`newTabProps` in `lib/links.ts`) adds `target="_blank" rel="noopener noreferrer"` in all six places. In the admin the option only shows for web-address links, as before. Re-tested 20 Nov in all six places (link set to a web address with the box ticked, published, page checked in Chrome, content put back): 6/6 open in a new tab
 - **What happens**: ticking **Open in a new tab** on these links changes nothing on the page; the generic button/link (`CMSLink`) handles it correctly.
 - **Where**:
   - `blocks/CardCarousel/ServiceCard.tsx:14,39` and `PillarCard.tsx:14,35`: cards.
@@ -182,7 +182,7 @@ Fix the issues one at a time; when one is fixed, set its **Status** to Fixed, re
 <a id="cms-3"></a>
 ### CMS-3: every page embeds the pages it links to
 
-- **Status**: Open
+- **Status**: ✅ Fixed 2026-11-20 (fix log #5). Pages have `defaultPopulate: { title, slug, path, breadcrumbs }`, so a linked page only brings what links need. Re-measured HTML: Home 231 → 111 KB, About 125 → 75 KB, Terms 94 → 44 KB. Links on About still resolve; every page measures exactly as before at 1440, 1000 and 375
 - **What happens**: `getPageByPath` (`web/src/lib/payload.ts:24`) uses `depth: 2`. Every page link in a section (buttons, tiles, cards, Legal switcher) therefore comes back as the **whole linked page, including all its sections**, and is sent to the browser in the page's data.
   - **Home**: 231 KB HTML, of which 40 KB is the visible page; 17 page layouts embedded.
   - **About / Services**: 125 / 122 KB, 7 embedded.
@@ -193,7 +193,7 @@ Fix the issues one at a time; when one is fixed, set its **Status** to Fixed, re
 <a id="cms-4"></a>
 ### CMS-4: Publish clicked during autosave does nothing
 
-- **Status**: Open (low, editor experience)
+- **Status**: ✅ Covered 2026-11-20 by a tip in the editor guide (Publishing): wait for "Last saved", then publish, and check the status says Published. No code change
 - **What happens**: for about 1–3 s after typing, **Publish changes** is greyed out while the draft autosaves (`autosave.interval: 600`). A click in that moment is ignored without a message, so an editor may believe they published.
   - It happened to me twice: Home and Our Work.
   - The status line keeps saying "Changed", which is the clue.
@@ -202,7 +202,7 @@ Fix the issues one at a time; when one is fixed, set its **Status** to Fixed, re
 <a id="cms-5"></a>
 ### CMS-5: breadcrumbs appear as editable fields
 
-- **Status**: Open (low)
+- **Status**: ✅ Fixed 2026-11-20 (fix log #5). Pages declare the page tree plugin's breadcrumbs field themselves (`createBreadcrumbsField('pages', { admin: { hidden: true } })`), so the plugin uses it and it is hidden in the admin; same field, same data, no migration. Re-tested: no Breadcrumbs in the page form; breadcrumbs on the site unchanged
 - **What happens**: at the bottom of every page's form, **Breadcrumbs** (URL, Label) are shown as normal editable fields. The page tree plugin recalculates them on every save, so edits are silently lost.
 - **Suggested fix**: hide them or make them read-only in the admin (override the plugin's `breadcrumbs` field with `admin: { readOnly: true }` or `hidden: true`).
 
@@ -1746,6 +1746,7 @@ Production build. For each kind of item: create a test item, check it shows, loa
 | 1 | 2026-11-17 | — | Test run and report created. No code changes | `docs/cms-revalidation-test.md` | — |
 | 2 | 2026-11-18 | REVAL-3, REVAL-4, REVAL-5 | Pages compare the page's live (main) record before and after each save. A first publish, unpublish, URL/parent change, rename or new forwarding refreshes the whole site; a content-only publish refreshes that page; draft saves refresh nothing. Deleting a published page also refreshes the whole site | `web/src/collections/Pages/revalidate.ts`, `web/src/collections/Pages/index.ts` | ✅ 20/20 checks, 0.1–0.6 s |
 | 4 | 2026-11-19 | REVAL-6, CMS-6 | Pages: `schedulePublish` removed. Users: `role` defaults to `admin` and is hidden in the admin UI. Migration `20261119_174010_users_admin_default_no_scheduling` drops the unused `payload_jobs` tables and changes the default | `web/src/collections/Pages/index.ts`, `web/src/collections/Users.ts`, `web/src/migrations/` | ✅ user created without a role → admin; user form shows Email, Password, Name only; page "Publish changes" has no schedule option (headless Chrome, dev) |
+| 5 | 2026-11-20 | REVAL-1, CMS-1, CMS-2, CMS-3, CMS-5 (+ CMS-4 tip) | Media refreshes the site when edited or deleted; linked pages only bring title/slug/path/breadcrumbs; "Open in a new tab" honoured in 6 more places; legal tag note conditional; breadcrumbs hidden in the admin. Done with the E2E fix #3 (see `e2e-test-plan.md`) | `collections/Media.ts`, `lib/revalidate.ts`, `collections/Pages/index.ts`, `lib/links.ts`, `CardCarousel`, `LinkTiles`, `CaseStudyGrid`, `Form`, `SectionNav`, `blocks/context.ts`, `LegalDocument/config.ts` | ✅ REVAL-1 on the first request; page weight re-measured; layout identical at 1440/1000/375; no Breadcrumbs in the page form (production build, headless Chrome) |
 | 3 | 2026-11-18 | REVAL-2 | New `revalidateSiteAfterDelete` hook refreshes the whole site, registered as `afterDelete` on Partners, Team members, Open roles and Case studies | `web/src/lib/revalidate.ts`, `web/src/collections/{Partners,TeamMembers,Roles,CaseStudies}.ts` | ✅ 11/11 checks, 0.1–0.2 s |
 
 ## Restore (what was put back after testing)

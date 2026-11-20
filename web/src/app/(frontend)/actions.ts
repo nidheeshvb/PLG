@@ -109,6 +109,31 @@ export async function submitApplication(_prev: FormState, formData: FormData): P
 const WORK_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 
 /**
+ * The choices offered by the Contact form section(s) on the page the form was sent from, or null
+ * when the page can't be found (then only the length and number of choices are limited). E2E-3-3.
+ */
+const contactChoices = async (path: string | undefined): Promise<Set<string> | null> => {
+  if (!path) return null
+  try {
+    const payload = await getPayloadClient()
+    const { docs } = await payload.find({
+      collection: 'pages',
+      where: { path: { equals: path } },
+      limit: 1,
+      depth: 0,
+      select: { layout: true },
+    })
+    const forms = (docs[0]?.layout ?? []).filter(
+      (b): b is Extract<typeof b, { blockType: 'form' }> => b.blockType === 'form' && b.formType === 'contact',
+    )
+    if (!forms.length) return null
+    return new Set(forms.flatMap((b) => (b.interests ?? []).map((i) => i.label)))
+  } catch {
+    return null
+  }
+}
+
+/**
  * Saves a detailed enquiry (Contact page) into Form messages: name, company, work email, phone,
  * what they want to unlock, message (10–1500 characters) and consent.
  */
@@ -120,10 +145,12 @@ export async function submitContact(_prev: FormState, formData: FormData): Promi
   const email = str(formData.get('email'), 320)
   const message = str(formData.get('message'), 1500)
   const consent = formData.get('consent') === 'on'
+  const page = await sentFrom()
+  const offered = await contactChoices(page)
   const interests = formData
     .getAll('interests')
     .map((v) => str(v, 200))
-    .filter(Boolean)
+    .filter((v) => v && (!offered || offered.has(v)))
     .slice(0, 20)
   const errors: NonNullable<FormState['errors']> = {}
   if (name.length < 2) errors.name = 'Add your name.'
@@ -147,7 +174,7 @@ export async function submitContact(_prev: FormState, formData: FormData): Promi
         interests: interests.join('\n') || undefined,
         message,
         consent,
-        page: await sentFrom(),
+        page,
       },
     })
     return { ok: true, firstName: name.split(/\s+/)[0] }

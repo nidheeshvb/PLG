@@ -1,5 +1,7 @@
 import type { ArrayField, Field, GroupField } from 'payload'
 
+import { validateSafeUrl } from './safeUrl'
+
 export const linkAppearances = [
   { label: 'Orange button', value: 'primary' },
   { label: 'Outline button', value: 'ghost' },
@@ -83,6 +85,7 @@ const linkFields = ({ appearance = true, required = true }: LinkOptions): Field[
         type: 'text',
         label: 'Web address',
         required,
+        validate: validateSafeUrl,
         admin: {
           width: '50%',
           placeholder: 'https://',

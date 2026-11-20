@@ -76,7 +76,7 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
   <header class="top">
     <div class="brand"><i></i>PLG Acachet · Website rebuild</div>
     <h1>Website Technical Documentation</h1>
-    <div class="meta"><span>Last updated 19 November 2026</span><span class="pill">Step 9 complete: all pages built</span></div>
+    <div class="meta"><span>Last updated 20 November 2026</span><span class="pill">All pages built · pre-launch fixes done</span></div>
   </header>
 
   <nav class="toc" aria-label="Contents">
@@ -215,10 +215,11 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
         <li><b>Responsive</b>: matches the prototype on desktop, tablet (card rows become swipeable) and mobile.</li>
         <li><b>Motion</b> from the prototype: showreel intro, scroll reveals, stacking panels, auto-advancing key numbers, word-by-word statement and lead paragraph, banner and background parallax, drawn diagram lines, counting facts, a highlighted group structure, expanding link tiles, and a "View" cursor on case studies. All motion respects the visitor's reduced-motion setting.</li>
         <li><b>Navigation</b>: the current page is highlighted in the menu, inner pages have an automatic breadcrumb, and long pages have a section menu that follows the reader (swipeable on phones).</li>
-        <li><b>Accessibility</b>: skip-to-content link, keyboard-operable menu (Escape closes it), labelled controls, a pause button for the background video, and alt text managed in the CMS.</li>
+        <li><b>Accessibility</b>: skip-to-content link, keyboard-operable menu (Escape closes it), labelled controls, a pause button for the background video, alt text managed in the CMS, form errors read out by screen readers, sideways-scrolling rows reachable by keyboard, and a correct heading order on every page.</li>
+        <li><b>Robust to long text</b>: long button labels, headings and words wrap instead of breaking the layout, so the site stays tidy when the content team writes longer text than the design, on screens down to 320 px wide.</li>
         <li><b>Performance</b>: static pages, images resized and converted (WebP/AVIF) for each device, self-hosted fonts, the showreel pauses when off screen, and scroll effects run at most once per frame.</li>
         <li><b>SEO</b>: per-page title and description, canonical URLs, share images, and automatic <code>sitemap.xml</code> and <code>robots.txt</code>.</li>
-        <li><b>Forms</b>: checked in the browser and on the server, protected by a spam trap, and stored in the CMS inbox. The job application form only accepts roles that are currently open and has keyboard-operable dropdowns.</li>
+        <li><b>Forms</b>: checked in the browser and on the server, protected by a spam trap, and stored in the CMS inbox; a quick double click sends only once, and if a send is refused the visitor keeps what they typed. The job application form only accepts roles that are currently open and has keyboard-operable dropdowns.</li>
         <li><b>Case studies</b>: filter by service with counts; each case study has its own address (<code>/our-work#case-…</code>) that can be shared, closes with Esc, keeps keyboard focus inside while open, and updates the browser tab title and page description.</li>
         <li><b>Careers</b>: open roles filter by team with counts and expand in place; "Apply for this role" jumps to the form with the role and discipline filled in.</li>
       </ul>
@@ -231,7 +232,11 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
         <li>Only signed-in users can change content; everyone PLG adds has full access. Form messages can only be created by the website's form, never through the CMS API.</li>
         <li>Draft content is visible only to signed-in users through preview; the public site shows published content only.</li>
         <li>Secrets such as the database connection and signing keys live in environment variables, never in the code.</li>
-        <li><code>/admin</code>, <code>/api</code> and the preview routes are excluded from search engines.</li>
+        <li><code>/admin</code>, <code>/api</code> and the preview routes are excluded from search engines; a staging site can be kept out of search engines entirely with one setting.</li>
+        <li>Every response carries security headers: HTTPS enforcement (HSTS), protection against being shown inside other websites (clickjacking), content-type and referrer protection, a permissions policy, and a Content Security Policy (in monitoring mode until it is checked on staging). The server no longer advertises the software it runs.</li>
+        <li>The CMS only accepts sign-in cookies on requests from the website's own address (protection against cross-site requests).</li>
+        <li>Links entered in the CMS must be web, email, phone or on-site addresses: script links are refused.</li>
+        <li>The website checks its essential settings when it starts and stops with a clear message if one is missing.</li>
       </ul>
     </section>
 
@@ -260,7 +265,8 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
         <tbody>
           <tr><td><code>DATABASE_URL</code></td><td class="wrap">PostgreSQL connection (RDS)</td></tr>
           <tr><td><code>PAYLOAD_SECRET</code></td><td class="wrap">Signs CMS sign-in sessions</td></tr>
-          <tr><td><code>NEXT_PUBLIC_SITE_URL</code></td><td class="wrap">Public website address, used for share images, the sitemap and live preview</td></tr>
+          <tr><td><code>NEXT_PUBLIC_SITE_URL</code></td><td class="wrap">Public website address, used for share images, the sitemap, live preview and CMS sign-in protection</td></tr>
+          <tr><td><code>SITE_INDEXING</code></td><td class="wrap"><code>off</code> on staging: keeps the site out of search engines</td></tr>
           <tr><td><code>PREVIEW_SECRET</code></td><td class="wrap">Protects the preview link</td></tr>
           <tr><td><code>S3_BUCKET</code>, <code>S3_REGION</code></td><td class="wrap">Media storage on Amazon S3</td></tr>
           <tr><td><code>MEDIA_PUBLIC_URL</code></td><td class="wrap">CDN address for media files</td></tr>
@@ -294,6 +300,7 @@ footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:20px;color:
           <tr><td>7</td><td class="wrap"><b>Our Work</b>: video banner with pause button, filter bar, eight case study tiles, full case study view, brand logos, call to action. Extra case study sections from the design kept in the backlog</td><td><span class="pill">Complete, in review</span></td></tr>
           <tr><td>8</td><td class="wrap"><b>Contact</b>: banner, detailed enquiry form with promises and choices, office with live local time, copy and directions</td><td><span class="pill">Complete, in review</span></td></tr>
           <tr><td>9</td><td class="wrap"><b>Legal</b>: Terms &amp; Conditions, Privacy Policy and Cookies, with header, document switcher, numbered contents, sections, cookie table and questions box; <code>/legal</code> opens Terms. Wording by counsel still needed; the cookie preferences button waits for the consent platform</td><td><span class="pill">Complete, in review</span></td></tr>
+          <tr><td>—</td><td class="wrap"><b>Pre-launch fixes from testing</b> (20 November): security headers, staging kept out of search, start-up settings check, CMS sign-in protection, safe links, forms send once and are accessible, long text wraps, images update every page when changed in the CMS, lighter pages, "Open in a new tab" everywhere. Still to do: Node and CMS upgrade (security updates), a lighter phone version of the Home video</td><td><span class="pill">Done</span></td></tr>
           <tr><td>10</td><td class="wrap">Go-live on AWS (me-central-1): EC2, RDS, S3, CloudFront, SES and domain; analytics and cookie consent</td><td><span class="pill plan">Planned</span></td></tr>
         </tbody>
       </table></div>

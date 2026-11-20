@@ -1,3 +1,4 @@
+import { createBreadcrumbsField } from '@payloadcms/plugin-nested-docs'
 import type { CollectionConfig } from 'payload'
 
 import { isLoggedIn, publishedOrLoggedIn } from '@/access'
@@ -19,6 +20,9 @@ export const Pages: CollectionConfig = {
     livePreview: { url: ({ data }) => previewUrl(data) },
     preview: (doc) => previewUrl(doc),
   },
+  // A page linked from another (buttons, tiles, menus, Legal switcher, forwardTo) only brings
+  // what links need, not its whole content (CMS-3: Home was 231 KB of HTML for 40 KB shown).
+  defaultPopulate: { title: true, slug: true, path: true, breadcrumbs: true },
   versions: {
     // No scheduled publishing (decision 2026-11-19, REVAL-6): changes go live when Publish is clicked.
     drafts: { autosave: { interval: 600 } },
@@ -83,5 +87,8 @@ export const Pages: CollectionConfig = {
         description: 'Visitors opening this page are sent on to the chosen page (e.g. Legal → Terms & Conditions). Its sections are not shown.',
       },
     },
+    // The page tree plugin's breadcrumbs, declared here only to hide them in the admin: they are
+    // recalculated on every save, so editing them there did nothing (CMS-5). Same field, same data.
+    createBreadcrumbsField('pages', { admin: { hidden: true } }),
   ],
 }

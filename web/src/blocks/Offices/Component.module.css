@@ -154,6 +154,15 @@
   font-size: 17px;
   color: #e2e2e2;
 }
+/* the Copy / Directions button sits in its own <dd> so the list stays valid (E2E-8-4); the <dd>
+   draws no box and passes on the row's text settings, so the button lays out exactly as before */
+.row .act {
+  display: contents;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  overflow-wrap: inherit;
+}
 .copy {
   display: inline-flex;
   align-items: center;

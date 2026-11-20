@@ -1,7 +1,7 @@
 import type { Page } from '@/payload-types'
 
 /** One entry of a page's section menu, derived from the sections' "Section ID" + "Name in section menu". */
-export type SectionNavItem = { id: string; label: string; href?: string }
+export type SectionNavItem = { id: string; label: string; href?: string; newTab?: boolean }
 
 /**
  * Page-level facts passed to every block next to its own CMS data, so blocks never need editors

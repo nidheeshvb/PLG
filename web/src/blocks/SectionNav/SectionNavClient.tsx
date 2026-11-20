@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { SectionNavItem } from '@/blocks/context'
 import { useDragScroll } from '@/hooks/useDragScroll'
 import { prefersReducedMotion } from '@/hooks/useReducedMotion'
+import { newTabProps } from '@/lib/links'
 
 import styles from './Component.module.css'
 
@@ -59,12 +60,13 @@ export function SectionNavClient({ items, note, spy, current, back }: Props) {
 
   return (
     <div ref={ref} className={styles.inner}>
-      {items.map(({ id, label, href }) => {
+      {items.map(({ id, label, href, newTab }) => {
         const active = activeId === id
         const props = {
           'data-id': id,
           className: active ? styles.active : undefined,
           'aria-current': active ? (spy ? ('location' as const) : ('page' as const)) : undefined,
+          ...newTabProps(newTab),
         }
         return href && !href.startsWith('#') ? (
           <Link key={id} href={href} {...props}>

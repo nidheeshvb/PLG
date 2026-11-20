@@ -1,6 +1,6 @@
 # PLG Acachet website: end-to-end test plan (before go-live)
 
-Last updated: 2026-11-19 (local test round finished; fixes #1 E2E-13-1, #2 E2E-3-1; REVAL-6 and CMS-6 closed)
+Last updated: 2026-11-20 (fix #3: the 18 code fixes that don’t depend on the hosting decisions)
 
 Every kind of test the site should pass before it goes live, in one list so we can work through it and track progress. Each test has:
 - **Priority**: **Must** before launch, **Should** before launch, **Later** (nice to have, or after launch).
@@ -22,7 +22,7 @@ Every kind of test the site should pass before it goes live, in one list so we c
 |---|---|---|---|---|---|
 | 73 | 13 | 26 | 39 | 16 | 10 |
 
-**Now:** Fixing issues one by one (see the Fix log). Done: E2E-13-1, E2E-3-1. Next in the suggested order: E2E-10-1 (keep staging out of search), E2E-13-2, E2E-11-1, E2E-11-3.
+**Now:** Fixing issues one by one (see the Fix log). Done: E2E-13-1, E2E-3-1 (18 Nov); on 20 Nov (fix #3) E2E-10-1, E2E-13-2, E2E-11-1, E2E-11-3, E2E-11-4, E2E-11-5, E2E-3-2, E2E-3-3, E2E-3-4, E2E-5-1, E2E-6-1, E2E-8-2, E2E-8-3, E2E-8-4. Still open in code: E2E-11-2 (Node + Payload upgrade), E2E-9-1 (phone video + first-screen fade, needs a decision), E2E-1-1 (Next.js 404 shell, investigated). Waiting for hosting: E2E-9-2, E2E-10-2. Waiting for a decision: E2E-8-1, E2E-5-2, E2E-10-3. The counts above are from the 18 Nov round.
 
 This round runs on this machine (production build, Chrome only). Tests that need AWS stay ⬜ "needs staging". Failures are recorded, not fixed, in [Issues found](#issues-found). The [Run log](#run-log) shows the order of work.
 <!-- progress:end -->
@@ -73,7 +73,7 @@ Results go in a report per area, like the two already done:
 | 1.5 | Phone menu: open/close, sub-links under About, Esc, body scroll lock, links close the menu | Must | Local, real phone | ✅ open, sub-links, scroll lock, Esc, link closes it (Chrome phone emulation; real phone in manual list) |
 | 1.6 | Section menus (About, Services sticky bar, Our Story/Team/Join "same as main menu"): click, scroll-spy, back link | Must | Local | ✅ About 6 links, Services sticky 4 chapters, Our Story menu |
 | 1.7 | Breadcrumbs on every inner page match the page tree | Should | Local | ✅ |
-| 1.8 | Unknown address → custom 404 page with status 404 | Must | Local, Prod | ❌ 404 status OK, but blank without JavaScript (E2E-1-1) |
+| 1.8 | Unknown address → custom 404 page with status 404 | Must | Local, Prod | ❌ 404 status OK, but blank without JavaScript (E2E-1-1; investigated 20 Nov, still open) |
 | 1.9 | `/legal` forwards to `/legal/terms` (307) | Should | Local | ✅ 307 → /legal/terms |
 | 1.10 | Case study links: `/our-work#case-<slug>` opened directly, shared, refreshed, Back/Forward buttons | Must | Local | ✅ direct link, reload, Esc, from Home tile |
 | 1.11 | Browser Back/Forward and scroll position across pages and anchors | Should | Local | ✅ scroll position kept on Back; Forward works |
@@ -105,12 +105,12 @@ Three forms: Home enquiry, Contact, Join Us application.
 | # | Test | Priority | Where | Status |
 |---|---|---|---|---|
 | 3.1 | Each form sends with valid data, shows its thank-you panel and appears in **Inbox → Form messages** with every field | Must | Local, Staging | ✅ all three forms: thank-you + saved with every field |
-| 3.2 | Every validation rule, in the browser and on the server: required fields, email format, name/company length, message 10–1500, consent, discipline, http(s) link | Must | Local | ✅ every rule in browser and on server (one low gap: E2E-3-3) |
-| 3.3 | Server checks hold when the browser checks are bypassed (post the form directly with bad data) | Must | Local | ✅ server refuses every bad value posted directly |
+| 3.2 | Every validation rule, in the browser and on the server: required fields, email format, name/company length, message 10–1500, consent, discipline, http(s) link | Must | Local | ✅ every rule in browser and on server; Contact choices now checked against the form's own list (E2E-3-3 fixed 20 Nov, fix log #3) |
+| 3.3 | Server checks hold when the browser checks are bypassed (post the form directly with bad data) | Must | Local | ✅ server refuses every bad value posted directly; since 20 Nov the form keeps what the visitor typed when the server refuses it (E2E-3-5) |
 | 3.4 | Honeypot: a filled hidden field is quietly dropped | Must | Local | ✅ all three forms |
 | 3.5 | Application: a closed or made-up role is saved as "General application" | Should | Local | ✅ made-up, invalid and closed roles → General application |
-| 3.6 | Special characters, Arabic text, emoji and very long input are saved and shown correctly in the admin | Must | Local | 🟡 Arabic + emoji ✅ (fixed 18 Nov, E2E-3-1); long Home messages cut silently (E2E-3-4) |
-| 3.7 | Double click / double submit creates one message only | Should | Local | ❌ triple click → 3 messages (E2E-3-2) |
+| 3.6 | Special characters, Arabic text, emoji and very long input are saved and shown correctly in the admin | Must | Local | ✅ Arabic + emoji (fixed 18 Nov, E2E-3-1); Home and Join Us message boxes stop at the 5000-character server limit (E2E-3-4 fixed 20 Nov, fix log #3) |
+| 3.7 | Double click / double submit creates one message only | Should | Local | ✅ three quick clicks → 1 message on Home, two → 1 on Contact; Join Us uses the same guard (E2E-3-2 fixed 20 Nov, fix log #3) |
 | 3.8 | Errors when the server or database is down: the visitor sees a clear message, nothing is lost silently | Should | Local | ✅ clear message, form kept, health 503, recovers by itself |
 | 3.9 | **Notification email** to PLG for each new message, and maybe a confirmation to the sender | Must | Staging | ⏸️ not built: who receives it? |
 | 3.10 | Email delivery: SES, SPF/DKIM/DMARC pass, not in spam (Gmail, Outlook) | Must | Staging | ⏸️ after 3.9 |
@@ -142,7 +142,7 @@ Three forms: Home enquiry, Contact, Join Us application.
 
 | # | Test | Priority | Where | Status |
 |---|---|---|---|---|
-| 5.1 | Very long headlines, names and button labels: wrap or shrink without breaking the layout (all widths) | Must | Local | ❌ buttons, small headings and diagram labels don't wrap (E2E-5-1) |
+| 5.1 | Very long headlines, names and button labels: wrap or shrink without breaking the layout (all widths) | Must | Local | ✅ buttons, headings and diagram labels wrap; long text in every short field of 7 pages at 1440/1000/375/320: nothing editable pushes the page wider (E2E-5-1 fixed 20 Nov, fix log #3) |
 | 5.2 | Optional fields left empty in every section: no empty boxes, stray dividers or "undefined" | Must | Local | 🟡 all 11 pages render with optional fields empty; 3 empty headings/links left (Our Story 1, Services 2) |
 | 5.3 | Lists at their minimum and maximum (e.g. 1 vs 4 tiles, 1 vs 5 chain names, 0 open roles → empty text) | Must | Local | ✅ 33 list limits enforced; uncapped lists render with 30 rows |
 | 5.4 | Collections empty: no case studies matching a filter, no open roles, no team in a department | Should | Local | ✅ no open roles: "No open roles" text, form offers General application |
@@ -158,7 +158,7 @@ Three forms: Home enquiry, Contact, Join Us application.
 | # | Test | Priority | Where | Status |
 |---|---|---|---|---|
 | 6.1 | Prototype vs website at 1440, 1280, 1024, 768, 375 on every page | Must | Local | ✅ [report](ui-comparison-issues.md) |
-| 6.2 | In-between and extreme widths: 320, 414, 1100, 1366, 1920, 2560 | Must | Local | ❌ 320 px: About +12 px, Contact +4 px (E2E-6-1); 414, 1100, 1366, 1920, 2560 all fit |
+| 6.2 | In-between and extreme widths: 320, 414, 1100, 1366, 1920, 2560 | Must | Local | ✅ every page fits at 320 px now (E2E-6-1 fixed 20 Nov, fix log #3); 414, 1100, 1366, 1920, 2560 all fit |
 | 6.3 | Phone and tablet in landscape | Should | Local, real devices | ✅ phone landscape 812×375, tablet 1024×768 and 768×1024: all pages fit |
 | 6.4 | Browser zoom 200% and larger default font size | Should | Local | 🟡 200% zoom: no overflow on 4 pages. Text sizes are in px, so the browser's "font size" setting has no effect (zoom works) |
 | 6.5 | Short laptop screens (1366×650): banners, sticky bars and drawers still fit | Should | Local | 🟡 1366×650: drawer and case study scroll, menu scrolls at 375×560; About banner button below the first screen |
@@ -188,14 +188,14 @@ Target: WCAG 2.2 AA.
 
 | # | Test | Priority | Where | Status |
 |---|---|---|---|---|
-| 8.1 | Automated scan of every page (axe / Lighthouse), no serious issues | Must | Local | ❌ axe WCAG 2.2 AA on 11 pages × 2 widths: contrast (E2E-8-1) + 3 smaller rules (E2E-8-4) |
-| 8.2 | Keyboard only: reach and use every link, button, filter, slider, drawer, menu and form; focus always visible; no traps | Must | Local | 🟡 every control reachable, no traps, focus visible; Home banner has 2 invisible focus stops (E2E-8-3) |
+| 8.1 | Automated scan of every page (axe / Lighthouse), no serious issues | Must | Local | ❌ axe WCAG 2.2 AA on 11 pages × 2 widths: contrast (E2E-8-1, design decision); the 3 smaller rules now pass on all 11 pages × 2 widths (E2E-8-4 fixed 20 Nov, fix log #3) |
+| 8.2 | Keyboard only: reach and use every link, button, filter, slider, drawer, menu and form; focus always visible; no traps | Must | Local | ✅ every control reachable, no traps, focus visible, including the Home banner's 2 controls (E2E-8-3 fixed 20 Nov, fix log #3) |
 | 8.3 | Screen readers: NVDA + Chrome (Windows), VoiceOver (iPhone, Mac) | Must | Local, real devices | 🖐️ screen readers (NVDA, VoiceOver): manual checklist; landmarks and labels checked automatically |
 | 8.4 | Colour contrast of grey text, text over images and videos, orange highlights | Must | Local | ❌ orange buttons 2.3:1, grey on white 2.5–3.5:1 (E2E-8-1) |
-| 8.5 | Heading order and one `h1` per page; page landmarks (header, main, footer) | Should | Local | 🟡 one h1 and header/main/footer on every page, navs labelled; heading skip on The Team and Join Us (E2E-8-4) |
+| 8.5 | Heading order and one `h1` per page; page landmarks (header, main, footer) | Should | Local | ✅ one h1 and header/main/footer on every page, navs labelled; no heading level skipped (E2E-8-4 fixed 20 Nov, fix log #3) |
 | 8.6 | Every meaningful image has alt text; decorative ones are hidden | Must | Local | ✅ every <img> has alt; 120 decorative (alt="") — meaningful ones described (9 media without alt to review, 16.5) |
-| 8.7 | Forms: labels, error messages read out and linked to their fields, required fields marked | Must | Local | ❌ labels OK; errors not announced or linked (E2E-8-2) |
-| 8.8 | Video: no sound by default; pause control; captions if any video has speech | Should | Local | 🟡 muted, pause button on Home and Our Work (Home's invisible: E2E-8-3); captions only if a video has speech |
+| 8.7 | Forms: labels, error messages read out and linked to their fields, required fields marked | Must | Local | ✅ on all 3 forms flagged fields are marked invalid, linked to their error, and a summary is announced (E2E-8-2 fixed 20 Nov, fix log #3) |
+| 8.8 | Video: no sound by default; pause control; captions if any video has speech | Should | Local | ✅ muted, pause button on Home and Our Work, visible on keyboard focus (E2E-8-3 fixed 20 Nov, fix log #3); captions only if a video has speech |
 | 8.9 | Reduced motion respected (2.14) | Must | Local | ✅ see 2.14 |
 | 8.10 | "Skip to content" link | Should | Local | ✅ "Skip to content" is the first Tab stop and jumps into main |
 | 8.11 | Page language set (`lang="en"`); tab titles unique | Should | Local | ✅ lang="en", 11 unique tab titles |
@@ -228,7 +228,7 @@ Target: WCAG 2.2 AA.
 | 10.6 | `robots.txt` correct for production | Must | Prod | ✅ Allow /, Disallow /admin /api /next, sitemap link (set the domain) |
 | 10.7 | Structured data (Organization, logo, contact) validates | Later | Staging | 🟡 no structured data yet (Organization, logo, contact) |
 | 10.8 | 404 pages return status 404 (not 200) | Must | Prod | ✅ 404 status with noindex |
-| 10.9 | **Staging is not indexed** (noindex or password) | Must | Staging | ❌ no switch to keep staging out of search (E2E-10-1) |
+| 10.9 | **Staging is not indexed** (noindex or password) | Must | Staging | 🟡 switch built and checked in a build: `SITE_INDEXING=off` → robots.txt `Disallow: /`, noindex meta, `X-Robots-Tag` (E2E-10-1 fixed 20 Nov, fix log #3); confirm on staging |
 | 10.10 | Google Search Console set up, sitemap submitted | Must | Prod | ⬜ |
 | 10.11 | Redirects from old URLs (1.12) keep their search ranking (301) | Must if a site exists | Prod | ⏸️ |
 
@@ -236,17 +236,17 @@ Target: WCAG 2.2 AA.
 
 | # | Test | Priority | Where | Status |
 |---|---|---|---|---|
-| 11.1 | Security headers: HSTS, CSP, X-Frame-Options / frame-ancestors, X-Content-Type-Options, Referrer-Policy, Permissions-Policy. **Not set yet** | Must | Staging | ❌ none set; X-Powered-By "Next.js, Payload" (E2E-11-1) |
+| 11.1 | Security headers: HSTS, CSP, X-Frame-Options / frame-ancestors, X-Content-Type-Options, Referrer-Policy, Permissions-Policy. **Not set yet** | Must | Staging | 🟡 all six set on every response, CSP in report-only mode (0 reports on 10 pages), no X-Powered-By (E2E-11-1 fixed 20 Nov, fix log #3); enforce the CSP and run SSL Labs / securityheaders.com on staging |
 | 11.2 | HTTPS only: http → https, valid certificate, TLS 1.2+ (SSL Labs A) | Must | Prod | ⬜ needs staging (real domain + certificate) |
 | 11.3 | Access per role through the API: visitors, editors, admins on every collection (read drafts, read form messages, create users…) | Must | Local | ✅ visitors: read published content only, no form messages/users; editors: no users, no form message changes, can't promote themselves; can delete pages (CMS-6) |
-| 11.4 | Admin login: lock-out after failed attempts, strong passwords, no default accounts left | Must | Staging | 🟡 lock-out after 5 tries, 2 h sessions, sign-out works (4.14); no CORS/CSRF allow-list (E2E-11-3); default accounts: replace the seed logins before go-live |
+| 11.4 | Admin login: lock-out after failed attempts, strong passwords, no default accounts left | Must | Staging | 🟡 lock-out after 5 tries, 2 h sessions, sign-out works (4.14); CORS/CSRF allow-list set (E2E-11-3 fixed 20 Nov, fix log #3); default accounts: replace the seed logins before go-live |
 | 11.5 | Preview link secret: refused when wrong, not leaked in pages | Must | Local | ✅ wrong secret refused (403); the secret isn't in the browser code |
 | 11.6 | GraphQL API and playground (`/api/graphql`, `/api/graphql-playground`): switch off, or at least the playground in production | Must | Local | 🟡 /api/graphql is on but introspection is off and access rules apply; playground 404 in production. Switch it off if unused |
 | 11.7 | Uploads: only allowed file types; SVG files can't run scripts; file names cleaned | Must | Local | ✅ .exe refused; SVG with <script> refused ("potentially harmful content") |
-| 11.8 | Text fields can't inject HTML/script into pages (XSS) | Must | Local | 🟡 script/HTML in text shown as text; javascript: links accepted but neutralised by React (E2E-11-4) |
+| 11.8 | Text fields can't inject HTML/script into pages (XSS) | Must | Local | ✅ script/HTML in text shown as text; javascript: and other unsafe addresses refused in every link field and rich-text link (E2E-11-4 fixed 20 Nov, fix log #3) |
 | 11.9 | Forms: no injection, size limits, honeypot, rate limit (3.3, 3.4, 3.11) | Must | Local, Staging | ✅ forms: server checks, honeypot, length caps (3.3–3.4); rate limit on staging (3.11) |
 | 11.10 | Secrets: none in the repo, the browser bundle or error pages; production `.env` values are new (not the local ones) | Must | Staging | ✅ only .env.example in git; no secret value in the browser bundle (5 checked) |
-| 11.11 | Error pages show no stack traces or server details | Must | Prod | 🟡 no stack traces; depth=999 → 500 (E2E-11-5) |
+| 11.11 | Error pages show no stack traces or server details | Must | Prod | ✅ no stack traces; depth=999 is capped at 3 and answers normally (E2E-11-5 fixed 20 Nov, fix log #3) |
 | 11.12 | `npm audit` / dependency check; plan for Payload + Node upgrade (pinned 3.91, Node 22.17) | Must | Local | ❌ 24 vulnerabilities (19 high) in production packages (E2E-11-2) |
 | 11.13 | S3 bucket: no public listing; only media is public; CloudFront origin access | Must | Staging | ⬜ needs staging |
 | 11.14 | Database (RDS) not reachable from the internet; EC2 security groups minimal; SSH closed or limited | Must | Staging | ⬜ needs staging |
@@ -271,7 +271,7 @@ Target: WCAG 2.2 AA.
 |---|---|---|---|---|
 | 13.1 | Fresh install: empty database → migrations → content → every page matches local | Must | Staging | ✅ fixed 18 Nov: empty UTF-8 database → migrate → seed → build → all pages identical to local (E2E-13-1) |
 | 13.2 | Every migration runs cleanly in order; migrations match the code (no pending schema change) | Must | Staging | ✅ one initial migration; schema identical to the development schema (0 differences in 2677 items) |
-| 13.3 | Production environment variables complete (`web/.env.example` checklist); the app refuses to start without required ones | Must | Staging | ❌ all 23 variables documented, but none checked at start-up; NEXT_PUBLIC_SITE_URL silently falls back to localhost (E2E-13-2) |
+| 13.3 | Production environment variables complete (`web/.env.example` checklist); the app refuses to start without required ones | Must | Staging | 🟡 start-up check built (E2E-13-2 fixed 20 Nov, fix log #3): stops when DATABASE_URL, PAYLOAD_SECRET or NEXT_PUBLIC_SITE_URL is missing, or the site URL is localhost while a hosting integration is on; confirm on staging |
 | 13.4 | Health check `/next/health` used by the load balancer/monitoring | Must | Staging | ⬜ needs staging |
 | 13.5 | CloudFront: pages and media cached, `/admin`, `/api`, `/next/*` not cached, cookies/headers forwarded correctly | Must | Staging | ⬜ needs staging |
 | 13.6 | Publish clears CloudFront (invalidation): change shows for visitors within seconds (`x-cache` header) | Must | Staging | ⬜ needs staging |
@@ -366,45 +366,47 @@ Decisions needed from PLG or you before some tests can run:
 
 **Suggested fix order**:
 1. ~~**E2E-13-1** (blocker)~~ and ~~**E2E-3-1**~~ ✅ fixed 18 Nov.
-2. **Before staging goes up**: E2E-10-1 (keep staging out of search), E2E-13-2 (start-up settings check), E2E-11-1 (security headers), E2E-11-3 (CSRF/CORS list).
+2. ~~**Before staging goes up**: E2E-10-1, E2E-13-2, E2E-11-1, E2E-11-3~~ ✅ fixed 20 Nov (fix #3). On staging: set `SITE_INDEXING=off`, then switch the CSP from report-only to enforced once it shows no reports.
 3. **E2E-11-2**: upgrade Node, then Payload and sharp (also unlocks newer Payload fixes). Rerun the suite after.
-4. **Visible to visitors**: E2E-3-2 (double send), E2E-5-1 + E2E-6-1 (labels that don't wrap), E2E-8-2 (form errors for screen readers), E2E-8-3, E2E-9-1 (phone LCP: phone video, first-screen reveal).
+4. **Visible to visitors**: ~~E2E-3-2, E2E-5-1, E2E-6-1, E2E-8-2, E2E-8-3~~ ✅ fixed 20 Nov. Left: E2E-9-1 (phone LCP): needs a phone version of the showreel (no video tool on this machine) and a decision on the first-screen fade-in, which is part of the approved design.
 5. **Design decision with PLG**: E2E-8-1 (contrast), E2E-5-2 (upload limit), E2E-10-3 (case study share links).
-6. **The low ones**: E2E-1-1, E2E-3-3, E2E-3-4, E2E-4-1, E2E-8-4, E2E-9-2, E2E-10-2, E2E-11-4, E2E-11-5. Then E2E-4-2 after the manual check.
+6. **The low ones**: ~~E2E-3-3, E2E-3-4, E2E-8-4, E2E-11-4, E2E-11-5~~ ✅ fixed 20 Nov. Left: E2E-8-5 (found 20 Nov), E2E-1-1 (investigated), E2E-4-1 (no fix needed), E2E-9-2 and E2E-10-2 (hosting). Then E2E-4-2 after the manual check.
 
 | ID | Test | Status | Severity | Summary |
 |---|---|---|---|---|
 | [E2E-13-1](#e2e-13-1) | 13.1 | ✅ Fixed 18 Nov | **Blocker** | The migrations can't build a new database: migration 3 of 10 fails, so a fresh staging/production database can't be created |
 | [E2E-1-1](#e2e-1-1) | 1.8 | Open | Low | The 404 page is empty until JavaScript runs (the server sends a blank body) |
 | [E2E-3-1](#e2e-3-1) | 3.6 | ✅ Fixed 18 Nov | **High** | The local database uses the Windows text encoding (WIN1252): Arabic text and emoji can't be saved (forms fail; CMS content would too) |
-| [E2E-3-2](#e2e-3-2) | 3.7 | Open | Medium | Clicking Send several times quickly saves the message several times (Home, Contact) |
-| [E2E-3-3](#e2e-3-3) | 3.2 | Open | Low | Contact accepts made-up "What do you want to unlock" choices when the form is posted directly |
-| [E2E-3-4](#e2e-3-4) | 3.6 | Open | Low | Home form messages longer than 5000 characters are cut off without telling the visitor |
+| [E2E-3-2](#e2e-3-2) | 3.7 | ✅ Fixed 20 Nov | Medium | Clicking Send several times quickly saves the message several times (Home, Contact) |
+| [E2E-3-3](#e2e-3-3) | 3.2 | ✅ Fixed 20 Nov | Low | Contact accepts made-up "What do you want to unlock" choices when the form is posted directly |
+| [E2E-3-4](#e2e-3-4) | 3.6 | ✅ Fixed 20 Nov | Low | Home form messages longer than 5000 characters are cut off without telling the visitor |
+| [E2E-3-5](#e2e-3-5) | 3.3 | ✅ Fixed 20 Nov | Medium | When the server refuses a send (a bad link on Join Us, "Sorry, something went wrong" on any form), every field is emptied and the visitor has to type everything again |
 | [E2E-4-1](#e2e-4-1) | 4.x | Open | Low | A request made in the first ~0.3 s after saving can still get the old page (the next one is fresh) |
 | [E2E-4-2](#e2e-4-2) | 4.13 | To check | Low | No "someone else is editing" warning appeared when two people opened the same page (confirm in two real browsers) |
-| [E2E-5-1](#e2e-5-1) | 5.1 | Open | Medium | Long button labels, small headings and diagram labels don't wrap: the page becomes wider than the screen |
+| [E2E-5-1](#e2e-5-1) | 5.1 | ✅ Fixed 20 Nov | Medium | Long button labels, small headings and diagram labels don't wrap: the page becomes wider than the screen |
 | [E2E-5-2](#e2e-5-2) | 5.8 | Decision | Low | Uploads over 20 MB are refused ("File size limit has been reached"); confirm the limit for videos |
-| [E2E-6-1](#e2e-6-1) | 6.2 | Open | Low | At 320 px wide, About (12 px) and Contact (4 px) scroll sideways |
+| [E2E-6-1](#e2e-6-1) | 6.2 | ✅ Fixed 20 Nov | Low | At 320 px wide, About (12 px) and Contact (4 px) scroll sideways |
 | [E2E-8-1](#e2e-8-1) | 8.4 | Decision | Medium | Colour contrast below WCAG AA: white text on orange buttons (2.3:1), grey labels on white (2.5–3.5:1), orange numbers on white (2.7:1) |
-| [E2E-8-2](#e2e-8-2) | 8.7 | Open | Medium | Form errors aren't announced to screen readers (Home and Join Us mark nothing; no form links errors to fields) |
-| [E2E-8-3](#e2e-8-3) | 8.2 | Open | Low | Home banner "Scroll to content" and "Pause background video" can be focused with the keyboard but stay invisible |
-| [E2E-8-4](#e2e-8-4) | 8.1 | Open | Low | Smaller axe findings: 2 scroll areas not keyboard-reachable, heading level skips (Team, Join Us), Contact details list structure |
+| [E2E-8-2](#e2e-8-2) | 8.7 | ✅ Fixed 20 Nov | Medium | Form errors aren't announced to screen readers (Home and Join Us mark nothing; no form links errors to fields) |
+| [E2E-8-3](#e2e-8-3) | 8.2 | ✅ Fixed 20 Nov | Low | Home banner "Scroll to content" and "Pause background video" can be focused with the keyboard but stay invisible |
+| [E2E-8-4](#e2e-8-4) | 8.1 | ✅ Fixed 20 Nov | Low | Smaller axe findings: 2 scroll areas not keyboard-reachable, heading level skips (Team, Join Us), Contact details list structure |
+| [E2E-8-5](#e2e-8-5) | 8.1 | Open | Low | Our Work case study tiles: the name read by screen readers doesn't contain the text shown on the tile (WCAG 2.5.3 Label in Name) |
 | [E2E-9-1](#e2e-9-1) | 9.2 | Open | Medium | Phone LCP 2.8–4.0 s in Lighthouse (target 2.5 s): the main text fades in, and Home downloads the 4.5 MB desktop video |
 | [E2E-9-2](#e2e-9-2) | 9.6 | Open | Medium | Uploaded files (/api/media/file/…) are sent with no cache headers, and 404 pages are cached for a year |
-| [E2E-10-1](#e2e-10-1) | 10.9 | Open | **High** (before staging) | Nothing keeps a staging site out of search engines: robots.txt allows everything and pages have no noindex |
+| [E2E-10-1](#e2e-10-1) | 10.9 | ✅ Fixed 20 Nov | **High** (before staging) | Nothing keeps a staging site out of search engines: robots.txt allows everything and pages have no noindex |
 | [E2E-10-2](#e2e-10-2) | 10.3 | Open | Low | The share image is under /api/, which robots.txt blocks for crawlers (fine once media is on the CDN) |
 | [E2E-10-3](#e2e-10-3) | 10.4 | Decision | Low | A shared case study link previews as the Our Work page (the case is in the #part of the URL) |
-| [E2E-13-2](#e2e-13-2) | 13.3 | Open | Medium | No start-up check of required settings: without NEXT_PUBLIC_SITE_URL the canonical links, sitemap, robots.txt and share images silently use localhost |
-| [E2E-11-1](#e2e-11-1) | 11.1 | Open | **High** | No security headers on any response (HSTS, CSP, frame protection…), and the server advertises "Next.js, Payload" |
+| [E2E-13-2](#e2e-13-2) | 13.3 | ✅ Fixed 20 Nov | Medium | No start-up check of required settings: without NEXT_PUBLIC_SITE_URL the canonical links, sitemap, robots.txt and share images silently use localhost |
+| [E2E-11-1](#e2e-11-1) | 11.1 | ✅ Fixed 20 Nov | **High** | No security headers on any response (HSTS, CSP, frame protection…), and the server advertises "Next.js, Payload" |
 | [E2E-11-2](#e2e-11-2) | 11.12 | Open | **High** | npm audit: 24 known vulnerabilities in production packages (19 high), mostly fixed by the Node + Payload upgrade |
-| [E2E-11-3](#e2e-11-3) | 11.4 | Open | Medium | The CMS has no CORS/CSRF allow-list: Payload warns "Request origin … is not in the CORS/CSRF allowlist" |
-| [E2E-11-4](#e2e-11-4) | 11.8 | Open | Low | Button links and rich-text links accept `javascript:` addresses (React neutralises them on the page) |
-| [E2E-11-5](#e2e-11-5) | 11.11 | Open | Low | `/api/pages?depth=999` answers 500 instead of a clear 400 |
+| [E2E-11-3](#e2e-11-3) | 11.4 | ✅ Fixed 20 Nov | Medium | The CMS has no CORS/CSRF allow-list: Payload warns "Request origin … is not in the CORS/CSRF allowlist" |
+| [E2E-11-4](#e2e-11-4) | 11.8 | ✅ Fixed 20 Nov | Low | Button links and rich-text links accept `javascript:` addresses (React neutralises them on the page) |
+| [E2E-11-5](#e2e-11-5) | 11.11 | ✅ Fixed 20 Nov | Low | `/api/pages?depth=999` answers 500 instead of a clear 400 |
 
 <a id="e2e-1-1"></a>
 ### E2E-1-1: 404 page is blank without JavaScript
 
-- **Status**: Open (low)
+- **Status**: Open (low). **Investigated 20 Nov**: even a minimal page that only calls `notFound()`, with a minimal `not-found.tsx` (a single paragraph) placed at the root of `(frontend)` or next to the page, gives the same empty `__next_error__` shell (status 404, the "Page not found." tree is in the page data and drawn by the browser). So it isn't our page or layout code but how Next.js 16.4 renders not-found for a root layout inside a route group (this app has two root layouts: site and CMS). Next step: retry after the Next.js upgrade (E2E-11-2), or try `global-not-found.js` (experimental) for unmatched addresses
 - **Steps**: request any unknown address, e.g. `/qz-does-not-exist`, and read the HTML the server sends.
 - **Expected**: the custom "404 · Page not found." page with header and footer in the HTML, status 404.
 - **Actual**:
@@ -436,7 +438,7 @@ Decisions needed from PLG or you before some tests can run:
 <a id="e2e-3-2"></a>
 ### E2E-3-2: double or triple click sends the form several times
 
-- **Status**: Open (medium)
+- **Status**: ✅ Fixed 20 Nov (fix log #3). The send button was already disabled while sending, but a second click in the same moment got through before React re-rendered. All three forms now take a send lock in the submit handler (`useLockedActionState` in `blocks/Form/formHelpers.tsx`), released when the server answers. Re-tested: 3 quick clicks on Home → 1 message, 2 on Contact → 1
 - **Steps**: fill the Home or Contact form correctly and click the send button three times quickly.
 - **Expected**: one message.
 - **Actual**: three identical messages in **Form messages** (both forms). The button isn't disabled while sending.
@@ -445,7 +447,7 @@ Decisions needed from PLG or you before some tests can run:
 <a id="e2e-3-3"></a>
 ### E2E-3-3: Contact interests aren't checked against the real choices
 
-- **Status**: Open (low)
+- **Status**: ✅ Fixed 20 Nov (fix log #3). `submitContact` reads the choices offered by the Contact form section on the page the form was sent from and keeps only those (if the page can't be found, the old length and count limits still apply). Re-tested: a made-up choice posted with a real one → only the real one saved
 - **Steps**: post the Contact form directly with `interests=Not a real choice`.
 - **Actual**: saved as is.
 - **Suggested fix**: in `submitContact` (`src/app/(frontend)/actions.ts`), keep only the choices the Contact form block offers, or limit length and number (the number is already capped at 20).
@@ -453,7 +455,7 @@ Decisions needed from PLG or you before some tests can run:
 <a id="e2e-3-4"></a>
 ### E2E-3-4: long Home messages are cut silently
 
-- **Status**: Open (low)
+- **Status**: ✅ Fixed 20 Nov (fix log #3). The Home and Join Us message boxes have `maxLength` 5000, the server limit, so nothing is cut without the visitor seeing it
 - **Steps**: send a Home enquiry with a 6000-character message.
 - **Actual**: saved, but cut to 5000 characters, and the visitor isn't told. The Contact form has a 1500 counter and `maxlength`, so it isn't affected; posted directly, it's cut to 1500 the same way.
 - **Suggested fix**: add `maxLength` (and maybe a counter) to the Home message box, matching the server limit.
@@ -483,7 +485,7 @@ Decisions needed from PLG or you before some tests can run:
 <a id="e2e-5-1"></a>
 ### E2E-5-1: long labels push the page wider than the screen
 
-- **Status**: Open (medium)
+- **Status**: ✅ Fixed 20 Nov (fix log #3). Button labels wrap (the pill keeps its height for one line and grows for two), diagram labels wrap, words longer than their line break (`overflow-wrap: break-word` on the page), and the Home "What we do" title stays on one line until it reaches the screen edge. Re-tested by putting a 99-character sentence into every short text on 7 pages at 1440, 1000, 375 and 320: only fixed code labels (Copy, section numbers, the team count) can still overflow, and editors can't change those. With the normal content, every page at 1440, 1000 and 375 measures exactly as before (section tops and heights, footer, page height, button sizes), except the Cookies page "Manage Cookie Preferences" button at 375, which was clipping its label (also in the prototype) and now shows it on two lines
 - **Steps**: on each page, add a realistic sentence (~110 characters, longest word 20 letters) to every short text field; look at 1440 and 375.
 - **Expected**: text wraps; the page never scrolls sideways.
 - **Actual**: the page becomes wider than the screen on 7 of 11 pages:
@@ -523,7 +525,7 @@ Decisions needed from PLG or you before some tests can run:
 <a id="e2e-6-1"></a>
 ### E2E-6-1: small phones (320 px) scroll sideways on About and Contact
 
-- **Status**: Open (low)
+- **Status**: ✅ Fixed 20 Nov (fix log #3), with E2E-5-1: at 320 px the banner buttons and the Contact button wrap, so every page fits (About 0 px, Contact 0 px extra)
 - **Steps**: open About and Contact at 320 × 740 (iPhone SE 1st generation, small Android phones).
 - **Actual**:
   - About is 12 px wider than the screen, caused by a banner button (`.btn`).
@@ -556,7 +558,7 @@ Decisions needed from PLG or you before some tests can run:
 <a id="e2e-8-2"></a>
 ### E2E-8-2: form errors aren't announced to screen readers
 
-- **Status**: Open (medium)
+- **Status**: ✅ Fixed 20 Nov (fix log #3). On all three forms a flagged field gets `aria-invalid` and `aria-describedby` pointing to its error, the role dropdown on Join Us too, and a screen-reader-only `role="alert"` summary lists the problems after a failed send
 - **Steps**: send each form empty and inspect the fields.
 - **Actual**:
 
@@ -572,7 +574,7 @@ Decisions needed from PLG or you before some tests can run:
 <a id="e2e-8-3"></a>
 ### E2E-8-3: invisible focusable controls on the Home banner
 
-- **Status**: Open (low)
+- **Status**: ✅ Fixed 20 Nov (fix log #3). Both controls show at once with an orange outline when they get keyboard focus (they used to stay hidden for the first 1.6 s). Re-tested: Tab right after load → opacity 1, outline shown
 - **Steps**: on Home, press Tab until you reach "Scroll to content" and "Pause background video".
 - **Actual**: they take focus but stay invisible (`.scrollCue`, `.vctl` at opacity 0), so a keyboard user can't see where they are. Everything else that fades in on scroll appears within 1.5 s of getting focus: checked on Home, About, Services and Our Work (132 focus stops).
 - **Suggested fix**: show them on `:focus-visible` (as on hover), or take the scroll cue out of the tab order.
@@ -580,7 +582,7 @@ Decisions needed from PLG or you before some tests can run:
 <a id="e2e-8-4"></a>
 ### E2E-8-4: smaller automated accessibility findings
 
-- **Status**: Open (low)
+- **Status**: ✅ Fixed 20 Nov (fix log #3). Sliders and the cookie table can be focused (`tabindex="0"`, labelled region); team card names and the Join Us lane names are `h2`; the Contact Copy/Directions buttons sit in their own `<dd>` (laid out exactly as before). axe re-scan: 0 violations of these rules on 11 pages at 1440 and 375
 - **Findings**:
   - **`scrollable-region-focusable`**: the About pillars slider (375) and the Cookies table (375) scroll sideways, but keyboard users can't focus them. Fix: add `tabindex="0"` with a label, or arrow buttons that reach them.
   - **`heading-order`**: The Team (person cards' `h3` straight after an `h1`) and Join Us skip a heading level. Fix: use `h2` or add the section heading.
@@ -589,7 +591,7 @@ Decisions needed from PLG or you before some tests can run:
 <a id="e2e-10-1"></a>
 ### E2E-10-1: staging would be indexed by search engines
 
-- **Status**: Open (high once a staging site exists)
+- **Status**: ✅ Fixed 20 Nov (fix log #3). `SITE_INDEXING=off` (set before `npm run build`) → robots.txt `Disallow: /`, `<meta name="robots" content="noindex, nofollow">` on every page, `X-Robots-Tag: noindex, nofollow` on every response, empty sitemap. Checked in a build with the switch and one without. Set it on staging
 - **What happens**:
   - `robots.txt` is the same everywhere: `Allow: /`, with only `/admin`, `/api` and `/next` blocked.
   - Pages carry no `robots` meta (only the 404 page has `noindex`).
@@ -644,7 +646,7 @@ Decisions needed from PLG or you before some tests can run:
 <a id="e2e-13-2"></a>
 ### E2E-13-2: required settings aren't checked at start-up
 
-- **Status**: Open (medium)
+- **Status**: ✅ Fixed 20 Nov (fix log #3). `checkProductionEnv()` (`lib/siteEnv.ts`, called from `payload.config.ts`) runs for the server, the build and every Payload script when `NODE_ENV=production`: it stops with "Missing required setting(s): …" when DATABASE_URL, PAYLOAD_SECRET or NEXT_PUBLIC_SITE_URL is missing, and when the site URL is still localhost while S3, CloudFront or SMTP is switched on (a deployed site). A local production build with localhost only gets a warning. Re-tested all three cases
 - **What happens**:
   - All 23 environment variables the code reads are documented in `web/.env.example` (plus `PG_PORT`/`PG_DATABASE` for the local database script). But none is checked when the app starts:
     - `PAYLOAD_SECRET` and `DATABASE_URL` fall back to `''`, so the app fails later with a less clear error.
@@ -656,7 +658,7 @@ Decisions needed from PLG or you before some tests can run:
 <a id="e2e-9-1"></a>
 ### E2E-9-1: slow largest paint on phones
 
-- **Status**: Open (medium; re-measure on staging with CloudFront)
+- **Status**: Open (medium; re-measure on staging with CloudFront). 20 Nov: not changed. The phone showreel needs a video tool (none on this machine) or a file from the designers; removing the first-screen fade-in changes the approved design, so it needs your OK first
 - **Found by**: Lighthouse 13 (simulated mid-range phone on slow 4G) on every page.
 - **Scores**: phone 87–95, desktop 99–100.
 - **LCP on phones** (target 2.5 s):
@@ -706,7 +708,7 @@ Decisions needed from PLG or you before some tests can run:
 <a id="e2e-11-1"></a>
 ### E2E-11-1: no security headers
 
-- **Status**: Open (high)
+- **Status**: ✅ Fixed 20 Nov (fix log #3). Every response (pages, `/api`, `/admin`, media) has HSTS (1 year, no includeSubDomains so PLG's other subdomains aren't affected), `X-Frame-Options: SAMEORIGIN` + CSP `frame-ancestors 'self'` (the CMS live preview frames the site), `nosniff`, `strict-origin-when-cross-origin`, a Permissions-Policy, and a Content Security Policy in **report-only** mode; `X-Powered-By` is gone. 0 CSP reports on 10 pages. **On staging**: switch the CSP to enforced once it shows no reports, add the analytics and cookie-banner hosts when they are connected, and run SSL Labs / securityheaders.com
 - **What happens**: on a page, `/api/…`, `/admin` and a media file, none of these headers is set:
   - `Strict-Transport-Security`
   - `Content-Security-Policy`
@@ -737,7 +739,7 @@ Decisions needed from PLG or you before some tests can run:
 <a id="e2e-11-3"></a>
 ### E2E-11-3: no CORS/CSRF allow-list for the CMS
 
-- **Status**: Open (medium)
+- **Status**: ✅ Fixed 20 Nov (fix log #3). `csrf` and `cors` are set to `NEXT_PUBLIC_SITE_URL` (plus localhost:3000 / 127.0.0.1:3000 in development), without `serverURL`, so media URLs stay relative. Re-tested: the sign-in cookie works from the site and is ignored with another origin; admin sign-in, editing and preview work
 - **What happens**: Payload logs `Request origin "http://localhost:3000" is not in the CORS/CSRF allowlist. Falling back to empty string…` for admin requests. `payload.config.ts` sets neither `cors` nor `csrf`, and `serverURL` was removed on purpose (relative media URLs, see CLAUDE.md).
 - **Risk**: Payload's protection against cross-site requests made with a signed-in editor's cookie relies on this list.
 - **Suggested fix**: set `csrf: [siteUrl]` and `cors: [siteUrl]` from `NEXT_PUBLIC_SITE_URL`, without `serverURL`, and confirm media URLs stay relative. Re-test admin sign-in, preview and saving.
@@ -745,7 +747,7 @@ Decisions needed from PLG or you before some tests can run:
 <a id="e2e-11-4"></a>
 ### E2E-11-4: `javascript:` links accepted by the CMS
 
-- **Status**: Open (low)
+- **Status**: ✅ Fixed 20 Nov (fix log #3). Link "Web address" fields, rich-text links, team member social links and the footer social links accept only `https://`, `http://`, `mailto:`, `tel:`, `/…` and `#…` (`fields/safeUrl.ts`), with a plain-language message. Re-tested: `javascript:` refused (400, nothing saved) in all four; `https://` accepted
 - **Steps**: set a button's link to *Web address* `javascript:alert(1)`, and a rich-text link to `javascript:…`; publish.
 - **Actual**:
   - Both save.
@@ -757,10 +759,29 @@ Decisions needed from PLG or you before some tests can run:
 <a id="e2e-11-5"></a>
 ### E2E-11-5: a very deep query gives a server error
 
-- **Status**: Open (low)
+- **Status**: ✅ Fixed 20 Nov (fix log #3). `maxDepth: 3` in the Payload config: `/api/pages?depth=999` answers 200 with depth 3. Rate limiting `/api` stays a CloudFront/WAF item
 - **Steps**: `GET /api/pages?depth=999`.
 - **Actual**: 500 "An unknown error occurred." (no stack trace shown). Other bad requests answer properly: bad id 404, bad field 400, unknown server action 400.
 - **Suggested fix**: set `maxDepth` (e.g. 3) in the Payload config, and let CloudFront/WAF rate-limit `/api`.
+<a id="e2e-3-5"></a>
+### E2E-3-5: a refused send empties the form
+
+- **Status**: ✅ Fixed 20 Nov (fix log #3, found while re-testing the Join Us form)
+- **Steps**: on Join Us, fill every field, put `ftp://example.com` as the link (only the server checks it) and send.
+- **Expected**: the link error, with everything else still filled in.
+- **Actual (before the fix)**: the error showed, but name, email, link and message were all empty. The same happened on every form whenever the server answered with an error, including "Sorry, something went wrong" (database down).
+- **Cause**: React 19 empties a form's fields after a form `action` finishes, whatever the result. It was there from the start; the 18 Nov round only sent valid forms or forms the browser had already stopped.
+- **Fix**: `useLockedActionState` (`blocks/Form/formHelpers.tsx`) sends the form itself (`lock.send(e)`: `preventDefault` + `startTransition(() => dispatch(formData))`), so React doesn't reset it. The `action` prop stays on the form for browsers without JavaScript. Home still clears its fields after a successful send (it resets them itself); Contact and Join Us show their thank-you panels.
+- **Re-tested**: Join Us with a refused link → all fields kept and the link error shown; then sent → 1 application, "Thanks, QA."; Home after a successful send → fields empty and the thank-you line shown.
+
+<a id="e2e-8-5"></a>
+### E2E-8-5: case study tile names don't contain their visible text
+
+- **Status**: Open (low). Found 20 Nov by the full axe scan (rule `label-content-name-mismatch`, not in the 18 Nov rule set). Not changed by the 20 Nov fixes.
+- **What happens**: each Our Work tile is a `<button>` with `aria-label="<title>: view case study"`, but it also shows the number, client, tags, "Key visual to come" and the summary. People who use voice control say what they see ("click Explore Project", "click UCI"), which may not match the name.
+- **Where**: `blocks/CaseStudyGrid/CaseStudyGridClient.tsx` (tile button). Flagged on 1 tile at 1440 and 2 at 375 (the ones axe checked fully).
+- **Suggested fix**: drop the `aria-label` and let the visible text name the button (or start the label with the visible title and client), then re-run axe on Our Work.
+
 <!-- issues:end -->
 
 <!-- fixlog:start -->
@@ -799,6 +820,44 @@ This machine's database was converted with it | `web/scripts/db.mjs`, new `web/s
 | Home form with `سارة أحمد 😀` / `مرحبا، نريد تنظيم بطولة 🎮 في دبي` | ✅ "Thanks", stored exactly (test message then deleted) |
 | CMS: an open role's title set to `مدير الشراكات 🤝` | ✅ saved and shown on Join Us; title put back |
 | A script crash (first run) | Stopped safely with "nothing was changed"; fixed two bugs (a table alias clashing with the team-members `x` column, an unhandled closed connection) and made the "already running" check ignore a stale lock file |
+| 3 | 2026-11-20 | E2E-10-1, E2E-13-2, E2E-11-1, E2E-11-3, E2E-11-4, E2E-11-5, E2E-3-2, E2E-3-3, E2E-3-4, E2E-5-1, E2E-6-1, E2E-8-2, E2E-8-3, E2E-8-4 (+ REVAL-1, CMS-1, CMS-2, CMS-3, CMS-5 in the CMS report) | The code fixes that don't depend on the hosting decisions: indexing switch, start-up settings check, security headers, CSRF/CORS list, depth limit, safe link addresses, send lock and accessible errors on the forms, Contact choices check, wrapping labels, keyboard focus and the smaller accessibility rules | `next.config.ts`, `payload.config.ts`, new `lib/siteEnv.ts`, `app/robots.ts`, `(frontend)/layout.tsx`, `sitemap.ts`, `actions.ts`, new `fields/safeUrl.ts`, `fields/link.ts`, `fields/richText.ts`, new `blocks/Form/formHelpers.tsx`, the three forms, `Select.tsx`, `Button.module.css`, `PageHero.module.css`, `ShowreelHero.module.css`, `CardCarousel`, `LeadText`, `Offices`, `Slider.tsx`, `TeamDirectoryClient.tsx`, `CrossDiagram.tsx`, `LegalDocument`, `styles/base.css` | ✅ details below |
+
+**Re-test of fix #3** (production build, Chrome headless):
+
+| Check | Result |
+|---|---|
+| `npm run typecheck`, `npm run lint`, `npm run build` | ✅ |
+| Response headers on a page, `/admin` | ✅ HSTS, X-Frame-Options, nosniff, Referrer-Policy, Permissions-Policy, CSP report-only; no X-Powered-By |
+| CSP report-only on 10 pages (scrolled to the bottom) | ✅ 0 reports |
+| Build with `SITE_INDEXING=off` | ✅ robots.txt `Disallow: /`, noindex meta, X-Robots-Tag in the routes; normal build: `Allow: /`, no robots meta |
+| Start-up check: no site URL / localhost with S3 on / normal local | ✅ stops with a clear message / stops / warning only |
+| CSRF: sign-in cookie from the site / from another origin | ✅ signed in / ignored |
+| `/api/pages?depth=999` | ✅ 200 (capped at 3), was 500 |
+| `javascript:` in footer social, team LinkedIn, a link's Web address (footer link; the same field as every button), rich-text link | ✅ refused (400), nothing saved; `https://` accepted |
+| Home form: 3 quick clicks / Contact: 2 quick clicks | ✅ 1 message each (test messages deleted) |
+| Contact: a made-up choice posted next to a real one | ✅ only the real one saved |
+| Forms sent empty | ✅ `aria-invalid` + `aria-describedby` on flagged fields; summary in a `role="alert"` |
+| Long-text test (99 characters in every short text) on 7 pages at 1440, 1000, 375, 320 | ✅ no editable text pushes a page wider |
+| Layout with the normal content: 11 pages × 1440, 1000, 375, 320 against the measurements taken before the change | ✅ 1440, 1000: identical; 375: identical except the Cookies button that clipped its label (now 2 lines); 320: buttons that stuck out now wrap, About and Contact fit |
+| axe: scrollable-region-focusable, heading-order, definition-list, dlitem on 11 pages × 1440 + 375 | ✅ 0 violations |
+| Home banner controls focused right after load | ✅ visible (opacity 1) with an outline |
+
+**Second check, 20 Nov (after the user asked to confirm everything)**, on a fresh production build:
+
+| Check | Result |
+|---|---|
+| "Open in a new tab" in all six places (Home service card, About pillar card, About link tile, case study view button, Contact careers note, Our Story section menu): one link changed to a web address with the box ticked, published, page checked, content put back | ✅ 6/6 `target="_blank" rel="noopener noreferrer"`; all pages and Header & footer back to their content |
+| Join Us form sent empty | ✅ name, email and the discipline dropdown marked invalid and linked to their errors; summary announced; focus on the first field; fixing a field clears its mark |
+| Join Us link refused by the server (`ftp://…`) | ❌ then ✅: every field was emptied (new issue **E2E-3-5**); fixed, now all fields are kept and the error is linked to the link field |
+| Join Us: 3 quick clicks | ✅ 1 application, thank-you panel "Thanks, QA." (deleted afterwards) |
+| Home and Contact forms again (after the E2E-3-5 change) | ✅ errors, double click → 1 message, Contact choices check; Home fields cleared + thank-you after a successful send |
+| Admin, signed in, on a temporary page: edit the page name, autosave, **Publish changes** | ✅ 4 saves, all 200 (no refused requests with the CSRF list); new name live on the site |
+| Admin: live preview | ✅ the page shows inside the admin frame (SAMEORIGIN + CSP frame-ancestors), no console errors |
+| Admin: legal section without a tag / with a tag / typing a tag | ✅ "Text after the tag" hidden / shown / appears; the new tag and its text published |
+| Admin: `javascript:alert(1)` as a team member's LinkedIn, **Save** | ✅ refused with "Use a full web address starting with https://…"; nothing saved |
+| Temporary page deleted | ✅ 404 on the site; 12 pages, no test messages left |
+| Full axe scan (WCAG 2.0/2.1/2.2 A + AA + best practice), 11 pages × 1440 + 375 | 🟡 only colour contrast (E2E-8-1, design decision) and one new finding on Our Work tiles (**E2E-8-5**, existed before) |
+| Security headers on `/`, `/about`, `/admin`; depth=999; robots.txt; CSRF; link validation; CSP reports | ✅ all six headers, no X-Powered-By; 200; `Allow: /`; cookie ignored from another origin; `javascript:` refused; 0 reports |
 <!-- fixlog:end -->
 
 <!-- runlog:start -->

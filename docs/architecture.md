@@ -1,6 +1,6 @@
 # PLG Acachet Website — Architecture
 
-_Last updated: 19 November 2026 · Covers Phase 1, steps 1–9 (foundation and every page: Home, About, Our Story, The Team, Join Us, Services, Our Work, Contact and Legal) and the proposed AWS production setup_
+_Last updated: 20 November 2026 · Covers Phase 1, steps 1–9 (foundation and every page: Home, About, Our Story, The Team, Join Us, Services, Our Work, Contact and Legal) and the proposed AWS production setup_
 
 This document describes **how the application is built** (Part A) and **how it is hosted** (Part B).
 It contains no secrets and can be shared with the client. Diagrams use Mermaid (they render on GitHub, GitLab and most Markdown viewers).
@@ -159,6 +159,7 @@ sequenceDiagram
 
 - All published pages are generated at build time (`generateStaticParams`) and served as static HTML.
 - Images are resized and converted per device by `next/image`; files come from media storage.
+- A page linked from another page (buttons, tiles, menus, the legal switcher) is loaded with only its name, address and breadcrumbs (`defaultPopulate` on Pages), not its sections, which keeps each page's HTML small (Home 111 KB).
 
 ## A7. Editing and publishing lifecycle
 
@@ -175,7 +176,7 @@ sequenceDiagram
   PV->>DB: re-render page with draft content
   E->>A: Publish changes
   A->>DB: save published version
-  A->>S: revalidate that page's path (header/footer/logos/case studies, or the page's address, name, forwarding or published state changed: whole site)
+  A->>S: revalidate that page's path (header/footer/logos/case studies/team/roles/images, or the page's address, name, forwarding or published state changed: whole site)
   S-->>S: next request rebuilds the page
 ```
 
@@ -233,7 +234,8 @@ Later: notification email and CRM/careers-system hand-off from the same server a
 | Page context | `RenderBlocks` passes each block the page (title, path, breadcrumbs) and the section-menu items, so the Banner breadcrumb and the Section menu need no editor input |
 | Styling | Global tokens + shared typography; everything else in per-component CSS Modules |
 | Header tone | Sections with white backgrounds mark themselves `data-nav-tone="light"`; the header reads that while scrolling |
-| Accessibility | Reduced-motion respected everywhere; keyboard menu; labelled controls |
+| Accessibility | Reduced-motion respected everywhere; keyboard menu; labelled controls; sideways-scrolling rows (sliders, cookie table) focusable; form errors marked on the field, linked to it and announced; no heading level skipped |
+| Long text | Buttons, diagram labels and long words wrap instead of pushing the page wider; one-line titles stay on one line until they reach the screen edge |
 
 ## A10. Security model
 
@@ -244,7 +246,13 @@ Later: notification email and CRM/careers-system hand-off from the same server a
 | Drafts | Readable only by signed-in users; preview route protected by `PREVIEW_SECRET` |
 | Form messages | API create/update disabled; only the server action can create them |
 | Secrets | Environment variables only; `.env` never committed |
-| Indexing | `/admin`, `/api`, `/next` disallowed in robots.txt |
+| Indexing | `/admin`, `/api`, `/next` disallowed in robots.txt. `SITE_INDEXING=off` (staging, test sites) keeps the whole site out of search engines: robots.txt `Disallow: /`, noindex on every page, `X-Robots-Tag` header, empty sitemap |
+| Response headers | Set by the app on every response (`next.config.ts`): HSTS (1 year), `X-Frame-Options: SAMEORIGIN` + CSP `frame-ancestors 'self'` (the CMS live preview frames the site), `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, Permissions-Policy (camera, microphone, location, payment, USB off), Content Security Policy in **report-only** mode until staging shows no reports; no `X-Powered-By` |
+| Cross-site requests | Payload's CSRF and CORS lists hold only the site's own address (`NEXT_PUBLIC_SITE_URL`): the sign-in cookie is ignored on requests from any other site |
+| Links | Every link field (buttons, menus, rich text, social profiles) accepts only `https://`, `http://`, `mailto:`, `tel:`, site paths and `#sections`, so no `javascript:` links |
+| API | Related content is never loaded more than 3 levels deep (`maxDepth`) |
+| Forms | Server-side validation; a send lock stops double submissions; Contact choices are checked against the form's own list; honeypot field. The forms post themselves (not through React's automatic form action), so a refused send keeps what the visitor typed |
+| Settings check | In production the app stops at start-up with a clear message when `DATABASE_URL`, `PAYLOAD_SECRET` or `NEXT_PUBLIC_SITE_URL` is missing, or when the site address is still localhost while S3, CloudFront or email is switched on |
 
 ## A11. Build and release pipeline
 
@@ -355,17 +363,18 @@ When an editor publishes, the application clears the changed page from both Next
 | Layer | What | Cleared by |
 |---|---|---|
 | CloudFront | Page HTML, `/_next/*` assets, optimised images, media files | Publish (automatic invalidation); deploys for assets (new file names) |
-| Next.js server | Pre-rendered pages (all published pages built at deploy) and optimised images | `revalidatePath` on publish |
+| Next.js server | Pre-rendered pages (all published pages built at deploy) and optimised images | `revalidatePath` on publish; a saved or deleted image or video refreshes the whole site |
 | Browser | Content-hashed assets | New deploy |
 
 ## B7. Security
 
-- HTTPS only (CloudFront redirect), HSTS on the domain.
+- HTTPS only (CloudFront redirect). The app already sends HSTS, frame, content-type, referrer and permissions headers and a report-only Content Security Policy on every response (A10); on staging, switch the CSP to enforced once it reports nothing, or move the headers into a CloudFront response-headers policy so S3 media gets them too.
 - EC2 accepts web traffic only from CloudFront (CloudFront managed prefix list in the security group); SSH via AWS Systems Manager Session Manager instead of an open port.
 - RDS private, TLS; S3 private with Origin Access Control.
 - EC2 IAM role with least privilege: `s3:GetObject/PutObject/DeleteObject/ListBucket` on the media bucket, `cloudfront:CreateInvalidation` on the distribution, CloudWatch logs.
 - Secrets (`PAYLOAD_SECRET`, `DATABASE_URL`, `PREVIEW_SECRET`, SMTP) in AWS Secrets Manager or SSM Parameter Store, loaded into the process environment.
 - Optional AWS WAF managed rules (bot control, common attacks, rate limiting on `/admin` and `/api`).
+- Staging: build with `SITE_INDEXING=off` so it stays out of search engines (or put it behind a password / IP allow-list).
 
 ## B8. Monitoring and operations
 
@@ -384,7 +393,8 @@ Integrations switch on when their variables are set, so the same code runs local
 |---|---|---|
 | `DATABASE_URL` | PostgreSQL connection | RDS endpoint, `?sslmode=require` |
 | `PAYLOAD_SECRET` | Signs CMS sessions | long random string |
-| `NEXT_PUBLIC_SITE_URL` | Public site address | `https://www.<domain>` |
+| `NEXT_PUBLIC_SITE_URL` | Public site address: canonical links, sitemap, robots.txt, share images, the CMS CSRF/CORS list. **Fixed into the build** | `https://www.<domain>` |
+| `SITE_INDEXING` | `off` keeps the site out of search engines (robots.txt, noindex, `X-Robots-Tag`). **Fixed into the build** | empty on production, `off` on staging |
 | `PREVIEW_SECRET` | Protects the preview route | long random string |
 | `S3_BUCKET`, `S3_REGION`, `S3_PREFIX` | Media storage on S3 (unset = local disk) | bucket name, `me-central-1`, `media` |
 | `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY` | Only outside AWS (EC2 uses its IAM role) | — |
@@ -399,7 +409,7 @@ Code locations: `web/src/integrations/storage.ts` (S3), `cdn.ts` (CloudFront), `
 
 1. Provision RDS, the S3 bucket, CloudFront distribution (behaviours as in B3), ACM certificate, Route 53 records and the EC2 instance with its IAM role.
 2. On the instance: install Node.js 22 LTS; check out the release; `npm ci`.
-3. Provide environment variables (Secrets Manager / Parameter Store → environment).
+3. Provide environment variables (Secrets Manager / Parameter Store → environment). `NEXT_PUBLIC_SITE_URL` and `SITE_INDEXING` are fixed into the build, so they must be set before step 5; the app refuses to start if a required one is missing.
 4. `npm run migrate` (applies pending database migrations).
 5. `npm run build`, then run `npm run start` under systemd or PM2 (port 3000, behind CloudFront).
 6. Check `/next/health`, the home page and `/admin` sign-in; invalidate CloudFront `/*` after the first deploy.

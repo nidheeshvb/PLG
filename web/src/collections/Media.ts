@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { anyone, isLoggedIn } from '@/access'
+import { revalidateSiteAfterDelete, revalidateSiteAfterUpdate } from '@/lib/revalidate'
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -16,6 +17,9 @@ export const Media: CollectionConfig = {
     update: isLoggedIn,
     delete: isLoggedIn,
   },
+  // a changed alt text, focal point or replaced file must reach every page that shows it (REVAL-1);
+  // a new upload isn't on any page yet, so it refreshes nothing
+  hooks: { afterChange: [revalidateSiteAfterUpdate], afterDelete: [revalidateSiteAfterDelete] },
   fields: [
     {
       name: 'alt',

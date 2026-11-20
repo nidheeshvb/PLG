@@ -18,13 +18,27 @@ import { Users } from './collections/Users'
 import { SiteSettings } from './globals/SiteSettings'
 import { emailAdapter } from './integrations/email'
 import { storagePlugin } from './integrations/storage'
+import { checkProductionEnv, siteUrl } from './lib/siteEnv'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+checkProductionEnv()
+
+// Origins allowed to use the CMS with a signed-in cookie (CSRF) and to call the API
+// from a browser (CORS): the public site address, plus the local addresses in development.
+const allowedOrigins = Array.from(
+  new Set([
+    siteUrl,
+    ...(process.env.NODE_ENV === 'production' ? [] : ['http://localhost:3000', 'http://127.0.0.1:3000']),
+  ]),
+)
 
 export default buildConfig({
+  csrf: allowedOrigins,
+  cors: allowedOrigins,
+  // a request can't ask for more levels of related content than this (E2E-11-5)
+  maxDepth: 3,
   admin: {
     user: Users.slug,
     importMap: { baseDir: path.resolve(dirname) },

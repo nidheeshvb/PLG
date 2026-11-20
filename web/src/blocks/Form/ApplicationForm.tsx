@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { submitApplication, type FormState } from '@/app/(frontend)/actions'
 import { DISCIPLINES } from '@/collections/roleOptions'
@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/Button/Button'
 
 import styles from './Application.module.css'
 import { APPLY_ROLE_EVENT, type ApplyRoleDetail } from './applyEvent'
+import { ErrorSummary, fieldA11y, useLockedActionState } from './formHelpers'
 import { Select } from './Select'
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -35,7 +36,7 @@ export function ApplicationForm(props: Props) {
 }
 
 function ApplicationFormInner({ roles, submitLabel, successMessage, note, onRestart }: Props & { onRestart: () => void }) {
-  const [state, action, pending] = useActionState<FormState, FormData>(submitApplication, { ok: false })
+  const [state, action, pending, lock] = useLockedActionState(submitApplication)
   const [clientErrors, setClientErrors] = useState<Errors>({})
   const [role, setRole] = useState('')
   const [discipline, setDiscipline] = useState('')
@@ -60,6 +61,7 @@ function ApplicationFormInner({ roles, submitLabel, successMessage, note, onRest
   }, [])
 
   const validate = (e: React.FormEvent<HTMLFormElement>) => {
+    if (lock.isBusy()) return void e.preventDefault()
     const f = e.currentTarget
     const name = (f.elements.namedItem('name') as HTMLInputElement).value.trim()
     const email = (f.elements.namedItem('email') as HTMLInputElement).value.trim()
@@ -72,7 +74,9 @@ function ApplicationFormInner({ roles, submitLabel, successMessage, note, onRest
     if (first) {
       e.preventDefault()
       ;(f.querySelector(`#f-${first}`) as HTMLElement | null)?.focus()
+      return
     }
+    lock.send(e)
   }
   const clear = (field: keyof Errors) => () => {
     if (clientErrors[field]) setClientErrors({ ...clientErrors, [field]: undefined })
@@ -109,13 +113,13 @@ function ApplicationFormInner({ roles, submitLabel, successMessage, note, onRest
     >
       <div className={fieldClass('name')}>
         <label htmlFor="f-name">Full name</label>
-        <input id="f-name" name="name" autoComplete="name" required onInput={clear('name')} />
-        <span className={styles.err}>{errors.name}</span>
+        <input id="f-name" name="name" autoComplete="name" required onInput={clear('name')} {...fieldA11y(errors, 'name', 'f-name-err')} />
+        <span id="f-name-err" className={styles.err}>{errors.name}</span>
       </div>
       <div className={fieldClass('email')}>
         <label htmlFor="f-email">Email</label>
-        <input id="f-email" name="email" type="email" autoComplete="email" required onInput={clear('email')} />
-        <span className={styles.err}>{errors.email}</span>
+        <input id="f-email" name="email" type="email" autoComplete="email" required onInput={clear('email')} {...fieldA11y(errors, 'email', 'f-email-err')} />
+        <span id="f-email-err" className={styles.err}>{errors.email}</span>
       </div>
       <div className={fieldClass()}>
         <label id="l-role" htmlFor="f-role">
@@ -134,17 +138,18 @@ function ApplicationFormInner({ roles, submitLabel, successMessage, note, onRest
           options={disciplineOptions}
           value={discipline}
           required
+          errorId={errors.discipline ? 'f-discipline-err' : undefined}
           onChange={(v) => {
             setDiscipline(v)
             if (v) clear('discipline')()
           }}
         />
-        <span className={styles.err}>{errors.discipline}</span>
+        <span id="f-discipline-err" className={styles.err}>{errors.discipline}</span>
       </div>
       <div className={fieldClass('link', true)}>
         <label htmlFor="f-link">LinkedIn or portfolio link</label>
-        <input id="f-link" name="link" type="url" placeholder="https://" onInput={clear('link')} />
-        {errors.link && <span className={styles.err}>{errors.link}</span>}
+        <input id="f-link" name="link" type="url" placeholder="https://" onInput={clear('link')} {...fieldA11y(errors, 'link', 'f-link-err')} />
+        {errors.link && <span id="f-link-err" className={styles.err}>{errors.link}</span>}
       </div>
       <div className={fieldClass(undefined, true)}>
         <label htmlFor="f-cv">CV</label>
@@ -178,8 +183,9 @@ function ApplicationFormInner({ roles, submitLabel, successMessage, note, onRest
       </div>
       <div className={fieldClass(undefined, true)}>
         <label htmlFor="f-msg">What should we know?</label>
-        <textarea id="f-msg" name="message" rows={3} />
+        <textarea id="f-msg" name="message" rows={3} maxLength={5000} />
       </div>
+      <ErrorSummary errors={errors} />
       <input className={styles.hp} name="company_website" tabIndex={-1} autoComplete="off" aria-hidden="true" />
       <div className={styles.foot}>
         <p role={state.error ? 'alert' : undefined} className={state.error ? styles.failed : undefined}>

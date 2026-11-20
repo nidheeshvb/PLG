@@ -31,4 +31,8 @@ export const resolveHref = (link?: LinkData | null): string | null => {
   }
 }
 
-export const isExternal = (href: string) => /^(https?:)?\/\//.test(href) || /^(mailto|tel):/.test(href)
+/** `target`/`rel` for a link whose "Open in a new tab" box is ticked (CMS-2). */
+export const newTabProps = (newTab?: boolean | null) =>
+  newTab ? ({ target: '_blank', rel: 'noopener noreferrer' } as const) : {}
+
+export const isExternal =(href: string) => /^(https?:)?\/\//.test(href) || /^(mailto|tel):/.test(href)

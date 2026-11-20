@@ -14,7 +14,7 @@ async function menuLinks(path?: string | null) {
   const group = headerLinks?.find((l) => l.subLinks?.some((s) => resolveHref(s) === path))
   if (!group?.subLinks) return null
   const items: SectionNavItem[] = group.subLinks
-    .map((s) => ({ id: s.id ?? s.label ?? '', label: s.label ?? '', href: resolveHref(s) ?? '' }))
+    .map((s) => ({ id: s.id ?? s.label ?? '', label: s.label ?? '', href: resolveHref(s) ?? '', newTab: Boolean(s.newTab) }))
     .filter((s) => s.label && s.href)
   const parentHref = resolveHref(group)
   const parentTitle = typeof group.page === 'object' && group.page ? group.page.title : group.label

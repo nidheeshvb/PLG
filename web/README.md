@@ -30,6 +30,20 @@ The production target is AWS me-central-1 (EC2, RDS PostgreSQL, S3, CloudFront).
 
 Health check for monitoring: `GET /next/health`.
 
+Site settings that are not integrations (`src/lib/siteEnv.ts`, both fixed into the build):
+
+| Setting | What it does |
+|---|---|
+| `NEXT_PUBLIC_SITE_URL` | Public address: canonical links, sitemap, robots.txt, share images, and the CMS CSRF/CORS list. In production the app stops at start-up if it is missing, or if it is localhost while S3/CloudFront/SMTP is on |
+| `SITE_INDEXING=off` | Staging/test sites: robots.txt `Disallow: /`, noindex on every page, `X-Robots-Tag` header, empty sitemap |
+
+## Security
+
+- Response headers for every route are set in `next.config.ts` (HSTS, `X-Frame-Options: SAMEORIGIN`, nosniff, Referrer-Policy, Permissions-Policy, CSP in report-only mode); `poweredByHeader: false`. Add new third-party hosts (analytics, cookie banner) to the CSP there.
+- Payload `csrf` / `cors` = the site address; `maxDepth: 3`.
+- Link fields validate addresses with `fields/safeUrl.ts` (`validateSafeUrl`; rich-text links via `withSafeUrl`): only https, http, mailto, tel, `/…`, `#…`.
+- Forms: use `useLockedActionState` from `blocks/Form/formHelpers.tsx` and send with `lock.send(e)` (no double sends; the form isn't emptied when the server refuses it) and `fieldA11y` + `ErrorSummary` for accessible errors.
+
 ## Run it locally
 
 Full step-by-step guide (requirements, database options, troubleshooting): [`../docs/local-setup.md`](../docs/local-setup.md). Short version, with Node 20.18+ (22 recommended):
@@ -87,12 +101,12 @@ src/
   blocks/context.ts      page context type + section-menu item derivation
   collections/           Pages, CaseStudies, Partners, TeamMembers (+ teamOptions), Media, FormSubmissions, Users
   globals/SiteSettings   header & footer
-  fields/                reusable field groups: link, linkArray, sectionHeader, sectionSettings, richText, media, slug, ctaFields
+  fields/                reusable field groups: link, linkArray, sectionHeader, sectionSettings, richText, media, slug, ctaFields, safeUrl
   components/layout/     Header (+ mobile menu), Footer, Logo, SkipLink
   components/ui/         primitives with no CMS knowledge: Button, CMSLink, Media, RichText, SectionHeader,
                          Section, Slider, Marquee, Parallax, WordReveal, CustomCursor, RevealObserver
   hooks/                 useRafScroll (one shared, frame-batched scroll loop), useReducedMotion
-  lib/                   payload queries, link resolving, preview, revalidation, routes
+  lib/                   payload queries, link resolving (+ newTabProps), preview, revalidation, routes, siteEnv (site address, indexing, start-up check)
   styles/                global tokens, reset and shared type only
   seed/                  prototype content → CMS
   migrations/            database migrations
@@ -173,4 +187,7 @@ Never add an enum value and use it in the same migration: PostgreSQL refuses tha
 - Email notifications / CRM for form messages (the SMTP adapter is ready; it needs SES/SMTP details).
 - Provisioning the AWS environment (adapters for S3, CloudFront and email are built and switched on by env vars).
 - Thumbnails for the block picker.
+- Enforcing the Content Security Policy (report-only until staging shows no reports).
+- Upgrading Node to 22.23+ and then Payload 3.94+ / sharp 0.35.5 (`npm audit`: 19 high, E2E-11-2).
+- A lighter phone version of the Home showreel, and the 404 page without JavaScript (E2E-9-1, E2E-1-1 in `docs/e2e-test-plan.md`).
 - Social links in the footer are placeholders (instagram.com / linkedin.com).

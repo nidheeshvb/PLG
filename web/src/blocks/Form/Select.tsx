@@ -15,6 +15,8 @@ type Props = {
   /** Required selects show their empty first option ("Choose one") greyed out. */
   required?: boolean
   labelledBy: string
+  /** id of the error text to read out when the choice is flagged (E2E-8-2) */
+  errorId?: string
 }
 
 const CHEVRON = (
@@ -27,7 +29,7 @@ const CHEVRON = (
  * Styled dropdown (button + listbox) like the prototype's apply form. The value is submitted
  * through a hidden input with `name`. Keyboard: arrows open and move, Enter/Space pick, Esc closes.
  */
-export function Select({ id, name, options, value, onChange, required, labelledBy }: Props) {
+export function Select({ id, name, options, value, onChange, required, labelledBy, errorId }: Props) {
   const [open, setOpen] = useState(false)
   const [hl, setHl] = useState(0)
   const wrapRef = useRef<HTMLDivElement>(null)
@@ -88,6 +90,8 @@ export function Select({ id, name, options, value, onChange, required, labelledB
         aria-controls={listId}
         aria-labelledby={`${labelledBy} ${id}`}
         aria-activedescendant={open ? `${listId}-${hl}` : undefined}
+        aria-invalid={errorId ? true : undefined}
+        aria-describedby={errorId}
         onClick={() => (open ? setOpen(false) : show())}
         onKeyDown={onKey}
       >

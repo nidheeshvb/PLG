@@ -192,7 +192,6 @@ export interface Page {
    * Visitors opening this page are sent on to the chosen page (e.g. Legal → Terms & Conditions). Its sections are not shown.
    */
   forwardTo?: (number | null) | Page;
-  parent?: (number | null) | Page;
   breadcrumbs?:
     | {
         doc?: (number | null) | Page;
@@ -201,6 +200,7 @@ export interface Page {
         id?: string | null;
       }[]
     | null;
+  parent?: (number | null) | Page;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -1961,7 +1961,6 @@ export interface PagesSelect<T extends boolean = true> {
   slug?: T;
   path?: T;
   forwardTo?: T;
-  parent?: T;
   breadcrumbs?:
     | T
     | {
@@ -1970,6 +1969,7 @@ export interface PagesSelect<T extends boolean = true> {
         label?: T;
         id?: T;
       };
+  parent?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

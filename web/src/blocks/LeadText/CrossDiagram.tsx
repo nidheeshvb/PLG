@@ -110,7 +110,8 @@ export function CrossDiagram({ items }: Props) {
       {items.map((it, i) => (
         <div key={it.id ?? i} className={styles.lane2} data-lane="">
           {it.label && <span className={styles.lane2K}>{it.label}</span>}
-          <h3 className={styles.lane2T}>{it.name}</h3>
+          {/* h2 like the Weave diagram's lane names: no heading level is skipped after the page title (E2E-8-4) */}
+          <h2 className={styles.lane2T}>{it.name}</h2>
           {it.text && <p className={styles.lane2D}>{it.text}</p>}
         </div>
       ))}

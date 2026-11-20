@@ -8,6 +8,7 @@ import { SkipLink } from '@/components/layout/SkipLink/SkipLink'
 import { CustomCursor } from '@/components/ui/CustomCursor/CustomCursor'
 import { RevealObserver } from '@/components/ui/RevealObserver'
 import { getSiteSettings } from '@/lib/payload'
+import { indexingAllowed, siteUrl } from '@/lib/siteEnv'
 
 import '@/styles/globals.css'
 
@@ -18,10 +19,10 @@ const inter = Inter({
   variable: '--font-inter',
 })
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  // SITE_INDEXING=off (staging, test sites): every page says noindex
+  ...(indexingAllowed ? {} : { robots: { index: false, follow: false } }),
   title: { default: 'PLG Acachet', template: '%s | PLG Acachet' },
   openGraph: { type: 'website', siteName: 'PLG Acachet', images: ['/brand/og-image.jpg'] },
   twitter: { card: 'summary_large_image' },

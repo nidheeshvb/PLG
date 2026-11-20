@@ -4,6 +4,7 @@ import { anyone, isLoggedIn } from '@/access'
 import { ctaFields } from '@/fields/ctaFields'
 import { linkArray } from '@/fields/link'
 import { revalidateEverything } from '@/lib/revalidate'
+import { validateSafeUrl } from '@/fields/safeUrl'
 
 /** Header, footer and other site-wide content. */
 export const SiteSettings: GlobalConfig = {
@@ -130,6 +131,7 @@ export const SiteSettings: GlobalConfig = {
                       type: 'text',
                       label: 'Web address',
                       required: true,
+                      validate: validateSafeUrl,
                       admin: { width: '60%', placeholder: 'https://' },
                     },
                   ],

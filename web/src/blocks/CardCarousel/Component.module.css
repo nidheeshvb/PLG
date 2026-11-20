@@ -22,7 +22,11 @@
   color: #222;
 }
 .head :global(.h1) {
-  white-space: nowrap;
+  /* one line like the design (wider than the 576px header), but a longer title wraps at the
+     screen edge instead of pushing the page wider (E2E-5-1) */
+  width: max-content;
+  /* the 576px header is centred: from its left edge to the right gutter */
+  max-width: min(100vw - 2 * var(--gutter), 50vw + 288px - var(--gutter));
 }
 
 .cards {

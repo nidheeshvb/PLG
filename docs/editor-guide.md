@@ -2,7 +2,7 @@
 
 How to update the website yourself using the content management system (CMS). No technical knowledge needed.
 
-_Last updated: 19 November 2026 · Covers: Home, About, Our Story, The Team, Join Us, Services, Our Work, Contact and Legal pages, header and footer. More pages are added to this guide as they are built._
+_Last updated: 20 November 2026 · Covers: Home, About, Our Story, The Team, Join Us, Services, Our Work, Contact and Legal pages, header and footer. More pages are added to this guide as they are built._
 
 ---
 
@@ -258,6 +258,8 @@ The **Status** line near the top shows **Published**, **Draft** or **Changed** (
 
 > Tip: always check the **Mobile** preview before publishing. Long headings and big images behave differently on phones.
 
+> Tip: after typing, wait until the status line says **Last saved** before you click **Publish changes**. While a draft is still saving (a second or two), the button is greyed out and a click does nothing. After publishing, check that the status says **Published**.
+
 ## 6. Things every section has
 
 ### Headings
@@ -285,7 +287,7 @@ At the bottom of every section, **Section settings** is closed by default. Click
 
 Some text boxes (marked **Text** with a small toolbar) allow:
 - **Bold** and *italic*: select words → **B** or **I**.
-- **Links**: select words → link icon → choose a page or type a web address.
+- **Links**: select words → link icon → choose a page or type a web address (see the allowed addresses in [section 7](#7-buttons-and-links)).
 - New paragraph: press **Enter**.
 
 ## 7. Buttons and links
@@ -294,13 +296,13 @@ Every button in the CMS has the same fields, wherever it appears:
 
 | Field | Options | What it does |
 |---|---|---|
-| **Text** | Any words | What the button says. Short is best (2–4 words). |
+| **Text** | Any words | What the button says. Short is best (2–4 words). Longer text wraps onto a second line and the button grows taller, which looks less tidy, especially on phones. |
 | **Button style** | **Orange button** · **Outline button** · **Dark button** | The button's colour. *Orange*: the main brand button. *Outline*: white outline on a transparent background (for a second button next to an orange one). *Dark*: navy button (for white backgrounds). |
 | **Goes to** | **A page** · **A section on this page** · **A web address** | Where the button takes visitors. |
 | **Page** | List of your pages | Shown for *A page*. Pick the destination page. |
 | **Section ID** | e.g. `contact` | Shown for *A page* (optional: jumps to that section on the chosen page) and *A section on this page* (required). Must match a section's **Section ID** ([section 6](#section-settings)). |
-| **Web address** | e.g. `https://www.example.com` | Shown for *A web address*. Use for other websites. |
-| **Open in a new tab** | Tick box | For *A web address* only. |
+| **Web address** | e.g. `https://www.example.com` | Shown for *A web address*. Use for other websites. Must start with `https://` or `http://`, or be an email link (`mailto:name@company.com`), a phone link (`tel:+971…`), a path on this site (`/contact`) or a section (`#contact`). Anything else is refused with a message when you save. |
+| **Open in a new tab** | Tick box | For *A web address* only. Works on every button, card, tile and menu link. |
 
 **Change a button's colour:** open the section → find the button → **Button style** → choose → **Publish changes**.
 
@@ -532,7 +534,7 @@ One legal page (Terms & Conditions, Privacy Policy or Cookies): a dark header, a
 | **Header** | **Title** (the last word is orange, e.g. "Privacy **Policy.**"), **Line under the title**, **Facts** (e.g. *Last updated*, *Effective from*, *Version*), **Show the brand mark**. The breadcrumb is automatic. |
 | **Document switcher** | **Label** ("Legal") and **Documents (in order)**: the legal pages in the bar, including this one. The others are also linked at the end of the document. |
 | **Notice and introduction** | An optional orange **Notice** box (bold line, text, points), then the **Introduction** paragraph. |
-| **Sections** | Each: **Title**; **Show in a highlighted box**; an optional **Orange tag** with **Text after the tag** (e.g. "Must be covered · Counsel to confirm scope."); **Text** (paragraphs, bold, italic, links, bullet lists); an optional **Cookie table** (cookie, provider, category, duration, purpose); **Add the company contact card** (from **Header & footer → Company details**); **Add the "Manage Cookie Preferences" button**. Sections are numbered 01, 02… in order. |
+| **Sections** | Each: **Title**; **Show in a highlighted box**; an optional **Orange tag** with **Text after the tag** (e.g. "Must be covered · Counsel to confirm scope."; **Text after the tag** only appears once the tag is filled in, because it is only shown next to a tag); **Text** (paragraphs, bold, italic, links, bullet lists); an optional **Cookie table** (cookie, provider, category, duration, purpose); **Add the company contact card** (from **Header & footer → Company details**); **Add the "Manage Cookie Preferences" button**. Sections are numbered 01, 02… in order. |
 | **End of the document** | The **"Questions?" box title** and its **button**; the text uses the email and phone from **Company details**. |
 
 > The three documents currently contain the design's suggested outline and placeholder text. All wording must be drafted and approved by qualified counsel before the site goes live. The **Manage Cookie Preferences** button is not connected yet: it opens the cookie consent platform once one is chosen.
@@ -635,7 +637,7 @@ Images are cropped differently on phones and computers. Open the image in **Imag
 The website automatically creates smaller versions of every picture for each device, so upload good-quality originals and don't shrink them yourself below these sizes.
 
 ### The media library
-**Content → Images & videos** lists every upload. You can search, edit the description and focal point, or delete files.
+**Content → Images & videos** lists every upload. You can search, edit the description and focal point, or delete files. A change here (description, focal point, a replaced file) shows on **every page that uses the image** within a few seconds after you click **Save**; you don't need to publish the pages again.
 
 > Deleting a file that's in use leaves an empty space on the website. Replace it in the section first.
 
@@ -780,7 +782,10 @@ Messages can't be edited. Admins can delete them.
 | **Hide** a section | It disappears from the website; everything is kept. Untick to restore. |
 | **Remove** a section | It's deleted from the page. You can still get it back from **Versions → Restore**. |
 | Delete a **page** | Buttons and menu links pointing to it disappear from the website. |
+| Change an **image or video** in **Images & videos** (description, focal point, replaced file) and save | Every page showing it updates within seconds; no need to publish the pages. |
 | Delete an **image or video** that's in use | An empty space appears where it was. |
+| Type a web address that isn't `https://`, `http://`, `mailto:`, `tel:`, `/…` or `#…` | The CMS refuses to save and explains why (this keeps unsafe links off the site). |
+| Write a long button text | The text wraps onto a second line and the button grows taller. Keep buttons to 2–4 words. |
 | Delete a **case study**, **partner logo**, **team member** or **open role** | It disappears from every page showing it as soon as you delete it. To take a job down for a while, untick **Show on the website** instead. |
 | Leave a required field (*) empty | The CMS won't publish and highlights the field in red. |
 | Upload a very large video | The page loads slowly, especially on phones. Keep to the sizes in [section 9](#9-images-and-videos). |

@@ -5,7 +5,9 @@
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  height: 52px;
+  /* min-height, not height: a label too long for one line wraps and the pill grows (E2E-5-1) */
+  height: auto;
+  min-height: 52px;
   padding: 12px 24px;
   border-radius: 96px;
   background: var(--accent);
@@ -23,7 +25,7 @@
 .label {
   position: relative;
   display: inline-block;
-  height: 20px;
+  min-height: 20px;
   overflow: hidden;
   font-weight: 600;
   /* --btn-label: inner pages set 16px on phones (see PageHero.module.css); Home keeps 18px */
@@ -31,7 +33,9 @@
   line-height: 20px;
   text-transform: uppercase;
   color: var(--c5);
-  white-space: nowrap;
+  /* short labels stay on one line; long ones wrap instead of pushing the page wider */
+  overflow-wrap: anywhere;
+  text-wrap: balance;
   transition: color 0.35s ease;
 }
 
@@ -64,7 +68,7 @@
 
 /* sizes */
 .sm {
-  height: 44px;
+  min-height: 44px;
   padding: 10px 20px;
   gap: 10px;
 }

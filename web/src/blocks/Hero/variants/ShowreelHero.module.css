@@ -222,6 +222,14 @@
   box-shadow: none;
   color: var(--ink);
 }
+/* a keyboard user always sees where focus is, even before the controls have faded in (E2E-8-3) */
+.scrollCue:focus-visible,
+.vctl:focus-visible {
+  opacity: 1;
+  animation: none;
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
 .vctl svg {
   width: 12px;
   height: 12px;

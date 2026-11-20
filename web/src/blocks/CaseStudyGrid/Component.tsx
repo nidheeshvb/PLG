@@ -21,7 +21,11 @@ export async function CaseStudyGridBlock(props: CaseStudyGridBlockData & BlockCo
       exploreLabel={exploreLabel || 'Explore Project'}
       emptyText={emptyText || ''}
       nextLabel={nextLabel || 'Next case study'}
-      cta={ctaHref && ctaLink?.label ? { href: ctaHref, label: ctaLink.label, appearance: ctaLink.appearance ?? 'primary' } : null}
+      cta={
+        ctaHref && ctaLink?.label
+          ? { href: ctaHref, label: ctaLink.label, appearance: ctaLink.appearance ?? 'primary', newTab: Boolean(ctaLink.newTab) }
+          : null
+      }
     />
   )
 }

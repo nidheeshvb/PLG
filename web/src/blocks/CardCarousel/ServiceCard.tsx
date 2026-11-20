@@ -2,7 +2,7 @@ import Link from 'next/link'
 import type { CSSProperties, ReactNode } from 'react'
 
 import { Media } from '@/components/ui/Media'
-import { resolveHref } from '@/lib/links'
+import { newTabProps, resolveHref } from '@/lib/links'
 import type { CardCarouselBlock } from '@/payload-types'
 
 import styles from './ServiceCard.module.css'
@@ -36,7 +36,7 @@ export function ServiceCard({ card, index }: { card: Card; index: number }) {
   )
 
   return href ? (
-    <Link href={href} className={styles.card} data-reveal="" style={style}>
+    <Link href={href} className={styles.card} data-reveal="" style={style} {...newTabProps(card.link?.newTab)}>
       {inner}
     </Link>
   ) : (

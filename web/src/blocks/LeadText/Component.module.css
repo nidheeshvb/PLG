@@ -249,7 +249,8 @@
   line-height: 1.05;
   letter-spacing: -0.5px;
   color: #fff;
-  white-space: nowrap;
+  /* long labels wrap instead of pushing the page wider (E2E-5-1) */
+  overflow-wrap: anywhere;
 }
 .weaveNote {
   font-size: 15px;
@@ -484,7 +485,8 @@
   font-size: 34px;
   letter-spacing: 1px;
   color: #fff;
-  white-space: nowrap;
+  /* long labels wrap instead of pushing the page wider (E2E-5-1) */
+  overflow-wrap: anywhere;
 }
 .mark {
   position: relative;
@@ -683,7 +685,8 @@
   border-radius: 100px;
   border: 1px solid rgba(255, 255, 255, 0.24);
   color: #8a8d88;
-  white-space: nowrap;
+  /* long labels wrap instead of pushing the page wider (E2E-5-1) */
+  overflow-wrap: anywhere;
 }
 .detailsList li.home span {
   border-color: rgba(255, 116, 51, 0.5);

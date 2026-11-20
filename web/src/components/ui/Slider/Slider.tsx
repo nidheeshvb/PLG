@@ -161,8 +161,10 @@ export function Slider({ children, className, tone = 'dark', dots = false, label
       <div
         ref={trackRef}
         className={[styles.slider, className].filter(Boolean).join(' ')}
-        aria-label={label}
-        role={label ? 'region' : undefined}
+        // keyboard users can focus the row and scroll it with the arrow keys (E2E-8-4)
+        tabIndex={0}
+        aria-label={label || 'Slides'}
+        role="region"
       >
         {children}
       </div>

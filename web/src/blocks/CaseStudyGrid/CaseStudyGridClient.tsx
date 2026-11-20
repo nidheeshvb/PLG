@@ -22,7 +22,7 @@ type Props = {
   exploreLabel: string
   emptyText: string
   nextLabel: string
-  cta: { href: string; label: string; appearance: ButtonAppearance } | null
+  cta: { href: string; label: string; appearance: ButtonAppearance; newTab?: boolean } | null
 }
 
 const two = (n: number) => String(n).padStart(2, '0')

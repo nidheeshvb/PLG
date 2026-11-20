@@ -26,6 +26,12 @@ export const revalidateSiteAfterChange: CollectionAfterChangeHook = ({ doc, req 
   return doc
 }
 
+/** afterChange hook that only refreshes on edits, not on creation (media: a new upload isn't used anywhere yet). */
+export const revalidateSiteAfterUpdate: CollectionAfterChangeHook = ({ doc, operation, req }) => {
+  if (operation === 'update' && !req.context?.disableRevalidate) revalidateEverything(req.payload.logger)
+  return doc
+}
+
 /** afterDelete hook for the same shared collections: a deleted item must disappear from every page. */
 export const revalidateSiteAfterDelete: CollectionAfterDeleteHook = ({ doc, req }) => {
   if (!req.context?.disableRevalidate) revalidateEverything(req.payload.logger)

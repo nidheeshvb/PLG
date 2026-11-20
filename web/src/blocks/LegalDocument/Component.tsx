@@ -123,7 +123,8 @@ export async function LegalDocumentBlock(props: LegalDocumentBlockData & BlockCo
                   )}
                   <RichText data={s.body} className={styles.body} />
                   {!!s.cookieTable?.length && (
-                    <div className={styles.tbl}>
+                    // focusable so keyboard users can scroll the table sideways on phones (E2E-8-4)
+                    <div className={styles.tbl} tabIndex={0} role="region" aria-label={`${s.title}: cookie list`}>
                       <table>
                         <thead>
                           <tr>

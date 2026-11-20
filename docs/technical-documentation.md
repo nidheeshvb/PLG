@@ -1,6 +1,6 @@
 # PLG Acachet Website — Technical Documentation
 
-_Last updated: 19 November 2026 · Status: Phase 1, step 9 (Legal pages) complete: every page is built_
+_Last updated: 20 November 2026 · Status: Phase 1 complete (every page is built); pre-launch fixes from testing done_
 
 ---
 
@@ -110,10 +110,11 @@ Every account has full access: all website content, form messages and job applic
 - **Responsive** design matching the prototype at desktop, tablet (sliders become swipeable) and mobile.
 - **Motion** from the prototype: showreel intro, scroll reveals, stacking panels, auto-advancing key numbers, word-by-word statement and lead paragraph, custom "View" cursor on case studies, banner and background parallax, drawn diagram lines, counting facts, highlighted group structure, expanding link tiles. All motion respects the visitor's **reduced-motion** setting.
 - **Navigation:** the current page is highlighted in the menu; inner pages have an automatic breadcrumb; long pages have a section menu that follows the reader (swipeable on phones).
-- **Accessibility:** skip-to-content link, keyboard-operable menu (Escape closes), labelled controls, video pause button, alt text managed in the CMS.
+- **Accessibility:** skip-to-content link, keyboard-operable menu (Escape closes), labelled controls, video pause button, alt text managed in the CMS, form errors read out by screen readers, sideways-scrolling rows reachable by keyboard, a correct heading order on every page.
+- **Robust to long text:** long button labels, headings and words wrap instead of breaking the layout, so the site stays tidy when the content team writes longer text than the design, on screens down to 320 px wide.
 - **Performance:** static pages, optimised responsive images (WebP/AVIF at the right size for each device), self-hosted fonts, the showreel pauses when off screen, scroll effects batched to once per frame.
 - **SEO:** per-page title and description, canonical URLs, Open Graph/Twitter share images, automatic `sitemap.xml` and `robots.txt`.
-- **Forms:** validated in the browser and on the server, spam honeypot, stored in the CMS inbox. The job application form only accepts roles that are currently open and offers keyboard-operable dropdowns.
+- **Forms:** validated in the browser and on the server, spam honeypot, stored in the CMS inbox; a quick double click sends only once, and if a send is refused the visitor keeps what they typed. The job application form only accepts roles that are currently open and offers keyboard-operable dropdowns.
 - **Case studies:** filter by service with counts; each case study has its own address (`/our-work#case-…`) that can be shared, closes with Esc, keeps keyboard focus inside while open and updates the browser tab title and page description.
 - **Careers:** open roles filter by team with counts and expand in place; "Apply for this role" jumps to the form with the role and discipline filled in.
 
@@ -123,7 +124,11 @@ Every account has full access: all website content, form messages and job applic
 - Only signed-in users can change content; everyone PLG adds has full access. Form messages cannot be created or edited through the CMS API, only by the website's form.
 - Draft content is visible only to signed-in users (via preview); the public site shows published content only.
 - Secrets (database connection, signing keys) are kept in environment variables, never in the code.
-- `/admin`, `/api` and preview routes are excluded from search engines.
+- `/admin`, `/api` and preview routes are excluded from search engines; a staging site can be kept out of search engines entirely with one setting.
+- Every response carries security headers: HTTPS enforcement (HSTS), protection against being shown inside other websites (clickjacking), content-type and referrer protection, a permissions policy, and a Content Security Policy (in monitoring mode until it is checked on staging). The server no longer advertises the software it runs.
+- The CMS only accepts sign-in cookies on requests from the website's own address (protection against cross-site requests).
+- Links entered in the CMS must be web, email, phone or on-site addresses: script links are refused.
+- The website checks its essential settings when it starts and stops with a clear message if one is missing.
 
 ## 8. Hosting and deployment
 
@@ -150,7 +155,8 @@ The website is being built for the hosting plan in **PLG Acachet: Proposed Hosti
 |---|---|
 | `DATABASE_URL` | PostgreSQL connection (RDS) |
 | `PAYLOAD_SECRET` | Signs CMS sign-in sessions |
-| `NEXT_PUBLIC_SITE_URL` | Public website address (share images, sitemap, live preview) |
+| `NEXT_PUBLIC_SITE_URL` | Public website address (share images, sitemap, live preview, CMS sign-in protection) |
+| `SITE_INDEXING` | `off` on staging: keeps the site out of search engines |
 | `PREVIEW_SECRET` | Protects the preview link |
 | `S3_BUCKET`, `S3_REGION` | Media storage on Amazon S3 |
 | `MEDIA_PUBLIC_URL` | CDN address for media files |
@@ -181,6 +187,7 @@ Developers can run the full website and CMS on their own computer by following `
 | 7 | **Our Work** (video banner with pause button, filter bar, eight case study tiles, full case study view, brand logos, call to action) | ✅ Complete — in review. Extra case study sections from the design kept in the backlog |
 | 8 | **Contact** (banner, detailed enquiry form with promises and choices, office with live local time, copy and directions) | ✅ Complete — in review |
 | 9 | **Legal** (Terms & Conditions, Privacy Policy, Cookies: header, document switcher, numbered contents, sections, cookie table, questions box). `/legal` opens Terms | ✅ Complete — in review. Wording by counsel still needed; cookie preferences button waits for the consent platform |
+| — | **Pre-launch fixes from testing** (20 Nov): security headers, staging kept out of search, start-up settings check, CMS sign-in protection, safe links, forms send once and are accessible, long text wraps, images update every page when changed in the CMS, lighter pages, "Open in a new tab" everywhere | ✅ Done. Still to do: Node + CMS upgrade (security updates), a lighter phone version of the Home video |
 | 10 | Go-live on AWS (me-central-1): set up EC2, RDS, S3, CloudFront, SES, domain; analytics and cookie consent | Planned |
 
 ### Deferred: CV upload on the Join Us form

@@ -3,6 +3,7 @@ import type { CollectionConfig, Condition } from 'payload'
 import { anyone, isLoggedIn } from '@/access'
 import { mediaField } from '@/fields/media'
 import { revalidateSiteAfterChange, revalidateSiteAfterDelete } from '@/lib/revalidate'
+import { validateSafeUrl } from '@/fields/safeUrl'
 
 import { TEAM_DEPARTMENTS, TEAM_GROUPS } from './teamOptions'
 
@@ -102,9 +103,9 @@ export const TeamMembers: CollectionConfig = {
         {
           type: 'row',
           fields: [
-            { name: 'linkedin', type: 'text', label: 'LinkedIn URL', admin: { width: '33%' } },
-            { name: 'instagram', type: 'text', label: 'Instagram URL', admin: { width: '33%' } },
-            { name: 'x', type: 'text', label: 'X (Twitter) URL', admin: { width: '33%' } },
+            { name: 'linkedin', type: 'text', label: 'LinkedIn URL', validate: validateSafeUrl, admin: { width: '33%' } },
+            { name: 'instagram', type: 'text', label: 'Instagram URL', validate: validateSafeUrl, admin: { width: '33%' } },
+            { name: 'x', type: 'text', label: 'X (Twitter) URL', validate: validateSafeUrl, admin: { width: '33%' } },
           ],
         },
       ],

@@ -393,7 +393,7 @@ export function TeamDirectoryClient({ people, showOrgChart, showFilter }: Props)
               </div>
               <div className={styles.meta}>
                 <p className={styles.title}>{p.jobTitle}</p>
-                <h3 className={styles.name}>
+                <h2 className={styles.name}>
                   <button
                     type="button"
                     aria-label={`${p.name}, ${p.jobTitle}: view profile`}
@@ -401,7 +401,7 @@ export function TeamDirectoryClient({ people, showOrgChart, showFilter }: Props)
                   >
                     {p.name}
                   </button>
-                </h3>
+                </h2>
                 <Social p={p} withTitle />
               </div>
             </article>

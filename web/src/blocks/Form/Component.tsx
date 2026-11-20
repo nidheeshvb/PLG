@@ -110,7 +110,11 @@ function ContactSection(props: FormBlockData) {
           interestsLabel={props.interestsLabel || ''}
           interestsHint={props.interestsHint || ''}
           interests={(interests ?? []).map((i) => ({ label: i.label, showsNote: Boolean(i.showsNote) }))}
-          note={interestNote ? { text: interestNote, href: noteHref, label: interestNoteLink?.label ?? null } : null}
+          note={
+            interestNote
+              ? { text: interestNote, href: noteHref, label: interestNoteLink?.label ?? null, newTab: Boolean(interestNoteLink?.newTab) }
+              : null
+          }
           messageLabel={props.messageLabel || 'Message'}
           messagePlaceholder={props.messagePlaceholder || ''}
           consentText={props.consentText || ''}

@@ -184,7 +184,9 @@
   animation: fadeUp 1.1s 0.7s var(--ease-out) both;
 }
 .ctas .btn {
-  height: 46px;
+  /* 46px pill; padding trimmed so one line fits exactly (longer labels wrap and grow) */
+  min-height: 46px;
+  padding-block: 11px;
 }
 
 @media (max-width: 1280px) {

@@ -1,12 +1,14 @@
 'use client'
 
-import { useActionState, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { submitContact, type FormState } from '@/app/(frontend)/actions'
 import { Button } from '@/components/ui/Button/Button'
 import { prefersReducedMotion } from '@/hooks/useReducedMotion'
+import { newTabProps } from '@/lib/links'
 
 import styles from './Contact.module.css'
+import { ErrorSummary, fieldA11y, useLockedActionState } from './formHelpers'
 
 const WORK_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 const MAX = 1500
@@ -19,7 +21,7 @@ type Props = {
   interestsLabel: string
   interestsHint: string
   interests: { label: string; showsNote: boolean }[]
-  note: { text: string; href: string | null; label: string | null } | null
+  note: { text: string; href: string | null; label: string | null; newTab?: boolean } | null
   messageLabel: string
   messagePlaceholder: string
   consentText: string
@@ -35,7 +37,7 @@ export function ContactForm(props: Props) {
 function ContactFormInner(props: Props & { onRestart: () => void }) {
   const { submitLabel, successTitle, successMessage, interestsLabel, interestsHint, interests, note } = props
   const { messageLabel, messagePlaceholder, consentText, sectionId, onRestart } = props
-  const [state, action, pending] = useActionState<FormState, FormData>(submitContact, { ok: false })
+  const [state, action, pending, lock] = useLockedActionState(submitContact)
   const [clientErrors, setClientErrors] = useState<Errors>({})
   const [count, setCount] = useState(0)
   const [noteOn, setNoteOn] = useState(false)
@@ -63,6 +65,7 @@ function ContactFormInner(props: Props & { onRestart: () => void }) {
     return next
   }
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    if (lock.isBusy()) return void e.preventDefault()
     const f = e.currentTarget
     const next = check(f)
     setClientErrors(next)
@@ -71,7 +74,9 @@ function ContactFormInner(props: Props & { onRestart: () => void }) {
     if (first) {
       e.preventDefault()
       ;(f.querySelector(`#c-${first}`) as HTMLElement | null)?.focus()
+      return
     }
+    lock.send(e)
   }
   // once a field has been flagged, re-check it as the visitor fixes it
   const recheck = (field: keyof Errors) => (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -121,13 +126,13 @@ function ContactFormInner(props: Props & { onRestart: () => void }) {
     <form className={styles.form} action={action} onSubmit={onSubmit} noValidate aria-label="Enquiry form">
       <div className={fieldClass('name')}>
         <label htmlFor="c-name">Name{req}</label>
-        <input id="c-name" name="name" autoComplete="name" required aria-invalid={Boolean(errors.name)} onInput={recheck('name')} />
-        <span className={styles.err}>{errors.name}</span>
+        <input id="c-name" name="name" autoComplete="name" required {...fieldA11y(errors, 'name', 'c-name-err')} onInput={recheck('name')} />
+        <span id="c-name-err" className={styles.err}>{errors.name}</span>
       </div>
       <div className={fieldClass('company')}>
         <label htmlFor="c-company">Company{req}</label>
-        <input id="c-company" name="company" autoComplete="organization" required aria-invalid={Boolean(errors.company)} onInput={recheck('company')} />
-        <span className={styles.err}>{errors.company}</span>
+        <input id="c-company" name="company" autoComplete="organization" required {...fieldA11y(errors, 'company', 'c-company-err')} onInput={recheck('company')} />
+        <span id="c-company-err" className={styles.err}>{errors.company}</span>
       </div>
       <div className={fieldClass('email')}>
         <label htmlFor="c-email">Work email{req}</label>
@@ -138,10 +143,10 @@ function ContactFormInner(props: Props & { onRestart: () => void }) {
           autoComplete="email"
           placeholder="you@company.com"
           required
-          aria-invalid={Boolean(errors.email)}
+          {...fieldA11y(errors, 'email', 'c-email-err')}
           onInput={recheck('email')}
         />
-        <span className={styles.err}>{errors.email}</span>
+        <span id="c-email-err" className={styles.err}>{errors.email}</span>
       </div>
       <div className={fieldClass()}>
         <label htmlFor="c-phone">
@@ -172,7 +177,11 @@ function ContactFormInner(props: Props & { onRestart: () => void }) {
           </div>
           {note && noteOn && (
             <p className={styles.note}>
-              {note.text} {note.href && note.label && <a href={note.href}>{note.label}</a>}
+              {note.text} {note.href && note.label && (
+                <a href={note.href} {...newTabProps(note.newTab)}>
+                  {note.label}
+                </a>
+              )}
               {note.href && note.label ? '.' : ''}
             </p>
           )}
@@ -191,13 +200,13 @@ function ContactFormInner(props: Props & { onRestart: () => void }) {
           maxLength={MAX}
           required
           placeholder={messagePlaceholder}
-          aria-invalid={Boolean(errors.message)}
+          {...fieldA11y(errors, 'message', 'c-message-err')}
           onInput={(e) => {
             setCount(e.currentTarget.value.length)
             recheck('message')(e)
           }}
         />
-        <span className={styles.err}>{errors.message}</span>
+        <span id="c-message-err" className={styles.err}>{errors.message}</span>
         <span className={styles.count} aria-live="polite">
           {count} / {MAX}
         </span>
@@ -209,14 +218,15 @@ function ContactFormInner(props: Props & { onRestart: () => void }) {
           type="checkbox"
           name="consent"
           required
-          aria-invalid={Boolean(errors.consent)}
+          {...fieldA11y(errors, 'consent', 'c-consent-err')}
           onChange={(e) => {
             if (clientErrors.consent && e.currentTarget.checked) setClientErrors({ ...clientErrors, consent: undefined })
           }}
         />
         <span>{consentText}</span>
-        <span className={styles.err}>{errors.consent}</span>
+        <span id="c-consent-err" className={styles.err}>{errors.consent}</span>
       </label>
+      <ErrorSummary errors={errors} />
       <input className={styles.hp} name="company_website" tabIndex={-1} autoComplete="off" aria-hidden="true" />
 
       <div className={styles.foot}>

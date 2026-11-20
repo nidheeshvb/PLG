@@ -1,27 +1,31 @@
 'use client'
 
-import { useActionState, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 
 import { submitEnquiry, type FormState } from '@/app/(frontend)/actions'
 import { Button } from '@/components/ui/Button/Button'
 
 import styles from './Component.module.css'
+import { ErrorSummary, fieldA11y, useLockedActionState } from './formHelpers'
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+/** Same limit as the server (submitEnquiry): longer messages would be cut. */
+const MAX_MESSAGE = 5000
 type Errors = NonNullable<FormState['errors']>
 
 /** Name / email / phone / message form. Checks fields in the browser, then again on the server. */
 export function EnquiryForm({ submitLabel, successMessage }: { submitLabel: string; successMessage: string }) {
   const formRef = useRef<HTMLFormElement>(null)
-  const [state, action, pending] = useActionState<FormState, FormData>(async (prev, data) => {
+  const [state, action, pending, lock] = useLockedActionState(async (prev, data) => {
     const result = await submitEnquiry(prev, data)
     if (result.ok) formRef.current?.reset()
     return result
-  }, { ok: false })
+  })
   const [clientErrors, setClientErrors] = useState<Errors>({})
   const errors: Errors = { ...state.errors, ...clientErrors }
 
   const validate = (e: React.FormEvent<HTMLFormElement>) => {
+    if (lock.isBusy()) return void e.preventDefault()
     const f = e.currentTarget
     const name = (f.elements.namedItem('name') as HTMLInputElement).value.trim()
     const email = (f.elements.namedItem('email') as HTMLInputElement).value
@@ -32,7 +36,9 @@ export function EnquiryForm({ submitLabel, successMessage }: { submitLabel: stri
     if (next.name || next.email) {
       e.preventDefault()
       ;(f.elements.namedItem(next.name ? 'name' : 'email') as HTMLInputElement).focus()
+      return
     }
+    lock.send(e)
   }
 
   const clear = (field: keyof Errors) => () => {
@@ -55,8 +61,8 @@ export function EnquiryForm({ submitLabel, successMessage }: { submitLabel: stri
     >
       <div className={fieldClass('name')}>
         <label htmlFor="f-name">Name</label>
-        <input id="f-name" name="name" placeholder="Your name" autoComplete="name" required onInput={clear('name')} />
-        <span className={styles.msg}>{errors.name ?? 'Please enter your name'}</span>
+        <input id="f-name" name="name" placeholder="Your name" autoComplete="name" required onInput={clear('name')} {...fieldA11y(errors, 'name', 'f-name-err')} />
+        <span id="f-name-err" className={styles.msg}>{errors.name ?? 'Please enter your name'}</span>
       </div>
       <div className={fieldClass('email')}>
         <label htmlFor="f-email">Email</label>
@@ -68,8 +74,9 @@ export function EnquiryForm({ submitLabel, successMessage }: { submitLabel: stri
           autoComplete="email"
           required
           onInput={clear('email')}
+          {...fieldA11y(errors, 'email', 'f-email-err')}
         />
-        <span className={styles.msg}>{errors.email ?? 'Enter a valid email'}</span>
+        <span id="f-email-err" className={styles.msg}>{errors.email ?? 'Enter a valid email'}</span>
       </div>
       <div className={fieldClass()}>
         <label htmlFor="f-phone">Phone</label>
@@ -77,8 +84,9 @@ export function EnquiryForm({ submitLabel, successMessage }: { submitLabel: stri
       </div>
       <div className={fieldClass()}>
         <label htmlFor="f-msg">Tell us about your project</label>
-        <textarea id="f-msg" name="message" rows={1} placeholder="Share few details" />
+        <textarea id="f-msg" name="message" rows={1} maxLength={MAX_MESSAGE} placeholder="Share few details" />
       </div>
+      <ErrorSummary errors={errors} />
       <input className={styles.hp} name="company_website" tabIndex={-1} autoComplete="off" aria-hidden="true" />
       <div className={styles.actions}>
         <Button type="submit" disabled={pending}>

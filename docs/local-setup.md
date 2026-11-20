@@ -2,7 +2,7 @@
 
 How to get the PLG Acachet website (Next.js + Payload CMS) running on your own computer, from a fresh machine to a working site and CMS.
 
-_Last updated: 18 November 2026_
+_Last updated: 20 November 2026_
 
 **Time needed:** about 15–20 minutes (most of it is downloading packages).
 **Result:** the website at <http://localhost:3000> and the CMS at <http://localhost:3000/admin>, filled with the Home page content.
@@ -70,7 +70,8 @@ Open `web/.env` and set:
 |---|---|
 | `DATABASE_URL` | Leave as is for the built-in local database: `postgres://postgres:postgres@127.0.0.1:5433/plg` |
 | `PAYLOAD_SECRET` | A long random string (generate below) |
-| `NEXT_PUBLIC_SITE_URL` | `http://localhost:3000` |
+| `NEXT_PUBLIC_SITE_URL` | `http://localhost:3000` (it is also the only address allowed to use the CMS sign-in cookie, so open the site at exactly this address, not `127.0.0.1`, when testing a production build) |
+| `SITE_INDEXING` | Leave empty. `off` is for staging/test sites (keeps them out of search engines) |
 | `PREVIEW_SECRET` | Another random string |
 | `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` | Your local admin login (any email format works, e.g. `admin@plg.test`) |
 | `SEED_EDITOR_EMAIL` / `SEED_EDITOR_PASSWORD` | A local editor login for testing the editor view |
@@ -211,6 +212,8 @@ npm run start
 
 Then open <http://localhost:3000>. Stop `npm run dev` first; both use port 3000.
 
+A production build checks its settings when it starts: it stops with "Missing required setting(s): …" if `DATABASE_URL`, `PAYLOAD_SECRET` or `NEXT_PUBLIC_SITE_URL` is empty, and prints a warning (only) that the site address is localhost. `NEXT_PUBLIC_SITE_URL` and `SITE_INDEXING` are fixed into the build: change them, then build again. To check the staging setting: `SITE_INDEXING=off npm run build`, then `robots.txt` says `Disallow: /`.
+
 ### Start again with a clean database
 
 Stop `npm run db` and `npm run dev`, then delete the local data and reload it:
@@ -252,5 +255,7 @@ Restart `npm run dev` after changing `.env`. Files uploaded while S3 is on live 
 | TypeScript errors about CMS fields | `npm run generate:types` |
 | Images fail with "hostname is not configured" | `MEDIA_PUBLIC_URL` is set to a domain that isn't serving the files; leave it empty locally |
 | Everything is very slow on Windows | Move the project out of OneDrive/Dropbox and exclude it from antivirus real-time scanning |
+| `npm run build` fails with `EPERM: operation not permitted, unlink '…\.next\static\…'` | The project is inside OneDrive and it turned a build folder into a read-only cloud placeholder. Stop `npm run start`, then delete `web/.next` (PowerShell: `Remove-Item -Recurse -Force .next`; if that is refused, `attrib -R .next /S /D` first) and build again |
+| `npm run start` stops with "Missing required setting(s)" or "NEXT_PUBLIC_SITE_URL is http://localhost…" | Fill in the named setting in `.env`. The localhost error only appears when S3, CloudFront or SMTP is switched on: set the real site address, or empty those settings locally |
 | "Pulling schema" asks to confirm data loss | A field was removed or renamed in the code. For local data you don't need, answer yes; otherwise answer no and ask the team |
 | `npm run dev` hangs on the first request after pulling (no error) | The schema sync is waiting for an answer to a "created or renamed?" question in the `npm run dev` terminal. Look at that terminal and pick the first option (create) unless you know a field was renamed. Usually caused by a field renamed in the code after your local database already had the old name |

@@ -109,7 +109,14 @@ export const LegalDocumentBlock: Block = {
               label: 'Orange tag (optional)',
               admin: { width: '33%', placeholder: 'Must be covered' },
             },
-            { name: 'mustNote', type: 'text', label: 'Text after the tag', defaultValue: 'Counsel to confirm scope.', admin: { width: '33%' } },
+            {
+              name: 'mustNote',
+              type: 'text',
+              label: 'Text after the tag',
+              defaultValue: 'Counsel to confirm scope.',
+              // only shown with a tag, so only offered with one (CMS-1)
+              admin: { width: '33%', condition: (_, sibling) => Boolean(sibling?.mustLabel) },
+            },
           ],
         },
         { name: 'body', type: 'richText', label: 'Text', editor: documentEditor },

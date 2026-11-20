@@ -47,7 +47,9 @@ export function OfficesBlock(props: OfficesBlockData) {
                 <dd>
                   <a href={`mailto:${email}`}>{email}</a>
                 </dd>
-                <CopyButton text={email} />
+                <dd className={styles.act}>
+                  <CopyButton text={email} />
+                </dd>
               </div>
             )}
             {phone && (
@@ -56,7 +58,9 @@ export function OfficesBlock(props: OfficesBlockData) {
                 <dd>
                   <a href={`tel:${phone.replace(/[^\d+]/g, '')}`}>{phone}</a>
                 </dd>
-                <CopyButton text={phone} />
+                <dd className={styles.act}>
+                  <CopyButton text={phone} />
+                </dd>
               </div>
             )}
             {address && (
@@ -66,10 +70,12 @@ export function OfficesBlock(props: OfficesBlockData) {
                   <MultilineText text={address} />
                 </dd>
                 {maps && (
-                  <a className={styles.copy} href={maps} target="_blank" rel="noopener noreferrer">
-                    <span>Directions</span>
-                    <i className="arr" aria-hidden="true" />
-                  </a>
+                  <dd className={styles.act}>
+                    <a className={styles.copy} href={maps} target="_blank" rel="noopener noreferrer">
+                      <span>Directions</span>
+                      <i className="arr" aria-hidden="true" />
+                    </a>
+                  </dd>
                 )}
               </div>
             )}

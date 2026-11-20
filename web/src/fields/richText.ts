@@ -10,13 +10,18 @@ import {
 } from '@payloadcms/richtext-lexical'
 import type { RichTextField } from 'payload'
 
+import { withSafeUrl } from './safeUrl'
+
+// rich-text links refuse `javascript:` and other unsafe addresses (E2E-11-4)
+const safeLinks = () => LinkFeature({ enabledCollections: ['pages'], fields: ({ defaultFields }) => withSafeUrl(defaultFields) })
+
 /** A deliberately small editor for body copy: paragraphs, bold, italic and links. */
 export const simpleEditor = lexicalEditor({
   features: () => [
     ParagraphFeature(),
     BoldFeature(),
     ItalicFeature(),
-    LinkFeature({ enabledCollections: ['pages'] }),
+    safeLinks(),
     FixedToolbarFeature(),
     InlineToolbarFeature(),
   ],
@@ -37,7 +42,7 @@ export const documentEditor = lexicalEditor({
     ParagraphFeature(),
     BoldFeature(),
     ItalicFeature(),
-    LinkFeature({ enabledCollections: ['pages'] }),
+    safeLinks(),
     UnorderedListFeature(),
     FixedToolbarFeature(),
     InlineToolbarFeature(),

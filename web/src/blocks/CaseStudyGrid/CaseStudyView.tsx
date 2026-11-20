@@ -17,7 +17,7 @@ type Props = {
   pageTitle: string
   anchorId: string
   nextLabel: string
-  cta: { href: string; label: string; appearance: ButtonAppearance } | null
+  cta: { href: string; label: string; appearance: ButtonAppearance; newTab?: boolean } | null
 }
 
 const videoOf = (r: CaseStudy['video']) => (isVideo(r) && isMediaDoc(r) && r.url ? r : null)
@@ -307,7 +307,7 @@ export function CaseStudyView({ cases, open, pageTitle, anchorId, nextLabel, cta
             </button>
           )}
           {cta && (
-            <Button href={cta.href} appearance={cta.appearance}>
+            <Button href={cta.href} appearance={cta.appearance} newTab={cta.newTab}>
               {cta.label}
             </Button>
           )}
